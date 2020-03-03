@@ -46,12 +46,13 @@
 </template>
 
 <script>
+
   export default {
     name: 'sponsors',
     data() {
       return {
         sponsors: [
-          {'name': 'Near', 'photoUrl': '@/assets/img/near.png'},
+          {'name': 'Near', 'photoUrl': 'https://nearprotocol.com/wp-content/themes/near-19/assets/img/logo.svg?t=1562682928'},
           {
             'name': 'DAO Square',
             'photoUrl': 'https://ssimg.frontenduse.top/avatar/2020/02/19/998392f4a28ec5e0aeb64a9e695260e7.png'
@@ -60,7 +61,7 @@
             'name': 'DAO Fest',
             'photoUrl': 'https://assets.website-files.com/5cf656bb29dfdac145d337e0/5cf656bb29dfdafd38d3381a_DAOfest%20id1Artboard%2011set1Transp.png'
           },
-          {'name': 'Indie Light', 'photoUrl': '@/assets/img/indielight.png'},
+          {'name': 'Indie Light', 'photoUrl': 'http://www.indielight.net/App_Themes/Website/images/logo2.png'},
           {'name': 'Meta Cartel', 'photoUrl': 'https://www.ethdenver.com/wp-content/uploads/2020/02/meta_chillcopy.png'}
         ],
         speakers: [
