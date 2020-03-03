@@ -21,11 +21,11 @@ export default {
         { title: this.$t('user.accountSetting'), url: 'setting-account' },
         { title: this.$t('user.fanWallet'), url: 'tokens' },
         { title: this.$t('user.applycoins'), url: 'tokens-apply' },
-        { title: this.$t('user.myBookmark'), url: 'bookmark' },
+        // { title: this.$t('user.myBookmark'), url: 'bookmark' },
         { title: this.$t('user.wallet'), url: 'account' },
-        { title: this.$t('user.buyHistory'), url: 'buy' },
+        // { title: this.$t('user.buyHistory'), url: 'buy' },
         { title: this.$t('user.invite'), url: 'invite' },
-        { title: this.$t('user.systemSetting'), url: 'setting-system' }
+        // { title: this.$t('user.systemSetting'), url: 'setting-system' }
       ],
       tokens: false
     }

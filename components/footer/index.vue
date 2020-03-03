@@ -58,7 +58,8 @@
       </div>
       <div class="footer-c4">
         <div>
-          <img class="logo" src="@/assets/img/footer_logo1.png" alt="logo">
+<!--          Removed Matataki Logo-->
+<!--          <img class="logo" src="@/assets/img/daodelion.png" alt="logo">-->
           <div class="icon wechat-icon">
             <div class="wechat">
               <div class="wechat-img">
