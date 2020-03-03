@@ -94,36 +94,36 @@
             {{ $t('point.inviteDes3', [1 / $point.readReferralRate]) }}
           </p>
         </div>
+<!--去除header上文章相关-->
+<!--        <div class="integral-list">-->
+<!--          <div class="flex">-->
+<!--            <span class="integral-title">-->
+<!--              {{ $t('point.dailyPublishPoint') }}-->
+<!--            </span>-->
+<!--          </div>-->
+<!--          <div class="integral-progress">-->
+<!--            <el-progress :percentage="pointStatusPostNum" :show-text="false" :stroke-width="10" class="progress" color="#542DE0" />-->
+<!--            {{ pointStatusPost }}-->
+<!--          </div>-->
+<!--          <p class="integral-des">-->
+<!--            {{ $t('point.dailyPublishPointDes', [$point.publishDailyMax]) }}-->
+<!--          </p>-->
+<!--        </div>-->
 
-        <div class="integral-list">
-          <div class="flex">
-            <span class="integral-title">
-              {{ $t('point.dailyPublishPoint') }}
-            </span>
-          </div>
-          <div class="integral-progress">
-            <el-progress :percentage="pointStatusPostNum" :show-text="false" :stroke-width="10" class="progress" color="#542DE0" />
-            {{ pointStatusPost }}
-          </div>
-          <p class="integral-des">
-            {{ $t('point.dailyPublishPointDes', [$point.publishDailyMax]) }}
-          </p>
-        </div>
-
-        <div class="integral-list">
-          <div class="flex">
-            <span class="integral-title">
-              {{ $t('point.dailyReadPoint') }}
-            </span>
-          </div>
-          <div class="integral-progress">
-            <el-progress :percentage="pointStatusReadNum" :show-text="false" :stroke-width="10" class="progress" color="#542DE0" />
-            {{ pointStatusRead }}
-          </div>
-          <p class="integral-des">
-            {{ $t('point.dailyReadPointDes', [$point.readDailyMax]) }}
-          </p>
-        </div>
+<!--        <div class="integral-list">-->
+<!--          <div class="flex">-->
+<!--            <span class="integral-title">-->
+<!--              {{ $t('point.dailyReadPoint') }}-->
+<!--            </span>-->
+<!--          </div>-->
+<!--          <div class="integral-progress">-->
+<!--            <el-progress :percentage="pointStatusReadNum" :show-text="false" :stroke-width="10" class="progress" color="#542DE0" />-->
+<!--            {{ pointStatusRead }}-->
+<!--          </div>-->
+<!--          <p class="integral-des">-->
+<!--            {{ $t('point.dailyReadPointDes', [$point.readDailyMax]) }}-->
+<!--          </p>-->
+<!--        </div>-->
       </div>
     </el-dropdown-menu>
   </el-dropdown>
