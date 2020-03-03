@@ -1,20 +1,7 @@
 <template>
   <div class="home">
     <g-header />
-    <h2>
-      Sponsors
-    </h2>
-    <ul>
-      <li>Sponsor 1</li>
-      <li>Sponsor 2</li>
-      <li>Sponsor 3</li>
-    </ul>
-    <h2>Judges</h2>
-    <ul>
-      <li>AAAAA</li>
-      <li>BBBBB</li>
-      <li>CCCCC</li>
-    </ul>
+    <sponsors/>
 <!--    <swipe :card="recommendList" />-->
     <!-- 首页内容 轮播和推荐 -->
 <!--    <banner-matataki class="home-banner" />-->
@@ -65,6 +52,7 @@ import { recommend, paginationData, getTags } from '@/api/async_data_api.js'
 // import bannerMatataki from '@/components/banner/banner_matataki.vue'
 // import RAList from '@/components/recommend_author_list'
 // import swipe from '@/components/swipe/index.vue'
+import sponsors from '@/components/sponsors/sponsors'
 
 export default {
   transition: 'page',
@@ -74,7 +62,8 @@ export default {
     // swipe,
     // articleTab,
     // tokenTab,
-    // followTab
+    // followTab,
+    sponsors,
   },
   data() {
     return {
