@@ -234,7 +234,7 @@ export default {
     receiveFeedbackFail: 'Failed to get old user feedback points'
   },
   about: {
-    logo: '瞬MATATAKI', // img
+    logo: 'DAO Jam', // img
     logoDes: '发布瞬间 灵感永存', // img
     homeTitle: 'A content platform for permanent storage and copyright confirmation',
     homeDes:
@@ -286,15 +286,15 @@ export default {
     stageDes32: 'Building a blockchain permanent knowledge database'
   },
   home: {
-    creation: 'Creation',
+    creation: 'Home',
     share: 'Share',
-    fanTicket: 'FanTicket',
+    fanTicket: 'Projects',
     signOut: 'Sign out',
     signIn: 'Sign in',
 
     navArticle: 'Article',
     navShop: 'Shop',
-    searchPlaceholder: 'Search Matataki',
+    searchPlaceholder: 'Search DAO Jam',
     pointPopover: 'Click on the points icon to view the points acquisition history',
     pointPopoverConfirm: 'Confirm',
     account: 'Account',

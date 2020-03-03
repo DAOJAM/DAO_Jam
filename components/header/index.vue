@@ -79,23 +79,24 @@
           </div>
           <point slot="reference" />
         </el-popover>
-        <el-tooltip class="item" effect="dark" :content="$t('publish.importArticle')" placement="bottom">
-          <svg-icon
-            :style="customizeHeaderIconColorComputed"
-            @click="postImport"
-            class="create"
-            icon-class="import"
-          />
-        </el-tooltip>
-
-        <el-tooltip class="item" effect="dark" :content="$t('header.newArticle')" placement="bottom">
-          <svg-icon
-            :style="customizeHeaderIconColorComputed"
-            @click="writeP"
-            class="create"
-            icon-class="write"
-          />
-        </el-tooltip>
+<!--        // 去掉倒入文章-->
+<!--        <el-tooltip class="item" effect="dark" :content="$t('publish.importArticle')" placement="bottom">-->
+<!--          <svg-icon-->
+<!--            :style="customizeHeaderIconColorComputed"-->
+<!--            @click="postImport"-->
+<!--            class="create"-->
+<!--            icon-class="import"-->
+<!--          />-->
+<!--        </el-tooltip>-->
+<!--        去掉新建文章-->
+<!--        <el-tooltip class="item" effect="dark" :content="$t('header.newArticle')" placement="bottom">-->
+<!--          <svg-icon-->
+<!--            :style="customizeHeaderIconColorComputed"-->
+<!--            @click="writeP"-->
+<!--            class="create"-->
+<!--            icon-class="write"-->
+<!--          />-->
+<!--        </el-tooltip>-->
 
         <el-dropdown
           v-if="isLogined"
@@ -153,6 +154,8 @@ import point from './point'
 import language from './language'
 import homeLogo from '@/assets/img/m_logo_square.png'
 import homeLogoWhile from '@/assets/img/home_logo_white.png'
+// added DaoJam logo
+import daodelion from '@/assets/img/daodelion.png'
 // import avatarComponents from '@/components/avatar/index.vue'
 import { removeCookie } from '@/utils/cookie'
 
@@ -213,12 +216,13 @@ export default {
           sup: '',
           urlList: ['article', 'ring-id']
         },
-        {
-          title: this.$t('home.share'),
-          url: 'sharehall',
-          sup: '',
-          urlList: ['sharehall']
-        },
+        // 原分享页面链接
+        // {
+        //   title: this.$t('home.share'),
+        //   url: 'sharehall',
+        //   sup: '',
+        //   urlList: ['sharehall']
+        // },
         // 隐藏导航栏的商品选项
         // {
         //   title: this.$t('home.navShop'),
@@ -246,9 +250,10 @@ export default {
     customizeHeaderIconColorComputed() {
       return 'color: ' + this.customizeHeaderIconColor
     },
+    // 修改顶栏图标为小蒲公英
     customizeHeaderLogoColorComputed() {
-      if (this.customizeHeaderLogo === 'white') return homeLogoWhile
-      else return homeLogo
+      if (this.customizeHeaderLogo === 'white') return daodelion
+      else return daodelion
     }
   },
   watch: {

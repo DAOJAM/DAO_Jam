@@ -234,7 +234,7 @@ export default {
     receiveFeedbackFail: '领取老用户回馈积分失败'
   },
   about: {
-    logo: '瞬MATATAKI', // img
+    logo: 'DAO Jam', // img
     logoDes: '发布瞬间 灵感永存', // img
     homeTitle: '一个永久存储和版权确权的内容平台',
     homeDes:
@@ -286,9 +286,9 @@ export default {
     stageDes32: '打造区块链永存知识数据库'
   },
   home: {
-    creation: '创作',
+    creation: '首页',
     share: '分享',
-    fanTicket: 'Fan票',
+    fanTicket: '项目',
     signOut: '登出',
     signIn: '立即登录',
 

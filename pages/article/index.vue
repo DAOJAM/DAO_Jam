@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <g-header />
     <h2>
       Sponsors
     </h2>
@@ -14,7 +15,6 @@
       <li>BBBBB</li>
       <li>CCCCC</li>
     </ul>
-    <g-header />
 <!--    <swipe :card="recommendList" />-->
     <!-- 首页内容 轮播和推荐 -->
 <!--    <banner-matataki class="home-banner" />-->
