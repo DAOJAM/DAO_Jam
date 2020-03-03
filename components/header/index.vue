@@ -235,6 +235,12 @@ export default {
           url: 'token',
           sup: '',
           urlList: ['token']
+        },
+        {
+          title: this.$t('home.daos'),
+          url: 'daos',
+          sup: '',
+          urlList: ['daos']
         }
       ]
     },

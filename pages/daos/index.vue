@@ -78,11 +78,12 @@ export default {
 .dao-content {
   padding: 0 5px;
   min-height: 300px;
+  margin-top: 30px;
 }
 .dao-content__block {
   width: 100%;
   height: 337px;
-  margin-top: 30px;
+  margin-bottom: 30px;
   box-sizing: border-box;
   background: #fff;
   border-radius: 5px;
