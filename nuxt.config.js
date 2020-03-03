@@ -26,7 +26,7 @@ export default {
   */
   head: {
     // title: process.env.npm_package_name || '',
-    title: '瞬MATATAKI',
+    title: 'DAO Jam',
     meta: [
       { hid: 'robots', name: 'robots', property: 'robots', content: 'index,follow' },
       { hid: 'copyright', name: 'copyright', property: 'copyright', content: 'Copyright © 2018-2019 ANDOROMEDA TECH.ltd' },
