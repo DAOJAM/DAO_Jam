@@ -8,7 +8,7 @@
         <el-col :span="6" v-for="item in tokenList" :key="item.id">
           <router-link class="dao-content__block" :to="{name: 'token-id', params: {id: item.id}}">
             <div class="dao-block">
-              <img width="200" :src="cover(item.logo)" alt="avatar" class="dao-block__img">
+              <img width="200" v-if="item.logo" :src="cover(item.logo)" alt="avatar" class="dao-block__img">
             </div>
             <p class="dao-block__title">{{item.symbol}}-{{item.name}}</p>
             <p class="dao-block__des">
