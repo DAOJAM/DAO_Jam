@@ -289,6 +289,7 @@ export default {
     creation: 'Home',
     share: 'Share',
     fanTicket: 'Projects',
+    daos: 'DAOs',
     signOut: 'Sign out',
     signIn: 'Sign in',
 
