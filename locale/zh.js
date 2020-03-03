@@ -289,6 +289,7 @@ export default {
     creation: '首页',
     share: '分享',
     fanTicket: '项目',
+    daos: 'DAOs',
     signOut: '登出',
     signIn: '立即登录',
 
