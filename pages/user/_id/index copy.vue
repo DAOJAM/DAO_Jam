@@ -3,14 +3,12 @@
   <userPage>
     <div slot="list" v-loading="loading">
       <no-content-prompt :list="articleCardData.articles">
-        <div
-          class="dao-list"
+        <articleCardListNew
           v-for="(item, index) in articleCardData.articles"
           :key="index"
-        >
-          <avatar :src="cover(item.avatar)"></avatar>
-          <div>{{item.symbol}}-{{item.name}}</div>
-        </div>
+          :card="item"
+          :hide-author="true"
+        />
         <user-pagination
           v-show="!loading"
           :current-page="currentPage"
@@ -30,14 +28,14 @@
 <script>
 import userPage from '@/components/user/user_page.vue'
 import userPagination from '@/components/user/user_pagination.vue'
+import articleCardListNew from '@/components/article_card_list_new/index.vue'
 import { extractChar } from '@/utils/reg'
-import avatar from '@/common/components/avatar/index.vue'
 
 export default {
   components: {
     userPage,
     userPagination,
-    avatar
+    articleCardListNew
   },
   head() {
     return {
@@ -69,11 +67,11 @@ export default {
     return {
       articleCardData: {
         params: {
-          userId: this.$route.params.id,
+          author: this.$route.params.id,
           pagesize: 20,
-          order: 0
+          extra: 'short_content'
         },
-        apiUrl: 'daothonTokenlist',
+        apiUrl: 'homeTimeRanking',
         articles: []
       },
       currentPage: Number(this.$route.query.page) || 1,
@@ -107,10 +105,6 @@ export default {
     }
   },
   methods: {
-    cover(src) {
-      if (!src) return ''
-      return src ? this.$ossProcess(src, { h: 90 }) : ''
-    },
     paginationData(res) {
       this.articleCardData.articles = res.data.list
       this.total = res.data.count || 0
@@ -130,17 +124,8 @@ export default {
 }
 </script>
 
-
-<style lang="less" scoped>
+<style scoped>
 .pagination {
   padding: 40px 5px;
-}
-
-.dao-list {
-  margin: 0 0 10px;
-  border: 1px solid #f1f1f1;
-  background: #fff;
-  border-radius: 2px;
-  padding: 10px;
 }
 </style>

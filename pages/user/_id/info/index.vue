@@ -2,6 +2,9 @@
 <template>
   <userPage>
     <div slot="list" v-loading="loading">
+      <div class="dao">
+        <myTokenHeader />
+      </div>
       <div v-if="urls.length !== 0" class="websites">
         <h3 class="inline h3">
           相关网站
@@ -35,11 +38,13 @@
 import { mapGetters } from 'vuex'
 import userPage from '@/components/user/user_page.vue'
 import socialIcon from '@/components/social_icon/index.vue'
+import myTokenHeader from '@/components/token/my_token_header.vue'
 
 export default {
   components: {
     userPage,
-    socialIcon
+    socialIcon,
+    myTokenHeader
   },
   data() {
     return {
@@ -157,5 +162,12 @@ export default {
     font-size:14px;
     color:rgba(178,178,178,1);
   }
+}
+</style>
+
+<style lang="less">
+.dao .token-card {
+  width: 100%;
+  box-sizing: border-box;
 }
 </style>

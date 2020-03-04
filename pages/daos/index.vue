@@ -3,11 +3,12 @@
     <g-header />
     <div class="dao-main">
       <h2 class="dao-title">发现项目</h2>
+      <div class="dao-title__line"></div>
       <el-row class="dao-content" v-loading="loading">
         <el-col :span="6" v-for="item in tokenList" :key="item.id">
           <router-link class="dao-content__block" :to="{name: 'token-id', params: {id: item.id}}">
             <div class="dao-block">
-              <img width="200" :src="cover(item.logo)" alt="avatar" class="dao-block__img">
+              <img width="200" v-if="item.logo" :src="cover(item.logo)" alt="avatar" class="dao-block__img">
             </div>
             <p class="dao-block__title">{{item.symbol}}-{{item.name}}</p>
             <p class="dao-block__des">
@@ -61,6 +62,7 @@ export default {
 <style lang="less" scoped>
 .dao {
   .minHeight();
+  background: #f6f6f6;
 }
 
 .dao-main {
@@ -74,6 +76,12 @@ export default {
   font-size: 22px;
   font-weight: bold;
   margin: 40px 0 0 0;
+}
+.dao-title__line {
+  height: 1px;
+  background: #e5e5e5;
+  margin: 15px 15px 0;
+  box-sizing: border-box;
 }
 .dao-content {
   padding: 0 5px;
