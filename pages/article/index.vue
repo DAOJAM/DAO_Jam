@@ -45,7 +45,7 @@ export default {
     return {
       daoLoading: false,
       sponsors: [
-          {'name': 'Near', 'photoUrl': 'https://ssimg.frontenduse.top/article/2020/03/05/b0998c4c4e7b74fe0d9a7596ad57f2c4.png'},
+          {'name': 'Near', 'photoUrl': 'https://nearprotocol.com/wp-content/themes/near-19/assets/downloads/near_logo_stack_wht.png?t=1567197567'},
           {
             'name': 'DAO Square',
             'photoUrl': 'https://ssimg.frontenduse.top/avatar/2020/02/19/998392f4a28ec5e0aeb64a9e695260e7.png'
