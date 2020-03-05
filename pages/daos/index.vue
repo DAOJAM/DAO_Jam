@@ -25,7 +25,7 @@
                     <div class="dao-block__info__number dao-number__one">
                       <div class="dao__info__number__block">
                         <svg-icon icon-class="members" class="icon"></svg-icon>
-                        {{ formatDecimal(0, item.decimals, -1) }}
+                        {{ item.member }}
                       </div>
                       <div class="dao__info__number__block">
                         <svg-icon icon-class="daos" class="icon"></svg-icon>
@@ -41,7 +41,7 @@
                 <div class="dao-block__info__number dao-number__two">
                   <div class="dao__info__number__block">
                     <svg-icon icon-class="members" class="icon"></svg-icon>
-                    {{ formatDecimal(0, item.decimals, -1) }}
+                    {{ item.member }}
                   </div>
                   <div class="dao__info__number__block">
                     <svg-icon icon-class="daos" class="icon"></svg-icon>
@@ -205,7 +205,6 @@ export default {
 }
 .dao-block {
   // min-height: 240px;
-  background: rgba(98,54,255,0.3);
   border-radius: 16px;
   box-sizing: border-box;
   color: #fff;
@@ -215,6 +214,11 @@ export default {
   transition: all .2s;
   cursor: pointer;
   padding: 20px;
+  // background: rgba(98,54,255,0.3);
+
+  background: rgba(98,54,255,0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   .components-avatar {
     width: 60px;
     height: 60px;
