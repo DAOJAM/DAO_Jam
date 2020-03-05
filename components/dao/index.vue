@@ -8,7 +8,7 @@
           :to="{name: 'token-id', params: {id: item.id}}"
           v-for="(item, index) in list"
           :key="index"
-          :style="{animationDelay: index * 0.2 + 's'}"
+          :style="{animationDelay: index * 0.08 + 's'}"
         >
           <div class="dao">
             <avatar :src="cover(item.logo)"></avatar>
@@ -62,7 +62,7 @@ export default {
   .components-avatar {
     width: 120px;
     height: 120px;
-    border-radius: 4px;
+    border-radius: 8px;
   }
   p {
     font-size: 20px;

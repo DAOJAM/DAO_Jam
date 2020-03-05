@@ -16,7 +16,7 @@
             <a href="#">ABOUT</a>
           </li>
           <li>
-            <a href="#">DAOs</a>
+            <n-link :to="{name: 'daos'}">DAOs</n-link>
           </li>
         </ul>
         <a v-if="!isLogined" @click="login" href="javascript:;" class="sign-btn">{{ $t('home.signIn') }}</a>

@@ -7,7 +7,7 @@
           class="people-block animated"
           v-for="(item, index) in list"
           :key="index"
-          :style="{animationDelay: index * 0.1 + 's'}"
+          :style="{animationDelay: index * 0.2 + 's'}"
         >
           <div class="people">
             <avatar :src="item.photoUrl"></avatar>
@@ -54,6 +54,7 @@ export default {
   .components-avatar {
     width: 120px;
     height: 120px;
+    border: none;
   }
   p {
     font-size: 20px;
