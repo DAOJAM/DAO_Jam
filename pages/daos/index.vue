@@ -2,152 +2,479 @@
   <div class="dao">
     <g-header />
     <div class="dao-main">
-      <h2 class="dao-title">发现项目</h2>
-      <div class="dao-title__line"></div>
-      <el-row class="dao-content" v-loading="loading">
-        <el-col :span="6" v-for="item in tokenList" :key="item.id">
-          <router-link class="dao-content__block" :to="{name: 'token-id', params: {id: item.id}}">
-            <div class="dao-block">
-              <img width="200" v-if="item.logo" :src="cover(item.logo)" alt="avatar" class="dao-block__img">
-            </div>
-            <p class="dao-block__title">{{item.symbol}}-{{item.name}}</p>
-            <p class="dao-block__des">
-              {{item.brief || '暂无'}}
-            </p>
-          </router-link>
-        </el-col>
-      </el-row>
+      <div class="dao-content" v-loading="loading">
+        <div class="dao-head">
+          <h2>DAOs ({{count}})</h2>
+            <el-input
+              style="width: 192px;"
+              size="medium"
+              placeholder="Search DAO"
+              suffix-icon="el-icon-search"
+              v-model="searchVal">
+            </el-input>
+        </div>
+
+        <div class="dao-cow">
+          <div class="dao-col" v-for="(item, index) in pull.list" :key="index">
+            <router-link :to="{name: 'token-id', params: {id: item.id}}">
+              <div class="dao-block">
+                <div class="dao-block__head">
+                  <avatar :src="cover(item.logo)"></avatar>
+                  <div class="dao-block__head__info">
+                    <h3>{{item.symbol}}</h3>
+                    <div class="dao-block__info__number dao-number__one">
+                      <div class="dao__info__number__block">
+                        <svg-icon icon-class="members" class="icon"></svg-icon>
+                        {{ formatDecimal(0, item.decimals, -1) }}
+                      </div>
+                      <div class="dao__info__number__block">
+                        <svg-icon icon-class="daos" class="icon"></svg-icon>
+                        {{ formatDecimal(item.amount, item.decimals, -1) }}
+                      </div>
+                      <div class="dao__info__number__block">
+                        <svg-icon icon-class="tickets" class="icon"></svg-icon>
+                        {{ formatDecimal(item.total_supply, item.decimals, -1) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dao-block__info__number dao-number__two">
+                  <div class="dao__info__number__block">
+                    <svg-icon icon-class="members" class="icon"></svg-icon>
+                    {{ formatDecimal(0, item.decimals, -1) }}
+                  </div>
+                  <div class="dao__info__number__block">
+                    <svg-icon icon-class="daos" class="icon"></svg-icon>
+                    {{ formatDecimal(item.amount, item.decimals, -1) }}
+                  </div>
+                  <div class="dao__info__number__block">
+                    <svg-icon icon-class="tickets" class="icon"></svg-icon>
+                    {{ formatDecimal(item.total_supply, item.decimals, -1) }}
+                  </div>
+                </div>
+                <div class="dao-block__brief">
+                  {{item.brief || '暂无'}}
+                </div>
+                <div class="dao-footer">
+                  <router-link  class="dao-btn" :to="{name: 'token-id', params: {id: item.id}}">CLICK</router-link>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
+
+        <user-pagination
+          v-show="!loading"
+          :current-page="currentPage"
+          :params="pull.params"
+          :api-url="pull.apiUrl"
+          :page-size="9"
+          :total="total"
+          :need-access-token="true"
+          @paginationData="paginationData"
+          @togglePage="togglePage"
+          class="dao-pagination"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import avatar from '@/common/components/avatar/index.vue'
+import userPagination from '@/components/user/user_pagination.vue'
+import { precision } from '@/utils/precisionConversion'
+
 export default {
+  components: {
+    avatar,
+    userPagination
+  },
   data() {
     return {
-      loading: false,
-      tokenList: []
+      tokenList: [],
+      searchVal: '',
+
+      pull: {
+        params: {
+          pagesize: 9
+        },
+        apiUrl: 'tokenAll',
+        list: [
+          {},{},{},{},{},{},{},{},{}
+        ]
+      },
+      currentPage: Number(this.$route.query.page) || 1,
+      loading: false, // 加载数据
+      total: 0,
+      assets: {
+      },
+      viewStatus: 0, // 0 1
+      count: 0
     }
   },
-  mounted() {
-    if (process.browser) {
-      this.loading = true
-      this.$API.allToken({
-        pagesize: 100
-      })
-        .then(res => {
-          if (res.code === 0) {
-            this.tokenList = res.data.list
-          } else {
-            console.log(res.message)
-          }
-        })
-        .catch(e => {
-          console.log(e)
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    }
+  computed: {
   },
   methods: {
+    formatDecimal(val, decimals, decimal) {
+      const amount = precision(val || 0, 'CNY', decimals)
+      // 不会有使用0位小数的传参进来
+      if (decimal) return this.$publishMethods.formatDecimal(amount, decimal)
+      else return amount
+    },
     cover (src) {
       if (!src) return ''
       return src ? this.$ossProcess(src) : ''
-    }
+    },
+    paginationData(res) {
+      console.log(1, res)
+      this.count = res.data.count
+      this.pull.list = res.data.list
+      this.total = res.data.count || 0
+      this.loading = false
+    },
+    togglePage(i) {
+      this.loading = true
+      this.pull.list = []
+      this.currentPage = i
+      this.$router.push({
+        query: {
+          page: i
+        }
+      })
+    },
   }
 }
 </script>
 
 <style lang="less" scoped>
 .dao {
-  .minHeight();
-  background: #f6f6f6;
+  padding: 60px 0 0 0;
 }
 
 .dao-main {
-  width: 1200px;
-  min-width: 1100px;
-  padding: 0;
-  margin: 0 auto 40px;
-}
-.dao-title {
-  padding: 0 15px;
-  font-size: 22px;
-  font-weight: bold;
-  margin: 40px 0 0 0;
-}
-.dao-title__line {
-  height: 1px;
-  background: #e5e5e5;
-  margin: 15px 15px 0;
-  box-sizing: border-box;
-}
-.dao-content {
-  padding: 0 5px;
-  min-height: 300px;
-  margin-top: 30px;
-}
-.dao-content__block {
-  width: 100%;
-  height: 337px;
-  margin-bottom: 30px;
-  box-sizing: border-box;
-  background: #fff;
-  border-radius: 5px;
-  display: inline-block;
-  vertical-align: top;
+  min-height: 1120px;
+  background-color: #0E2144;
+  background-image: url(../../assets/img/index_head_bg.png);
+  background-size: contain;
+  background-position: top;
+  background-repeat: no-repeat;
   overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: #000;
-  text-decoration: none;
-  &:hover {
-    box-shadow: 0 4px 12px 0 hsla(0,0%,79%,.5);
-    transform: translateY(-4px);
-    .dao-block  img {
-      transform: scale(1.04);
-    }
+  text-align: center;
+}
+
+.dao-content {
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.dao-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 60px;
+  h2 {
+    font-size:24px;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:33px;
+    padding: 0;
+    margin: 0;
   }
 }
 
-.dao-block {
-  width: 100%;
-  height: 160px;
-  overflow: hidden;
-  border-bottom: 1px solid #f1f1f1;
-  box-sizing: border-box;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: all .2s;
+.dao-cow {
+  min-height: 300px;
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both;
   }
 }
-.dao-block__title {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 0 15px;
-  margin: 10px 0;
-  color: #000;
+.dao-col {
+  float: left;
+  width: calc(33.333% - (80px / 3));
+  margin-top: 40px;
+  &:nth-of-type(3n+2) {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
 }
-.dao-block__des {
-  font-size: 14px;
-  font-weight: 400;
-  padding: 0 15px;
-  margin: 10px 0;
-  line-height: 18px;
-  max-height: 108px;
+.dao-block {
+  // min-height: 240px;
+  background: rgba(98,54,255,0.3);
+  border-radius: 16px;
+  box-sizing: border-box;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: all .2s;
+  cursor: pointer;
+  padding: 20px;
+  .components-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    flex: 0 0 60px;
+  }
+  &:hover {
+    background:rgba(98,54,255,1);
+  }
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    filter: blur(10px);
+    z-index: -1;
+    margin: -30px;
+  }
+}
+
+.dao-block__head {
+  display: flex;
+  align-items: center;
+}
+
+.dao-block__head__info {
+  width: 100%;
+  height: 60px;
+  margin: 0 0 0 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  h3 {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    font-size:24px;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:33px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+.dao-block__info__number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size:16px;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:22px;
+  margin-top: 6px;
+  .dao__info__number__block {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .icon {
+    font-size: 20px;
+  }
+}
+
+.dao-block__brief {
+  padding: 0;
+  margin: 10px 0 0 0;
+  color: #000;
+  font-size:16px;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:22px;
+  height: (22px * 4);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 4;
   overflow: hidden;
-  color: #b2b2b2;
+  text-align: left;
 }
-</style>
 
-<style lang="less">
-.dao-content .el-col {
-  padding: 0 10px;
+.dao-footer {
+  text-align: right;
 }
+
+.dao-btn {
+  display: inline-block;
+  padding: 0 20px;
+  margin: 10px 0 0 0;
+  height:30px;
+  background:rgba(255,255,255,1);
+  border-radius:34px;
+  font-size:16px;
+  font-weight:500;
+  color:rgba(98,54,255,1);
+  line-height: 30px;
+  text-align: center;
+  transition: all .2s;
+  &:hover {
+    background: mix(rgba(255,255,255,1), #000, 90%);
+  }
+}
+
+.dao-pagination {
+  margin: 40px 0;
+}
+
+.dao-number__two {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+
+@media screen and (max-width: 520px) {
+
+  .dao-number__one {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .dao-number__two {
+    display: flex;
+    opacity: 1;
+    visibility: initial;
+  }
+  .dao-footer {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+
+  .dao-head {
+    margin-top: 40px;
+    h2 {
+      font-size:22px;
+      font-weight:400;
+    }
+  }
+
+
+  .dao-col {
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .dao-block__head__info h3 {
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 400;
+  }
+
+  .dao-block__brief {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 768px) {
+  .dao-col {
+    width: calc(50% - (10px));
+    margin-top: 20px;
+    &:nth-of-type(odd) {
+      margin-left: 0;
+      margin-right: 10px;
+    }
+    &:nth-of-type(even) {
+      margin-left: 10px;
+      margin-right: 0;
+    }
+  }
+
+  .dao-block__head__info h3 {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .dao-block__brief {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .dao-content {
+    max-width: 85%;
+  }
+  .dao-col {
+    width: calc(33.333% - (40px / 3));
+    margin-top: 20px;
+    &:nth-of-type(3n+2) {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+  .dao-block__head__info h3 {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+@media screen and (min-width: 520px) and (max-width: 992px) {
+  .dao-number__one {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .dao-number__two {
+    display: flex;
+    opacity: 1;
+    visibility: initial;
+  }
+  .dao-footer {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .dao-block__head__info {
+    height: 50px;
+  }
+  .dao-block .components-avatar {
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
+  }
+  .dao-block__info__number {
+    font-size: 14px;
+    line-height: 20px;
+    .icon {
+      font-size: 16px;
+    }
+  }
+
+  .dao-block__brief {
+    font-size: 14px;
+    line-height: 20px;
+    height: (20px * 4);
+  }
+  .dao-btn {
+    height: 28px;
+    font-size: 14px;
+    line-height: 28px;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .dao-content {
+    max-width: 80%;
+  }
+  .dao-block__head__info h3 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
 </style>

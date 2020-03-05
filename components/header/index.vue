@@ -330,9 +330,14 @@ export default {
 }
 @media screen and (max-width: 520px) {
   .user-menu,
-  .sign-btn,
   .logo-link {
     display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .sign-btn {
+    display: none !important;
     opacity: 0;
     visibility: hidden;
   }
