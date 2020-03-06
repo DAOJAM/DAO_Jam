@@ -223,7 +223,7 @@ export default {
 
 .user-info {
   width: 100%;
-  height: 240px;
+  min-height: 240px;
   background-color: #fff;
   box-sizing: border-box;
   .token-avatar {
@@ -284,6 +284,8 @@ export default {
     line-height: 22px;
     padding: 0;
     margin: 10px 0 20px;
+    white-space: pre-wrap;
+    word-break: break-all;
   }
   .follow-block {
     margin: 0 34px;

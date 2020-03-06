@@ -29,7 +29,7 @@
                       </div>
                       <div class="dao__info__number__block">
                         <svg-icon icon-class="daos" class="icon"></svg-icon>
-                        {{ formatDecimal(item.amount, item.decimals, -1) }}
+                        {{ formatDecimal(item.liquidity, item.decimals, -1) }}
                       </div>
                       <div class="dao__info__number__block">
                         <svg-icon icon-class="tickets" class="icon"></svg-icon>
@@ -45,7 +45,7 @@
                   </div>
                   <div class="dao__info__number__block">
                     <svg-icon icon-class="daos" class="icon"></svg-icon>
-                    {{ formatDecimal(item.amount, item.decimals, -1) }}
+                    {{ formatDecimal(item.liquidity, item.decimals, -1) }}
                   </div>
                   <div class="dao__info__number__block">
                     <svg-icon icon-class="tickets" class="icon"></svg-icon>
@@ -150,6 +150,8 @@ export default {
 <style lang="less" scoped>
 .dao {
   padding: 60px 0 0 0;
+  min-height: calc(100% - 60px);
+  background: #0c2143;
 }
 
 .dao-main {

@@ -10,7 +10,7 @@
       <div class="header-right">
         <ul>
           <li>
-            <a href="#">HOME</a>
+            <n-link :to="{name: 'index'}">HOME</n-link>
           </li>
           <li>
             <a href="#">ABOUT</a>

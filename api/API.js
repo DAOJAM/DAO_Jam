@@ -933,5 +933,34 @@ minetokenGetResources(tokenId) {
   // 常用候选列表
   historyUser(params) {
     return request.get(`/history/user`, { params })
+  },
+  // --------------------- dao jam -----------------
+  // 获取身份可选项options
+  daoJobOptions() {
+    return request.get(`/dao/job/options`)
+  },
+  // 获取用户身份
+  getDaoUserJob(params) {
+    return request.get(`/dao/user/job`, { params })
+  },
+  // 创建用户身份
+  daoUserJob(data) {
+    return request.post(`/dao/user/job`, data)
+  },
+  // 获取技能可选项options
+  daoSkillOptions() {
+    return request.get(`/dao/skill/options`)
+  },
+  // 获取用户技能
+  getDaoUserSkill(params) {
+    return request.get('/dao/user/skill', { params })
+  },
+  // 创建用户技能
+  daoUserSkill(data) {
+    return request.post('/dao/user/skill', data)
+  },
+  // 用户托管地址
+  userAddress(params) {
+    return request.get('/_daothon_/useraddress', { params })
   }
 }
