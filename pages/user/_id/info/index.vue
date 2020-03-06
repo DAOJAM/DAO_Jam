@@ -5,6 +5,15 @@
       <div class="dao">
         <myTokenHeader />
       </div>
+      <div>
+        <p>tags</p>
+        <div>
+          <el-tag v-for="(item, index) in tags" :key="index" style="margin-right: 10px;">
+            <i class="el-icon-price-tag"></i>
+            {{item}}
+          </el-tag>
+        </div>
+      </div>
       <div v-if="urls.length !== 0" class="websites">
         <h3 class="inline h3">
           相关网站
@@ -92,7 +101,8 @@ export default {
           content: ''
         }
       ],
-      urls: []
+      urls: [],
+      tags: [] // tag
     }
   },
   computed: {
@@ -118,6 +128,52 @@ export default {
       } catch (error) {
         console.log(`获取用户信息失败${error}`)
       }
+
+
+      // 工厂函数 返回接口数据
+      const factory = async api => {
+        try {
+          const res = await api
+          if (res.code === 0) {
+            return res.data
+          } else {
+            console.log(res.message)
+            return
+          }
+        } catch (error) {
+          console.log(error)
+          return
+        }
+      }
+
+
+      try {
+        this.tags.length = 0
+
+        // 获取自己的job
+        const daoUserJob = await factory(this.$API.getDaoUserJob({
+          uid: this.currentUserInfo.id
+        }))
+
+        let job = daoUserJob.map(i => i.text_english)
+
+        this.tags.push(...job)
+
+
+        // 获取自己的skill
+        const daoUserSkill = await factory(this.$API.getDaoUserSkill({
+          uid: this.currentUserInfo.id
+        }))
+        
+        let skill = daoUserSkill.map(i => i.text_english)
+
+        this.tags.push(...skill)
+
+      } catch (error) {
+        console.log(error)
+      }
+
+
     },
     formatUrl(url) {
       const isHttp = url.indexOf('http://')
