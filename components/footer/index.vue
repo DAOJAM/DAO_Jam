@@ -40,9 +40,13 @@ export default {
 <style lang="less" scoped>
 .footer {
   background: #555555;
-  padding: 40px 20px;
+  padding: 0 20px;
   text-align: center;
   box-sizing: border-box;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .footer-social {
   margin-bottom: 40px;
@@ -107,7 +111,7 @@ export default {
 
 @media screen and (max-width: 520px) {
   .footer {
-    padding: 10px 20px;
+    padding: 0 20px;
   }
   .footer-social {
     margin-bottom: 10px;
@@ -127,7 +131,7 @@ export default {
 
 @media screen and (min-width: 520px) {
   .footer {
-    padding: 20px 20px;
+    padding: 0 20px;
   }
   .footer-social {
     margin-bottom: 20px;
@@ -147,7 +151,7 @@ export default {
 
 @media screen and (min-width: 992px) {
   .footer {
-    padding: 30px 20px;
+    padding: 0 20px;
   }
   .footer-social {
     margin-bottom: 30px;
@@ -164,7 +168,7 @@ export default {
 
 @media screen and (min-width: 1920px) {
   .footer {
-    padding: 40px 20px;
+    padding: 0 20px;
   }
   .footer-social {
     margin-bottom: 40px;

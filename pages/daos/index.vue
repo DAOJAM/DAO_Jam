@@ -56,7 +56,7 @@
                   {{item.brief || '暂无'}}
                 </div>
                 <div class="dao-footer">
-                  <router-link  class="dao-btn" :to="{name: 'token-id', params: {id: item.id}}">CLICK</router-link>
+                  <router-link  class="dao-btn" :to="{name: 'token-id', params: {id: item.id}}">VIEW</router-link>
                 </div>
               </div>
             </router-link>
@@ -155,7 +155,7 @@ export default {
 <style lang="less" scoped>
 .dao {
   padding: 60px 0 0 0;
-  min-height: calc(100% - 60px);
+  min-height: calc(100% - (60px + 200px));
   background: #0c2143;
 }
 
