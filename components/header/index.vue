@@ -363,3 +363,18 @@ export default {
   }
 }
 </style>
+
+
+<style lang="less">
+.user-dorpdown {
+  background-color: #333333 !important;
+  border: 1px solid #333 !important;
+  .el-dropdown-menu__item {
+    color: #fff;
+    &:hover {
+      background-color: #3f3f3f !important;
+      color: #fff !important;
+    }
+  }
+}
+</style>
