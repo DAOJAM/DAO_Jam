@@ -97,9 +97,28 @@
             </div>
           </div>
         </div>
+        
+        <!-- 身份 -->
+        <div class="job">
+          <p>身份</p>
+          <div v-for="(item, index) in job" class="job-checkbox" :key="index">
+            <el-checkbox v-model="item.checked" :label="item.text_english" border size="medium"></el-checkbox>
+          </div>
+        </div>
+
+
+        <!-- 技能 -->
+        <div class="skill">
+          <p>技能</p>
+          <div v-for="(item, index) in skill" :key="index" class="skill-checkbox">
+            <el-checkbox v-model="item.checked" :label="item.text_english" border size="medium"></el-checkbox>
+            <el-input-number style="width: 130px;" v-if="item.checked" size="medium" v-model="item.value" :min="1" :max="100"></el-input-number>
+          </div>
+        </div>
+
         <!-- 保存 -->
         <div class="line" />
-        <el-button :loading="loading" :class="(setProfile || aboutModify || socialModify) && 'active'" @click="save" class="save ">
+        <el-button :loading="loading" :class="(setProfile || aboutModify || socialModify || jobModify || skillModify) && 'active'" @click="save" class="save ">
           {{ $t('save') }}
         </el-button>
       </div>
@@ -138,6 +157,8 @@ export default {
       numPage: 1,
       aboutModify: false,
       socialModify: false,
+      jobModify: false, // 身份
+      skillModify: false, // 技能
       about: [''],
       social: [
         {
@@ -214,7 +235,11 @@ export default {
           // resourcesSocialss: [],
           // resourcesWebsites: [],
         }
-      ]
+      ],
+      // 身份
+      job: [],
+      // 技能
+      skill: []
     }
   },
   computed: {
@@ -255,6 +280,19 @@ export default {
           }
         }
         this.socialModify = false
+      }
+    },
+    // 没有对比 job 和 skill是否修改
+    job: {
+      deep: true,
+      handler() {
+        this.jobModify = true
+      }
+    },
+    skill: {
+      deep: true,
+      handler() {
+        this.skillModify = true
       }
     }
     // social(newVal) {
@@ -320,20 +358,126 @@ export default {
           this.social.find(age => age.type === item.type).value = item.value
         })
       }
+
+
       try {
+        // 我的信息
         const res = await this.$API.getMyUserData()
-        const resLinks = await this.$API.getUserLinks({ id: this.currentUserInfo.id })
-        if (res.code === 0 && resLinks.code === 0) {
+        if (res.code === 0) {
           setUser(res.data)
-          setLinks(resLinks.data)
-        } else console.log('获取用户信息失败')
+        } else {
+          console.log(res.message)
+        }
       } catch (error) {
-        console.log(`获取用户信息失败${error}`)
+        console.log(error)
       }
+      try {
+        // 我的信息链接
+        const resLinks = await this.$API.getUserLinks({ id: this.currentUserInfo.id })
+        if (resLinks.code === 0) {
+          setLinks(resLinks.data)
+        } else {
+          console.log(res.message)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
+
+      // 工厂函数 返回接口数据
+      const factory = async api => {
+        try {
+          const res = await api
+          if (res.code === 0) {
+            return res.data
+          } else {
+            console.log(res.message)
+            return
+          }
+        } catch (error) {
+          console.log(error)
+          return
+        }
+      }
+
+
+      // 身份
+      try {
+        // 获取身份可选项options
+        const daoJob = await factory(this.$API.daoJobOptions())
+
+        let daoJobList = daoJob.map(i => {
+          return {
+            // 选择状态
+            checked: false,
+            ...i
+          }
+        })
+
+        // 获取自己的job
+        const daoUserJob = await factory(this.$API.getDaoUserJob({
+          uid: this.currentUserInfo.id
+        }))
+
+        // 合并数据
+        daoJobList.map(item => {
+          for (let i = 0; i < daoUserJob.length; i++) {
+            const element = daoUserJob[i]
+            if (element.jid === item.id) {
+              item.checked = true
+            }
+          }
+        })
+
+        this.job = daoJobList
+
+      } catch (error) {
+        console.log(error)
+      }
+
+      // 技能
+      try {
+        // 获取技能可选项options
+        const daoSkill = await factory(this.$API.daoSkillOptions())
+
+        const daoSkillList = daoSkill.map(i => {
+          return {
+            // 选择状态
+            checked: false,
+            value: 1,
+            ...i
+          }
+        })
+
+        // 获取自己的skill
+        const daoUserSkill = await factory(this.$API.getDaoUserSkill({
+          uid: this.currentUserInfo.id
+        }))
+
+        // 合并数据
+        daoSkillList.map(item => {
+          for (let i = 0; i < daoUserSkill.length; i++) {
+            const element = daoUserSkill[i]
+            if (element.sid === item.id) {
+              item.checked = true
+              item.value = element.value
+            }
+          }
+        })
+
+        this.skill = daoSkillList
+
+      } catch (error) {
+        console.log(error)
+      }
+
+
+
     },
     // 保存按钮
     async save() {
-      if (!this.setProfile && !this.aboutModify && !this.socialModify) return
+
+      if (!this.setProfile && !this.aboutModify && !this.socialModify && !this.jobModify || !this.skillModify) return
 
       const saveProfile = async () => {
         if (!this.setProfile) return
@@ -372,10 +516,60 @@ export default {
         this.aboutModify = false
         this.socialModify = false
       }
+      
+      // 保存身份
+      const saveJobs = async () => {
+        if (!this.jobModify) return
+        
+        // 筛选
+        const filterData = data => data.filter(i => i.checked)
+        // 格式化数据
+        const format = data => {
+          if (!data || !data.length) return []
+          return data.map(i => ({
+              jid: i.id,
+              value: 1, // 默认
+            })
+          )
+        }
+
+        const data = {
+          creates: this.$utils.compose(format, filterData)(this.job)
+        }
+
+        await this.$API.daoUserJob(data)
+
+        this.jobModify = false
+      }
+
+      // 保存技能
+      const saveSkills = async () => {
+        if (!this.skillModify) return
+        
+        // 筛选
+        const filterData = data => data.filter(i => i.checked)
+        // 格式化数据
+        const format = data => {
+          if (!data || !data.length) return []
+          return data.map(i => ({
+              sid: i.id,
+              value: i.value, // 默认
+            })
+          )
+        }
+
+        const data = {
+          creates: this.$utils.compose(format, filterData)(this.skill)
+        }
+
+        await this.$API.daoUserSkill(data)
+
+        this.skillModify = false
+      }
 
       this.loading = true
       try {
-        await Promise.all([saveProfile(), saveLinks()])
+        await Promise.all([saveProfile(), saveLinks(), saveJobs(), saveSkills()])
 
         this.refreshUser({ id: this.currentUserInfo.id })
         this.getMyUserData()
@@ -561,5 +755,25 @@ export default {
   font-size: 20px;
   padding-left: 10px;
   margin: 0;
+}
+
+// job
+// skill
+
+.job,
+.skill {
+  &::after {
+    display: block;
+    content: '';
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+}
+
+.job-checkbox,
+.skill-checkbox {
+  float: left;
+  margin: 0 10px 10px 0;
 }
 </style>
