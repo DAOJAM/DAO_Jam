@@ -33,7 +33,7 @@
                       </div>
                       <div class="dao__info__number__block">
                         <svg-icon icon-class="tickets" class="icon"></svg-icon>
-                        {{ formatDecimal(item.total_supply, item.decimals, -1) }}
+                        {{ totalSupply(item.total_supply, item.decimals, -1) }}
                       </div>
                     </div>
                   </div>
@@ -49,7 +49,7 @@
                   </div>
                   <div class="dao__info__number__block">
                     <svg-icon icon-class="tickets" class="icon"></svg-icon>
-                    {{ formatDecimal(item.total_supply, item.decimals, -1) }}
+                    {{ totalSupply(item.total_supply, item.decimals, -1) }}
                   </div>
                 </div>
                 <div class="dao-block__brief">
@@ -116,6 +116,11 @@ export default {
   computed: {
   },
   methods: {
+    // 转换k
+    totalSupply(val, decimals, decimal) {
+      let amount = this.formatDecimal(val, decimals, decimal)
+      return amount < 10000 ? amount : amount / 1000 + 'K'
+    },
     formatDecimal(val, decimals, decimal) {
       const amount = precision(val || 0, 'CNY', decimals)
       // 不会有使用0位小数的传参进来
