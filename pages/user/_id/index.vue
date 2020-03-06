@@ -1,146 +1,105 @@
-
 <template>
-  <userPage>
-    <div slot="list" v-loading="loading">
-      <no-content-prompt :list="articleCardData.articles">
-        <div
-          class="dao-list"
-          v-for="(item, index) in articleCardData.articles"
-          :key="index"
-        >
-          <avatar :src="cover(item.avatar)"></avatar>
-          <div>{{item.symbol}}-{{item.name}}</div>
+  <div class="user">
+    <g-header></g-header>
+    <main class="user-main">
+      <div class="user-head">
+        <div class="user-avatar">
+          <avatar :src="userInfo.avatar"></avatar>
+          <h1>{{ userInfo.name }}</h1>
         </div>
-        <user-pagination
-          v-show="!loading"
-          :current-page="currentPage"
-          :params="articleCardData.params"
-          :api-url="articleCardData.apiUrl"
-          :page-size="articleCardData.params.pagesize"
-          :total="total"
-          @paginationData="paginationData"
-          @togglePage="togglePage"
-          class="pagination"
-        />
-      </no-content-prompt>
-    </div>
-  </userPage>
+        <div class="user-edit">
+          <followBtn
+            v-if="!isMe(Number($route.params.id))"
+            :id="Number($route.params.id)"
+            class="follow"
+          />
+          <router-link v-else :to="{name: 'setting'}">
+            <el-button size="small" class="follow edit">
+              {{ $t('user.editProfile') }}
+            </el-button>
+          </router-link>
+          <el-button @click="shareModalShow = true" size="small" class="follow2">
+            <svg-icon icon-class="share_new" />
+            {{ $t('share') }}
+          </el-button>
+        </div>
+      </div>
+    </main>
+    <Share
+      :share-modal-show="shareModalShow"
+      :minetoken-user="{nickname: userInfo.name}"
+      :page-type="1"
+      :img="userInfo.avatar"
+      @input="val => shareModalShow = val"
+    />
+  </div>
 </template>
 
+
 <script>
-import userPage from '@/components/user/user_page.vue'
-import userPagination from '@/components/user/user_pagination.vue'
-import { extractChar } from '@/utils/reg'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import avatar from '@/common/components/avatar/index.vue'
+import followBtn from '@/components/follow_btn'
+import Share from '@/components/token/token_share.vue'
 
 export default {
   components: {
-    userPage,
-    userPagination,
-    avatar
-  },
-  head() {
-    return {
-      title: `${this.userData.nickname || this.userData.name}的个人主页`,
-      meta: [
-        { hid: 'description', name: 'description', content: `${this.userData.introduction}` },
-        /* <!--  Meta for Twitter Card --> */
-        { hid: 'twitter:card', name: 'twitter:card', property: 'twitter:card', content: 'summary' },
-        { hid: 'twitter:site', name: 'twitter:site', property: 'twitter:site', content: '@Andoromeda' },
-        { hid: 'twitter:title', name: 'twitter:title', property: 'twitter:title', content: `${this.userData.nickname || this.userData.name}的个人主页` },
-        { hid: 'twitter:description', name: 'description', property: 'twitter:description', content: `${this.userData.introduction}` },
-        { hid: 'twitter:url', name: 'twitter:url', property: 'twitter:url', content: `${process.env.VUE_APP_PC_URL}/user/${this.$route.params.id}` },
-        { hid: 'twitter:image', name: 'twitter:image', property: 'twitter:image', content: this.$API.getImg(this.userData.avatar) },
-        /* <!--  Meta for OpenGraph --> */
-        { hid: 'og:site_name', name: 'og:site_name', property: 'og:site_name', content: '瞬MATATAKI' },
-        { hid: 'og:title', name: 'og:title', property: 'og:title', content: `${this.userData.nickname || this.userData.name}的个人主页` },
-        { hid: 'og:type', name: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:url', name: 'og:url', property: 'og:url', content: `${process.env.VUE_APP_PC_URL}/user/${this.$route.params.id}` },
-        { hid: 'og:image', name: 'og:image', property: 'og:image', content: this.$API.getImg(this.userData.avatar) },
-        { hid: 'og:description', name: 'description', property: 'og:description', content: `${this.userData.introduction}` }
-        /* end */
-      ],
-      link: [
-        { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css' }
-      ]
-    }
+    avatar,
+    followBtn,
+    Share
   },
   data() {
     return {
-      articleCardData: {
-        params: {
-          userId: this.$route.params.id,
-          pagesize: 20,
-          order: 0
-        },
-        apiUrl: 'daothonTokenlist',
-        articles: []
-      },
-      currentPage: Number(this.$route.query.page) || 1,
-      loading: false, // 加载数据
-      total: 0,
-      userData: Object.create(null)
+      shareModalShow: false, // share dialog
     }
   },
-  async asyncData({ $axios, route, req }) {
-    // 获取cookie token
-    let accessToekn = ''
-    // 请检查您是否在服务器端
-    if (process.server) {
-      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
-      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
-      accessToekn = token ? token[0] : ''
-    }
-    const res = await $axios({
-      url: `/user/${route.params.id}`,
-      methods: 'get',
-      headers: { 'x-access-token': accessToekn }
-    })
-    // console.log('用户的信息：', res)
-    // 判断是否为付费阅读文章
-    if (res.code === 0) {
-      return {
-        userData: res.data || Object.create(null)
-      }
-    } else {
-      console.error(res.message)
-    }
+  computed: {
+    ...mapState({
+      userInfo: state => state.user.userInfo
+    }),
+    ...mapGetters(['isMe'])
+  },
+  mounted() {
+    this.refreshUser({ id: this.$route.params.id })
   },
   methods: {
-    cover(src) {
-      if (!src) return ''
-      return src ? this.$ossProcess(src, { h: 90 }) : ''
-    },
-    paginationData(res) {
-      this.articleCardData.articles = res.data.list
-      this.total = res.data.count || 0
-      this.loading = false
-    },
-    togglePage(i) {
-      this.loading = true
-      this.articleCardData.articles = []
-      this.currentPage = i
-      this.$router.push({
-        query: {
-          page: i
-        }
-      })
-    }
+    ...mapActions('user', ['refreshUser', 'followOrUnfollowUser']),
   }
 }
 </script>
 
-
 <style lang="less" scoped>
-.pagination {
-  padding: 40px 5px;
+.user {
+  padding: 60px 0 0 0;
+  min-height: calc(100% - (60px + 200px));
+  background-color: #0E2144;
 }
 
-.dao-list {
-  margin: 0 0 10px;
-  border: 1px solid #f1f1f1;
-  background: #fff;
-  border-radius: 2px;
-  padding: 10px;
+.user-main {
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.user-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 60px;
+}
+.user-avatar {
+  display: flex;
+  align-items: center;
+  .components-avatar {
+    width: 120px;
+    height: 120px;
+  }
+  h1 {
+    font-size:48px;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:67px;
+    margin-left: 20px;
+  }
 }
 </style>
