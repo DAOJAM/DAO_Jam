@@ -5,6 +5,14 @@
       <div class="dao">
         <myTokenHeader />
       </div>
+      <div v-if="userAddress">
+        <a :href="'http://rinkeby.etherscan.io/address/' + userAddress" target="_blank">
+          <el-button class="link-btn" size="small">
+            <svg-icon icon-class="eth_mini" />
+            链上查看
+          </el-button>
+        </a>
+      </div>
       <div>
         <p>tags</p>
         <div>
@@ -102,7 +110,8 @@ export default {
         }
       ],
       urls: [],
-      tags: [] // tag
+      tags: [], // tag
+      userAddress: '',
     }
   },
   computed: {
@@ -168,6 +177,12 @@ export default {
         let skill = daoUserSkill.map(i => i.text_english)
 
         this.tags.push(...skill)
+
+
+        // 获取自己的skill
+        this.userAddress = await factory(this.$API.userAddress({
+          uid: this.currentUserInfo.id
+        }))
 
       } catch (error) {
         console.log(error)

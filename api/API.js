@@ -958,5 +958,9 @@ minetokenGetResources(tokenId) {
   // 创建用户技能
   daoUserSkill(data) {
     return request.post('/dao/user/skill', data)
+  },
+  // 用户托管地址
+  userAddress(params) {
+    return request.get('/_daothon_/useraddress', { params })
   }
 }

@@ -8,7 +8,7 @@
         icon-class="backtop"
       />
     </back-to-top>
-    <feedback v-if="!hideFeedback" :showPosition="100" />
+    <!-- <feedback v-if="!hideFeedback" :showPosition="100" /> -->
     <AuthModal v-model="loginModalShow" />
     <articleImport v-model="importModalShow" @importArticle="importArticle" />
   </div>
@@ -18,7 +18,7 @@
 import AuthModal from '@/components/Auth/index.vue'
 import BackToTop from '@/components/BackToTop'
 import articleImport from '@/components/article_import/index.vue'
-import feedback from '@/components/feedback'
+// import feedback from '@/components/feedback'
 import footer from '~/components/footer/index.vue'
 export default {
   name: 'Default',
@@ -27,7 +27,7 @@ export default {
     AuthModal,
     BackToTop,
     articleImport,
-    feedback
+    // feedback
   },
   data() {
     return {
