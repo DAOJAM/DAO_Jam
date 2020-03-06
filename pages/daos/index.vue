@@ -56,7 +56,7 @@
                   {{item.brief || '暂无'}}
                 </div>
                 <div class="dao-footer">
-                  <router-link  class="dao-btn" :to="{name: 'token-id', params: {id: item.id}}">CLICK</router-link>
+                  <router-link  class="dao-btn" :to="{name: 'token-id', params: {id: item.id}}">VIEW</router-link>
                 </div>
               </div>
             </router-link>
