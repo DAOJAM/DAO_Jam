@@ -76,6 +76,7 @@ export default {
     line-height: 28px;
     font-weight: 700;
     margin-bottom: 20px;
+    color: #fff;
   }
   .btns {
     display: flex;

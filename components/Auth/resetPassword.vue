@@ -236,6 +236,7 @@ export default {
   h1 {
     margin: 10px 0 20px 0;
     font-size: 20px;
+    color: #fff;
   }
   .code-contaniner {
     display: flex;
