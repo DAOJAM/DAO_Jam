@@ -102,10 +102,11 @@ export default {
   color:rgba(178,178,178,1);
 }
 .header {
-  color: black;
+  color: #fff;
   font-size: 18px;
   line-height:22px;
   font-weight:600;
+  margin-top: 20px;
   .title {
     width: 335px;
   }

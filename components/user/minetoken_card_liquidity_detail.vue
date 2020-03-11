@@ -73,16 +73,16 @@ export default {
 
 <style scoped lang="less">
 .card {
-  margin: 10px 0;
+  margin: 0;
   box-sizing: border-box;
-  background-color: #fff;
-  padding: 16px 0;
+  background-color: transparent;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   position: relative;
   text-align: left;
   width: 100%;
-  border-bottom: 1px solid #DBDBDB;
+  border-bottom: 1px solid #eaeaea;
   & > div {
     margin: 4px 0;
   }
@@ -93,7 +93,7 @@ export default {
   margin-left: 10px;
 }
 .info-icon {
-  color: #000;
+  color: #fff;
   margin: 0 6px;
 }
 .title {
@@ -102,7 +102,7 @@ export default {
 .username {
   font-size:18px;
   font-weight:400;
-  color:rgba(0,0,0,1);
+  color: #fff;
   line-height:28px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -115,21 +115,21 @@ export default {
 .type {
   font-size: 12px;
   font-weight: 400;
-  color: rgba(178, 178, 178, 1);
+  color: #fff;
   line-height: 17px;
   margin: 2px 0;
 }
 .amount {
   font-size:18px;
   font-weight:500;
-  color:rgba(0,0,0,1);
+  color:#fff;
   line-height:28px;
   padding-right: 10px;
   width: 140px;
   p {
     font-size:14px;
     font-weight:400;
-    color:rgba(178,178,178,1);
+    color:#eaeaea;
     line-height:22px;
     margin: 10px 0;
   }
@@ -137,7 +137,7 @@ export default {
 .time {
   font-size:14px;
   font-weight:400;
-  color:rgba(178,178,178,1);
+  color:#eaeaea;
   line-height:22px;
   margin: 10px 0;
 }

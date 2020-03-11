@@ -2,11 +2,24 @@
   <div class="token">
     <g-header></g-header>
     <div class="token-main">
+
+      <div class="token-banner">
+        <img src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg" alt="banner">
+      </div>
+
       <div class="token-head">
         <div class="head-user">
-          <avatar></avatar>
+          <avatar :src="tokenAvatar" class="token-avatar"></avatar>
           <div class="head-user__info">
-            <h2>XIOO</h2>
+            <h2>{{ minetokenToken.symbol }} - {{ minetokenToken.name }}</h2>
+            <div class="head-user__founder">
+              Founder:
+              <avatar :src="userAvatar" class="user-avatar"></avatar>
+              <span>{{ minetokenUser.nickname || minetokenUser.username || '&nbsp;' }}</span>
+            </div>
+            <p>
+              {{ minetokenToken.brief || '暂无' }}
+            </p>
             <div class="dao__info__number">
               <div class="dao__info__number__block">
                 <svg-icon icon-class="members" class="icon"></svg-icon>
@@ -23,66 +36,155 @@
             </div>
           </div>
         </div>
-        <span class="head-amount">
-          I have: 1000 G & 10234 T
-        </span>
+        <div class="head-info">
+          <div>
+            <a :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address" target="_blank">
+              <el-button class="link-btn" size="small">
+                <svg-icon icon-class="eth_mini" />
+                链上查看
+              </el-button>
+            </a>
+            <router-link v-if="showTokenSetting" :to="{ name: 'editminetoken' }">
+              <el-button type="primary" class="btn" size="small" icon="el-icon-setting">
+                管理
+              </el-button>
+            </router-link>
+          </div>
+          <span class="head-amount">
+            已持有：{{ balance }} {{ minetokenToken.symbol }}
+          </span>
+        </div>
 
       </div>
-
-
-      <div class="token-list">
-        <h2 class="token-title">Brief Introduction</h2>
-        <p class="token-brief">
-          And when I prophesied, Pelatiah the son of Benaiah died; and I fell on my face and cried out with a loud voice, and I said, Ah, Lord Jehovah! Are You making a full end to the remnant of Israel?And when I prophesied, Pelatiah the son of Benaiah died; and I fell on my face and cried out with a loud voice, and I said, Ah, Lord Jehovah! Are You making a full end to the remnant of Israel?And when I prophesied, Pelatiah the son of Benaiah died; and I fell on my face and cried out with a loud voice, and I said, Ah, Lord Jehovah! 
-        </p>
-      </div>
-
-      <div class="token-list">
-        <h2 class="token-title">Achievement</h2>
-        <!-- todo -->
-      </div>
-
-      <div class="token-list">
-        <h2 class="token-title">DAO Contract Address</h2>
-        <!-- todo -->
-        cdowvnfodrenveiornvoinreovoerinvfdlksmvpwdfopvmpodfsksvcmpdow
-      </div>
-
-      <div class="token-list">
-        <h2 class="token-title">Members</h2>
-        <!-- todo -->
-      </div>
-
-
+      <nav class="token-nav">
+        <n-link :to="{name: 'token-id', params: { id: $route.params.id }}" :class="$route.name === 'token-id' && 'active'">INFORMATION</n-link>
+        <n-link :to="{name: 'token-id-progress', params: { id: $route.params.id }}" :class="$route.name === 'token-id-progress' && 'active'">PROGRESS</n-link>
+        <n-link :to="{name: 'token-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'token-id-capital' && 'active'">CAPITAL</n-link>
+      </nav>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
 import avatar from '@/common/components/avatar/index.vue'
+import { mapGetters } from 'vuex'
+import { extractChar } from '@/utils/reg'
+import utils from '@/utils/utils'
+
 
 export default {
   components: {
     avatar
-  }  
+  },
+  head() {
+    return {
+      title: `${this.minetokenToken.symbol}-${this.minetokenToken.name}`,
+      meta: [
+        { hid: 'description', name: 'description', content: `${this.minetokenToken.brief}` || `${this.minetokenToken.symbol}-${this.minetokenToken.name}` },
+        /* <!--  Meta for Twitter Card --> */
+        { hid: 'twitter:card', name: 'twitter:card', property: 'twitter:card', content: 'summary' },
+        { hid: 'twitter:site', name: 'twitter:site', property: 'twitter:site', content: '@Andoromeda' },
+        { hid: 'twitter:title', name: 'twitter:title', property: 'twitter:title', content: `${this.minetokenToken.symbol}-${this.minetokenToken.name}` },
+        { hid: 'twitter:description', name: 'description', property: 'twitter:description', content: `${this.minetokenToken.brief}` || `${this.minetokenToken.symbol}-${this.minetokenToken.name}` },
+        { hid: 'twitter:url', name: 'twitter:url', property: 'twitter:url', content: `${process.env.VUE_APP_PC_URL}/token/${this.$route.params.id}` },
+        { hid: 'twitter:image', name: 'twitter:image', property: 'twitter:image', content: this.$API.getImg(this.minetokenToken.logo) },
+        /* <!--  Meta for OpenGraph --> */
+        { hid: 'og:site_name', name: 'og:site_name', property: 'og:site_name', content: '瞬MATATAKI' },
+        { hid: 'og:title', name: 'og:title', property: 'og:title', content: `${this.minetokenToken.symbol}-${this.minetokenToken.name}` },
+        { hid: 'og:type', name: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:url', name: 'og:url', property: 'og:url', content: `${process.env.VUE_APP_PC_URL}/token/${this.$route.params.id}` },
+        { hid: 'og:image', name: 'og:image', property: 'og:image', content: this.$API.getImg(this.minetokenToken.logo) },
+        { hid: 'og:description', name: 'description', property: 'og:description', content: `${this.minetokenToken.brief}` || `${this.minetokenToken.symbol}-${this.minetokenToken.name}` }
+        /* end */
+      ],
+      link: [
+        { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css' }
+      ]
+    }
+  },
+  async asyncData({ $axios, route, req }) {
+    // 获取cookie token
+    let accessToekn = ''
+    // 请检查您是否在服务器端
+    if (process.server) {
+      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
+      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
+      accessToekn = token ? token[0] : ''
+    }
+    const res = await $axios({
+      url: `/minetoken/${route.params.id}`,
+      methods: 'get',
+      headers: { 'x-access-token': accessToekn }
+    })
+
+    if (res.code === 0) {
+      return {
+        minetokenToken: res.data.token || Object.create(null),
+        minetokenUser: res.data.user || Object.create(null),
+        minetokenExchange: res.data.exchange || Object.create(null)
+      }
+    } else {
+      console.error(res.message)
+    }
+  },
+  data() {
+    return {
+      showTokenSetting: false,
+      balance: 0
+    }
+  },
+  computed: {
+    ...mapGetters(['currentUserInfo', 'isLogined']),
+    tokenAvatar() {
+      if (!this.minetokenToken.logo) return ''
+      return this.minetokenToken.logo
+        ? this.$ossProcess(this.minetokenToken.logo, { h: 200 })
+        : ''
+    },
+    userAvatar() {
+      if (!this.minetokenUser.avatar) return ''
+      return this.minetokenUser.avatar
+        ? this.$ossProcess(this.minetokenUser.avatar, { h: 60 })
+        : ''
+    }
+  },
+  watch: {
+    isLogined(newVal) {
+      if (newVal) {
+        this.getUserBalance()
+      }
+    }
+  },
+  mounted() {
+    if (process.browser) {
+      if (this.currentUserInfo.id) this.tokenUserId(this.currentUserInfo.id)
+      if (this.isLogined) this.getUserBalance()
+    }
+  },
+  methods: {
+    async tokenUserId(id) {
+      await this.$API
+        .tokenUserId(id)
+        .then(res => {
+          if (res.code === 0 && res.data.id > 0) {
+            this.showTokenSetting = res.data.id === Number(this.$route.params.id)
+          }
+        })
+        .catch(err => console.log('get token user error', err))
+    },
+    async getUserBalance() {
+      await this.$API.getUserBalance(Number(this.$route.params.id)).then(res => {
+        if (res.code === 0) {
+          this.balance = parseFloat(utils.fromDecimal(res.data, 4))
+        } else console.log(res.message)
+      })
+    },
+  }
 }
 </script>
 
 <style lang="less" scoped>
-// common
-.token-list {
-  margin: 40px 0 0 0;
-}
-.token-title {
-  font-size:24px;
-  font-weight:500;
-  color:rgba(255,255,255,1);
-  line-height:33px;
-  padding: 0;
-  margin: 0;
-}
-// common end
-
 
 .token {
   padding: 60px 0 0 0;
@@ -91,25 +193,67 @@ export default {
 }
 .token-main {
   max-width: 1200px;
-  padding: 0 20px;
+  padding: 0 20px 60px;
   margin: 0 auto;
 }
 
+.token-banner {
+  height: 290px;
+  margin-top: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
 
 .token-head {
   display: flex;
-  align-items: flex-end;
   justify-content: space-between;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 .head-user {
     display: flex;
     align-items: center;
-  .components-avatar {
+    max-width: 70%;
+  .token-avatar {
     width: 120px;
     height: 120px;
     border-radius: 8px;
+    flex: 0 0 120px;
+  }
+  .user-avatar {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    margin-left: 5px;
+  }
+}
+.head-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  & > div {
+    display: flex;
+    justify-content: flex-end;
+    a {
+      float: left;
+      display: block;
+      margin-left: 20px;
+      &:nth-child(1) {
+        margin-left: 0;
+      }
+    }
+    &::after {
+      display: block;
+      content: '';
+      width: 0;
+      height: 0;
+      clear: both;
+    }
   }
 }
 
@@ -123,16 +267,48 @@ export default {
   h2 {
     padding: 0;
     margin: 0;
-    font-size:48px;
-    font-weight:600;
+    font-size:24px;
+    font-weight:500;
     color:rgba(255,255,255,1);
-    line-height:67px;
+    line-height:33px;
+  }
+  .head-user__founder {
+    display: flex;
+    align-items: center;
+
+    font-size:16px;
+    font-weight:400;
+    color:rgba(178,178,178,1);
+    line-height:22px;
+
+    span {
+      font-size:16px;
+      font-weight:400;
+      color:rgba(255,255,255,1);
+      line-height:22px;
+      margin-left: 5px;
+    }
+  }
+
+  p {
+    padding: 0;
+    margin: 0;
+    font-size:16px;
+    font-weight:400;
+    color:rgba(178,178,178,1);
+    line-height:22px;
+    max-height: 44px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-all;
   }
 
   .dao__info__number {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     font-size:20px;
     font-weight:500;
     color:rgba(255,255,255,1);
@@ -143,31 +319,54 @@ export default {
       white-space: nowrap;
       text-overflow: ellipsis;
       margin-left: 26px;
+
+      font-size:16px;
+      font-weight:400;
+      color:rgba(255,255,255,1);
+      line-height:22px;
+
       &:nth-child(1) {
         margin-left: 0;
       }
     }
     .icon {
-      font-size: 30px;
+      font-size: 20px;
     }
   }
 }
 
 .head-amount {
-  font-size: 20px;
-  font-weight: 500;
-  color: rgba(255,255,255,1);
-  line-height: 28px;
+  font-size:16px;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:22px;
 }
 
 
-
-.token-brief {
-  padding: 20px 0 0;
-  margin: 0;
-  font-size:20px;
-  font-weight:400;
-  color:rgba(255,255,255,1);
-  line-height:30px;
+.token-nav {
+  margin: 40px 0 0 0;
+  display: flex;
+  align-items: center;
+  a {
+    padding: 0 0 5px 0;
+    margin: 0 0 0 68px;
+    display: block;
+    font-size:20px;
+    font-weight:500;
+    color:rgba(178,178,178,1);
+    line-height:28px;
+    box-sizing: border-box;
+    border-bottom: 3px solid transparent;
+    &:hover {
+      color: #fff;
+    }
+    &.active {
+      color: #fff;
+      border-bottom-color: #6236FF;
+    }
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+  }
 }
 </style>

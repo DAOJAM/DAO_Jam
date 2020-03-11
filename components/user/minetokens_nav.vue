@@ -52,23 +52,23 @@ export default {
   padding: 0;
   display: flex;
   a {
-    font-size: 18px;
-    line-height:33px;
     text-decoration: none;
     margin-right: 40px;
     cursor: pointer;
-    color: #333;
-    opacity: 0.8;
+    color: #B2B2B2;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 18px;
+    font-weight:400;
+    line-height:28px;
+
     &:last-child {
       margin-right: 0;
     }
     &.active {
-      font-weight:bold;
-      color:rgba(0,0,0,1);
+      color:#fff;
     }
   }
 }
