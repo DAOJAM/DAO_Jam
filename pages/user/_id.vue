@@ -32,8 +32,8 @@
 
 
       <nav class="user-nav">
-        <n-link :to="{name: 'user-id', params: { id: $route.params.id }}" :class="$route.name === 'user-id' && 'active'">INFORMATION</n-link>
-        <n-link :to="{name: 'user-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'user-id-capital' && 'active'">CAPITAL</n-link>
+        <n-link :to="{name: 'user-id', params: { id: $route.params.id }}" :class="$route.name === 'user-id' && 'active'">Information</n-link>
+        <n-link :to="{name: 'user-id-relationship', params: { id: $route.params.id }}" :class="$route.name === 'user-id-relationship' && 'active'">Relationship</n-link>
         <n-link :to="{name: 'user-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'user-id-capital' && 'active'">CAPITAL</n-link>
         <n-link :to="{name: 'user-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'user-id-capital' && 'active'">CAPITAL</n-link>
       </nav>
@@ -127,7 +127,7 @@ export default {
 
 .user-main {
   max-width: 1200px;
-  padding: 0 20px 60px;
+  padding: 0 20px 140px;
   margin: 0 auto;
 }
 

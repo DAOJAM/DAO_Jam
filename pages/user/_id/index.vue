@@ -114,9 +114,6 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.user.userInfo
-    }),
     ...mapGetters(['isMe', 'currentUserInfo'])
   },
   mounted() {

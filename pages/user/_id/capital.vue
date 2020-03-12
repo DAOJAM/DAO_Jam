@@ -20,5 +20,12 @@
   color:rgba(255,255,255,1);
   line-height:28px;
 }
+.user-not {
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+}
+
 // common end
 </style>
