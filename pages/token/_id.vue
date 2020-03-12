@@ -14,8 +14,10 @@
             <h2>{{ minetokenToken.symbol }} - {{ minetokenToken.name }}</h2>
             <div class="head-user__founder">
               Founder:
-              <avatar :src="userAvatar" class="user-avatar"></avatar>
-              <span>{{ minetokenUser.nickname || minetokenUser.username || '&nbsp;' }}</span>
+              <router-link :to="{name: 'user-id', params: {id: minetokenToken.uid}}">
+                <avatar :src="userAvatar" class="user-avatar"></avatar>
+                <span>{{ minetokenUser.nickname || minetokenUser.username || '&nbsp;' }}</span>
+              </router-link>
             </div>
             <p>
               {{ minetokenToken.brief || '暂无' }}
@@ -339,6 +341,11 @@ export default {
     font-weight:400;
     color:rgba(178,178,178,1);
     line-height:22px;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
 
     span {
       font-size:16px;
