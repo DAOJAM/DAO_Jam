@@ -19,8 +19,8 @@
       <!-- todo -->
       <div class="dao">
         <div class="dao-list">
-          <router-link :to="{name: 'token-id', params: { id: item.id }}"  class="dao-block" v-for="(item, index) in pull.list" :key="index">
-            <avatar :src="cover(item.avatar)"></avatar>
+          <router-link :to="{name: 'token-id', params: { id: item.token_id }}"  class="dao-block" v-for="(item, index) in pull.list" :key="index">
+            <avatar :src="cover(item.logo)"></avatar>
             <p>{{item.symbol}}</p>
           </router-link>
         </div>

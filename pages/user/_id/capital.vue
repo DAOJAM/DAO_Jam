@@ -3,6 +3,9 @@
     <div class="user-list">
       <h2 class="user-title">Detail</h2>
       <!-- todo -->
+      <div class="detail">
+
+      </div>
     </div>
   </div>
 </template>
@@ -28,4 +31,10 @@
 }
 
 // common end
+.detail {
+  background:rgba(19,45,94,1);
+  border-radius:8px;
+  margin-top: 20px;
+  height: 500px;
+}
 </style>
