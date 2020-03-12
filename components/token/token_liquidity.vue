@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-loading="loading" class="coins">
+    <div v-loading="loading" class="token-coins coins">
       <minetokenCardLiquidity :card="pull.list" :decimals="4" @sort-changed="toggleSort" />
     </div>
     <user-pagination
@@ -82,6 +82,10 @@ export default {
 </script>
 
 <style scoped>
+.token-coins {
+  margin-left: -10px;
+  margin-right: -10px;
+}
 .pagination {
   margin-top: 40px;
 }

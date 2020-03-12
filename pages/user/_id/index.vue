@@ -1,146 +1,290 @@
-
 <template>
-  <userPage>
-    <div slot="list" v-loading="loading">
-      <no-content-prompt :list="articleCardData.articles">
-        <div
-          class="dao-list"
-          v-for="(item, index) in articleCardData.articles"
-          :key="index"
-        >
-          <avatar :src="cover(item.avatar)"></avatar>
-          <div>{{item.symbol}}-{{item.name}}</div>
-        </div>
-        <user-pagination
-          v-show="!loading"
-          :current-page="currentPage"
-          :params="articleCardData.params"
-          :api-url="articleCardData.apiUrl"
-          :page-size="articleCardData.params.pagesize"
-          :total="total"
-          @paginationData="paginationData"
-          @togglePage="togglePage"
-          class="pagination"
-        />
-      </no-content-prompt>
+  <div>
+
+    <div class="user-list">
+      <h2 class="user-title">Brief Introduction</h2>
+      <p class="user-brief">{{ userInfo.introduction || '暂无' }}</p>
     </div>
-  </userPage>
+
+    <div class="user-list">
+      <h2 class="user-title">Abillities and Skills</h2>
+      <!-- todo -->
+      <div style="height: 400px;background-color: #132D5E;margin-top: 20px;"></div>
+    </div>
+
+    <div class="user-list">
+      <h2 class="user-title">Tags</h2>
+      <div class="user-tags">
+        <el-tag v-for="(item, index) in tags" :key="index" class="tag">
+          <svg-icon icon-class="tag"></svg-icon>
+          {{item}}
+        </el-tag>
+        <p class="user-not" v-if="tags.length === 0">暂无</p>
+      </div>
+    </div>
+
+    <div class="user-list">
+      <h2 class="user-title">Personal Website</h2>
+      <div class="user-website">
+        <a v-for="(item, index ) in urls" :key="index" :href="formatUrl(item)" target="_blank">{{ item }} </a>
+        <p class="user-not" v-if="urls.length === 0">暂无</p>
+      </div>
+    </div>
+
+    <div class="user-list">
+      <h2 class="user-title">Award Records</h2>
+      <!-- todo -->
+      <div class="award">
+        <p class="user-not">暂无</p>
+      </div>
+    </div>
+
+    <div class="user-list">
+      <h2 class="user-title">Contact of SNS</h2>
+      <div class="user-social">
+        <socialIcon v-for="(item, index) in social" :key="index"  :icon="item.icon" :show-tooltip="true" :content="item.content" />
+        <p class="user-not" v-if="social.length === 0">暂无</p>
+      </div>
+    </div>
+
+  </div>
 </template>
 
+
 <script>
-import userPage from '@/components/user/user_page.vue'
-import userPagination from '@/components/user/user_pagination.vue'
-import { extractChar } from '@/utils/reg'
-import avatar from '@/common/components/avatar/index.vue'
+import { mapState, mapActions, mapGetters } from 'vuex'
+// import avatar from '@/common/components/avatar/index.vue'
+// import followBtn from '@/components/follow_btn'
+import socialIcon from '@/components/social_icon/index.vue'
 
 export default {
   components: {
-    userPage,
-    userPagination,
-    avatar
-  },
-  head() {
-    return {
-      title: `${this.userData.nickname || this.userData.name}的个人主页`,
-      meta: [
-        { hid: 'description', name: 'description', content: `${this.userData.introduction}` },
-        /* <!--  Meta for Twitter Card --> */
-        { hid: 'twitter:card', name: 'twitter:card', property: 'twitter:card', content: 'summary' },
-        { hid: 'twitter:site', name: 'twitter:site', property: 'twitter:site', content: '@Andoromeda' },
-        { hid: 'twitter:title', name: 'twitter:title', property: 'twitter:title', content: `${this.userData.nickname || this.userData.name}的个人主页` },
-        { hid: 'twitter:description', name: 'description', property: 'twitter:description', content: `${this.userData.introduction}` },
-        { hid: 'twitter:url', name: 'twitter:url', property: 'twitter:url', content: `${process.env.VUE_APP_PC_URL}/user/${this.$route.params.id}` },
-        { hid: 'twitter:image', name: 'twitter:image', property: 'twitter:image', content: this.$API.getImg(this.userData.avatar) },
-        /* <!--  Meta for OpenGraph --> */
-        { hid: 'og:site_name', name: 'og:site_name', property: 'og:site_name', content: '瞬MATATAKI' },
-        { hid: 'og:title', name: 'og:title', property: 'og:title', content: `${this.userData.nickname || this.userData.name}的个人主页` },
-        { hid: 'og:type', name: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:url', name: 'og:url', property: 'og:url', content: `${process.env.VUE_APP_PC_URL}/user/${this.$route.params.id}` },
-        { hid: 'og:image', name: 'og:image', property: 'og:image', content: this.$API.getImg(this.userData.avatar) },
-        { hid: 'og:description', name: 'description', property: 'og:description', content: `${this.userData.introduction}` }
-        /* end */
-      ],
-      link: [
-        { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css' }
-      ]
-    }
+    // avatar,
+    // followBtn,
+    socialIcon,
   },
   data() {
     return {
-      articleCardData: {
-        params: {
-          userId: this.$route.params.id,
-          pagesize: 20,
-          order: 0
+      userInfo: Object.create(null), // 用户信息
+      tags: [], // tag
+      urls: [], // website
+      social: [],
+      socialTemplate: [
+        {
+          icon: 'Email',
+          type: 'email',
+          content: ''
         },
-        apiUrl: 'daothonTokenlist',
-        articles: []
-      },
-      currentPage: Number(this.$route.query.page) || 1,
-      loading: false, // 加载数据
-      total: 0,
-      userData: Object.create(null)
+        {
+          icon: 'QQ',
+          type: 'qq',
+          content: ''
+        },
+        {
+          icon: 'Wechat',
+          type: 'wechat',
+          content: ''
+        },
+        {
+          icon: 'Weibo',
+          type: 'weibo',
+          content: ''
+        },
+        {
+          icon: 'Telegram',
+          type: 'telegram',
+          content: ''
+        },
+        {
+          icon: 'Twitter',
+          type: 'twitter',
+          content: ''
+        },
+        {
+          icon: 'Facebook',
+          type: 'facebook',
+          content: ''
+        },
+        {
+          icon: 'Github',
+          type: 'github',
+          content: ''
+        }
+      ],
     }
   },
-  async asyncData({ $axios, route, req }) {
-    // 获取cookie token
-    let accessToekn = ''
-    // 请检查您是否在服务器端
-    if (process.server) {
-      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
-      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
-      accessToekn = token ? token[0] : ''
-    }
-    const res = await $axios({
-      url: `/user/${route.params.id}`,
-      methods: 'get',
-      headers: { 'x-access-token': accessToekn }
-    })
-    // console.log('用户的信息：', res)
-    // 判断是否为付费阅读文章
-    if (res.code === 0) {
-      return {
-        userData: res.data || Object.create(null)
-      }
-    } else {
-      console.error(res.message)
+  computed: {
+    ...mapGetters(['isMe', 'currentUserInfo'])
+  },
+  mounted() {
+    if (process.browser) {
+      this.refreshUser({ id: this.$route.params.id })
+      this.getUserData()
     }
   },
   methods: {
-    cover(src) {
-      if (!src) return ''
-      return src ? this.$ossProcess(src, { h: 90 }) : ''
-    },
-    paginationData(res) {
-      this.articleCardData.articles = res.data.list
-      this.total = res.data.count || 0
-      this.loading = false
-    },
-    togglePage(i) {
-      this.loading = true
-      this.articleCardData.articles = []
-      this.currentPage = i
-      this.$router.push({
-        query: {
-          page: i
+    ...mapActions('user', ['refreshUser', 'followOrUnfollowUser']),
+    async getUserData() {
+      
+      // 工厂函数 返回接口数据
+      const factory = async api => {
+        try {
+          const res = await api
+          if (res.code === 0) {
+            return res.data
+          } else {
+            console.log(res.message)
+            return
+          }
+        } catch (error) {
+          console.log(error)
+          return
         }
-      })
+      }
+
+      // get user info
+      const userInfo = await factory(this.$API.getUser(this.$route.params.id))
+      this.userInfo = userInfo || Object.create(null)
+
+
+      // tags
+      try {
+        this.tags.length = 0
+
+        // 获取自己的job
+        const daoUserJob = await factory(this.$API.getDaoUserJob({
+          uid: this.currentUserInfo.id
+        }))
+
+        let job = daoUserJob.map(i => i.text_english)
+
+        this.tags.push(...job)
+
+
+        // 获取自己的skill
+        const daoUserSkill = await factory(this.$API.getDaoUserSkill({
+          uid: this.currentUserInfo.id
+        }))
+        
+        let skill = daoUserSkill.map(i => i.text_english)
+
+        this.tags.push(...skill)
+
+      } catch (error) {
+        console.log(error)
+      }
+
+
+      // website social
+      try {
+        const resLinks = await factory(this.$API.getUserLinks({
+          id: this.$route.params.id
+        }))
+
+        this.urls = resLinks.websites
+
+        resLinks.socialAccounts.forEach(item => {
+          this.socialTemplate.find(age => age.type === item.type).content = item.value
+        })
+        this.social = this.socialTemplate.filter(age => age.content !== '' && age.content != null)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    formatUrl(url) {
+      const isHttp = url.indexOf('http://')
+      const isHttps = url.indexOf('https://')
+      if (isHttp !== 0 && isHttps !== 0) url = 'http://' + url
+      return url
     }
   }
 }
 </script>
 
-
 <style lang="less" scoped>
-.pagination {
-  padding: 40px 5px;
+
+// common
+.user-list {
+  margin: 40px 0 0 0;
+}
+.user-title {
+  padding: 0;
+  margin: 0;
+  font-size:20px;
+  font-weight:500;
+  color:rgba(255,255,255,1);
+  line-height:28px;
+}
+.user-not {
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  color: #fff;
 }
 
-.dao-list {
-  margin: 0 0 10px;
-  border: 1px solid #f1f1f1;
-  background: #fff;
-  border-radius: 2px;
-  padding: 10px;
+// common end
+
+.user-brief {
+  color: #fff;
+  padding: 0;
+  margin: 20px 0 0 0;
+  font-size:16px;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:30px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.user-tags {
+  margin: 20px 0 0 0;
+  .tag {
+    margin-right: 10px;
+    background-color: #1C4085;
+    border-color: #1C4085;
+    color: #fff;
+    font-size: 16px;
+  }
+}
+
+.user-website {
+  margin-top: 20px;
+  a {
+    display: block;
+    text-decoration: underline;
+    margin-top: 10px;
+    font-size:16px;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:22px;
+    &:nth-child(1) {
+      margin-top: 0;
+    }
+  }
+}
+
+.award {
+  margin: 20px 0 0;
+}
+.user-social {
+  margin-top: 20px;
+  .social-icon {
+    float: left;
+    margin-left: 20px;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+  }
+
+  &::after {
+    display: block;
+    content: '';
+    width: 0;
+    height: 0;
+    clear: both;
+  }
 }
 </style>

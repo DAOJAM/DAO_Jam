@@ -5,7 +5,7 @@
     :close-on-click-modal="false"
     @closed="() => {step = 1; isLogin = true}"
     width="380px"
-    custom-class="my-dialog br10"
+    custom-class="auth-dialog br10"
   >
     <section v-show="step === 1" class="auth-main">
       <div class="auth-title-container">
@@ -79,4 +79,25 @@ export default {
 </script>
 
 <style src="./auth.less" lang="less" scoped>
+</style>
+
+<style lang="less">
+.el-dialog.auth-dialog {
+  background-color: #132D5E;
+  .el-dialog__close.el-icon-close {
+    color: #fff;
+  }
+}
+
+.ss-btn {
+  button {
+    width: 300px;
+    background-color: #6236FF;
+    border-color: #6236FF;
+    &:hover, &:active, &:focus {
+      background-color: #6236FF;
+      border-color: #6236FF;
+    }
+  }
+}
 </style>

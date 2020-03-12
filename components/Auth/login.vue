@@ -318,6 +318,12 @@ export default {
   .red {
     color: #fb6877;
   }
+  a {
+    color: #fff;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 .oauth-box {
   display: flex;
@@ -327,7 +333,7 @@ export default {
   text-align: center;
   .oauth-title {
     font-size: 16px;
-    color: #000000;
+    color: #f1f1f1;
     margin: 20px 0 20px;
     font-weight: 400;
   }

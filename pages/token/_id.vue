@@ -1,29 +1,113 @@
 <template>
-  <layout v-model="tabPage" :minetoken-token="minetokenToken" :minetoken-user="minetokenUser" :minetoken-exchange="minetokenExchange">
-    <tokenFanCoins v-if="tabPage === 0" />
-    <tokenFanCoinsDetail v-if="tabPage === 1" />
-    <tokenLiquidity v-if="tabPage === 2" />
-    <tokenLiquidityDetail v-if="tabPage === 3" :token="minetokenToken" />
-  </layout>
+  <div class="token">
+    <g-header></g-header>
+    <div class="token-main">
+
+      <div class="token-banner">
+        <img src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg" alt="banner">
+      </div>
+
+      <div class="token-head">
+        <div class="head-user">
+          <avatar :src="tokenAvatar" class="token-avatar"></avatar>
+          <div class="head-user__info">
+            <h2>{{ minetokenToken.symbol }} - {{ minetokenToken.name }}</h2>
+            <div class="head-user__founder">
+              Founder:
+              <router-link :to="{name: 'user-id', params: {id: minetokenToken.uid}}">
+                <avatar :src="userAvatar" class="user-avatar"></avatar>
+                <span>{{ minetokenUser.nickname || minetokenUser.username || '&nbsp;' }}</span>
+              </router-link>
+            </div>
+            <p>
+              {{ minetokenToken.brief || '暂无' }}
+            </p>
+            <div class="dao__info__number">
+              <div class="dao__info__number__block">
+                <svg-icon icon-class="members" class="icon"></svg-icon>
+                {{ 0 }}
+              </div>
+              <div class="dao__info__number__block">
+                <svg-icon icon-class="daos" class="icon"></svg-icon>
+                {{ cnyReserve }}
+              </div>
+              <div class="dao__info__number__block">
+                <svg-icon icon-class="tickets" class="icon"></svg-icon>
+                {{ totalSupply }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="head-info">
+          <div>
+            <a :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address" target="_blank" class="head-btn">
+              <el-button class="link-btn" size="small">
+                <svg-icon icon-class="eth_mini" />
+                链上查看
+              </el-button>
+            </a>
+            <router-link v-if="showTokenSetting" :to="{ name: 'editminetoken' }" class="head-btn">
+              <el-button class="btn" size="small" icon="el-icon-setting">
+                管理
+              </el-button>
+            </router-link>
+            <el-button @click="shareModalShow = true" size="small" class="head-btn">
+              <svg-icon icon-class="share_new" />
+              分享
+            </el-button>
+          </div>
+          <div>
+            <router-link class="head-btn" :to="{name: 'exchange', hash: '#swap', query: { output: minetokenToken.symbol }}">
+              <el-button size="small">
+                交易Fan票
+              </el-button>
+            </router-link>
+            <el-button class="head-btn" size="small" icon="el-icon-setting" @click="buyDialog = true">
+              购买
+            </el-button>
+          </div>
+          <span class="head-amount">
+            已持有：{{ balance }} {{ minetokenToken.symbol }}
+          </span>
+        </div>
+
+      </div>
+      <nav class="token-nav">
+        <n-link :to="{name: 'token-id', params: { id: $route.params.id }}" :class="$route.name === 'token-id' && 'active'">INFORMATION</n-link>
+        <n-link :to="{name: 'token-id-progress', params: { id: $route.params.id }}" :class="$route.name === 'token-id-progress' && 'active'">PROGRESS</n-link>
+        <n-link :to="{name: 'token-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'token-id-capital' && 'active'">CAPITAL</n-link>
+      </nav>
+      <router-view></router-view>
+    </div>
+
+    <Share
+      :share-modal-show="shareModalShow"
+      :img="logo"
+      :minetoken-token="minetokenToken"
+      :minetoken-user="minetokenUser"
+      @input="val => shareModalShow = val"
+    />
+    <m-dialog v-model="buyDialog" width="600px" title="购买">
+      <tokenBuyCard :token="minetokenToken" />
+    </m-dialog>
+  </div>
 </template>
 
 <script>
-// import userPagination from '@/components/user/user_pagination.vue'
-// import minetokenCard from '@/components/user/minetoken_card'
-import layout from '@/components/token/token_layout.vue'
-import tokenFanCoins from '@/components/token/token_fan_coins'
-import tokenFanCoinsDetail from '@/components/token/token_fan_coins_detail'
-import tokenLiquidity from '@/components/token/token_liquidity'
-import tokenLiquidityDetail from '@/components/token/token_liquidity_detail'
+import avatar from '@/common/components/avatar/index.vue'
+import { mapGetters } from 'vuex'
 import { extractChar } from '@/utils/reg'
+import utils from '@/utils/utils'
+import { precision } from '@/utils/precisionConversion'
+import Share from '@/components/token/token_share.vue'
+import tokenBuyCard from '@/components/token/token_buy_card.vue'
+
 
 export default {
   components: {
-    layout,
-    tokenFanCoins,
-    tokenFanCoinsDetail,
-    tokenLiquidity,
-    tokenLiquidityDetail
+    avatar,
+    Share,
+    tokenBuyCard,
   },
   head() {
     return {
@@ -51,14 +135,6 @@ export default {
       ]
     }
   },
-  data() {
-    return {
-      tabPage: Number(this.$route.query.tab) || 0,
-      minetokenToken: Object.create(null),
-      minetokenUser: Object.create(null),
-      minetokenExchange: Object.create(null)
-    }
-  },
   async asyncData({ $axios, route, req }) {
     // 获取cookie token
     let accessToekn = ''
@@ -84,10 +160,279 @@ export default {
       console.error(res.message)
     }
   },
+  data() {
+    return {
+      showTokenSetting: false, // 显示设置按钮
+      balance: 0, // 余额
+      shareModalShow: false, // share dialog
+      buyDialog: false // buy dialog
+    }
+  },
+  computed: {
+    ...mapGetters(['currentUserInfo', 'isLogined']),
+    logo() {
+      if (!this.minetokenToken.logo) return ''
+      return this.minetokenToken.logo
+        ? this.$ossProcess(this.minetokenToken.logo, { h: 160 })
+        : ''
+    },
+    // 转换k
+    totalSupply() {
+      let amount = this.amount
+      return amount < 10000 ? amount : amount / 1000 + 'K'
+    },
+    amount() {
+      const tokenamount = precision(
+        this.minetokenToken.total_supply || 0,
+        'CNY',
+        this.minetokenToken.decimals
+      )
+      return this.$publishMethods.formatDecimal(tokenamount, 4)
+    },
+    cnyReserve() {
+      const tokenamount = precision(
+        this.minetokenExchange.cny_reserve || 0,
+        'CNY',
+        this.minetokenToken.decimals
+      )
+      return this.$publishMethods.formatDecimal(tokenamount, 4)
+    },
+    tokenAvatar() {
+      if (!this.minetokenToken.logo) return ''
+      return this.minetokenToken.logo
+        ? this.$ossProcess(this.minetokenToken.logo, { h: 200 })
+        : ''
+    },
+    userAvatar() {
+      if (!this.minetokenUser.avatar) return ''
+      return this.minetokenUser.avatar
+        ? this.$ossProcess(this.minetokenUser.avatar, { h: 60 })
+        : ''
+    }
+  },
+  watch: {
+    isLogined(newVal) {
+      if (newVal) {
+        this.getUserBalance()
+      }
+    }
+  },
+  mounted() {
+    if (process.browser) {
+      if (this.currentUserInfo.id) this.tokenUserId(this.currentUserInfo.id)
+      if (this.isLogined) this.getUserBalance()
+    }
+  },
   methods: {
+    async tokenUserId(id) {
+      await this.$API
+        .tokenUserId(id)
+        .then(res => {
+          if (res.code === 0 && res.data.id > 0) {
+            this.showTokenSetting = res.data.id === Number(this.$route.params.id)
+          }
+        })
+        .catch(err => console.log('get token user error', err))
+    },
+    async getUserBalance() {
+      await this.$API.getUserBalance(Number(this.$route.params.id)).then(res => {
+        if (res.code === 0) {
+          this.balance = parseFloat(utils.fromDecimal(res.data, 4))
+        } else console.log(res.message)
+      })
+    },
   }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+
+.token {
+  padding: 60px 0 0 0;
+  min-height: calc(100% - (60px + 200px));
+  background-color: #0E2144;
+}
+.token-main {
+  max-width: 1200px;
+  padding: 0 20px 60px;
+  margin: 0 auto;
+}
+
+.token-banner {
+  height: 290px;
+  margin-top: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.token-head {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.head-user {
+    display: flex;
+    align-items: center;
+    max-width: 70%;
+  .token-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    flex: 0 0 120px;
+  }
+  .user-avatar {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    margin-left: 5px;
+  }
+}
+.head-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  & > div {
+    display: flex;
+    justify-content: flex-end;
+    .head-btn {
+      float: left;
+      display: block;
+      margin-left: 20px;
+      &:nth-child(1) {
+        margin-left: 0;
+      }
+    }
+    &::after {
+      display: block;
+      content: '';
+      width: 0;
+      height: 0;
+      clear: both;
+    }
+  }
+}
+
+.head-user__info {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 20px;
+
+  h2 {
+    padding: 0;
+    margin: 0;
+    font-size:24px;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:33px;
+  }
+  .head-user__founder {
+    display: flex;
+    align-items: center;
+
+    font-size:16px;
+    font-weight:400;
+    color:rgba(178,178,178,1);
+    line-height:22px;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+    span {
+      font-size:16px;
+      font-weight:400;
+      color:rgba(255,255,255,1);
+      line-height:22px;
+      margin-left: 5px;
+    }
+  }
+
+  p {
+    padding: 0;
+    margin: 0;
+    font-size:16px;
+    font-weight:400;
+    color:rgba(178,178,178,1);
+    line-height:22px;
+    max-height: 44px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  .dao__info__number {
+    display: flex;
+    align-items: center;
+    font-size:20px;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:28px;
+
+    .dao__info__number__block {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-left: 26px;
+
+      font-size:16px;
+      font-weight:400;
+      color:rgba(255,255,255,1);
+      line-height:22px;
+
+      &:nth-child(1) {
+        margin-left: 0;
+      }
+    }
+    .icon {
+      font-size: 20px;
+    }
+  }
+}
+
+.head-amount {
+  font-size:16px;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:22px;
+}
+
+
+.token-nav {
+  margin: 40px 0 0 0;
+  display: flex;
+  align-items: center;
+  a {
+    padding: 0 0 5px 0;
+    margin: 0 0 0 68px;
+    display: block;
+    font-size:20px;
+    font-weight:500;
+    color:rgba(178,178,178,1);
+    line-height:28px;
+    box-sizing: border-box;
+    border-bottom: 3px solid transparent;
+    &:hover {
+      color: #fff;
+    }
+    &.active {
+      color: #fff;
+      border-bottom-color: #6236FF;
+    }
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+  }
+}
 </style>

@@ -28,7 +28,7 @@
     >
       <template slot-scope="scope">
         <div class="invite-block">
-          <span class="time">{{ tokenAmount(scope.row.amount) }} ({{ percentage(scope.row.amount, scope.row.total_supply) }})</span>
+          <span class="amount">{{ tokenAmount(scope.row.amount) }} ({{ percentage(scope.row.amount, scope.row.total_supply) }})</span>
         </div>
       </template>
     </el-table-column>
@@ -84,12 +84,12 @@ export default {
 .username {
   margin-left: 10px;
   font-size: 16px;
-  color:#333;
+  color:#fff;
   flex: 1;
 }
-.time {
+.amount {
   font-size: 16px;
-  color:#333;
+  color:#fff;
 }
 .point {
   font-size: 16px;
@@ -101,6 +101,13 @@ export default {
 
 <style lang="less">
 .coins {
+  background-color: transparent;
+  .el-table thead {
+    color: #fff;
+  }
+  .el-table th, .el-table tr {
+    background-color: transparent;
+  }
   .el-table th>.cell {
     font-size: 16px !important;
     font-weight: 400 !important;
@@ -110,6 +117,10 @@ export default {
   }
   .el-table::before {
     height: 0;
+  }
+
+  .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background-color: mix(#122d5e, #000, 90%);
   }
 }
 </style>

@@ -21,7 +21,7 @@
                 <div class="dao-block__head">
                   <avatar :src="cover(item.logo)"></avatar>
                   <div class="dao-block__head__info">
-                    <h3>{{item.symbol}}</h3>
+                    <h3>{{item.symbol || '&nbsp;'}}</h3>
                     <div class="dao-block__info__number dao-number__one">
                       <div class="dao__info__number__block">
                         <svg-icon icon-class="members" class="icon"></svg-icon>
