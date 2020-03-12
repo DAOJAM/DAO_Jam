@@ -1,144 +1,71 @@
 <template>
-  <div class="user">
-    <g-header></g-header>
-    <main class="user-main">
-      <div class="user-head">
-        <div class="user-avatar">
-          <avatar :src="userInfo.avatar"></avatar>
-          <h1>{{ userInfo.name }}</h1>
-        </div>
-        <div class="user-edit">
-          <followBtn
-            v-if="!isMe(Number($route.params.id))"
-            :id="Number($route.params.id)"
-            class="follow"
-          />
-          <router-link v-else :to="{name: 'setting'}">
-            <el-button size="small" class="follow edit">
-              {{ $t('user.editProfile') }}
-            </el-button>
-          </router-link>
-          <el-button @click="shareModalShow = true" size="small" class="follow2">
-            <svg-icon icon-class="share_new" />
-            {{ $t('share') }}
-          </el-button>
-        </div>
+  <div>
+
+    <div class="user-list">
+      <h2 class="user-title">Brief Introduction</h2>
+      <p class="user-brief">{{ userInfo.introduction || '暂无' }}</p>
+    </div>
+
+    <div class="user-list">
+      <h2 class="user-title">Abillities and Skills</h2>
+      <!-- todo -->
+      <div style="height: 400px;background-color: #132D5E;margin-top: 20px;"></div>
+    </div>
+
+    <div class="user-list">
+      <h2 class="user-title">Tags</h2>
+      <div class="user-tags">
+        <el-tag v-for="(item, index) in tags" :key="index" class="tag">
+          <svg-icon icon-class="tag"></svg-icon>
+          {{item}}
+        </el-tag>
+        <p class="user-not" v-if="tags.length === 0">暂无</p>
       </div>
+    </div>
 
-      <div class="user-list">
-        <h2 class="user-title">Brief Introduction</h2>
-        <p class="user-brief">
-          And when I prophesied, Pelatiah the son of Benaiah died; and I fell on my face and cried out with a loud voice, and I said, Ah, Lord Jehovah! Are You making a full end to the remnant of Israel?And when I prophesied, Pelatiah the son of Benaiah died; and I fell on my face and cried out with a loud voice, and I said, Ah, Lord Jehovah! Are You making a full end to the remnant of Israel?And when I prophesied, Pelatiah the son of Benaiah died; and I fell on my face and cried out with a loud voice, and I said, Ah, Lord Jehovah! 
-        </p>
+    <div class="user-list">
+      <h2 class="user-title">Personal Website</h2>
+      <div class="user-website">
+        <a v-for="(item, index ) in urls" :key="index" :href="formatUrl(item)" target="_blank">{{ item }} </a>
+        <p class="user-not" v-if="urls.length === 0">暂无</p>
       </div>
+    </div>
 
-      <div class="user-list">
-        <h2 class="user-title">Address</h2>
-        <div v-if="userAddress">
-          <a :href="'http://rinkeby.etherscan.io/address/' + userAddress" target="_blank">
-            <el-button class="link-btn" size="small">
-              <svg-icon icon-class="eth_mini" />
-              链上查看
-            </el-button>
-          </a>
-        </div>
+    <div class="user-list">
+      <h2 class="user-title">Award Records</h2>
+      <!-- todo -->
+      <div class="award">
+        <p class="user-not">暂无</p>
       </div>
+    </div>
 
-      <div class="user-list">
-        <h2 class="user-title">Abillities and Skills</h2>
-        <!-- todo -->
-        <div style="height: 400px;"></div>
+    <div class="user-list">
+      <h2 class="user-title">Contact of SNS</h2>
+      <div class="user-social">
+        <socialIcon v-for="(item, index) in social" :key="index"  :icon="item.icon" :show-tooltip="true" :content="item.content" />
+        <p class="user-not" v-if="social.length === 0">暂无</p>
       </div>
+    </div>
 
-      <div class="user-list">
-        <h2 class="user-title">Tags</h2>
-        <div>
-          <el-tag v-for="(item, index) in tags" :key="index" style="margin-right: 10px;">
-            <i class="el-icon-price-tag"></i>
-            {{item}}
-          </el-tag>
-        </div>
-      </div>
-
-      <div class="user-list">
-        <h2 class="user-title">Personal Website</h2>
-        <!-- todo -->
-        <div>
-          <a v-for="(item, index ) in urls" :key="index" :href="formatUrl(item)" target="_blank">{{ item }} </a>
-        </div>
-      </div>
-
-      <div class="user-list">
-        <h2 class="user-title">Award Records</h2>
-        <!-- todo -->
-      </div>
-
-      <div class="user-list">
-        <h2 class="user-title">Contact of SNS </h2>
-        <!-- todo -->
-        <div v-for="(item, index) in social" :key="index" class="social-icons inline">
-          <socialIcon :icon="item.icon" :show-tooltip="true" :content="item.content" />
-        </div>
-      </div>
-
-      <div class="user-list">
-        <h2 class="user-title">Following</h2>
-        <!-- todo -->
-      </div>
-
-      <div class="user-list">
-        <h2 class="user-title">Followers</h2>
-        <!-- todo -->
-      </div>
-
-      <div class="user-list">
-        <h2 class="user-title">DAOs That He/She Organized</h2>
-        <!-- todo -->
-      </div>
-
-      <div class="user-list">
-        <h2 class="user-title">DAOs That He/She Joined</h2>
-        <!-- todo -->
-      </div>
-
-      <div class="user-list">
-        <h2 class="user-title">Details</h2>
-        <!-- todo -->
-      </div>
-
-
-
-
-    </main>
-    <Share
-      :share-modal-show="shareModalShow"
-      :minetoken-user="{nickname: userInfo.name}"
-      :page-type="1"
-      :img="userInfo.avatar"
-      @input="val => shareModalShow = val"
-    />
   </div>
 </template>
 
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import avatar from '@/common/components/avatar/index.vue'
-import followBtn from '@/components/follow_btn'
-import Share from '@/components/token/token_share.vue'
+// import avatar from '@/common/components/avatar/index.vue'
+// import followBtn from '@/components/follow_btn'
 import socialIcon from '@/components/social_icon/index.vue'
 
 export default {
   components: {
-    avatar,
-    followBtn,
+    // avatar,
+    // followBtn,
     socialIcon,
-    Share
   },
   data() {
     return {
-      shareModalShow: false, // share dialog
-      userAddress: '', // user address
+      userInfo: Object.create(null), // 用户信息
       tags: [], // tag
       urls: [], // website
       social: [],
@@ -218,6 +145,11 @@ export default {
         }
       }
 
+      // get user info
+      const userInfo = await factory(this.$API.getUser(this.$route.params.id))
+      this.userInfo = userInfo || Object.create(null)
+
+
       // tags
       try {
         this.tags.length = 0
@@ -245,15 +177,6 @@ export default {
         console.log(error)
       }
 
-      // user address
-      try {
-        // 获取自己的address
-        this.userAddress = await factory(this.$API.userAddress({
-          uid: this.currentUserInfo.id
-        }))
-      } catch (error) {
-        console.log(error)
-      }
 
       // website social
       try {
@@ -288,57 +211,83 @@ export default {
   margin: 40px 0 0 0;
 }
 .user-title {
-  font-size:24px;
-  font-weight:500;
-  color:rgba(255,255,255,1);
-  line-height:33px;
   padding: 0;
   margin: 0;
+  font-size:20px;
+  font-weight:500;
+  color:rgba(255,255,255,1);
+  line-height:28px;
 }
+.user-not {
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+}
+
 // common end
-
-.user {
-  padding: 60px 0 0 0;
-  min-height: calc(100% - (60px + 200px));
-  background-color: #0E2144;
-}
-
-.user-main {
-  max-width: 1200px;
-  padding: 0 20px;
-  margin: 0 auto;
-}
-
-.user-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 60px;
-}
-.user-avatar {
-  display: flex;
-  align-items: center;
-  .components-avatar {
-    width: 120px;
-    height: 120px;
-  }
-  h1 {
-    font-size:48px;
-    font-weight:500;
-    color:rgba(255,255,255,1);
-    line-height:67px;
-    margin-left: 20px;
-  }
-}
-
 
 .user-brief {
   color: #fff;
-  font-size:20px;
+  padding: 0;
+  margin: 20px 0 0 0;
+  font-size:16px;
   font-weight:400;
   color:rgba(255,255,255,1);
   line-height:30px;
-  padding: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.user-tags {
   margin: 20px 0 0 0;
+  .tag {
+    margin-right: 10px;
+    background-color: #1C4085;
+    border-color: #1C4085;
+    color: #fff;
+    font-size: 16px;
+  }
+}
+
+.user-website {
+  margin-top: 20px;
+  a {
+    display: block;
+    text-decoration: underline;
+    margin-top: 10px;
+    font-size:16px;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:22px;
+    &:nth-child(1) {
+      margin-top: 0;
+    }
+  }
+}
+
+.award {
+  margin: 20px 0 0;
+}
+.user-social {
+  margin-top: 20px;
+  .social-icon {
+    float: left;
+    margin-left: 20px;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+  }
+
+  &::after {
+    display: block;
+    content: '';
+    width: 0;
+    height: 0;
+    clear: both;
+  }
 }
 </style>

@@ -2,9 +2,7 @@
   <div>
     <div class="token-list">
       <h2 class="token-title">Brief Introduction</h2>
-      <p class="token-brief">
-        {{ minetokenToken.introduction || '暂无' }}
-      </p>
+      <p class="token-brief">{{ minetokenToken.introduction || '暂无' }}</p>
     </div>
 
     <div class="token-list">
