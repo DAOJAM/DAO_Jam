@@ -27,28 +27,42 @@
               </div>
               <div class="dao__info__number__block">
                 <svg-icon icon-class="daos" class="icon"></svg-icon>
-                {{ 0 }}
+                {{ cnyReserve }}
               </div>
               <div class="dao__info__number__block">
                 <svg-icon icon-class="tickets" class="icon"></svg-icon>
-                {{ 0 }}
+                {{ totalSupply }}
               </div>
             </div>
           </div>
         </div>
         <div class="head-info">
           <div>
-            <a :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address" target="_blank">
+            <a :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address" target="_blank" class="head-btn">
               <el-button class="link-btn" size="small">
                 <svg-icon icon-class="eth_mini" />
                 链上查看
               </el-button>
             </a>
-            <router-link v-if="showTokenSetting" :to="{ name: 'editminetoken' }">
-              <el-button type="primary" class="btn" size="small" icon="el-icon-setting">
+            <router-link v-if="showTokenSetting" :to="{ name: 'editminetoken' }" class="head-btn">
+              <el-button class="btn" size="small" icon="el-icon-setting">
                 管理
               </el-button>
             </router-link>
+            <el-button @click="shareModalShow = true" size="small" class="head-btn">
+              <svg-icon icon-class="share_new" />
+              分享
+            </el-button>
+          </div>
+          <div>
+            <router-link class="head-btn" :to="{name: 'exchange', hash: '#swap', query: { output: minetokenToken.symbol }}">
+              <el-button size="small">
+                交易Fan票
+              </el-button>
+            </router-link>
+            <el-button class="head-btn" size="small" icon="el-icon-setting" @click="buyDialog = true">
+              购买
+            </el-button>
           </div>
           <span class="head-amount">
             已持有：{{ balance }} {{ minetokenToken.symbol }}
@@ -63,6 +77,17 @@
       </nav>
       <router-view></router-view>
     </div>
+
+    <Share
+      :share-modal-show="shareModalShow"
+      :img="logo"
+      :minetoken-token="minetokenToken"
+      :minetoken-user="minetokenUser"
+      @input="val => shareModalShow = val"
+    />
+    <m-dialog v-model="buyDialog" width="600px" title="购买">
+      <tokenBuyCard :token="minetokenToken" />
+    </m-dialog>
   </div>
 </template>
 
@@ -71,11 +96,16 @@ import avatar from '@/common/components/avatar/index.vue'
 import { mapGetters } from 'vuex'
 import { extractChar } from '@/utils/reg'
 import utils from '@/utils/utils'
+import { precision } from '@/utils/precisionConversion'
+import Share from '@/components/token/token_share.vue'
+import tokenBuyCard from '@/components/token/token_buy_card.vue'
 
 
 export default {
   components: {
-    avatar
+    avatar,
+    Share,
+    tokenBuyCard,
   },
   head() {
     return {
@@ -130,12 +160,41 @@ export default {
   },
   data() {
     return {
-      showTokenSetting: false,
-      balance: 0
+      showTokenSetting: false, // 显示设置按钮
+      balance: 0, // 余额
+      shareModalShow: false, // share dialog
+      buyDialog: false // buy dialog
     }
   },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined']),
+    logo() {
+      if (!this.minetokenToken.logo) return ''
+      return this.minetokenToken.logo
+        ? this.$ossProcess(this.minetokenToken.logo, { h: 160 })
+        : ''
+    },
+    // 转换k
+    totalSupply() {
+      let amount = this.amount
+      return amount < 10000 ? amount : amount / 1000 + 'K'
+    },
+    amount() {
+      const tokenamount = precision(
+        this.minetokenToken.total_supply || 0,
+        'CNY',
+        this.minetokenToken.decimals
+      )
+      return this.$publishMethods.formatDecimal(tokenamount, 4)
+    },
+    cnyReserve() {
+      const tokenamount = precision(
+        this.minetokenExchange.cny_reserve || 0,
+        'CNY',
+        this.minetokenToken.decimals
+      )
+      return this.$publishMethods.formatDecimal(tokenamount, 4)
+    },
     tokenAvatar() {
       if (!this.minetokenToken.logo) return ''
       return this.minetokenToken.logo
@@ -239,7 +298,7 @@ export default {
   & > div {
     display: flex;
     justify-content: flex-end;
-    a {
+    .head-btn {
       float: left;
       display: block;
       margin-left: 20px;
