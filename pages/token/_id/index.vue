@@ -11,23 +11,24 @@
         <el-tooltip effect="dark" :content="item.text" placement="top" v-for="(item, index) in achievementList" :key="index" class="tooltip">
           <img :src="item.img" alt="item.text">
         </el-tooltip>
+        <p class="token-not" v-if="achievementList.length === 0">暂无</p>
       </div>
     </div>
 
     <div class="token-list">
       <h2 class="token-title">DAO Website</h2>
       <div class="website" v-if="resourcesWebsites.length !== 0">
-        <a  v-for="(item, index) in resourcesWebsites" :key="index" :href="formatUrl(item)">{{ item }}</a>
+        <a v-for="(item, index) in resourcesWebsites" :key="index" :href="formatUrl(item)">{{ item }}</a>
+        <p class="token-not" v-if="resourcesWebsites.length === 0">暂无</p>
       </div>
     </div>
 
     <div class="token-list">
       <h2 class="token-title">Contact of SNS </h2>
       <div class="contact">
-        <div v-if="resourcesSocialss.length !== 0" class="social-btn">
-          <div v-for="(item, index) in resourcesSocialss" :key="index" class="circle">
-            <socialIcon :show-tooltip="true" :icon="item.type" :content="item.content" />
-          </div>
+        <div class="social-btn">
+          <socialIcon v-for="(item, index) in resourcesSocialss" :key="index"  :show-tooltip="true" :icon="item.type" :content="item.content" />
+          <p class="token-not" v-if="resourcesSocialss.length === 0">暂无</p>
         </div>
       </div>
     </div>
@@ -35,15 +36,24 @@
     <div class="token-list">
       <h2 class="token-title">Join the fanclub of Telegram</h2>
       <!-- todo -->
+      <div class="group">
+        <p class="token-not">暂无</p>
+      </div>
     </div>
 
     <div class="token-list">
       <h2 class="token-title">Supporters</h2>
       <!-- todo -->
+      <div class="supporters">
+        <p class="token-not">暂无</p>
+      </div>
     </div>
 
     <div class="token-list">
       <h2 class="token-title">Projects (Github Link)</h2>
+      <div class="projects">
+        <p class="token-not">暂无</p>
+      </div>
       <!-- todo -->
     </div>
 
@@ -157,6 +167,13 @@ export default {
   color:rgba(255,255,255,1);
   line-height:28px;
 }
+.token-not {
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+}
+
 // common end
 
 
@@ -210,12 +227,10 @@ export default {
       height: 0;
       clear: both;
     }
-    .circle {
-      .social-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 30px;
-      }
+    .social-icon {
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
       float: left;
       margin-left: 20px;
       &:nth-child(1) {
@@ -223,5 +238,12 @@ export default {
       }
     }
   }
+}
+
+
+.group,
+.supporters,
+.projects {
+  margin-top: 20px;
 }
 </style>
