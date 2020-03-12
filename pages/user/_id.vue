@@ -34,7 +34,7 @@
       <nav class="user-nav">
         <n-link :to="{name: 'user-id', params: { id: $route.params.id }}" :class="$route.name === 'user-id' && 'active'">Information</n-link>
         <n-link :to="{name: 'user-id-relationship', params: { id: $route.params.id }}" :class="$route.name === 'user-id-relationship' && 'active'">Relationship</n-link>
-        <n-link :to="{name: 'user-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'user-id-capital' && 'active'">CAPITAL</n-link>
+        <n-link :to="{name: 'user-id-dao', params: { id: $route.params.id }}" :class="$route.name === 'user-id-dao' && 'active'">DAO</n-link>
         <n-link :to="{name: 'user-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'user-id-capital' && 'active'">CAPITAL</n-link>
       </nav>
       <router-view></router-view>
