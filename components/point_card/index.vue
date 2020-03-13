@@ -41,7 +41,7 @@ export default {
       } else if (this.asset.amount) {
         return '#41b37d'
       } else {
-        return '#000000'
+        return '#fff'
       }
     },
     assetType() {
@@ -85,7 +85,6 @@ export default {
 .card {
   margin: 10px 0;
   box-sizing: border-box;
-  background-color: #fff;
   padding: 16px 20px;
   display: flex;
   flex-direction: column;
@@ -101,13 +100,13 @@ export default {
     margin: 0;
     font-size:20px;
     font-weight:500;
-    color:rgba(0,0,0,1);
+    color:#fff;
     line-height:28px;
   }
   &-type {
     font-size:16px;
     font-weight:400;
-    color:rgba(0,0,0,1);
+    color:#fff;
     line-height:28px;
   }
   &-info {
@@ -123,7 +122,7 @@ export default {
   &-title {
     font-size:16px;
     font-weight:400;
-    color:rgba(0,0,0,1);
+    color: #fff;
     line-height:22px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -138,7 +137,7 @@ export default {
   &-date {
     font-size:16px;
     font-weight:400;
-    color:rgba(178,178,178,1);
+    color: #eaeaea;
     line-height:22px;
   }
 }

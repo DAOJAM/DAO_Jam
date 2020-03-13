@@ -13,12 +13,28 @@
             <n-link :to="{name: 'index'}">HOME</n-link>
           </li>
           <li>
-            <a href="#">ABOUT</a>
-          </li>
-          <li>
             <n-link :to="{name: 'daos'}">DAOs</n-link>
           </li>
+          <li>
+            <n-link :to="{name: 'article'}">STAT</n-link>
+          </li>          
         </ul>
+        <div class="notification" @click="viewNotification">
+          <el-tooltip effect="dark" content="通知中心" placement="bottom">
+            <svg-icon
+              :class="{ badge: hasNewNotification }"
+              class="icon"
+              icon-class="bell"
+            />
+          </el-tooltip>
+        </div>
+        <div class="daos" v-if="isLogined">
+          <svg-icon
+            class="icon"
+            icon-class="daos"
+          />
+          0
+        </div>
         <a v-if="!isLogined" @click="login" href="javascript:;" class="sign-btn">{{ $t('home.signIn') }}</a>
         <el-dropdown v-else class="user-menu">
           <avatar :src="avatarSrc"></avatar>
@@ -30,11 +46,19 @@
             </n-link>
             <n-link :to="{name: 'setting', params:{id: currentUserInfo.id}}" class="link">
               <el-dropdown-item>
-                {{ $t('home.account') }}
+                <svg-icon
+                  class="icon"
+                  icon-class="setting"
+                />
+                Setting
               </el-dropdown-item>
             </n-link>
             <div @click="signOut" class="link">
               <el-dropdown-item>
+                <svg-icon
+                  class="icon"
+                  icon-class="signout"
+                />
                 {{ $t('home.signOut') }}
               </el-dropdown-item>
             </div>
@@ -93,6 +117,7 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined', 'isMe']),
+    ...mapGetters('notification', ['hasNewNotification']),
   },
   created() {
     const { isLogined, refreshUser } = this
@@ -160,6 +185,13 @@ export default {
           })
       }
     },
+    viewNotification() {
+      if (this.isLogined) {
+        this.$router.push('/notification')
+      } else {
+        this.$store.commit('setLoginModal', true)
+      }
+    }
   }
 }
 </script>
@@ -202,12 +234,52 @@ export default {
       li {
         margin-right: 40px;
         display: inline-block;
+        &:nth-last-child(1) {
+          margin-right: 0;
+        }
         a {
           font-size:16px;
           font-weight:400;
           color:rgba(255,255,255,1);
           line-height:22px;
         }
+      }
+    }
+    .notification {
+      margin: 0 40px;
+      cursor: pointer;
+      .icon {
+        color: #fff;
+        font-size: 23px;
+      }
+    }
+
+    .badge{
+      position: relative;
+      &::after{
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
+        background: rgba(251,104,119,1);
+        position: absolute;
+        z-index: 1000;
+        right: 0%;
+        margin-right: -3px;
+        margin-top: -3px;
+      }
+    }
+
+    .daos {
+      color: #fff;
+      font-size:16px;
+      font-weight:400;
+      color:rgba(255,255,255,1);
+      line-height:22px;
+      margin: 0 40px 0 0;
+      .icon {
+        color: #fff;
+        font-size: 20px;
       }
     }
   }
@@ -344,6 +416,9 @@ export default {
   .header-right ul li:nth-last-child(1) {
     margin-right: 0;
   }
+  .header-right .notification {
+    margin-right: 0;
+  }
   .menu-icon {
     display: block;
     visibility: initial;
@@ -374,6 +449,12 @@ export default {
   }
   .el-dropdown-menu__item {
     color: #fff;
+    display: flex;
+    align-items: center;
+    .icon {
+      margin-right: 6px;
+      font-size: 16px;
+    }
     &:hover,
     &:active {
       background-color: #3f3f3f !important;

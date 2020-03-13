@@ -78,17 +78,17 @@ export default {
 <style lang="less" scoped>
 .info {
   overflow: hidden;
-  background-color: #fff;
+  background-color: #132D5E;
   border-radius: @br10;
   padding: 10px 20px;
   a {
     display:block;
-    color: #000;
+    color: #B2B2B2;
     font-size: 18px;
     padding: 10px 0;
     &.active {
       font-weight:bold;
-      color:rgba(0,0,0,1);
+      color: #fff;
     }
   }
 }

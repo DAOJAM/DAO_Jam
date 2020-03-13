@@ -7,7 +7,7 @@
         </h2>
         <template v-if="viewStatus === 0">
           <assets :assets="assets" @toggleWithdraw="status => viewStatus = status" type="CNY" class="assets-margin" />
-          <div v-loading="loading" class="card-container">
+          <div v-loading="loading">
             <no-content-prompt :list="articleCardData.articles">
               <assetCard v-for="(item, index) in articleCardData.articles" :key="index" :asset="item" />
             </no-content-prompt>
@@ -96,7 +96,7 @@ export default {
 
 <style lang="less" scoped>
 .cny-main {
-  background-color: #fff;
+  background-color: #122d5e;
   padding: 20px;
   border-radius: @br10;
   box-sizing: border-box;
@@ -108,5 +108,6 @@ export default {
   padding-left: 10px;
   padding-bottom: 10px;
   margin: 0;
+  color: #fff;
 }
 </style>

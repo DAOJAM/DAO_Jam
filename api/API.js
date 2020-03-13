@@ -286,13 +286,14 @@ export default {
       avatar: '/user/uploadAvatar',
       artileCover: '/post/uploadImage',
       coins: '/post/uploadImage', // fan票的icon也考虑新开路由
+      coinsCover: '/post/uploadImage', // fan票的icon也考虑新开路由
       banner: '/user/uploadBanner'
     }
     const formdata = new FormData()
     formdata.append('image', data)
     return request({
       method: 'POST',
-      url: url[type],
+      url: url[type] || '/post/uploadImage',
       data: formdata
     })
   },

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="minetoken-page">
     <div class="fl ac coins-head">
       <h2 class="tag-title">
         {{ isPost ? $t('user.issuecoins') : $t('user.editcoins') }}
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <el-form ref="form" :rules="rules" :model="form" class="input-form" label-width="80px">
+    <el-form ref="form" :rules="rules" :model="form" class="input-form customize" label-width="80px">
       <el-form-item label="名称" prop="name">
         <el-input v-model="form.name" class="input" placeholder="请输入Fan票名称" />
       </el-form-item>
@@ -87,6 +87,24 @@
         />
       </el-form-item>
 
+      <el-form-item label="封面" prop="">
+        <div class="cover">
+          <div v-show="!cover" class="cover-upload" @click="coverUpload('coinsCover')">
+            <i class="el-icon-plus add" />
+          </div>
+        <div v-show="cover" class="cover-cover">
+          <el-image
+            :src="coverSrc"
+            fit="cover"
+            class="tokens-image"
+          />
+          <div @click="cover = ''" class="cover-full">
+            <i class="el-icon-delete remove" />
+          </div>
+        </div>
+        </div>
+      </el-form-item>
+
       <el-form-item label="相关网站" prop="">
         <div v-for="(item, index) in about" :key="index" class="fl ac about-input">
           <el-input v-model="about[index]" class="input" placeholder="请填写网站链接，包含http(s)://" />
@@ -119,7 +137,7 @@
         </div>
       </el-form-item>
 
-      <el-form-item style="margin:40px 0 0 0;">
+      <el-form-item style="margin:40px 0 0 0;" class="customize">
         <el-checkbox v-if="isPost" v-model="form.agree">
           我声明Fan票为本人自愿发行，由本人承担一切法律责任
         </el-checkbox>
@@ -131,12 +149,61 @@
         </p>
       </el-form-item>
     </el-form>
+
+    <template v-if="!isPost">
+      <div class="progress customize">
+        <h2 class="progress-title">
+          Project progress
+        </h2>
+
+        <h3 class="progress-title">Live</h3>
+        <ul class="live-list">
+          <li v-for="item in 10" :key="item">
+            <a href="https://www.douyu.com/room/share/288016" target="_blank">LPL春季赛OMGvsRW - https://www.douyu.com/room/share/288016</a>
+            <svg-icon icon-class="close"></svg-icon>
+          </li>
+        </ul>
+
+        <div class="progress-input">
+          <el-input v-model="liveName" size="small" placeholder="请输入直播昵称" class="progress-name"></el-input>
+          <el-input v-model="liveAddress" size="small" placeholder="请输入直播地址" class="progress-address"></el-input>
+          <svg-icon icon-class="add" class="icon"></svg-icon>
+        </div>
+
+        <h3 class="progress-title">Progress</h3>
+        <ul class="progress-list">
+          <li v-for="item in 10" :key="item">
+            LPL春季赛OMGvsRW
+            <svg-icon icon-class="close"></svg-icon>
+          </li>
+        </ul>
+
+        <div class="progress-input">
+          <el-input v-model="dynamicTitle" size="small" placeholder="请输入动态标题" class="progress-name"></el-input>
+          <div>
+            <el-input
+              class="progress-address"
+              size="small"
+              type="textarea"
+              :rows="4"
+              placeholder="请输入动态内容"
+              v-model="dynamicContent">
+            </el-input>
+            <svg-icon icon-class="add" class="icon"></svg-icon>
+          </div>
+        </div>
+
+
+      </div>
+    </template>
+    <imgUploads :open="imgUploadConfig.open" @done="done" :updateType="imgUploadConfig.type" :viewWidth="imgUploadConfig.viewWidth" :viewHeight="imgUploadConfig.viewHeight" :aspectRatio="imgUploadConfig.aspectRatio"></imgUploads>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import imgUpload from '@/components/imgUpload/index.vue'
+import imgUploads from '@/components/img_upload'
 import { precision, toPrecision } from '@/utils/precisionConversion'
 import { getCookie } from '@/utils/cookie'
 import socialIcon from '@/components/social_icon/index.vue'
@@ -144,6 +211,7 @@ import socialTypes from '@/config/social_types'
 export default {
   components: {
     imgUpload,
+    imgUploads,
     socialIcon
   },
   data() {
@@ -261,7 +329,19 @@ export default {
         }
       ],
       tokenDetailData: {},
-      addToLoading: false
+      addToLoading: false,
+      liveName: '', // live
+      liveAddress: '', // live
+      dynamicTitle: '', // 动态
+      dynamicContent: '', // 动态
+      cover: '', // 封面
+      imgUploadConfig: { // 图片上传配置
+        open: 0,
+        type: '',
+        viewWidth: '240px',
+        viewHeight: '240px',
+        aspectRatio: 1 / 1
+      }
     }
   },
   computed: {
@@ -274,6 +354,9 @@ export default {
     },
     coinsCover() {
       return this.form.logo ? this.$ossProcess(this.form.logo) : ''
+    },
+    coverSrc() {
+      return this.cover ? this.$ossProcess(this.cover) : ''
     },
     isPost() {
       return this.$route.name === 'postminetoken'
@@ -464,6 +547,19 @@ export default {
       }).catch(() => {
         // 不写这个取消时候会报错
       })
+    },
+    done(data) {
+      console.log('data', data)
+      if (data.type === 'coinsCover') {
+        this.cover = data.data.cover
+      }
+    },
+    coverUpload(type) {
+      this.imgUploadConfig.viewWidth =  440 * 0.8 + 'px'
+      this.imgUploadConfig.viewHeight = 124 * 0.8 + 'px'
+      this.imgUploadConfig.type = type
+      this.imgUploadConfig.aspectRatio = 440 / 124
+      this.imgUploadConfig.open++
     }
   }
 }
@@ -486,7 +582,7 @@ export default {
   }
   .help-link {
     font-size:14px;
-    color: #868686;
+    color: #eaeaea;
     line-height:20px;
     text-decoration: underline;
     margin-left: 10px;
@@ -593,13 +689,8 @@ export default {
   margin: 12px 0 10px 60px;
   font-size:14px;
   font-weight:400;
-  color:rgba(0,0,0,1);
+  color: #fff;
   line-height:20px;
-  span {
-    span {
-      color: red;
-    }
-  }
 }
 .social-icons {
   width: 60px;
@@ -609,18 +700,205 @@ export default {
   font-size: 20px;
   padding-left: 10px;
   margin: 0;
+  color: #fff;
 }
 .tips {
   padding: 0;
   margin: 10px 0 0 0;
   line-height: 1.5;
-  color: #848484;
+  color: #fff;
   font-size: 14px;
 }
+
+
+.progress {
+  margin-top: 40px;
+  padding: 0 10px;
+}
+.progress-title {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 10px;
+}
+h2.progress.title {
+  font-size: 20px;
+}
+h3.progress.title {
+  font-size: 18px;
+}
+.live-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  li {
+    margin: 10px 0 0 0;
+    color: #ffff;
+    a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 16px;
+      padding: 0;
+      margin: 0;
+      line-height: 22px;
+    }
+  }
+}
+// .live-input {
+//   display: flex;
+//   align-items: center;
+//   margin-top: 10px;
+//   .live-name {
+//     max-width: 200px;
+//   }
+//   .live-address {
+//     margin: 0 10px;
+//   }
+//   .icon {
+//     background: #542de0;
+//     color: #fff;
+//     font-size: 14px;
+//     padding: 5px 18px;
+//     border-radius: 0px;
+//     font-size: 22px;
+//     display: block;
+//     cursor: pointer;
+//   }
+// }
+
+
+.progress-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  li {
+    margin: 10px 0 0 0;
+    color: #ffff;
+    font-size: 16px;
+    padding: 0;
+    line-height: 22px;
+  }
+}
+
+.progress-input {
+  margin-top: 10px;
+  .progress-name {
+    max-width: 500px;
+  }
+  .progress-address {
+    max-width: 500px;
+    margin-top: 10px;
+  }
+  .icon {
+    margin-top: 10px;
+    background: #542de0;
+    color: #fff;
+    font-size: 14px;
+    padding: 5px 18px;
+    border-radius: 0px;
+    font-size: 22px;
+    display: block;
+    cursor: pointer;
+  }
+}
+
+
+.cover {
+  width: 440px;
+  height: 124px;
+  border: 1px solid #eaeaea;
+}
+
+.cover-upload {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  .add {
+    font-size: 26px;
+    color: #8c939d;
+  }
+}
+
+
+.cover-cover {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid #ececec;
+  &:hover .cover-full {
+    display: flex;
+  }
+  .cover-full {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    // display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    display: none;
+    .remove {
+      font-size: 26px;
+      color: #fff;
+    }
+  }
+}
+
+
 </style>
 
-<style>
+<style lang="less">
 .social-title span span {
   color:red;
+}
+
+.minetoken-page {
+  .customize {
+    .el-form-item__label {
+      color: #fff;
+    }
+    .el-input .el-input__inner {
+      background-color: transparent;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-radius: 0;
+      color: #fff;
+      &::placeholder {
+        color: #b4b4b4;
+      }
+    }
+    .el-input .el-input__count .el-input__count-inner {
+      background-color: transparent;
+    }
+    .el-textarea__inner {
+      background-color: transparent;
+      color: #fff;
+      &::placeholder {
+        color: #b4b4b4;
+      }
+    }
+
+    .el-textarea .el-input__count {
+      color: #909399;
+      background: transparent;
+    }
+
+    .el-checkbox {
+      color: #fff;
+    }
+  }
 }
 </style>

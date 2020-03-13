@@ -174,7 +174,6 @@ export default {
 <style scoped lang="less">
 .card {
   box-sizing: border-box;
-  background-color: #fff;
   padding: 20px 10px;
   display: flex;
   flex-direction: column;
@@ -195,7 +194,7 @@ export default {
   }
   &-type {
     font-size: 16px;
-    color:rgba(0,0,0,1);
+    color: #fff;
     line-height:28px;
   }
   &-info {
@@ -206,7 +205,7 @@ export default {
   }
   &-title {
     font-size: 14px;
-    color:#333;
+    color:#eaeaea;
     line-height: 1.5;
     &-info {
       margin: 0 6px 0 0;
@@ -217,7 +216,7 @@ export default {
   }
   &-date {
     font-size: 14px;
-    color:rgba(178,178,178,1);
+    color: #eaeaea;
     line-height:22px;
   }
 }

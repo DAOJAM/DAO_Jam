@@ -4,7 +4,7 @@
       <h2 class="tag-title">
         {{ $t('user.userInformation') }}
       </h2>
-      <div class="set-main">
+      <div class="set-main setting-page">
         <div class="list center">
           <span class="title">{{ $t('avatar') }}</span>
           <img-upload
@@ -26,7 +26,7 @@
           <span class="title">
             {{ $t('nickname') }}
           </span>
-          <div class="input">
+          <div class="input customize">
             <el-input
               v-model="username"
               :placeholder="$t('rule.username')"
@@ -49,7 +49,7 @@
         </div> -->
         <div class="list">
           <span class="title">{{ $t('profile') }}</span>
-          <div class="input">
+          <div class="input customize">
             <el-input
               v-model="introduction"
               :rows="6"
@@ -66,7 +66,7 @@
           <span class="title">
             相关网站
           </span>
-          <div v-for="(item, index) in about" :key="index" class="fl ac about-input social-list">
+          <div v-for="(item, index) in about" :key="index" class="fl ac about-input social-list customize">
             <el-input v-model="about[index]" class="input" placeholder="请填写网站链接，包含http(s)://" />
             <div v-if="about.length > 1" @click="abountLess(index)" class="about-input-btn">
               <i class="el-icon-minus" />
@@ -89,7 +89,7 @@
               {{ item.name }}
               <span v-html="item.tooltip" />
             </p>
-            <div class="fl">
+            <div class="fl customize">
               <div class="social-icons">
                 <socialIcon :icon="item.symbol" />
               </div>
@@ -620,7 +620,7 @@ export default {
 .title {
   font-size:18px;
   font-weight:400;
-  color:#333;
+  color:#fff;
   line-height:28px;
   margin-right: 20px;
   &.right0 {
@@ -630,7 +630,7 @@ export default {
 .title-note {
   font-size:12px;
   font-weight:400;
-  color:#b2b2b2;
+  color:#eaeaea;
   line-height:28px;
 }
 
@@ -706,13 +706,8 @@ export default {
   margin: 12px 0 10px 60px;
   font-size:14px;
   font-weight:400;
-  color:rgba(0,0,0,1);
+  color: #fff;
   line-height:20px;
-  span {
-    span {
-      color: red;
-    }
-  }
 }
 .social-icons {
   width: 60px;
@@ -756,6 +751,7 @@ export default {
   font-size: 20px;
   padding-left: 10px;
   margin: 0;
+  color: #fff;
 }
 
 // job
@@ -763,6 +759,12 @@ export default {
 
 .job,
 .skill {
+  p {
+    color: #fff;
+    padding: 0;
+    margin: 10px 0;
+    font-size: 16px;
+  }
   &::after {
     display: block;
     content: '';
@@ -776,5 +778,47 @@ export default {
 .skill-checkbox {
   float: left;
   margin: 0 10px 10px 0;
+}
+</style>
+
+
+<style lang="less">
+.social-title {
+  span {
+    span {
+      color: red;
+    }
+  }
+}
+
+.setting-page {
+  .customize {
+    .el-input .el-input__inner {
+      background-color: transparent;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-radius: 0;
+      color: #fff;
+      &::placeholder {
+        color: #b4b4b4;
+      }
+    }
+    .el-input .el-input__count .el-input__count-inner {
+      background-color: transparent;
+    }
+    .el-textarea__inner {
+      background-color: transparent;
+      color: #fff;
+      &::placeholder {
+        color: #b4b4b4;
+      }
+    }
+
+    .el-textarea .el-input__count {
+      color: #909399;
+      background: transparent;
+    }
+  }
 }
 </style>

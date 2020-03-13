@@ -170,9 +170,9 @@ export default {
 .invite-des {
   font-size:14px;
   font-weight:400;
-  color:rgba(178,178,178,1);
+  color: #eaeaea;
   line-height:20px;
-  margin: 0 10px 20px;
+  margin: 10px 10px 20px;
 }
 .tag-title {
   font-weight: bold;

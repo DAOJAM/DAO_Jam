@@ -527,7 +527,7 @@ export default {
 }
 
 .tokens-main {
-  background-color: #fff;
+  background-color: #132D5E;
   padding: 20px;
   border-radius: @br10;
   box-sizing: border-box;
@@ -538,6 +538,7 @@ export default {
   font-size: 20px;
   padding-left: 10px;
   margin: 0;
+  color: #fff;
 }
 .expand-button {
   font-size: 14px;

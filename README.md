@@ -12,8 +12,6 @@
 
 ## 特性
 
-- Other Resources: [Backend Repo](https://github.com/smart-signature/smart-signature-backend) | [Backend Doc](https://github.com/smart-signature/smart-signature-backend/blob/master/doc.md) | [Contract](https://github.com/smart-signature/smart-signature-EOS-contract) | [Documentation about Project](https://shimo.im/docs/UOYT3DqklCYBbzny) | [Whitepaper (Draft)](https://hackmd.io/Q3KNkxjgSwKRJ5cfBL2I4g)
-
 - [Design Prototype](https://lanhuapp.com/web/#/item/project/board?pid=3a87d3a5-8b98-48f8-9b0b-3502d5fad355)
 - [ETHDenver Prototype](https://github.com/noctoid/daothon)
 
