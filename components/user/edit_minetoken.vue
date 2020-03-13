@@ -87,6 +87,24 @@
         />
       </el-form-item>
 
+      <el-form-item label="封面" prop="">
+        <div class="cover">
+          <div v-show="!cover" class="cover-upload" @click="coverUpload('coinsCover')">
+            <i class="el-icon-plus add" />
+          </div>
+        <div v-show="cover" class="cover-cover">
+          <el-image
+            :src="coverSrc"
+            fit="cover"
+            class="tokens-image"
+          />
+          <div @click="cover = ''" class="cover-full">
+            <i class="el-icon-delete remove" />
+          </div>
+        </div>
+        </div>
+      </el-form-item>
+
       <el-form-item label="相关网站" prop="">
         <div v-for="(item, index) in about" :key="index" class="fl ac about-input">
           <el-input v-model="about[index]" class="input" placeholder="请填写网站链接，包含http(s)://" />
@@ -178,14 +196,14 @@
 
       </div>
     </template>
-
-
+    <imgUploads :open="imgUploadConfig.open" @done="done" :updateType="imgUploadConfig.type" :viewWidth="imgUploadConfig.viewWidth" :viewHeight="imgUploadConfig.viewHeight" :aspectRatio="imgUploadConfig.aspectRatio"></imgUploads>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import imgUpload from '@/components/imgUpload/index.vue'
+import imgUploads from '@/components/img_upload'
 import { precision, toPrecision } from '@/utils/precisionConversion'
 import { getCookie } from '@/utils/cookie'
 import socialIcon from '@/components/social_icon/index.vue'
@@ -193,6 +211,7 @@ import socialTypes from '@/config/social_types'
 export default {
   components: {
     imgUpload,
+    imgUploads,
     socialIcon
   },
   data() {
@@ -314,7 +333,15 @@ export default {
       liveName: '', // live
       liveAddress: '', // live
       dynamicTitle: '', // 动态
-      dynamicContent: '' // 动态
+      dynamicContent: '', // 动态
+      cover: '', // 封面
+      imgUploadConfig: { // 图片上传配置
+        open: 0,
+        type: '',
+        viewWidth: '240px',
+        viewHeight: '240px',
+        aspectRatio: 1 / 1
+      }
     }
   },
   computed: {
@@ -327,6 +354,9 @@ export default {
     },
     coinsCover() {
       return this.form.logo ? this.$ossProcess(this.form.logo) : ''
+    },
+    coverSrc() {
+      return this.cover ? this.$ossProcess(this.cover) : ''
     },
     isPost() {
       return this.$route.name === 'postminetoken'
@@ -517,6 +547,19 @@ export default {
       }).catch(() => {
         // 不写这个取消时候会报错
       })
+    },
+    done(data) {
+      console.log('data', data)
+      if (data.type === 'coinsCover') {
+        this.cover = data.data.cover
+      }
+    },
+    coverUpload(type) {
+      this.imgUploadConfig.viewWidth =  440 * 0.8 + 'px'
+      this.imgUploadConfig.viewHeight = 124 * 0.8 + 'px'
+      this.imgUploadConfig.type = type
+      this.imgUploadConfig.aspectRatio = 440 / 124
+      this.imgUploadConfig.open++
     }
   }
 }
@@ -759,6 +802,60 @@ h3.progress.title {
     cursor: pointer;
   }
 }
+
+
+.cover {
+  width: 440px;
+  height: 124px;
+  border: 1px solid #eaeaea;
+}
+
+.cover-upload {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  .add {
+    font-size: 26px;
+    color: #8c939d;
+  }
+}
+
+
+.cover-cover {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid #ececec;
+  &:hover .cover-full {
+    display: flex;
+  }
+  .cover-full {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    // display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    display: none;
+    .remove {
+      font-size: 26px;
+      color: #fff;
+    }
+  }
+}
+
 
 </style>
 
