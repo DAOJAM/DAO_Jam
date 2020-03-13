@@ -32,7 +32,7 @@
               ? { color: '#41b37d' }
               : totalSignIncome < 0
                 ? { color: '#d74e5a' }
-                : { color: '#000000' }
+                : { color: '#fff' }
           "
           class="total-list-money"
         >{{ totalSignIncome }}</span>
@@ -127,12 +127,12 @@ export default {
   }
   &-title {
     font-size: 16px;
-    color: #333;
+    color: #eaeaea;
     line-height: 1;
   }
   &-money {
     font-size:24px;
-    color:rgba(0,0,0,1);
+    color: #fff;
     margin-top: 20px;
   }
   .btn:not([disabled]) {
@@ -141,7 +141,7 @@ export default {
     color: #fff;
   }
   .mark-text {
-    color: #b2b2b2;
+    color: #eaeaea;
     font-size: 12px;
     margin: 12px 5px 0px;
   }
@@ -173,7 +173,7 @@ export default {
   }
   &-title {
     font-size: 16px;
-    color:#333;
+    color:#eaeaea;
   }
 }
 </style>

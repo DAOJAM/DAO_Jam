@@ -30,6 +30,7 @@ export default {
 <style lang="less" scoped>
 .user {
   .minHeight();
+  background-color: #0E2144;
 }
 .user-container {
   display: flex;
@@ -39,7 +40,7 @@ export default {
 .user-main {
   // width: 890px;
   // height: 998px;
-  background-color: #fff;
+  background-color: #132D5E;
   padding: 20px;
   border-radius: @br10;
   box-sizing: border-box;
@@ -50,7 +51,7 @@ export default {
   // width: 270px;
   // height: 396px;
   border-radius: @br10;
-  background-color: #fff;
+  background-color: #132D5E;
 }
 
 .position-sticky {

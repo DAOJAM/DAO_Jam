@@ -86,13 +86,12 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
-  background-color: #fff;
   padding: 20px 20px 20px 10px;
   border-bottom: 1px solid #DBDBDB;
   .title {
     font-size: 16px;
     font-weight: 400;
-    color: #000000;
+    color: #fff;
     line-height: 28px;
   }
   .point-pricing {
@@ -100,16 +99,16 @@ export default {
     margin: 0;
     font-size: 24px;
     font-weight: 700;
-    color: #000000;
+    color: #fff;
     line-height: 28px;
   }
 }
 .points-main {
-  background-color: #fff;
   padding: 20px;
   border-radius: @br10;
   box-sizing: border-box;
   margin-bottom: 120px;
+  background-color: #122d5e;
 }
 .tag-title {
   font-weight: bold;
@@ -117,6 +116,7 @@ export default {
   padding-left: 10px;
   padding-bottom: 10px;
   margin: 0;
+  color: #fff;
 }
 .line {
   width: 100%;

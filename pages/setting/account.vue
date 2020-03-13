@@ -25,7 +25,7 @@
             <svg-icon icon-class="close_thin" class="close_thin" />
           </div>
           <el-radio :value="accountRadio" :label="item.type" :disabled="item.disabled" @change="accountChangeFunc(item.type, idx)" style="margin-left: 10px;">
-            <span v-if="accountRadio === item.type">主账号</span>
+            <span v-if="accountRadio === item.type" style="color: #fff;">主账号</span>
             <span v-else>&nbsp;</span>
           </el-radio>
         </div>
@@ -673,7 +673,7 @@ export default {
 }
 .list-p{
   font-size: 12px;
-  color: #555555;
+  color: #eaeaea;
 }
 .tag-title {
   font-weight: bold;
@@ -681,5 +681,6 @@ export default {
   padding-left: 10px;
   padding-bottom: 10px;
   margin: 0;
+  color: #fff;
 }
 </style>

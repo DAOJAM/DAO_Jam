@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="minetoken-page">
     <div class="fl ac coins-head">
       <h2 class="tag-title">
         {{ isPost ? $t('user.issuecoins') : $t('user.editcoins') }}
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <el-form ref="form" :rules="rules" :model="form" class="input-form" label-width="80px">
+    <el-form ref="form" :rules="rules" :model="form" class="input-form customize" label-width="80px">
       <el-form-item label="名称" prop="name">
         <el-input v-model="form.name" class="input" placeholder="请输入Fan票名称" />
       </el-form-item>
@@ -119,7 +119,7 @@
         </div>
       </el-form-item>
 
-      <el-form-item style="margin:40px 0 0 0;">
+      <el-form-item style="margin:40px 0 0 0;" class="customize">
         <el-checkbox v-if="isPost" v-model="form.agree">
           我声明Fan票为本人自愿发行，由本人承担一切法律责任
         </el-checkbox>
@@ -133,7 +133,7 @@
     </el-form>
 
     <template v-if="!isPost">
-      <div class="progress">
+      <div class="progress customize">
         <h2 class="progress-title">
           Project progress
         </h2>
@@ -539,7 +539,7 @@ export default {
   }
   .help-link {
     font-size:14px;
-    color: #868686;
+    color: #eaeaea;
     line-height:20px;
     text-decoration: underline;
     margin-left: 10px;
@@ -646,13 +646,8 @@ export default {
   margin: 12px 0 10px 60px;
   font-size:14px;
   font-weight:400;
-  color:rgba(0,0,0,1);
+  color: #fff;
   line-height:20px;
-  span {
-    span {
-      color: red;
-    }
-  }
 }
 .social-icons {
   width: 60px;
@@ -662,12 +657,13 @@ export default {
   font-size: 20px;
   padding-left: 10px;
   margin: 0;
+  color: #fff;
 }
 .tips {
   padding: 0;
   margin: 10px 0 0 0;
   line-height: 1.5;
-  color: #848484;
+  color: #fff;
   font-size: 14px;
 }
 
@@ -680,7 +676,7 @@ export default {
   padding: 0;
   margin: 0;
   font-weight: bold;
-  color: #000;
+  color: #fff;
   margin-top: 10px;
 }
 h2.progress.title {
@@ -695,8 +691,9 @@ h3.progress.title {
   list-style: none;
   li {
     margin: 10px 0 0 0;
+    color: #ffff;
     a {
-      color: #000;
+      color: #fff;
       text-decoration: underline;
       font-size: 16px;
       padding: 0;
@@ -734,7 +731,7 @@ h3.progress.title {
   list-style: none;
   li {
     margin: 10px 0 0 0;
-    color: #000;
+    color: #ffff;
     font-size: 16px;
     padding: 0;
     line-height: 22px;
@@ -765,8 +762,46 @@ h3.progress.title {
 
 </style>
 
-<style>
+<style lang="less">
 .social-title span span {
   color:red;
+}
+
+.minetoken-page {
+  .customize {
+    .el-form-item__label {
+      color: #fff;
+    }
+    .el-input .el-input__inner {
+      background-color: transparent;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-radius: 0;
+      color: #fff;
+      &::placeholder {
+        color: #b4b4b4;
+      }
+    }
+    .el-input .el-input__count .el-input__count-inner {
+      background-color: transparent;
+    }
+    .el-textarea__inner {
+      background-color: transparent;
+      color: #fff;
+      &::placeholder {
+        color: #b4b4b4;
+      }
+    }
+
+    .el-textarea .el-input__count {
+      color: #909399;
+      background: transparent;
+    }
+
+    .el-checkbox {
+      color: #fff;
+    }
+  }
 }
 </style>
