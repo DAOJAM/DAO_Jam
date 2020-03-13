@@ -131,6 +131,55 @@
         </p>
       </el-form-item>
     </el-form>
+
+    <template v-if="!isPost">
+      <div class="progress">
+        <h2 class="progress-title">
+          Project progress
+        </h2>
+
+        <h3 class="progress-title">Live</h3>
+        <ul class="live-list">
+          <li v-for="item in 10" :key="item">
+            <a href="https://www.douyu.com/room/share/288016" target="_blank">LPL春季赛OMGvsRW - https://www.douyu.com/room/share/288016</a>
+            <svg-icon icon-class="close"></svg-icon>
+          </li>
+        </ul>
+
+        <div class="progress-input">
+          <el-input v-model="liveName" size="small" placeholder="请输入直播昵称" class="progress-name"></el-input>
+          <el-input v-model="liveAddress" size="small" placeholder="请输入直播地址" class="progress-address"></el-input>
+          <svg-icon icon-class="add" class="icon"></svg-icon>
+        </div>
+
+        <h3 class="progress-title">Progress</h3>
+        <ul class="progress-list">
+          <li v-for="item in 10" :key="item">
+            LPL春季赛OMGvsRW
+            <svg-icon icon-class="close"></svg-icon>
+          </li>
+        </ul>
+
+        <div class="progress-input">
+          <el-input v-model="dynamicTitle" size="small" placeholder="请输入动态标题" class="progress-name"></el-input>
+          <div>
+            <el-input
+              class="progress-address"
+              size="small"
+              type="textarea"
+              :rows="4"
+              placeholder="请输入动态内容"
+              v-model="dynamicContent">
+            </el-input>
+            <svg-icon icon-class="add" class="icon"></svg-icon>
+          </div>
+        </div>
+
+
+      </div>
+    </template>
+
+
   </div>
 </template>
 
@@ -261,7 +310,11 @@ export default {
         }
       ],
       tokenDetailData: {},
-      addToLoading: false
+      addToLoading: false,
+      liveName: '', // live
+      liveAddress: '', // live
+      dynamicTitle: '', // 动态
+      dynamicContent: '' // 动态
     }
   },
   computed: {
@@ -617,6 +670,99 @@ export default {
   color: #848484;
   font-size: 14px;
 }
+
+
+.progress {
+  margin-top: 40px;
+  padding: 0 10px;
+}
+.progress-title {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  color: #000;
+  margin-top: 10px;
+}
+h2.progress.title {
+  font-size: 20px;
+}
+h3.progress.title {
+  font-size: 18px;
+}
+.live-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  li {
+    margin: 10px 0 0 0;
+    a {
+      color: #000;
+      text-decoration: underline;
+      font-size: 16px;
+      padding: 0;
+      margin: 0;
+      line-height: 22px;
+    }
+  }
+}
+// .live-input {
+//   display: flex;
+//   align-items: center;
+//   margin-top: 10px;
+//   .live-name {
+//     max-width: 200px;
+//   }
+//   .live-address {
+//     margin: 0 10px;
+//   }
+//   .icon {
+//     background: #542de0;
+//     color: #fff;
+//     font-size: 14px;
+//     padding: 5px 18px;
+//     border-radius: 0px;
+//     font-size: 22px;
+//     display: block;
+//     cursor: pointer;
+//   }
+// }
+
+
+.progress-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  li {
+    margin: 10px 0 0 0;
+    color: #000;
+    font-size: 16px;
+    padding: 0;
+    line-height: 22px;
+  }
+}
+
+.progress-input {
+  margin-top: 10px;
+  .progress-name {
+    max-width: 500px;
+  }
+  .progress-address {
+    max-width: 500px;
+    margin-top: 10px;
+  }
+  .icon {
+    margin-top: 10px;
+    background: #542de0;
+    color: #fff;
+    font-size: 14px;
+    padding: 5px 18px;
+    border-radius: 0px;
+    font-size: 22px;
+    display: block;
+    cursor: pointer;
+  }
+}
+
 </style>
 
 <style>
