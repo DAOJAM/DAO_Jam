@@ -1,9 +1,21 @@
 <template>
-  <n-link :to="{name: 'ring-id', params: { id: card.token_id }}" target="_blank" class="token-card">
+  <n-link
+    :to="{name: 'ring-id', params: { id: card.token_id }}"
+    target="_blank"
+    class="token-card"
+  >
     <div class="img-frame">
-      <el-image v-if="logo" :src="logo" :alt="card.symbol" class="img-frame">
+      <el-image
+        v-if="logo"
+        :src="logo"
+        :alt="card.symbol"
+        class="img-frame"
+      >
         <div slot="error">
-          <img :alt="card.symbol" src="@/assets/img/share-bg.svg">
+          <img
+            :alt="card.symbol"
+            src="@/assets/img/share-bg.svg"
+          >
         </div>
       </el-image>
     </div>

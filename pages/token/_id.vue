@@ -1,21 +1,29 @@
 <template>
   <div class="token">
-    <g-header></g-header>
+    <g-header />
     <div class="token-main">
-
       <div class="token-banner">
-        <img src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg" alt="banner">
+        <img
+          src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg"
+          alt="banner"
+        >
       </div>
 
       <div class="token-head">
         <div class="head-user">
-          <avatar :src="tokenAvatar" class="token-avatar"></avatar>
+          <avatar
+            :src="tokenAvatar"
+            class="token-avatar"
+          />
           <div class="head-user__info">
             <h2>{{ minetokenToken.symbol }} - {{ minetokenToken.name }}</h2>
             <div class="head-user__founder">
               Founder:
               <router-link :to="{name: 'user-id', params: {id: minetokenToken.uid}}">
-                <avatar :src="userAvatar" class="user-avatar"></avatar>
+                <avatar
+                  :src="userAvatar"
+                  class="user-avatar"
+                />
                 <span>{{ minetokenUser.nickname || minetokenUser.username || '&nbsp;' }}</span>
               </router-link>
             </div>
@@ -24,15 +32,24 @@
             </p>
             <div class="dao__info__number">
               <div class="dao__info__number__block">
-                <svg-icon icon-class="members" class="icon"></svg-icon>
+                <svg-icon
+                  icon-class="members"
+                  class="icon"
+                />
                 {{ 0 }}
               </div>
               <div class="dao__info__number__block">
-                <svg-icon icon-class="daos" class="icon"></svg-icon>
+                <svg-icon
+                  icon-class="daos"
+                  class="icon"
+                />
                 {{ cnyReserve }}
               </div>
               <div class="dao__info__number__block">
-                <svg-icon icon-class="tickets" class="icon"></svg-icon>
+                <svg-icon
+                  icon-class="tickets"
+                  class="icon"
+                />
                 {{ totalSupply }}
               </div>
             </div>
@@ -40,29 +57,56 @@
         </div>
         <div class="head-info">
           <div>
-            <a :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address" target="_blank" class="head-btn">
-              <el-button class="link-btn" size="small">
+            <a
+              :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address"
+              target="_blank"
+              class="head-btn"
+            >
+              <el-button
+                class="link-btn"
+                size="small"
+              >
                 <svg-icon icon-class="eth_mini" />
                 链上查看
               </el-button>
             </a>
-            <router-link v-if="showTokenSetting" :to="{ name: 'editminetoken' }" class="head-btn">
-              <el-button class="btn" size="small" icon="el-icon-setting">
+            <router-link
+              v-if="showTokenSetting"
+              :to="{ name: 'editminetoken' }"
+              class="head-btn"
+            >
+              <el-button
+                class="btn"
+                size="small"
+                icon="el-icon-setting"
+              >
                 管理
               </el-button>
             </router-link>
-            <el-button @click="shareModalShow = true" size="small" class="head-btn">
+            <el-button
+              size="small"
+              class="head-btn"
+              @click="shareModalShow = true"
+            >
               <svg-icon icon-class="share_new" />
               分享
             </el-button>
           </div>
           <div>
-            <router-link class="head-btn" :to="{name: 'exchange', hash: '#swap', query: { output: minetokenToken.symbol }}">
+            <router-link
+              class="head-btn"
+              :to="{name: 'exchange', hash: '#swap', query: { output: minetokenToken.symbol }}"
+            >
               <el-button size="small">
                 交易Fan票
               </el-button>
             </router-link>
-            <el-button class="head-btn" size="small" icon="el-icon-setting" @click="buyDialog = true">
+            <el-button
+              class="head-btn"
+              size="small"
+              icon="el-icon-setting"
+              @click="buyDialog = true"
+            >
               购买
             </el-button>
           </div>
@@ -70,14 +114,28 @@
             已持有：{{ balance }} {{ minetokenToken.symbol }}
           </span>
         </div>
-
       </div>
       <nav class="token-nav">
-        <n-link :to="{name: 'token-id', params: { id: $route.params.id }}" :class="$route.name === 'token-id' && 'active'">INFORMATION</n-link>
-        <n-link :to="{name: 'token-id-progress', params: { id: $route.params.id }}" :class="$route.name === 'token-id-progress' && 'active'">PROGRESS</n-link>
-        <n-link :to="{name: 'token-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'token-id-capital' && 'active'">CAPITAL</n-link>
+        <n-link
+          :to="{name: 'token-id', params: { id: $route.params.id }}"
+          :class="$route.name === 'token-id' && 'active'"
+        >
+          INFORMATION
+        </n-link>
+        <n-link
+          :to="{name: 'token-id-progress', params: { id: $route.params.id }}"
+          :class="$route.name === 'token-id-progress' && 'active'"
+        >
+          PROGRESS
+        </n-link>
+        <n-link
+          :to="{name: 'token-id-capital', params: { id: $route.params.id }}"
+          :class="$route.name === 'token-id-capital' && 'active'"
+        >
+          CAPITAL
+        </n-link>
       </nav>
-      <router-view></router-view>
+      <router-view />
     </div>
 
     <Share
@@ -87,7 +145,11 @@
       :minetoken-user="minetokenUser"
       @input="val => shareModalShow = val"
     />
-    <m-dialog v-model="buyDialog" width="600px" title="购买">
+    <m-dialog
+      v-model="buyDialog"
+      width="600px"
+      title="购买"
+    >
       <tokenBuyCard :token="minetokenToken" />
     </m-dialog>
   </div>
@@ -135,6 +197,14 @@ export default {
       ]
     }
   },
+  data() {
+    return {
+      showTokenSetting: false, // 显示设置按钮
+      balance: 0, // 余额
+      shareModalShow: false, // share dialog
+      buyDialog: false // buy dialog
+    }
+  },
   async asyncData({ $axios, route, req }) {
     // 获取cookie token
     let accessToekn = ''
@@ -158,14 +228,6 @@ export default {
       }
     } else {
       console.error(res.message)
-    }
-  },
-  data() {
-    return {
-      showTokenSetting: false, // 显示设置按钮
-      balance: 0, // 余额
-      shareModalShow: false, // share dialog
-      buyDialog: false // buy dialog
     }
   },
   computed: {

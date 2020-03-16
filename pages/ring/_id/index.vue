@@ -1,5 +1,5 @@
 <template>
-  <ringPage :onlyCreator="0" />
+  <ringPage :only-creator="0" />
 </template>
 
 <script>

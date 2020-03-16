@@ -3,8 +3,16 @@
     <g-header />
     <div class="sharehall-push">
       <div class="sharehall-push__content">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" @submit.native.prevent>
-          <el-form-item label="" prop="content">
+        <el-form
+          ref="ruleForm"
+          :model="ruleForm"
+          :rules="rules"
+          @submit.native.prevent
+        >
+          <el-form-item
+            label=""
+            prop="content"
+          >
             <el-input
               ref="shareContent"
               v-model="ruleForm.content"
@@ -16,21 +24,38 @@
           </el-form-item>
         </el-form>
 
-        <el-form ref="urlForm" :model="urlForm" :rules="urlRules" @submit.native.prevent>
-          <el-form-item label="" prop="url">
+        <el-form
+          ref="urlForm"
+          :model="urlForm"
+          :rules="urlRules"
+          @submit.native.prevent
+        >
+          <el-form-item
+            label=""
+            prop="url"
+          >
             <div class="input-line">
               <!-- 为了使用from的验证功能, 不能用css实现下划线聚焦了 用js解决 -->
               <el-input
-                @focus="focusInput"
-                @blur="blurInput"
-                @change="changeInput"
                 v-model="urlForm.url"
                 size="mini"
                 class="push-input"
                 placeholder="输入链接，包含http(s)://"
+                @focus="focusInput"
+                @blur="blurInput"
+                @change="changeInput"
               />
-              <el-button @click="getUrlData('urlForm')" v-loading="urlLoading" type="primary" size="mini" class="g-button__black ">
-                <svg-icon icon-class="enter" class="icon" />
+              <el-button
+                v-loading="urlLoading"
+                type="primary"
+                size="mini"
+                class="g-button__black "
+                @click="getUrlData('urlForm')"
+              >
+                <svg-icon
+                  icon-class="enter"
+                  class="icon"
+                />
               </el-button>
             </div>
           </el-form-item>
@@ -38,35 +63,44 @@
             <div class="share-push__content">
               <template v-for="(item, index) in shareLinkList">
                 <shareOuterCard
-                  :card="item"
                   v-if="item.ref_sign_id === 0"
                   :key="'shareInsideCard' + index"
+                  :card="item"
                   :idx="index"
-                  @removeShareLink="removeShareLink"
                   class="list-card"
+                  @removeShareLink="removeShareLink"
                 />
                 <sharePCard
-                  :card="item"
                   v-else-if="item.ref_sign_id !== 0 && item.channel_id === 1"
                   :key="'shareInsideCard' + index"
+                  :card="item"
                   :idx="index"
-                  @removeShareLink="removeShareLink"
                   class="list-card"
+                  @removeShareLink="removeShareLink"
                 />
                 <shareInsideCard
-                  :card="item"
                   v-else-if="item.ref_sign_id && item.channel_id === 3"
                   :key="'shareOuterCard' + index"
+                  :card="item"
                   :idx="index"
-                  @removeShareLink="removeShareLink"
                   class="list-card"
+                  @removeShareLink="removeShareLink"
                 />
               </template>
             </div>
           </el-form-item>
           <div class="push-btn">
-            <el-button @click="pushShare('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading" type="primary" class="g-button__black " size="mini">
-              <svg-icon icon-class="edit" class="icon" />
+            <el-button
+              v-loading.fullscreen.lock="fullscreenLoading"
+              type="primary"
+              class="g-button__black "
+              size="mini"
+              @click="pushShare('ruleForm')"
+            >
+              <svg-icon
+                icon-class="edit"
+                class="icon"
+              />
               发布
             </el-button>
           </div>
@@ -81,28 +115,46 @@
             分享大厅
           </h3>
           <div class="sort">
-            <span @click="value = options[0].value" :class="value === options[0].value && 'active'">{{ options[0].label }}</span>
+            <span
+              :class="value === options[0].value && 'active'"
+              @click="value = options[0].value"
+            >{{ options[0].label }}</span>
             &nbsp;/&nbsp;
-            <span @click="value = options[1].value" :class="value === options[1].value && 'active'">{{ options[1].label }}</span>
+            <span
+              :class="value === options[1].value && 'active'"
+              @click="value = options[1].value"
+            >{{ options[1].label }}</span>
           </div>
         </div>
         <shareCard
           v-for="(item, index) in pull.list"
           :key="index"
           :card="item"
+          class="list-card"
           @refClick="refClick"
           @ref="ref"
-          class="list-card"
         />
-        <buttonLoadMore :params="pull.params" :api-url="pull.apiUrl" :autoRequestTime="pull.time" @buttonLoadMore="getListData" :type-index="0" />
+        <buttonLoadMore
+          :params="pull.params"
+          :api-url="pull.apiUrl"
+          :auto-request-time="pull.time"
+          :type-index="0"
+          @buttonLoadMore="getListData"
+        />
       </div>
       <div class="sharehall-other">
-        <div v-if="usersRecommendList.length !== 0" class="recommend-author">
+        <div
+          v-if="usersRecommendList.length !== 0"
+          class="recommend-author"
+        >
           <div class="ra-head">
             <h3 class="sharehall-title">
               推荐作者
             </h3>
-            <span @click="usersrecommend" class="ra-head-random">
+            <span
+              class="ra-head-random"
+              @click="usersrecommend"
+            >
               <div class="change">
                 <svg-icon
                   :class="usersLoading && 'rotate'"
@@ -114,16 +166,27 @@
             </span>
           </div>
           <div class="ra-content">
-            <r-a-list v-for="item in usersRecommendList" :key="item.id" :card="item" />
+            <r-a-list
+              v-for="item in usersRecommendList"
+              :key="item.id"
+              :card="item"
+            />
           </div>
         </div>
       </div>
     </div>
 
-    <m-dialog v-model="shareDoneCard" width="400px">
+    <m-dialog
+      v-model="shareDoneCard"
+      width="400px"
+    >
       <!-- 如果内容过多可以抽离 -->
       <div class="dialog-content">
-        <img src="@/assets/img/done.png" alt="done" class="share-done">
+        <img
+          src="@/assets/img/done.png"
+          alt="done"
+          class="share-done"
+        >
         <h4 class="share-done__title">
           分享已发布
         </h4>
@@ -135,16 +198,26 @@
           v-loading="createShareLoading"
           class="share-card"
         >
-          <img v-if="saveImg" :src="saveImg" alt="save">
+          <img
+            v-if="saveImg"
+            :src="saveImg"
+            alt="save"
+          >
         </div>
-        <el-button :disabled="saveLoading" v-loading="saveLoading" @click="downloadShareImage" type="primary" class="share-card__btn">
+        <el-button
+          v-loading="saveLoading"
+          :disabled="saveLoading"
+          type="primary"
+          class="share-card__btn"
+          @click="downloadShareImage"
+        >
           保存并分享卡片
         </el-button>
         <shareImage
-          ref="shareImage"
           v-if="!saveImg"
+          ref="shareImage"
           :content="shareCard.content"
-          :avatarSrc="shareCard.avatarSrc"
+          :avatar-src="shareCard.avatarSrc"
           :username="shareCard.username"
           :reference="shareCard.reference"
           :url="shareCard.url"

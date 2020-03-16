@@ -1,17 +1,40 @@
 <template>
-  <div :class="cardType" class="article">
+  <div
+    :class="cardType"
+    class="article"
+  >
     <!-- 适用于 首页, 商品页, 标签页 -->
     <!-- 区分那种卡 -->
-    <n-link :to="{name: 'p-id', params: {id: card && card.id}}" target="_blank">
+    <n-link
+      :to="{name: 'p-id', params: {id: card && card.id}}"
+      target="_blank"
+    >
       <div class="cover">
-        <el-image v-if="cover" :src="cover" class="img-lazy" alt="cover" lazy />
-        <img v-else src="@/assets/img/article_bg.svg" alt="cover">
+        <el-image
+          v-if="cover"
+          :src="cover"
+          class="img-lazy"
+          alt="cover"
+          lazy
+        />
+        <img
+          v-else
+          src="@/assets/img/article_bg.svg"
+          alt="cover"
+        >
       </div>
       <div class="article-title">
-        <h3 v-clampy="2" v-html="cardTitle" />
+        <h3
+          v-clampy="2"
+          v-html="cardTitle"
+        />
       </div>
       <!-- 只有文章卡才会有内容 -->
-      <p v-if="cardType === 'article-card'" v-clampy="3" class="content">
+      <p
+        v-if="cardType === 'article-card'"
+        v-clampy="3"
+        class="content"
+      >
         {{ card && (card.short_content || '') }}
       </p>
       <div class="des">
@@ -58,7 +81,11 @@
           target="_blank"
           class="author"
         >
-          <avatar :size="'28px'" :src="avatarImg" class="avatar" />
+          <avatar
+            :size="'28px'"
+            :src="avatarImg"
+            class="avatar"
+          />
           <span class="username">
             {{ card && (card.nickname || card.author || '') }}
           </span>

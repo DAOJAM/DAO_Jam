@@ -1,11 +1,21 @@
 <template>
   <footer class="footer">
     <div class="footer-social">
-      <div class="footer-social__block" :class="item.name" v-for="(item, index) in socialList" :key="index">
-        <svg-icon :icon-class="item.icon" class="icon" />
+      <div
+        v-for="(item, index) in socialList"
+        :key="index"
+        class="footer-social__block"
+        :class="item.name"
+      >
+        <svg-icon
+          :icon-class="item.icon"
+          class="icon"
+        />
       </div>
     </div>
-    <p class="footer-copyright">Copyright © DAO JAM</p>
+    <p class="footer-copyright">
+      Copyright © DAO JAM
+    </p>
   </footer>
 </template>
 
@@ -18,7 +28,7 @@ export default {
           name: 'weixin',
           icon: 'weixin'
         },
-                {
+        {
           name: 'weibo',
           icon: 'weibo'
         },

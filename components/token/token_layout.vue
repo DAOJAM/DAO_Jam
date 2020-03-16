@@ -5,7 +5,10 @@
     <div class="mw container-padding">
       <div class="token-detail">
         <div class="fl">
-          <avatar :src="logo" size="120px" />
+          <avatar
+            :src="logo"
+            size="120px"
+          />
           <div class="token-detail-info">
             <div class="fl info-line">
               <div class="token-info-title bold">
@@ -17,7 +20,11 @@
                 </p>
               </div>
               <div>
-                <a class="help-link" href="https://www.matataki.io/p/977" target="_blank">什么是Fan票?</a>
+                <a
+                  class="help-link"
+                  href="https://www.matataki.io/p/977"
+                  target="_blank"
+                >什么是Fan票?</a>
               </div>
             </div>
             <div class="fl info-line">
@@ -56,28 +63,53 @@
             </div>
           </div>
           <div class="share-btn">
-            <a :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address" target="_blank">
-              <el-button class="link-btn" size="small">
+            <a
+              :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address"
+              target="_blank"
+            >
+              <el-button
+                class="link-btn"
+                size="small"
+              >
                 <svg-icon icon-class="eth_mini" />
                 链上查看
               </el-button>
             </a>
-            <router-link v-if="showTokenSetting" :to="{ name: 'editminetoken' }">
-              <el-button class="btn" size="small" icon="el-icon-setting">
+            <router-link
+              v-if="showTokenSetting"
+              :to="{ name: 'editminetoken' }"
+            >
+              <el-button
+                class="btn"
+                size="small"
+                icon="el-icon-setting"
+              >
                 管理
               </el-button>
             </router-link>
-            <el-button @click="shareModalShow = true" class="btn" size="small">
+            <el-button
+              class="btn"
+              size="small"
+              @click="shareModalShow = true"
+            >
               <svg-icon icon-class="share_new" />
               分享
             </el-button>
           </div>
-          <router-link v-if="isLogined" :to="{ name: 'tokens' }" tag="div" class="balance">
+          <router-link
+            v-if="isLogined"
+            :to="{ name: 'tokens' }"
+            tag="div"
+            class="balance"
+          >
             已持有：{{ balance }} {{ minetokenToken.symbol }}
             <i class="el-icon-arrow-right" />
           </router-link>
         </div>
-        <p v-if="!minetokenToken.contract_address" class="warning">
+        <p
+          v-if="!minetokenToken.contract_address"
+          class="warning"
+        >
           Fan票正在部署中，请耐心等候。
         </p>
       </div>
@@ -143,7 +175,10 @@
             </div>
 
             <div class="token-data">
-              <p :style="{color: color}" class="token-num">
+              <p
+                :style="{color: color}"
+                class="token-num"
+              >
                 {{ change }}
               </p>
               <p class="token-name">
@@ -169,7 +204,7 @@
           <slot />
         </div>
 
-<!--        <tokenRelated class="related" />-->
+        <!--        <tokenRelated class="related" />-->
       </el-col>
       <el-col :span="7">
         <!-- <router-link class="exchange" :to="{name: 'exchange'}">
@@ -181,18 +216,31 @@
         </router-link>-->
         <tokenBuyCard :token="minetokenToken" />
 
-        <TokenJoinFandom :token-symbol="minetokenToken.symbol || ''" :token-id="Number($route.params.id)" :balance="balance" />
+        <TokenJoinFandom
+          :token-symbol="minetokenToken.symbol || ''"
+          :token-id="Number($route.params.id)"
+          :balance="balance"
+        />
 
         <div class="about">
           <h2 class="token-title">
             相关网站
           </h2>
           <ul v-if="resourcesWebsites.length !== 0">
-            <li v-for="(item, index) in resourcesWebsites" :key="index">
-              <a :href="formatUrl(item)" target="_blank">{{ item }}</a>
+            <li
+              v-for="(item, index) in resourcesWebsites"
+              :key="index"
+            >
+              <a
+                :href="formatUrl(item)"
+                target="_blank"
+              >{{ item }}</a>
             </li>
           </ul>
-          <span v-else class="not">暂无</span>
+          <span
+            v-else
+            class="not"
+          >暂无</span>
         </div>
 
         <div class="social">
@@ -200,12 +248,26 @@
             社交账号
           </h2>
 
-          <div v-if="resourcesSocialss.length !== 0" class="social-btn">
-            <div v-for="(item, index) in resourcesSocialss" :key="index" class="circle">
-              <socialIcon :show-tooltip="true" :icon="item.type" :content="item.content" />
+          <div
+            v-if="resourcesSocialss.length !== 0"
+            class="social-btn"
+          >
+            <div
+              v-for="(item, index) in resourcesSocialss"
+              :key="index"
+              class="circle"
+            >
+              <socialIcon
+                :show-tooltip="true"
+                :icon="item.type"
+                :content="item.content"
+              />
             </div>
           </div>
-          <span v-else class="not">暂无</span>
+          <span
+            v-else
+            class="not"
+          >暂无</span>
         </div>
 
         <div class="share">

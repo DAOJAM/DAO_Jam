@@ -1,16 +1,16 @@
 <template>
   <div class="people-list">
     <div class="people-list__content">
-      <slot name="title"></slot>
+      <slot name="title" />
       <div class="people-list__block">
         <div
-          class="people-block animated"
           v-for="(item, index) in list"
           :key="index"
+          class="people-block animated"
           :style="{animationDelay: index * 0.2 + 's'}"
         >
           <div class="people">
-            <avatar :src="item.photoUrl"></avatar>
+            <avatar :src="item.photoUrl" />
             <p>{{ item.name }}</p>
           </div>
         </div>

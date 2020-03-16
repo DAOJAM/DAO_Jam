@@ -1,52 +1,96 @@
 <template>
   <div>
-
     <div class="user-list">
-      <h2 class="user-title">Brief Introduction</h2>
-      <p class="user-brief">{{ userInfo.introduction || '暂无' }}</p>
+      <h2 class="user-title">
+        Brief Introduction
+      </h2>
+      <p class="user-brief">
+        {{ userInfo.introduction || '暂无' }}
+      </p>
     </div>
 
     <div class="user-list">
-      <h2 class="user-title">Abillities and Skills</h2>
+      <h2 class="user-title">
+        Abillities and Skills
+      </h2>
       <!-- todo -->
-      <div style="height: 400px;background-color: #132D5E;margin-top: 20px;"></div>
+      <div style="height: 400px;background-color: #132D5E;margin-top: 20px;" />
     </div>
 
     <div class="user-list">
-      <h2 class="user-title">Tags</h2>
+      <h2 class="user-title">
+        Tags
+      </h2>
       <div class="user-tags">
-        <el-tag v-for="(item, index) in tags" :key="index" class="tag">
-          <svg-icon icon-class="tag"></svg-icon>
-          {{item}}
+        <el-tag
+          v-for="(item, index) in tags"
+          :key="index"
+          class="tag"
+        >
+          <svg-icon icon-class="tag" />
+          {{ item }}
         </el-tag>
-        <p class="user-not" v-if="tags.length === 0">暂无</p>
+        <p
+          v-if="tags.length === 0"
+          class="user-not"
+        >
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="user-list">
-      <h2 class="user-title">Personal Website</h2>
+      <h2 class="user-title">
+        Personal Website
+      </h2>
       <div class="user-website">
-        <a v-for="(item, index ) in urls" :key="index" :href="formatUrl(item)" target="_blank">{{ item }} </a>
-        <p class="user-not" v-if="urls.length === 0">暂无</p>
+        <a
+          v-for="(item, index ) in urls"
+          :key="index"
+          :href="formatUrl(item)"
+          target="_blank"
+        >{{ item }} </a>
+        <p
+          v-if="urls.length === 0"
+          class="user-not"
+        >
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="user-list">
-      <h2 class="user-title">Award Records</h2>
+      <h2 class="user-title">
+        Award Records
+      </h2>
       <!-- todo -->
       <div class="award">
-        <p class="user-not">暂无</p>
+        <p class="user-not">
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="user-list">
-      <h2 class="user-title">Contact of SNS</h2>
+      <h2 class="user-title">
+        Contact of SNS
+      </h2>
       <div class="user-social">
-        <socialIcon v-for="(item, index) in social" :key="index"  :icon="item.icon" :show-tooltip="true" :content="item.content" />
-        <p class="user-not" v-if="social.length === 0">暂无</p>
+        <socialIcon
+          v-for="(item, index) in social"
+          :key="index"
+          :icon="item.icon"
+          :show-tooltip="true"
+          :content="item.content"
+        />
+        <p
+          v-if="social.length === 0"
+          class="user-not"
+        >
+          暂无
+        </p>
       </div>
     </div>
-
   </div>
 </template>
 

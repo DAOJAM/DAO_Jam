@@ -10,15 +10,23 @@
           <img-upload
             :img-upload-done="imgUploadDone"
             :update-type="'avatar'"
-            @doneImageUpload="doneImageUpload"
             class="avatar"
+            @doneImageUpload="doneImageUpload"
           >
-            <div slot="uploadButton" class="user-avatar">
+            <div
+              slot="uploadButton"
+              class="user-avatar"
+            >
               <div class="edit">
                 <i class="el-icon-camera" />
                 {{ $t('avatar') }}
               </div>
-              <img slot="description" v-if="avatar" :src="avatar" alt="avatar">
+              <img
+                v-if="avatar"
+                slot="description"
+                :src="avatar"
+                alt="avatar"
+              >
             </div>
           </img-upload>
         </div>
@@ -66,13 +74,29 @@
           <span class="title">
             相关网站
           </span>
-          <div v-for="(item, index) in about" :key="index" class="fl ac about-input social-list customize">
-            <el-input v-model="about[index]" class="input" placeholder="请填写网站链接，包含http(s)://" />
-            <div v-if="about.length > 1" @click="abountLess(index)" class="about-input-btn">
+          <div
+            v-for="(item, index) in about"
+            :key="index"
+            class="fl ac about-input social-list customize"
+          >
+            <el-input
+              v-model="about[index]"
+              class="input"
+              placeholder="请填写网站链接，包含http(s)://"
+            />
+            <div
+              v-if="about.length > 1"
+              class="about-input-btn"
+              @click="abountLess(index)"
+            >
               <i class="el-icon-minus" />
             </div>
           </div>
-          <div v-if="about.length < 5" @click="aboutAdd" class="about-input-btn add">
+          <div
+            v-if="about.length < 5"
+            class="about-input-btn add"
+            @click="aboutAdd"
+          >
             <i class="el-icon-plus" />
           </div>
         </div>
@@ -84,7 +108,11 @@
           <span class="title-note">
             仅用于信息展示
           </span>
-          <div v-for="(item, index) in social" :key="index" class="social-list">
+          <div
+            v-for="(item, index) in social"
+            :key="index"
+            class="social-list"
+          >
             <p class="social-title">
               {{ item.name }}
               <span v-html="item.tooltip" />
@@ -93,7 +121,11 @@
               <div class="social-icons">
                 <socialIcon :icon="item.symbol" />
               </div>
-              <el-input v-model="item.value" :placeholder="item.placeholder" class="social-input" />
+              <el-input
+                v-model="item.value"
+                :placeholder="item.placeholder"
+                class="social-input"
+              />
             </div>
           </div>
         </div>
@@ -101,8 +133,17 @@
         <!-- 身份 -->
         <div class="job">
           <p>身份</p>
-          <div v-for="(item, index) in job" class="job-checkbox" :key="index">
-            <el-checkbox v-model="item.checked" :label="item.text_english" border size="medium"></el-checkbox>
+          <div
+            v-for="(item, index) in job"
+            :key="index"
+            class="job-checkbox"
+          >
+            <el-checkbox
+              v-model="item.checked"
+              :label="item.text_english"
+              border
+              size="medium"
+            />
           </div>
         </div>
 
@@ -110,15 +151,36 @@
         <!-- 技能 -->
         <div class="skill">
           <p>技能</p>
-          <div v-for="(item, index) in skill" :key="index" class="skill-checkbox">
-            <el-checkbox v-model="item.checked" :label="item.text_english" border size="medium"></el-checkbox>
-            <el-input-number style="width: 130px;" v-if="item.checked" size="medium" v-model="item.value" :min="1" :max="100"></el-input-number>
+          <div
+            v-for="(item, index) in skill"
+            :key="index"
+            class="skill-checkbox"
+          >
+            <el-checkbox
+              v-model="item.checked"
+              :label="item.text_english"
+              border
+              size="medium"
+            />
+            <el-input-number
+              v-if="item.checked"
+              v-model="item.value"
+              style="width: 130px;"
+              size="medium"
+              :min="1"
+              :max="100"
+            />
           </div>
         </div>
 
         <!-- 保存 -->
         <div class="line" />
-        <el-button :loading="loading" :class="(setProfile || aboutModify || socialModify || jobModify || skillModify) && 'active'" @click="save" class="save ">
+        <el-button
+          :loading="loading"
+          :class="(setProfile || aboutModify || socialModify || jobModify || skillModify) && 'active'"
+          class="save "
+          @click="save"
+        >
           {{ $t('save') }}
         </el-button>
       </div>
@@ -528,9 +590,9 @@ export default {
         const format = data => {
           if (!data || !data.length) return []
           return data.map(i => ({
-              jid: i.id,
-              value: 1, // 默认
-            })
+            jid: i.id,
+            value: 1, // 默认
+          })
           )
         }
 
@@ -553,9 +615,9 @@ export default {
         const format = data => {
           if (!data || !data.length) return []
           return data.map(i => ({
-              sid: i.id,
-              value: i.value, // 默认
-            })
+            sid: i.id,
+            value: i.value, // 默认
+          })
           )
         }
 

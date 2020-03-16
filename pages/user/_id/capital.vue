@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="user-list">
-      <h2 class="user-title">Detail</h2>
+      <h2 class="user-title">
+        Detail
+      </h2>
       <!-- todo -->
-      <div class="detail">
-
-      </div>
+      <div class="detail" />
     </div>
   </div>
 </template>

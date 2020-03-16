@@ -1,5 +1,8 @@
 <template>
-  <tab @setIdx="i => $emit('setIdx', i)" :idx="idx">
+  <tab
+    :idx="idx"
+    @setIdx="i => $emit('setIdx', i)"
+  >
     <articleCardListNew
       v-for="item in articleCardData.articles"
       :key="item.id"

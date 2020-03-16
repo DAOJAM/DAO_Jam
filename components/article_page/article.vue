@@ -1,5 +1,8 @@
 <template>
-  <tab @setIdx="i => $emit('setIdx', i)" :idx="idx">
+  <tab
+    :idx="idx"
+    @setIdx="i => $emit('setIdx', i)"
+  >
     <!-- <el-popover slot="sort" class="filter" placement="bottom-end" trigger="click">
       <el-button slot="reference" class="filter-button" type="text">
         <div class="filter-header">
@@ -28,10 +31,19 @@
       </div>
     </el-popover> -->
 
-    <div slot="sort" class="sort">
-      <span @click="sortValue = options[0].value" :class="sortValue === options[0].value && 'active'">{{ options[0].label }}</span>
+    <div
+      slot="sort"
+      class="sort"
+    >
+      <span
+        :class="sortValue === options[0].value && 'active'"
+        @click="sortValue = options[0].value"
+      >{{ options[0].label }}</span>
       &nbsp;/&nbsp;
-      <span @click="sortValue = options[1].value" :class="sortValue === options[1].value && 'active'">{{ options[1].label }}</span>
+      <span
+        :class="sortValue === options[1].value && 'active'"
+        @click="sortValue = options[1].value"
+      >{{ options[1].label }}</span>
     </div>
 
     <articleCardListNew
@@ -45,7 +57,7 @@
         :params="articleCardData[sortValue].params"
         :api-url="articleCardData[sortValue].apiUrl"
         :is-atuo-request="articleCardData[sortValue].isAtuoRequest"
-        :autoRequestTime="articleCardData[sortValue].autoRequestTime"
+        :auto-request-time="articleCardData[sortValue].autoRequestTime"
         @buttonLoadMore="buttonLoadMore"
       />
     </div>

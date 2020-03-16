@@ -1,16 +1,26 @@
 <template>
   <div>
     <div class="user-list">
-      <h2 class="user-title">Following<span>{{totalFollows}}</span></h2>
+      <h2 class="user-title">
+        Following<span>{{ totalFollows }}</span>
+      </h2>
       <div class="follow">
-
         <div class="user-block">
-          <router-link :to="{name: 'user-id', params: { id: item.fuid }}" class="user-info" v-for="(item, index) in pullFollowing.list" :key="index">
-            <avatar :src="cover(item.avatar)"></avatar>
-            <p>{{item.nickname || '暂无昵称'}}</p>
+          <router-link
+            v-for="(item, index) in pullFollowing.list"
+            :key="index"
+            :to="{name: 'user-id', params: { id: item.fuid }}"
+            class="user-info"
+          >
+            <avatar :src="cover(item.avatar)" />
+            <p>{{ item.nickname || '暂无昵称' }}</p>
           </router-link>
-          <div class="user-not" v-if="pullFollowing.list.length === 0">暂无</div>
-
+          <div
+            v-if="pullFollowing.list.length === 0"
+            class="user-not"
+          >
+            暂无
+          </div>
         </div>
 
         <user-pagination
@@ -21,24 +31,34 @@
           :page-size="pullFollowing.size"
           :total="pullFollowing.total"
           :need-access-token="true"
+          class="use-pagination"
           @paginationData="paginationDataFollowing"
           @togglePage="togglePageFollowing"
-          class="use-pagination"
         />
-
       </div>
     </div>
 
     <div class="user-list">
-      <h2 class="user-title">Followers<span>{{totalFans}}</span></h2>
+      <h2 class="user-title">
+        Followers<span>{{ totalFans }}</span>
+      </h2>
       <div class="follow">
         <div class="user-block">
-          <router-link :to="{name: 'user-id', params: { id: item.uid }}" class="user-info" v-for="(item, index) in pullFollowers.list" :key="index">
-            <avatar :src="cover(item.avatar)"></avatar>
-            <p>{{item.nickname || '暂无昵称'}}</p>
+          <router-link
+            v-for="(item, index) in pullFollowers.list"
+            :key="index"
+            :to="{name: 'user-id', params: { id: item.uid }}"
+            class="user-info"
+          >
+            <avatar :src="cover(item.avatar)" />
+            <p>{{ item.nickname || '暂无昵称' }}</p>
           </router-link>
-          <div class="user-not" v-if="pullFollowers.list.length === 0">暂无</div>
-
+          <div
+            v-if="pullFollowers.list.length === 0"
+            class="user-not"
+          >
+            暂无
+          </div>
         </div>
 
         <user-pagination
@@ -49,9 +69,9 @@
           :page-size="pullFollowers.size"
           :total="pullFollowers.total"
           :need-access-token="true"
+          class="use-pagination"
           @paginationData="paginationDataFollowers"
           @togglePage="togglePageFollowers"
-          class="use-pagination"
         />
       </div>
     </div>

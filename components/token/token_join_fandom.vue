@@ -1,16 +1,31 @@
 <template>
-  <div v-loading="loading" class="fandom-card">
+  <div
+    v-loading="loading"
+    class="fandom-card"
+  >
     <div class="fl">
       <h2 class="token-title">
         加入{{ tokenSymbol }}粉丝群
       </h2>
-      <a @click="showHelp = true" class="help-click">入群指南 <i class="el-icon-arrow-right" /></a>
+      <a
+        class="help-click"
+        @click="showHelp = true"
+      >入群指南 <i class="el-icon-arrow-right" /></a>
     </div>
     <!-- 列表 -->
-    <div v-for="(fandom, index) in fandomList" :key="index" class="fl fandom-unit">
+    <div
+      v-for="(fandom, index) in fandomList"
+      :key="index"
+      class="fl fandom-unit"
+    >
       <div class="fandom-text">
         <div class="fl title">
-          <el-tooltip :content="fandom.title" class="item" effect="dark" placement="top">
+          <el-tooltip
+            :content="fandom.title"
+            class="item"
+            effect="dark"
+            placement="top"
+          >
             <h2>
               {{ fandom.title }}
             </h2>
@@ -22,10 +37,18 @@
         </p>
       </div>
       <div>
-        <el-button v-if="!isLogined || getMinBalance(fandom) <= balance" @click="addFandom(fandom)" class="add-button top10" size="small">
+        <el-button
+          v-if="!isLogined || getMinBalance(fandom) <= balance"
+          class="add-button top10"
+          size="small"
+          @click="addFandom(fandom)"
+        >
           加群
         </el-button>
-        <div v-else class="disable top10">
+        <div
+          v-else
+          class="disable top10"
+        >
           持票不足
         </div>
       </div>
@@ -35,15 +58,21 @@
       v-if="fandomData.length > 5"
       :total="fandomData.length"
       :page-size="pageSize"
-      @current-change="handleCurrentChange"
       class="pagination"
       small
       background
       layout="prev, pager, next"
+      @current-change="handleCurrentChange"
     />
 
     <!-- [弹窗]入群指南 -->
-    <el-dialog :visible.sync="showHelp" width="360px" title="入群指南" center custom-class="fandom-popups-title">
+    <el-dialog
+      :visible.sync="showHelp"
+      width="360px"
+      title="入群指南"
+      center
+      custom-class="fandom-popups-title"
+    >
       <!-- <p class="subtitle">
         根据以下步骤操作加入Fan票的粉丝群
       </p> -->
@@ -51,14 +80,20 @@
         <div class="help-text">
           <h3>
             步骤
-            <svg-icon class="help-serial" icon-class="step1" />
+            <svg-icon
+              class="help-serial"
+              icon-class="step1"
+            />
           </h3>
           <p class="introduction">
             绑定Telegram账号
           </p>
           <p>仅需要绑定一次</p>
         </div>
-        <div v-if="bindStatus" class="help-touch">
+        <div
+          v-if="bindStatus"
+          class="help-touch"
+        >
           <a @click="accountSettings()">
             账号变更
             <i class="el-icon-arrow-right" />
@@ -67,8 +102,14 @@
             已绑定
           </div>
         </div>
-        <div v-else class="help-touch">
-          <el-button @click="setTelegram()" class="add-button top40">
+        <div
+          v-else
+          class="help-touch"
+        >
+          <el-button
+            class="add-button top40"
+            @click="setTelegram()"
+          >
             绑定
           </el-button>
         </div>
@@ -77,7 +118,10 @@
         <div class="help-text">
           <h3>
             步骤
-            <svg-icon class="help-serial" icon-class="step2" />
+            <svg-icon
+              class="help-serial"
+              icon-class="step2"
+            />
           </h3>
           <p class="introduction">
             完成入群条件
@@ -89,7 +133,10 @@
         <div class="help-text">
           <h3>
             步骤
-            <svg-icon class="help-serial" icon-class="step3" />
+            <svg-icon
+              class="help-serial"
+              icon-class="step3"
+            />
           </h3>
           <p class="introduction">
             点击加群按钮

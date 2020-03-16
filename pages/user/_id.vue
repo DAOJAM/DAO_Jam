@@ -1,14 +1,18 @@
 <template>
   <div class="user">
-    <g-header></g-header>
+    <g-header />
     <main class="user-main">
       <div class="user-head">
         <div class="user-avatar">
-          <avatar :src="userAvatar"></avatar>
+          <avatar :src="userAvatar" />
           <h1>{{ userInfo.nickname || userInfo.username || '&nbsp;' }}</h1>
         </div>
         <div class="user-edit">
-          <a v-if="userAddress" :href="'http://rinkeby.etherscan.io/address/' + userAddress" target="_blank">
+          <a
+            v-if="userAddress"
+            :href="'http://rinkeby.etherscan.io/address/' + userAddress"
+            target="_blank"
+          >
             <el-button size="small">
               <svg-icon icon-class="eth_mini" />
               链上查看
@@ -18,12 +22,18 @@
             v-if="!isMe(Number($route.params.id))"
             :id="Number($route.params.id)"
           />
-          <router-link v-else :to="{name: 'setting'}">
+          <router-link
+            v-else
+            :to="{name: 'setting'}"
+          >
             <el-button size="small">
               {{ $t('user.editProfile') }}
             </el-button>
           </router-link>
-          <el-button @click="shareModalShow = true" size="small">
+          <el-button
+            size="small"
+            @click="shareModalShow = true"
+          >
             <svg-icon icon-class="share_new" />
             {{ $t('share') }}
           </el-button>
@@ -32,20 +42,40 @@
 
 
       <nav class="user-nav">
-        <n-link :to="{name: 'user-id', params: { id: $route.params.id }}" :class="$route.name === 'user-id' && 'active'">Information</n-link>
-        <n-link :to="{name: 'user-id-relationship', params: { id: $route.params.id }}" :class="$route.name === 'user-id-relationship' && 'active'">Relationship</n-link>
-        <n-link :to="{name: 'user-id-dao', params: { id: $route.params.id }}" :class="$route.name === 'user-id-dao' && 'active'">DAO</n-link>
-        <n-link :to="{name: 'user-id-capital', params: { id: $route.params.id }}" :class="$route.name === 'user-id-capital' && 'active'">CAPITAL</n-link>
+        <n-link
+          :to="{name: 'user-id', params: { id: $route.params.id }}"
+          :class="$route.name === 'user-id' && 'active'"
+        >
+          Information
+        </n-link>
+        <n-link
+          :to="{name: 'user-id-relationship', params: { id: $route.params.id }}"
+          :class="$route.name === 'user-id-relationship' && 'active'"
+        >
+          Relationship
+        </n-link>
+        <n-link
+          :to="{name: 'user-id-dao', params: { id: $route.params.id }}"
+          :class="$route.name === 'user-id-dao' && 'active'"
+        >
+          DAO
+        </n-link>
+        <n-link
+          :to="{name: 'user-id-capital', params: { id: $route.params.id }}"
+          :class="$route.name === 'user-id-capital' && 'active'"
+        >
+          CAPITAL
+        </n-link>
       </nav>
-      <router-view></router-view>
+      <router-view />
 
       <Share
-      :share-modal-show="shareModalShow"
-      :minetoken-user="{nickname: userInfo.name}"
-      :page-type="1"
-      :img="userInfo.avatar"
-      @input="val => shareModalShow = val"
-    />
+        :share-modal-show="shareModalShow"
+        :minetoken-user="{nickname: userInfo.name}"
+        :page-type="1"
+        :img="userInfo.avatar"
+        @input="val => shareModalShow = val"
+      />
     </main>
   </div>
 </template>

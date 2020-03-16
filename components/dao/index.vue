@@ -1,22 +1,27 @@
 <template>
   <div class="dao-list">
     <div class="dao-list__content">
-      <slot name="title"></slot>
+      <slot name="title" />
       <div class="dao-list__block">
         <router-link
-          class="dao-block animated"
-          :to="{name: 'token-id', params: {id: item.id}}"
           v-for="(item, index) in list"
           :key="index"
+          class="dao-block animated"
+          :to="{name: 'token-id', params: {id: item.id}}"
           :style="{animationDelay: index * 0.08 + 's'}"
         >
           <div class="dao">
-            <avatar :src="cover(item.logo)"></avatar>
-            <p>{{ item.symbol }}-{{item.name}}</p>
+            <avatar :src="cover(item.logo)" />
+            <p>{{ item.symbol }}-{{ item.name }}</p>
           </div>
         </router-link>
       </div>
-      <router-link class="dao-more" :to="{name: 'daos'}">VIEW MORE</router-link>
+      <router-link
+        class="dao-more"
+        :to="{name: 'daos'}"
+      >
+        VIEW MORE
+      </router-link>
     </div>
   </div>
 </template>

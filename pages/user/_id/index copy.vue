@@ -1,15 +1,18 @@
 
 <template>
   <userPage>
-    <div slot="list" v-loading="loading">
+    <div
+      slot="list"
+      v-loading="loading"
+    >
       <no-content-prompt :list="articleCardData.articles">
         <div
-          class="dao-list"
           v-for="(item, index) in articleCardData.articles"
           :key="index"
+          class="dao-list"
         >
-          <avatar :src="cover(item.avatar)"></avatar>
-          <div>{{item.symbol}}-{{item.name}}</div>
+          <avatar :src="cover(item.avatar)" />
+          <div>{{ item.symbol }}-{{ item.name }}</div>
         </div>
         <user-pagination
           v-show="!loading"
@@ -18,9 +21,9 @@
           :api-url="articleCardData.apiUrl"
           :page-size="articleCardData.params.pagesize"
           :total="total"
+          class="pagination"
           @paginationData="paginationData"
           @togglePage="togglePage"
-          class="pagination"
         />
       </no-content-prompt>
     </div>

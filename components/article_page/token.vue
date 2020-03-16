@@ -1,5 +1,8 @@
 <template>
-  <tab @setIdx="i => $emit('setIdx', i)" :idx="idx">
+  <tab
+    :idx="idx"
+    @setIdx="i => $emit('setIdx', i)"
+  >
     <div class="token-tap">
       <div>
         <router-link :to="{name: 'token'}">
@@ -8,7 +11,11 @@
             <span>购买Fan票</span>
           </div>
         </router-link>
-        <fanCard v-for="(tokenCard, index) in tokenCards.list" :key="index" :card="tokenCard" />
+        <fanCard
+          v-for="(tokenCard, index) in tokenCards.list"
+          :key="index"
+          :card="tokenCard"
+        />
       </div>
       <!-- 这里结构和 commodity有点不一样 如果有影响,可以选择将上面的card包裹 -->
       <div class="load-more-button">

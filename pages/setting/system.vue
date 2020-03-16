@@ -8,22 +8,29 @@
         <span class="title">{{ $t('user.transfer') }}</span>
         <el-switch
           v-model="isTransfer"
-          @change="changeTransfer"
           active-color="#542DE0"
+          @change="changeTransfer"
         />
       </div>
       <div class="list">
-        <el-button @click="clearCache" type="danger" icon="el-icon-delete">
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          @click="clearCache"
+        >
           一键清除缓存
         </el-button>
       </div>
 
       <div class="list">
-        <a class="href" target="_blank" href="https://www.yuque.com/matataki">
+        <a
+          class="href"
+          target="_blank"
+          href="https://www.yuque.com/matataki"
+        >
           帮助和支持
         </a>
       </div>
-
     </template>
     <template slot="nav">
       <myAccountNav />

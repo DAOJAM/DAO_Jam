@@ -4,7 +4,11 @@
       <h2 class="title">
         相关创作
       </h2>
-      <el-dropdown @command="toggleDropdown" class="sort" trigger="click">
+      <el-dropdown
+        class="sort"
+        trigger="click"
+        @command="toggleDropdown"
+      >
         <span class="el-dropdown-link">
           <span v-if="pull.params.sort === 'popular-desc'">按照热度排序</span>
           <span v-else-if="pull.params.sort === 'time-desc'">按照时间排序</span>
@@ -19,14 +23,29 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-popover class="filter" placement="bottom-end" trigger="click">
-        <el-button slot="reference" class="filter-button" type="text">
+      <el-popover
+        class="filter"
+        placement="bottom-end"
+        trigger="click"
+      >
+        <el-button
+          slot="reference"
+          class="filter-button"
+          type="text"
+        >
           <div class="filter-header">
-            <img class="filter-icon" src="@/assets/img/filter.svg">过滤
+            <img
+              class="filter-icon"
+              src="@/assets/img/filter.svg"
+            >过滤
           </div>
         </el-button>
         <div style="font-size: 16px">
-          <el-checkbox-group v-model="checkedFilter" :min="1" @change="handleCheckedFilterChanged">
+          <el-checkbox-group
+            v-model="checkedFilter"
+            :min="1"
+            @change="handleCheckedFilterChanged"
+          >
             <div style="margin-bottom: 8px">
               <el-checkbox label="1">
                 持票可见
@@ -44,7 +63,10 @@
 
     <div class="list">
       <div v-loading="loading">
-        <no-content-prompt :prompt="$t('notArticle')" :list="articles">
+        <no-content-prompt
+          :prompt="$t('notArticle')"
+          :list="articles"
+        >
           <articleCardListNew
             v-for="(item, index) in articles"
             :key="index"
@@ -61,9 +83,9 @@
         :page-size="10"
         :total="total"
         :need-access-token="false"
+        class="pagination"
         @paginationData="paginationData"
         @togglePage="togglePage"
-        class="pagination"
       />
     </div>
   </div>

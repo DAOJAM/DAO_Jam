@@ -7,37 +7,67 @@
           v-scroll-reveal="{ distance: '20px'}"
           class="head-text "
         >
-          <img :alt="$t('about.logo')" class="home-head-logo" src="@/assets/img/home/home_logo.png">
+          <img
+            :alt="$t('about.logo')"
+            class="home-head-logo"
+            src="@/assets/img/home/home_logo.png"
+          >
           <p class="home-head-des">
             {{ $t('about.homeTitle') }}
           </p>
           <p class="home-text-des">
             {{ $t('about.homeDes') }}
           </p>
-          <n-link :to="{name: 'article'}" style="margin-right: 10px;">
-            <el-button class="home-btn" icon="el-icon-reading">
+          <n-link
+            :to="{name: 'article'}"
+            style="margin-right: 10px;"
+          >
+            <el-button
+              class="home-btn"
+              icon="el-icon-reading"
+            >
               {{ $t('about.homeBtnRead') }}
             </el-button>
           </n-link>
-          <el-button @click="jumpTo('publish')" class="home-btn" icon="el-icon-edit">
+          <el-button
+            class="home-btn"
+            icon="el-icon-edit"
+            @click="jumpTo('publish')"
+          >
             {{ $t('about.homeBtnCreate') }}
           </el-button>
         </div>
-        <img v-scroll-reveal="{ distance: '20px', delay: 300}" class="home-head-img" src="@/assets/img/home/home_head.png" alt="matataki">
+        <img
+          v-scroll-reveal="{ distance: '20px', delay: 300}"
+          class="home-head-img"
+          src="@/assets/img/home/home_head.png"
+          alt="matataki"
+        >
       </div>
       <div class="skew effect-bg" />
     </div>
     <div class="home-effect">
       <el-row class="mw effect">
-        <el-col v-for="(item, index) in effectList" :key="index" :span="8">
-          <div v-scroll-reveal="{distance: '20px', delay: index * 200}" class="effect-block">
+        <el-col
+          v-for="(item, index) in effectList"
+          :key="index"
+          :span="8"
+        >
+          <div
+            v-scroll-reveal="{distance: '20px', delay: index * 200}"
+            class="effect-block"
+          >
             <h3 class="effect-title">
               {{ item.title }}
             </h3>
             <h4 class="effect-subtitle">
               {{ item.subtitle }}
             </h4>
-            <img :src="item.img" alt="effect" class="effect-img">
+            <img
+              :src="item.img"
+              alt="effect"
+              class="effect-img"
+            >
             <p class="effect-des">
               {{ item.des }}
             </p>
@@ -45,16 +75,28 @@
         </el-col>
       </el-row>
       <div class="mw flex recording">
-        <div v-scroll-reveal="{ distance: '20px'}" class="home-text">
+        <div
+          v-scroll-reveal="{ distance: '20px'}"
+          class="home-text"
+        >
           <h3 class="home-text-title">
             {{ $t('about.blockTitle1') }}
           </h3>
           <p class="home-text-content">
             {{ $t('about.blockDes1') }}
           </p>
-          <a target="_blank" class="read-more" href="https://www.matataki.io/p/806"> {{ $t('readMore') }}</a>
+          <a
+            target="_blank"
+            class="read-more"
+            href="https://www.matataki.io/p/806"
+          > {{ $t('readMore') }}</a>
         </div>
-        <img v-scroll-reveal="{ distance: '20px', delay: 300}" class="effect-flex-img" src="@/assets/img/home/home_head1.png" alt="matataki">
+        <img
+          v-scroll-reveal="{ distance: '20px', delay: 300}"
+          class="effect-flex-img"
+          src="@/assets/img/home/home_head1.png"
+          alt="matataki"
+        >
       </div>
     </div>
     <div class="home-block ipfs">
@@ -62,24 +104,44 @@
         <div class="skew effect-bg top" />
       </div>
       <div class="mw flex">
-        <div v-scroll-reveal="{ distance: '20px'}" class="home-text ipfs">
+        <div
+          v-scroll-reveal="{ distance: '20px'}"
+          class="home-text ipfs"
+        >
           <h3 class="home-text-title">
             {{ $t('about.blockTitle2') }}
           </h3>
           <p class="home-text-content">
             {{ $t('about.blockDes2') }}
           </p>
-          <a target="_blank" class="read-more" href="https://www.matataki.io/p/807"> {{ $t('readMore') }}</a>
+          <a
+            target="_blank"
+            class="read-more"
+            href="https://www.matataki.io/p/807"
+          > {{ $t('readMore') }}</a>
         </div>
-        <img v-scroll-reveal="{ distance: '20px', delay: 300}" class="effect-flex-img" src="@/assets/img/home/home_head2.png" alt="matataki">
+        <img
+          v-scroll-reveal="{ distance: '20px', delay: 300}"
+          class="effect-flex-img"
+          src="@/assets/img/home/home_head2.png"
+          alt="matataki"
+        >
       </div>
       <div class="skew point-bg" />
     </div>
     <div class="home-block flex point">
       <div class="mw flex">
-        <img v-scroll-reveal="{ distance: '20px', delay: 300}" class="effect-flex-img" src="@/assets/img/home/home_head3.png" alt="matataki">
+        <img
+          v-scroll-reveal="{ distance: '20px', delay: 300}"
+          class="effect-flex-img"
+          src="@/assets/img/home/home_head3.png"
+          alt="matataki"
+        >
 
-        <div v-scroll-reveal="{ distance: '20px'}" class="home-text point">
+        <div
+          v-scroll-reveal="{ distance: '20px'}"
+          class="home-text point"
+        >
           <h3 class="home-text-title">
             {{ $t('about.blockTitle3') }}
           </h3>
@@ -95,7 +157,11 @@
             <br>
             {{ $t('about.blockDes34') }}
           </p>
-          <a target="_blank" class="read-more" href="https://www.matataki.io/p/781"> {{ $t('readMore') }}</a>
+          <a
+            target="_blank"
+            class="read-more"
+            href="https://www.matataki.io/p/781"
+          > {{ $t('readMore') }}</a>
         </div>
       </div>
     </div>
@@ -104,9 +170,20 @@
         <div class="skew point-bg top" />
       </div>
       <el-row class="mw flex stage">
-        <el-col v-for="(item, index) in stageList" :key="index" :span="8">
-          <div v-scroll-reveal="{distance: '20px', delay: index*200}" class="stage-block">
-            <img :src="item.img" class="stage-img" alt="stage">
+        <el-col
+          v-for="(item, index) in stageList"
+          :key="index"
+          :span="8"
+        >
+          <div
+            v-scroll-reveal="{distance: '20px', delay: index*200}"
+            class="stage-block"
+          >
+            <img
+              :src="item.img"
+              class="stage-img"
+              alt="stage"
+            >
             <h3 class="stage-title">
               {{ item.title }}
             </h3>

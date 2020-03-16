@@ -4,9 +4,9 @@
   >
     <span>
       <svg-icon
-        @click.stop="jumpAccount"
         class="integral-icon"
         icon-class="point1"
+        @click.stop="jumpAccount"
       />
     </span>
     <el-dropdown-menu slot="dropdown">
@@ -19,11 +19,21 @@
           </div>
         </div>
 
-        <div v-if="!pointStatus.profile" class="integral-list">
+        <div
+          v-if="!pointStatus.profile"
+          class="integral-list"
+        >
           <div class="flex">
             <span class="integral-title">{{ $t('point.completeProfile') }}</span>
-            <el-button @click="profile" size="mini" class="integral-btn">
-              <svg-icon class="box" icon-class="box" />
+            <el-button
+              size="mini"
+              class="integral-btn"
+              @click="profile"
+            >
+              <svg-icon
+                class="box"
+                icon-class="box"
+              />
               {{ $t('point.receive') }}
             </el-button>
           </div>
@@ -32,11 +42,21 @@
           </p>
         </div>
 
-        <div v-if="!pointStatus.login" class="integral-list">
+        <div
+          v-if="!pointStatus.login"
+          class="integral-list"
+        >
           <div class="flex">
             <span class="integral-title">{{ $t('point.feedback') }}</span>
-            <el-button @click="feedback" size="mini" class="integral-btn">
-              <svg-icon class="box" icon-class="box" />
+            <el-button
+              size="mini"
+              class="integral-btn"
+              @click="feedback"
+            >
+              <svg-icon
+                class="box"
+                icon-class="box"
+              />
               {{ $t('point.receive') }}
             </el-button>
           </div>
@@ -79,7 +99,11 @@
         <div class="integral-list">
           <div class="flex">
             <span class="integral-title">{{ $t('point.invite') }}</span>
-            <el-button @click="copyLink(referralLink1)" size="mini" class="integral-btn">
+            <el-button
+              size="mini"
+              class="integral-btn"
+              @click="copyLink(referralLink1)"
+            >
               {{ $t('point.copyLink') }}
             </el-button>
           </div>
@@ -94,36 +118,36 @@
             {{ $t('point.inviteDes3', [1 / $point.readReferralRate]) }}
           </p>
         </div>
-<!--去除header上文章相关-->
-<!--        <div class="integral-list">-->
-<!--          <div class="flex">-->
-<!--            <span class="integral-title">-->
-<!--              {{ $t('point.dailyPublishPoint') }}-->
-<!--            </span>-->
-<!--          </div>-->
-<!--          <div class="integral-progress">-->
-<!--            <el-progress :percentage="pointStatusPostNum" :show-text="false" :stroke-width="10" class="progress" color="#542DE0" />-->
-<!--            {{ pointStatusPost }}-->
-<!--          </div>-->
-<!--          <p class="integral-des">-->
-<!--            {{ $t('point.dailyPublishPointDes', [$point.publishDailyMax]) }}-->
-<!--          </p>-->
-<!--        </div>-->
+        <!--去除header上文章相关-->
+        <!--        <div class="integral-list">-->
+        <!--          <div class="flex">-->
+        <!--            <span class="integral-title">-->
+        <!--              {{ $t('point.dailyPublishPoint') }}-->
+        <!--            </span>-->
+        <!--          </div>-->
+        <!--          <div class="integral-progress">-->
+        <!--            <el-progress :percentage="pointStatusPostNum" :show-text="false" :stroke-width="10" class="progress" color="#542DE0" />-->
+        <!--            {{ pointStatusPost }}-->
+        <!--          </div>-->
+        <!--          <p class="integral-des">-->
+        <!--            {{ $t('point.dailyPublishPointDes', [$point.publishDailyMax]) }}-->
+        <!--          </p>-->
+        <!--        </div>-->
 
-<!--        <div class="integral-list">-->
-<!--          <div class="flex">-->
-<!--            <span class="integral-title">-->
-<!--              {{ $t('point.dailyReadPoint') }}-->
-<!--            </span>-->
-<!--          </div>-->
-<!--          <div class="integral-progress">-->
-<!--            <el-progress :percentage="pointStatusReadNum" :show-text="false" :stroke-width="10" class="progress" color="#542DE0" />-->
-<!--            {{ pointStatusRead }}-->
-<!--          </div>-->
-<!--          <p class="integral-des">-->
-<!--            {{ $t('point.dailyReadPointDes', [$point.readDailyMax]) }}-->
-<!--          </p>-->
-<!--        </div>-->
+        <!--        <div class="integral-list">-->
+        <!--          <div class="flex">-->
+        <!--            <span class="integral-title">-->
+        <!--              {{ $t('point.dailyReadPoint') }}-->
+        <!--            </span>-->
+        <!--          </div>-->
+        <!--          <div class="integral-progress">-->
+        <!--            <el-progress :percentage="pointStatusReadNum" :show-text="false" :stroke-width="10" class="progress" color="#542DE0" />-->
+        <!--            {{ pointStatusRead }}-->
+        <!--          </div>-->
+        <!--          <p class="integral-des">-->
+        <!--            {{ $t('point.dailyReadPointDes', [$point.readDailyMax]) }}-->
+        <!--          </p>-->
+        <!--        </div>-->
       </div>
     </el-dropdown-menu>
   </el-dropdown>

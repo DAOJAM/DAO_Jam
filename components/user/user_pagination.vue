@@ -3,13 +3,13 @@
     :total="total"
     :page-size="pageSize"
     :current-page.sync="currentPageCopy"
-    @prev-click="prevClick"
-    @next-click="nextClick"
-    @current-change="currentChange"
     :small="small"
     :class="selectClass"
     layout="prev, pager, next"
     background
+    @prev-click="prevClick"
+    @next-click="nextClick"
+    @current-change="currentChange"
   />
 </template>
 

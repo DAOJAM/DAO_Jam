@@ -1,6 +1,11 @@
 <template>
   <div class="info">
-    <router-link v-for="(tag, index) in tagsList" :to="{ name: tag.url }" :key="index" :class="$route.name === tag.url && 'active'">
+    <router-link
+      v-for="(tag, index) in tagsList"
+      :key="index"
+      :to="{ name: tag.url }"
+      :class="$route.name === tag.url && 'active'"
+    >
       {{ tag.title }}
     </router-link>
   </div>

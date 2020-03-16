@@ -1,62 +1,121 @@
 <template>
   <div>
     <div class="token-list">
-      <h2 class="token-title">Brief Introduction</h2>
-      <p class="token-brief">{{ minetokenToken.introduction || '暂无' }}</p>
+      <h2 class="token-title">
+        Brief Introduction
+      </h2>
+      <p class="token-brief">
+        {{ minetokenToken.introduction || '暂无' }}
+      </p>
     </div>
 
     <div class="token-list">
-      <h2 class="token-title">Achievement</h2>
+      <h2 class="token-title">
+        Achievement
+      </h2>
       <div class="achievement">
-        <el-tooltip effect="dark" :content="item.text" placement="top" v-for="(item, index) in achievementList" :key="index" class="tooltip">
-          <img :src="item.img" alt="item.text">
+        <el-tooltip
+          v-for="(item, index) in achievementList"
+          :key="index"
+          effect="dark"
+          :content="item.text"
+          placement="top"
+          class="tooltip"
+        >
+          <img
+            :src="item.img"
+            alt="item.text"
+          >
         </el-tooltip>
-        <p class="token-not" v-if="achievementList.length === 0">暂无</p>
+        <p
+          v-if="achievementList.length === 0"
+          class="token-not"
+        >
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="token-list">
-      <h2 class="token-title">DAO Website</h2>
-      <div class="website" v-if="resourcesWebsites.length !== 0">
-        <a v-for="(item, index) in resourcesWebsites" :key="index" :href="formatUrl(item)">{{ item }}</a>
-        <p class="token-not" v-if="resourcesWebsites.length === 0">暂无</p>
+      <h2 class="token-title">
+        DAO Website
+      </h2>
+      <div
+        v-if="resourcesWebsites.length !== 0"
+        class="website"
+      >
+        <a
+          v-for="(item, index) in resourcesWebsites"
+          :key="index"
+          :href="formatUrl(item)"
+        >{{ item }}</a>
+        <p
+          v-if="resourcesWebsites.length === 0"
+          class="token-not"
+        >
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="token-list">
-      <h2 class="token-title">Contact of SNS </h2>
+      <h2 class="token-title">
+        Contact of SNS
+      </h2>
       <div class="contact">
         <div class="social-btn">
-          <socialIcon v-for="(item, index) in resourcesSocialss" :key="index"  :show-tooltip="true" :icon="item.type" :content="item.content" />
-          <p class="token-not" v-if="resourcesSocialss.length === 0">暂无</p>
+          <socialIcon
+            v-for="(item, index) in resourcesSocialss"
+            :key="index"
+            :show-tooltip="true"
+            :icon="item.type"
+            :content="item.content"
+          />
+          <p
+            v-if="resourcesSocialss.length === 0"
+            class="token-not"
+          >
+            暂无
+          </p>
         </div>
       </div>
     </div>
 
     <div class="token-list">
-      <h2 class="token-title">Join the fanclub of Telegram</h2>
+      <h2 class="token-title">
+        Join the fanclub of Telegram
+      </h2>
       <!-- todo -->
       <div class="group">
-        <p class="token-not">暂无</p>
+        <p class="token-not">
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="token-list">
-      <h2 class="token-title">Supporters</h2>
+      <h2 class="token-title">
+        Supporters
+      </h2>
       <!-- todo -->
       <div class="supporters">
-        <p class="token-not">暂无</p>
+        <p class="token-not">
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="token-list">
-      <h2 class="token-title">Projects (Github Link)</h2>
+      <h2 class="token-title">
+        Projects (Github Link)
+      </h2>
       <div class="projects">
-        <p class="token-not">暂无</p>
+        <p class="token-not">
+          暂无
+        </p>
       </div>
       <!-- todo -->
     </div>
-
   </div>
 </template>
 
@@ -73,9 +132,6 @@ import socialTypes from '@/config/social_types.js'
 export default {
   components: {
     socialIcon
-  },
-  asyncData() {
-    console.log('id index')
   },
   data() {
     return {
@@ -102,6 +158,9 @@ export default {
       ]
     }
   },
+  asyncData() {
+    console.log('id index')
+  },
   created() {
     if (process.browser) {
       const id = this.$route.params.id
@@ -120,9 +179,9 @@ export default {
           console.log(res.message)
         }
       })
-      .catch(err => {
-        console.log(err)
-      })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 得到token的相关资源
     async minetokenGetResources(id) {

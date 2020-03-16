@@ -50,15 +50,27 @@
         >什么是Fan票?</a> -->
         <div class="tokens-list-header">
           <div class="tokens-list-header-left-column">
-            <el-dropdown @command="toggleDropdown" trigger="click">
-              <span :class="sort === selectedDropdown && 'active'" class="el-dropdown-link">
+            <el-dropdown
+              trigger="click"
+              @command="toggleDropdown"
+            >
+              <span
+                :class="sort === selectedDropdown && 'active'"
+                class="el-dropdown-link"
+              >
                 <span v-if="selectedDropdown === 'name-asc'">首字母升序</span>
                 <span v-else-if="selectedDropdown === 'name-desc'">首字母降序</span>
                 <span v-else-if="selectedDropdown === 'time-asc'">时间升序</span>
                 <span v-else-if="selectedDropdown === 'time-desc'">时间降序</span>
                 <span v-else>综合排序</span>
-                <i v-if="selectedDropdown.includes('-asc')" class="el-icon-arrow-up el-icon--right" />
-                <i v-else class="el-icon-arrow-down el-icon--right" />
+                <i
+                  v-if="selectedDropdown.includes('-asc')"
+                  class="el-icon-arrow-up el-icon--right"
+                />
+                <i
+                  v-else
+                  class="el-icon-arrow-down el-icon--right"
+                />
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="general">
@@ -80,15 +92,27 @@
             </el-dropdown>
           </div>
           <div class="tokens-list-header-medium-column">
-            <div :class="sort.startsWith('unit-price') && 'active'" @click="toggleSort('unit-price')" class="sub-column">
+            <div
+              :class="sort.startsWith('unit-price') && 'active'"
+              class="sub-column"
+              @click="toggleSort('unit-price')"
+            >
               单价
               <i class="el-icon-d-caret" />
             </div>
-            <div :class="sort.startsWith('liquidity') && 'active'" @click="toggleSort('liquidity')" class="sub-column">
+            <div
+              :class="sort.startsWith('liquidity') && 'active'"
+              class="sub-column"
+              @click="toggleSort('liquidity')"
+            >
               流动金
               <i class="el-icon-d-caret" />
             </div>
-            <div :class="sort.startsWith('exchange') && 'active'" @click="toggleSort('exchange')" class="sub-column">
+            <div
+              :class="sort.startsWith('exchange') && 'active'"
+              class="sub-column"
+              @click="toggleSort('exchange')"
+            >
               24h 成交额
               <i class="el-icon-d-caret" />
             </div>
@@ -99,9 +123,16 @@
         </div>
       </div>
 
-      <div v-loading="loading" class="card-container">
+      <div
+        v-loading="loading"
+        class="card-container"
+      >
         <no-content-prompt :list="pull.list">
-          <tokenCard v-for="(item, index) in pull.list" :key="index" :card="item" />
+          <tokenCard
+            v-for="(item, index) in pull.list"
+            :key="index"
+            :card="item"
+          />
         </no-content-prompt>
       </div>
       <user-pagination
@@ -112,9 +143,9 @@
         :page-size="10"
         :total="total"
         :need-access-token="true"
+        class="pagination"
         @paginationData="paginationData"
         @togglePage="togglePage"
-        class="pagination"
       />
     </div>
   </div>
