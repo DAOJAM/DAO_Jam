@@ -1,5 +1,8 @@
 <template>
-  <tab @setIdx="i => $emit('setIdx', i)" :idx="idx">
+  <tab
+    :idx="idx"
+    @setIdx="i => $emit('setIdx', i)"
+  >
     <!-- <el-popover slot="sort" class="filter" placement="bottom-end" trigger="click">
       <el-button slot="reference" class="filter-button" type="text">
         <div class="filter-header">
@@ -28,10 +31,19 @@
       </div>
     </el-popover> -->
 
-    <div slot="sort" class="sort">
-      <span @click="sortValue = options[0].value" :class="sortValue === options[0].value && 'active'">{{ options[0].label }}</span>
+    <div
+      slot="sort"
+      class="sort"
+    >
+      <span
+        :class="sortValue === options[0].value && 'active'"
+        @click="sortValue = options[0].value"
+      >{{ options[0].label }}</span>
       &nbsp;/&nbsp;
-      <span @click="sortValue = options[1].value" :class="sortValue === options[1].value && 'active'">{{ options[1].label }}</span>
+      <span
+        :class="sortValue === options[1].value && 'active'"
+        @click="sortValue = options[1].value"
+      >{{ options[1].label }}</span>
     </div>
 
     <articleCardListNew
@@ -45,7 +57,7 @@
         :params="articleCardData[sortValue].params"
         :api-url="articleCardData[sortValue].apiUrl"
         :is-atuo-request="articleCardData[sortValue].isAtuoRequest"
-        :autoRequestTime="articleCardData[sortValue].autoRequestTime"
+        :auto-request-time="articleCardData[sortValue].autoRequestTime"
         @buttonLoadMore="buttonLoadMore"
       />
     </div>
@@ -53,14 +65,12 @@
 </template>
 
 <script>
-import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
 // import articleCard from '@/components/articleCard/index.vue'
 import tab from './tab.vue'
 import articleCardListNew from '@/components/article_card_list_new/index.vue'
 import buttonLoadMore from '@/components/button_load_more/index.vue'
 
-import { recommend, paginationData, getTags } from '@/api/async_data_api.js'
 
 export default {
   transition: 'page',
@@ -146,7 +156,7 @@ export default {
         this.articleCardData[this.sortValue].articles = this.articleCardData[this.sortValue].articles.concat(res.data.list)
       }
     },
-    handleCheckedFilterChanged(value) {
+    handleCheckedFilterChanged() {
       this.onCheckedFilterChanged()
     },
     onCheckedFilterChanged: debounce(async function () {

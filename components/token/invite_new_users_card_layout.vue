@@ -22,12 +22,32 @@
                 alt="matataki home background"
               >
               <!-- logo -->
-              <img class="home-logo" src="@/assets/img/index/logo.png" alt="logo">
-              <img class="home-sumary1" src="@/assets/img/index/invite_slogan1.png" alt="sumary">
-              <img class="home-sumary2" src="@/assets/img/index/invite_slogan2.png" alt="sumary">
-              <img class="home-sumary3" src="@/assets/img/index/invite_slogan3.png" alt="sumary">
+              <img
+                class="home-logo"
+                src="@/assets/img/index/logo.png"
+                alt="logo"
+              >
+              <img
+                class="home-sumary1"
+                src="@/assets/img/index/invite_slogan1.png"
+                alt="sumary"
+              >
+              <img
+                class="home-sumary2"
+                src="@/assets/img/index/invite_slogan2.png"
+                alt="sumary"
+              >
+              <img
+                class="home-sumary3"
+                src="@/assets/img/index/invite_slogan3.png"
+                alt="sumary"
+              >
               <!-- btn -->
-              <qrcode :value="link" :options="{ width: '74' }" class="code" />
+              <qrcode
+                :value="link"
+                :options="{ width: '74' }"
+                class="code"
+              />
               <p class="qrcode-text">
                 扫一扫<br>
                 进入瞬matataki
@@ -45,7 +65,11 @@
         </div>
       </div>
     </div>
-    <el-button @click="save" class="save" type="primary">
+    <el-button
+      class="save"
+      type="primary"
+      @click="save"
+    >
       保存
     </el-button>
   </div>

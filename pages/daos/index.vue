@@ -2,37 +2,53 @@
   <div class="dao">
     <g-header />
     <div class="dao-main">
-      <div class="dao-content" v-loading="loading">
+      <div
+        v-loading="loading"
+        class="dao-content"
+      >
         <div class="dao-head">
-          <h2>DAOs ({{count}})</h2>
-            <el-input
-              style="width: 192px;"
-              size="medium"
-              placeholder="Search DAO"
-              suffix-icon="el-icon-search"
-              v-model="searchVal">
-            </el-input>
+          <h2>DAOs ({{ count }})</h2>
+          <el-input
+            v-model="searchVal"
+            style="width: 192px;"
+            size="medium"
+            placeholder="Search DAO"
+            suffix-icon="el-icon-search"
+          />
         </div>
 
         <div class="dao-cow">
-          <div class="dao-col" v-for="(item, index) in pull.list" :key="index">
+          <div
+            v-for="(item, index) in pull.list"
+            :key="index"
+            class="dao-col"
+          >
             <router-link :to="{name: 'token-id', params: {id: item.id}}">
               <div class="dao-block">
                 <div class="dao-block__head">
-                  <avatar :src="cover(item.logo)"></avatar>
+                  <avatar :src="cover(item.logo)" />
                   <div class="dao-block__head__info">
-                    <h3>{{item.symbol || '&nbsp;'}}</h3>
+                    <h3>{{ item.symbol || '&nbsp;' }}</h3>
                     <div class="dao-block__info__number dao-number__one">
                       <div class="dao__info__number__block">
-                        <svg-icon icon-class="members" class="icon"></svg-icon>
+                        <svg-icon
+                          icon-class="members"
+                          class="icon"
+                        />
                         {{ item.member || 0 }}
                       </div>
                       <div class="dao__info__number__block">
-                        <svg-icon icon-class="daos" class="icon"></svg-icon>
+                        <svg-icon
+                          icon-class="daos"
+                          class="icon"
+                        />
                         {{ formatDecimal(item.liquidity, item.decimals, -1) }}
                       </div>
                       <div class="dao__info__number__block">
-                        <svg-icon icon-class="tickets" class="icon"></svg-icon>
+                        <svg-icon
+                          icon-class="tickets"
+                          class="icon"
+                        />
                         {{ totalSupply(item.total_supply, item.decimals, -1) }}
                       </div>
                     </div>
@@ -40,23 +56,37 @@
                 </div>
                 <div class="dao-block__info__number dao-number__two">
                   <div class="dao__info__number__block">
-                    <svg-icon icon-class="members" class="icon"></svg-icon>
+                    <svg-icon
+                      icon-class="members"
+                      class="icon"
+                    />
                     {{ item.member }}
                   </div>
                   <div class="dao__info__number__block">
-                    <svg-icon icon-class="daos" class="icon"></svg-icon>
+                    <svg-icon
+                      icon-class="daos"
+                      class="icon"
+                    />
                     {{ formatDecimal(item.liquidity, item.decimals, -1) }}
                   </div>
                   <div class="dao__info__number__block">
-                    <svg-icon icon-class="tickets" class="icon"></svg-icon>
+                    <svg-icon
+                      icon-class="tickets"
+                      class="icon"
+                    />
                     {{ totalSupply(item.total_supply, item.decimals, -1) }}
                   </div>
                 </div>
                 <div class="dao-block__brief">
-                  {{item.brief || '暂无'}}
+                  {{ item.brief || '暂无' }}
                 </div>
                 <div class="dao-footer">
-                  <router-link  class="dao-btn" :to="{name: 'token-id', params: {id: item.id}}">VIEW</router-link>
+                  <router-link
+                    class="dao-btn"
+                    :to="{name: 'token-id', params: {id: item.id}}"
+                  >
+                    VIEW
+                  </router-link>
                 </div>
               </div>
             </router-link>
@@ -71,9 +101,9 @@
           :page-size="9"
           :total="total"
           :need-access-token="true"
+          class="dao-pagination"
           @paginationData="paginationData"
           @togglePage="togglePage"
-          class="dao-pagination"
         />
       </div>
     </div>

@@ -1,26 +1,50 @@
 <template>
   <header class="header">
     <div class="header-content">
-      <a href="/" class="logo-link">
-        <img class="logo" src="@/assets/img/daojam_logo.png" alt="logo" />
+      <a
+        href="/"
+        class="logo-link"
+      >
+        <img
+          class="logo"
+          src="@/assets/img/daojam_logo.png"
+          alt="logo"
+        >
       </a>
 
-      <svg-icon icon-class="menu" class="menu-icon" @click.stop="showSidebar" />
+      <svg-icon
+        icon-class="menu"
+        class="menu-icon"
+        @click.stop="showSidebar"
+      />
 
       <div class="header-right">
         <ul>
           <li>
-            <n-link :to="{name: 'index'}">HOME</n-link>
+            <n-link :to="{name: 'index'}">
+              HOME
+            </n-link>
           </li>
           <li>
-            <n-link :to="{name: 'daos'}">DAOs</n-link>
+            <n-link :to="{name: 'daos'}">
+              DAOs
+            </n-link>
           </li>
           <li>
-            <n-link :to="{name: 'article'}">STAT</n-link>
+            <n-link :to="{name: 'article'}">
+              STAT
+            </n-link>
           </li>          
         </ul>
-        <div class="notification" @click="viewNotification">
-          <el-tooltip effect="dark" content="通知中心" placement="bottom">
+        <div
+          class="notification"
+          @click="viewNotification"
+        >
+          <el-tooltip
+            effect="dark"
+            content="通知中心"
+            placement="bottom"
+          >
             <svg-icon
               :class="{ badge: hasNewNotification }"
               class="icon"
@@ -28,23 +52,43 @@
             />
           </el-tooltip>
         </div>
-        <div class="daos" v-if="isLogined">
+        <div
+          v-if="isLogined"
+          class="daos"
+        >
           <svg-icon
             class="icon"
             icon-class="daos"
           />
           0
         </div>
-        <a v-if="!isLogined" @click="login" href="javascript:;" class="sign-btn">{{ $t('home.signIn') }}</a>
-        <el-dropdown v-else class="user-menu">
-          <avatar :src="avatarSrc"></avatar>
-          <el-dropdown-menu slot="dropdown" class="user-dorpdown">
-            <n-link :to="{name: 'user-id', params:{id: currentUserInfo.id}}" class="link">
+        <a
+          v-if="!isLogined"
+          href="javascript:;"
+          class="sign-btn"
+          @click="login"
+        >{{ $t('home.signIn') }}</a>
+        <el-dropdown
+          v-else
+          class="user-menu"
+        >
+          <avatar :src="avatarSrc" />
+          <el-dropdown-menu
+            slot="dropdown"
+            class="user-dorpdown"
+          >
+            <n-link
+              :to="{name: 'user-id', params:{id: currentUserInfo.id}}"
+              class="link"
+            >
               <el-dropdown-item>
                 {{ currentUserInfo.nickname || currentUserInfo.name }}
               </el-dropdown-item>
             </n-link>
-            <n-link :to="{name: 'setting', params:{id: currentUserInfo.id}}" class="link">
+            <n-link
+              :to="{name: 'setting', params:{id: currentUserInfo.id}}"
+              class="link"
+            >
               <el-dropdown-item>
                 <svg-icon
                   class="icon"
@@ -53,7 +97,10 @@
                 Setting
               </el-dropdown-item>
             </n-link>
-            <div @click="signOut" class="link">
+            <div
+              class="link"
+              @click="signOut"
+            >
               <el-dropdown-item>
                 <svg-icon
                   class="icon"
@@ -67,26 +114,53 @@
       </div>
     </div>
 
-    <div class="header-sidebar" :class="toggle && 'open'">
-      <div class="header-sidebar__full" @click.stop="toggle = false"></div>
+    <div
+      class="header-sidebar"
+      :class="toggle && 'open'"
+    >
+      <div
+        class="header-sidebar__full"
+        @click.stop="toggle = false"
+      />
       <div class="header-sidebar__content">
-        <avatar class="user-avatar" :src="avatarSrc"></avatar>
-        <p class="user-name">{{ currentUserInfo.nickname || currentUserInfo.name }}</p>
+        <avatar
+          class="user-avatar"
+          :src="avatarSrc"
+        />
+        <p class="user-name">
+          {{ currentUserInfo.nickname || currentUserInfo.name }}
+        </p>
 
         <ul>
           <li>
-            <svg-icon icon-class="user" class="icon" />
-            <n-link :to="{name: 'user-id', params:{id: currentUserInfo.id}}">我的主页</n-link>
+            <svg-icon
+              icon-class="user"
+              class="icon"
+            />
+            <n-link :to="{name: 'user-id', params:{id: currentUserInfo.id}}">
+              我的主页
+            </n-link>
           </li>
           <li>
-            <svg-icon icon-class="home" class="icon" />
-            <n-link :to="{name: 'setting', params:{id: currentUserInfo.id}}">{{ $t('home.account') }}</n-link>
+            <svg-icon
+              icon-class="home"
+              class="icon"
+            />
+            <n-link :to="{name: 'setting', params:{id: currentUserInfo.id}}">
+              {{ $t('home.account') }}
+            </n-link>
           </li>
         </ul>
 
         <div class="user-footer">
-          <div class="user-footer__block" @click="signOut">
-            <svg-icon icon-class="logout" class="logout-icon" />
+          <div
+            class="user-footer__block"
+            @click="signOut"
+          >
+            <svg-icon
+              icon-class="logout"
+              class="logout-icon"
+            />
             {{ isLogined ? $t('home.signOut') : $t('home.signIn') }}
           </div>
         </div>
@@ -110,14 +184,14 @@ export default {
       toggle: false,
     }
   },
+  computed: {
+    ...mapGetters(['currentUserInfo', 'isLogined', 'isMe']),
+    ...mapGetters('notification', ['hasNewNotification']),
+  },
   watch: {
     isLogined(newState) {
       if (newState) this.refreshUser()
     },
-  },
-  computed: {
-    ...mapGetters(['currentUserInfo', 'isLogined', 'isMe']),
-    ...mapGetters('notification', ['hasNewNotification']),
   },
   created() {
     const { isLogined, refreshUser } = this
@@ -151,7 +225,7 @@ export default {
           this.$alert('很抱歉，退出登录失败，点击确定刷新', '温馨提示', {
             showClose: false,
             type: 'success',
-            callback: action => {
+            callback: () => {
               window.location.reload()
             }
           })
@@ -159,7 +233,7 @@ export default {
 
         // 重置all store
         this.resetAllStore()
-          .then(res => {
+          .then(() => {
             removeCookie('ACCESS_TOKEN')
             removeCookie('idProvider')
             removeCookie('referral')

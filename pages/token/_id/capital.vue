@@ -1,8 +1,9 @@
 <template>
   <div>
-
     <div class="token-list">
-      <h2 class="token-title">数据统计</h2>
+      <h2 class="token-title">
+        数据统计
+      </h2>
       <div class="fl total-content">
         <div class="token-data">
           <p class="token-num">
@@ -47,7 +48,10 @@
         </div>
 
         <div class="token-data">
-          <p :style="{color: color}" class="token-num">
+          <p
+            :style="{color: color}"
+            class="token-num"
+          >
             {{ change }}
           </p>
           <p class="token-name">
@@ -68,16 +72,20 @@
     </div>
 
     <div class="token-list">
-      <h2 class="token-title">Details</h2>
+      <h2 class="token-title">
+        Details
+      </h2>
       <div class="token-tags">
         <mineTokensNav v-model="tabPage" />
         <tokenFanCoins v-if="tabPage === 0" />
         <tokenFanCoinsDetail v-else-if="tabPage === 1" />
         <tokenLiquidity v-else-if="tabPage === 2" />
-        <tokenLiquidityDetail v-else-if="tabPage === 3" :token="minetokenToken" />
+        <tokenLiquidityDetail
+          v-else-if="tabPage === 3"
+          :token="minetokenToken"
+        />
       </div>
     </div>
-
   </div>
 </template>
 
@@ -184,9 +192,9 @@ export default {
           console.log(res.message)
         }
       })
-      .catch(err => {
-        console.log(err)
-      })
+        .catch(err => {
+          console.log(err)
+        })
     },
   }
 }

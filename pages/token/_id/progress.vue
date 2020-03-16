@@ -1,22 +1,28 @@
 <template>
   <div>
-
     <div class="token-list">
-      <h2 class="token-title">Live of development</h2>
+      <h2 class="token-title">
+        Live of development
+      </h2>
       <!-- todo -->
       <div class="live">
-        <p class="token-not">暂无</p>
+        <p class="token-not">
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="token-list">
-      <h2 class="token-title">Progress of development</h2>
+      <h2 class="token-title">
+        Progress of development
+      </h2>
       <!-- todo -->
       <div class="progress">
-        <p class="token-not">暂无</p>
+        <p class="token-not">
+          暂无
+        </p>
       </div>
     </div>
-
   </div>
 </template>
 

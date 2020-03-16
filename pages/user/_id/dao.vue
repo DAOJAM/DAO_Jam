@@ -1,30 +1,52 @@
 <template>
   <div>
     <div class="user-list">
-      <h2 class="user-title">DAOs That He/She Organized</h2>
+      <h2 class="user-title">
+        DAOs That He/She Organized
+      </h2>
       <!-- todo -->
       <div class="dao">
         <div class="dao-list">
-          <router-link :to="{name: 'token-id', params: { id: tokenData.id }}" class="dao-block not">
-            <avatar :src="cover(tokenData.logo)"></avatar>
-            <p>{{tokenData.symbol}}</p>
+          <router-link
+            :to="{name: 'token-id', params: { id: tokenData.id }}"
+            class="dao-block not"
+          >
+            <avatar :src="cover(tokenData.logo)" />
+            <p>{{ tokenData.symbol }}</p>
           </router-link>
         </div>
-        <p class="user-not" v-if="!tokenData.id">暂无</p>
+        <p
+          v-if="!tokenData.id"
+          class="user-not"
+        >
+          暂无
+        </p>
       </div>
     </div>
 
     <div class="user-list">
-      <h2 class="user-title">DAOs That He/She Joined</h2>
+      <h2 class="user-title">
+        DAOs That He/She Joined
+      </h2>
       <!-- todo -->
       <div class="dao">
         <div class="dao-list">
-          <router-link :to="{name: 'token-id', params: { id: item.token_id }}"  class="dao-block" v-for="(item, index) in pull.list" :key="index">
-            <avatar :src="cover(item.logo)"></avatar>
-            <p>{{item.symbol}}</p>
+          <router-link
+            v-for="(item, index) in pull.list"
+            :key="index"
+            :to="{name: 'token-id', params: { id: item.token_id }}"
+            class="dao-block"
+          >
+            <avatar :src="cover(item.logo)" />
+            <p>{{ item.symbol }}</p>
           </router-link>
         </div>
-        <p class="user-not" v-if="pull.list.length === 0">暂无</p>
+        <p
+          v-if="pull.list.length === 0"
+          class="user-not"
+        >
+          暂无
+        </p>
         <user-pagination
           v-show="!pull.loading"
           :current-page="pull.currentPage"
@@ -33,9 +55,9 @@
           :page-size="pull.size"
           :total="pull.total"
           :need-access-token="true"
+          class="use-pagination"
           @paginationData="paginationData"
           @togglePage="togglePage"
-          class="use-pagination"
         />
       </div>
     </div>

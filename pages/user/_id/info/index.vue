@@ -1,13 +1,22 @@
 
 <template>
   <userPage>
-    <div slot="list" v-loading="loading">
+    <div
+      slot="list"
+      v-loading="loading"
+    >
       <div class="dao">
         <myTokenHeader />
       </div>
       <div v-if="userAddress">
-        <a :href="'http://rinkeby.etherscan.io/address/' + userAddress" target="_blank">
-          <el-button class="link-btn" size="small">
+        <a
+          :href="'http://rinkeby.etherscan.io/address/' + userAddress"
+          target="_blank"
+        >
+          <el-button
+            class="link-btn"
+            size="small"
+          >
             <svg-icon icon-class="eth_mini" />
             链上查看
           </el-button>
@@ -16,33 +25,61 @@
       <div>
         <p>tags</p>
         <div>
-          <el-tag v-for="(item, index) in tags" :key="index" style="margin-right: 10px;">
-            <i class="el-icon-price-tag"></i>
-            {{item}}
+          <el-tag
+            v-for="(item, index) in tags"
+            :key="index"
+            style="margin-right: 10px;"
+          >
+            <i class="el-icon-price-tag" />
+            {{ item }}
           </el-tag>
         </div>
       </div>
-      <div v-if="urls.length !== 0" class="websites">
+      <div
+        v-if="urls.length !== 0"
+        class="websites"
+      >
         <h3 class="inline h3">
           相关网站
         </h3>
         <div class="inline url">
-          <p v-for="(item, index ) in urls" :key="index">
-            <a :href="formatUrl(item)" target="_blank" class="link">{{ item }} </a>
+          <p
+            v-for="(item, index ) in urls"
+            :key="index"
+          >
+            <a
+              :href="formatUrl(item)"
+              target="_blank"
+              class="link"
+            >{{ item }} </a>
           </p>
         </div>
       </div>
-      <div v-if="social.length !== 0" class="social">
+      <div
+        v-if="social.length !== 0"
+        class="social"
+      >
         <h3 class="inline h3">
           社交账号
         </h3>
         <div class="inline">
-          <div v-for="(item, index) in social" :key="index" class="social-icons inline">
-            <socialIcon :icon="item.icon" :show-tooltip="true" :content="item.content" />
+          <div
+            v-for="(item, index) in social"
+            :key="index"
+            class="social-icons inline"
+          >
+            <socialIcon
+              :icon="item.icon"
+              :show-tooltip="true"
+              :content="item.content"
+            />
           </div>
         </div>
       </div>
-      <div v-if="social.length === 0 && urls.length === 0 && loading === false" class="social no-data">
+      <div
+        v-if="social.length === 0 && urls.length === 0 && loading === false"
+        class="social no-data"
+      >
         <p>
           暂无信息
         </p>

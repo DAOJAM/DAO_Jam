@@ -6,10 +6,19 @@
           余额 ¥
         </h2>
         <template v-if="viewStatus === 0">
-          <assets :assets="assets" @toggleWithdraw="status => viewStatus = status" type="CNY" class="assets-margin" />
+          <assets
+            :assets="assets"
+            type="CNY"
+            class="assets-margin"
+            @toggleWithdraw="status => viewStatus = status"
+          />
           <div v-loading="loading">
             <no-content-prompt :list="articleCardData.articles">
-              <assetCard v-for="(item, index) in articleCardData.articles" :key="index" :asset="item" />
+              <assetCard
+                v-for="(item, index) in articleCardData.articles"
+                :key="index"
+                :asset="item"
+              />
             </no-content-prompt>
           </div>
           <user-pagination
@@ -20,13 +29,18 @@
             :page-size="articleCardData.params.pagesize"
             :total="total"
             :need-access-token="true"
+            class="pagination"
             @paginationData="paginationData"
             @togglePage="togglePage"
-            class="pagination"
           />
         </template>
         <template v-else>
-          <withdraw @toggleWithdraw="status => viewStatus = status" @withdrawDone="viewStatus = 0" type="ONT" class="withdraw" />
+          <withdraw
+            type="ONT"
+            class="withdraw"
+            @toggleWithdraw="status => viewStatus = status"
+            @withdrawDone="viewStatus = 0"
+          />
         </template>
       </div>
       <points />

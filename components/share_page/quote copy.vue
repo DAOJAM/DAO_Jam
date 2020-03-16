@@ -1,19 +1,45 @@
 <template>
   <!-- <div v-show="refernceTotal !== 0 || berefernceTotal !== 0"> -->
   <div>
-    <div ref="quote" :class="show && 'open'" @click.stop class="quote">
+    <div
+      ref="quote"
+      :class="show && 'open'"
+      class="quote"
+      @click.stop
+    >
       <div class="quote-head">
-        <div @click.stop="showQuote(0)" :class="(idx === 0 || idx === -1 ) && 'open'" class="quote-head__title one">
+        <div
+          :class="(idx === 0 || idx === -1 ) && 'open'"
+          class="quote-head__title one"
+          @click.stop="showQuote(0)"
+        >
           已引用<span>{{ refernceTotal }}</span>
         </div>
-        <div @click.stop="showQuote(1)" :class="idx === 1 && 'open'" class="quote-head__title two">
+        <div
+          :class="idx === 1 && 'open'"
+          class="quote-head__title two"
+          @click.stop="showQuote(1)"
+        >
           被引用<span>{{ berefernceTotal }}</span>
         </div>
       </div>
-      <quoteReference ref="quoteReference" :nowTime="nowTime" @getArticle="getArticle" v-if="idx === 0" />
-      <quoteBereference ref="quoteBereference" :nowTime="nowTime" @getArticle="getArticle" v-if="idx === 1" />
+      <quoteReference
+        v-if="idx === 0"
+        ref="quoteReference"
+        :now-time="nowTime"
+        @getArticle="getArticle"
+      />
+      <quoteBereference
+        v-if="idx === 1"
+        ref="quoteBereference"
+        :now-time="nowTime"
+        @getArticle="getArticle"
+      />
     </div>
-    <div :class="show && 'open'" class="full" />
+    <div
+      :class="show && 'open'"
+      class="full"
+    />
   </div>
 </template>
 
