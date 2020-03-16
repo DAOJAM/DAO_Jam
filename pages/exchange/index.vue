@@ -58,8 +58,6 @@ export default {
   computed: {
     ...mapGetters(['isLogined'])
   },
-  async asyncData({ $axios }) {
-  },
   created() {},
   mounted() {
     this.handleRoute()

@@ -118,7 +118,7 @@ export default {
         loading.close()
       })
     },
-    toggleShareCard(i) {
+    toggleShareCard() {
       this.shareCardCheckedOne = !this.shareCardCheckedOne
     }
   }

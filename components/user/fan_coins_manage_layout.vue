@@ -145,10 +145,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import moment from 'moment'
 import avatar from '@/components/avatar/index.vue'
 import { precision, toPrecision } from '@/utils/precisionConversion'
-import { testDecimal } from '@/utils/reg'
 import socialTypes from '@/config/social_types.js'
 import socialIcon from '@/components/social_icon/index.vue'
 

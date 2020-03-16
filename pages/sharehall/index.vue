@@ -522,7 +522,7 @@ export default {
       this.shareLinkList.splice(i, 1)
     },
     // 输入框改变
-    changeInput(val) {
+    changeInput() {
       this.getUrlData('urlForm')
     },
     // url 输入框聚焦

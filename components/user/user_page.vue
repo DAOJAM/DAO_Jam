@@ -200,7 +200,7 @@ export default {
   methods: {
     ...mapActions('user', ['refreshUser', 'followOrUnfollowUser']),
     async getMyUserData() {
-      const res = await this.$API
+      await this.$API
         .getMyUserData()
         .then(res => {
           const statusToken =
@@ -224,7 +224,7 @@ export default {
         })
         .catch(err => console.log('get token user error', err))
     },
-    doneImageUpload(res) {
+    doneImageUpload() {
       this.imgUploadDone += Date.now()
       this.refreshUser({ id: this.$route.params.id })
     }

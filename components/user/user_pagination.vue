@@ -74,14 +74,14 @@ export default {
       this.currentPageData(this.apiUrl, this.params, newVal)
     },
     params: {
-      handler(newVal) {
+      handler() {
         this.currentPageCopy = this.currentPage
         this.currentPageData(this.apiUrl, this.params, this.currentPage)
       },
       deep: true
     },
     // 刷新 改变当前页数和重新请求
-    reload(newVal) {
+    reload() {
       this.currentPageCopy = this.currentPage
       this.reloadFunc()
     }

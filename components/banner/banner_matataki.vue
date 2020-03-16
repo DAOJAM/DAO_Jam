@@ -229,7 +229,7 @@ export default {
         this.$alert(this.$t('error.pleaseLogin'), '提示', {
           confirmButtonText: '确定',
           showClose: false,
-          callback: action => this.$store.commit('setLoginModal', true)
+          callback: () => this.$store.commit('setLoginModal', true)
         })
       }
     }

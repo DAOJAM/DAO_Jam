@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import userLayout from '@/components/user/user_layout.vue'
 import myAccountNav from '@/components/my_account/my_account_nav.vue'
 import store from '@/utils/store.js'
@@ -62,7 +62,7 @@ export default {
     ...mapActions(['resetAllStore']),
     // 获取用户信息 - 转让状态
     async getMyUserData() {
-      const res = await this.$API.getMyUserData().then(res => {
+      await this.$API.getMyUserData().then(res => {
         if (res.code === 0) {
           this.isTransfer = !!res.data.accept
         } else console.log('获取用户信息失败')
@@ -98,7 +98,7 @@ export default {
         this.$alert('很抱歉，退出登录失败，点击确定刷新', '温馨提示', {
           showClose: false,
           type: 'success',
-          callback: action => {
+          callback: () => {
             window.location.reload()
           }
         })
@@ -108,7 +108,7 @@ export default {
       const clear = () => {
         // 重置all store
         this.resetAllStore()
-          .then(res => {
+          .then(() => {
             clearAllCookie()
             // 防止没有清除干净
             removeCookie('ACCESS_TOKEN')

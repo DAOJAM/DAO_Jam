@@ -118,7 +118,7 @@ export default {
         .then(() => {
           delFunc(this.id)
         })
-        .catch((action) => {})
+        .catch(() => {})
     },
     transfer() {
       this.transferModal = true

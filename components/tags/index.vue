@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import throttle from 'lodash/throttle'
 // import tag from './tag.vue'
 
 export default {

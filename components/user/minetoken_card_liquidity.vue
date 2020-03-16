@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { precision, toPrecision } from '@/utils/precisionConversion'
+import { precision } from '@/utils/precisionConversion'
 import avatar from '@/components/avatar/index.vue'
 
 export default {

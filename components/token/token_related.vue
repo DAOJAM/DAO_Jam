@@ -133,7 +133,7 @@ export default {
     buttonLoadMore(res) {
       this.articles = this.articles.concat(res.data.list)
     },
-    handleCheckedFilterChanged(value) {
+    handleCheckedFilterChanged() {
       this.onCheckedFilterChanged()
     },
     onCheckedFilterChanged: debounce(function () {

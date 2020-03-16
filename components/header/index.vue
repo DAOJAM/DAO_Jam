@@ -184,14 +184,14 @@ export default {
       toggle: false,
     }
   },
+  computed: {
+    ...mapGetters(['currentUserInfo', 'isLogined', 'isMe']),
+    ...mapGetters('notification', ['hasNewNotification']),
+  },
   watch: {
     isLogined(newState) {
       if (newState) this.refreshUser()
     },
-  },
-  computed: {
-    ...mapGetters(['currentUserInfo', 'isLogined', 'isMe']),
-    ...mapGetters('notification', ['hasNewNotification']),
   },
   created() {
     const { isLogined, refreshUser } = this
@@ -225,7 +225,7 @@ export default {
           this.$alert('很抱歉，退出登录失败，点击确定刷新', '温馨提示', {
             showClose: false,
             type: 'success',
-            callback: action => {
+            callback: () => {
               window.location.reload()
             }
           })
@@ -233,7 +233,7 @@ export default {
 
         // 重置all store
         this.resetAllStore()
-          .then(res => {
+          .then(() => {
             removeCookie('ACCESS_TOKEN')
             removeCookie('idProvider')
             removeCookie('referral')

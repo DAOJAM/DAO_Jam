@@ -26,11 +26,6 @@
 </template>
 
 <script>
-import throttle from 'lodash/throttle'
-import debounce from 'lodash/debounce'
-import { recommend, paginationData, getTags, tokenTokenList } from '@/api/async_data_api.js'
-import { extractChar, regRemoveContent } from '@/utils/reg'
-
 export default {
   transition: 'page',
   components: {

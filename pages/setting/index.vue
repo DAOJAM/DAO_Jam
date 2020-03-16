@@ -386,7 +386,7 @@ export default {
       const introductionLength = 200
       // 中文 字母 数字 1-12
       const reg = /^[\u4E00-\u9FA5A-Za-z0-9]{1,12}$/
-      const regEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+      // const regEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
       if (!reg.test(this.username)) {
         throw this.$t('rule.strEnglishNumber', ['1-12'])
       } else if (this.introduction.length > introductionLength) {
@@ -397,7 +397,7 @@ export default {
       if (hash) this.avatar = this.$ossProcess(hash)
     },
     // 完成上传
-    doneImageUpload(res) {
+    doneImageUpload() {
       // console.log(res)
       this.imgUploadDone += Date.now()
       this.refreshUser({ id: this.currentUserInfo.id })
@@ -440,7 +440,7 @@ export default {
         if (resLinks.code === 0) {
           setLinks(resLinks.data)
         } else {
-          console.log(res.message)
+          console.log(resLinks.message)
         }
       } catch (error) {
         console.log(error)

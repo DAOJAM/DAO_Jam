@@ -789,7 +789,6 @@
 <script>
 import throttle from 'lodash/throttle'
 import moment from 'moment'
-import Cookies from 'js-cookie'
 import 'moment/locale/zh-cn'
 import { mapGetters } from 'vuex'
 import { xssFilter, xssImageProcess } from '@/utils/xss'
@@ -1422,7 +1421,7 @@ export default {
         .then(() => {
           delArticleFunc(this.article.id)
         })
-        .catch((action) => {})
+        .catch(() => {})
     },
     transfer() {
       this.transferModal = true
@@ -1469,7 +1468,7 @@ export default {
             this.isBookmarked = true
           }
         } else {
-          const res = await this.$API.unbookmark(this.article.id)
+          await this.$API.unbookmark(this.article.id)
           this.isBookmarked = false
         }
       } catch (err) {
@@ -1625,7 +1624,7 @@ export default {
         const sliderWidth = (clientWidth / 2) - 47
         if (sliderWidth < 580) {
           const relatedDom = document.querySelectorAll('.related')
-          relatedDom.forEach((ele, i) => {
+          relatedDom.forEach((ele) => {
             // console.log(ele)
             ele.style.maxWidth = sliderWidth + 'px'
           })

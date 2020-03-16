@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce'
 import ringPage from '@/components/ring_page/index.vue'
 
 export default {

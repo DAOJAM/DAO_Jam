@@ -130,7 +130,6 @@ export default {
       }
     },
     shareLink() {
-      const { protocol, host } = window.location
       let url = `${process.env.VUE_APP_URL}/p/${this.$route.params.id}`
       if (this.isLogined) url += `?referral=${this.currentUserInfo.id}`
       return url

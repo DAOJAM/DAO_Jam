@@ -171,7 +171,7 @@ export default {
       }
       return ((parseFloat(balance) / parseFloat(total)) * 100).toFixed(2) + '%'
     },
-    liquidity(balance, decimals = 4) {
+    liquidity(balance) {
       return this.$utils.fromDecimal(balance, 4)
     },
     paginationData(res) {

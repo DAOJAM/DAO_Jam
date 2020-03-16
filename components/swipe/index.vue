@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { recommend } from '@/api/async_data_api.js'
 
 export default {
   props: {

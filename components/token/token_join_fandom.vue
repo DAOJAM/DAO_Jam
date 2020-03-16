@@ -157,7 +157,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import utils from '@/utils/utils'
 
 export default {
   components: {

@@ -104,7 +104,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getCookie } from '@/utils/cookie'
 
 export default {

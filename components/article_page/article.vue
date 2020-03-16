@@ -65,14 +65,12 @@
 </template>
 
 <script>
-import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
 // import articleCard from '@/components/articleCard/index.vue'
 import tab from './tab.vue'
 import articleCardListNew from '@/components/article_card_list_new/index.vue'
 import buttonLoadMore from '@/components/button_load_more/index.vue'
 
-import { recommend, paginationData, getTags } from '@/api/async_data_api.js'
 
 export default {
   transition: 'page',
@@ -158,7 +156,7 @@ export default {
         this.articleCardData[this.sortValue].articles = this.articleCardData[this.sortValue].articles.concat(res.data.list)
       }
     },
-    handleCheckedFilterChanged(value) {
+    handleCheckedFilterChanged() {
       this.onCheckedFilterChanged()
     },
     onCheckedFilterChanged: debounce(async function () {

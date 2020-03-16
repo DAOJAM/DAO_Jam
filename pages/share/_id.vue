@@ -378,7 +378,7 @@ export default {
           customClass: 'message-box__mobile'
         }).then(async () => {
           await this.$API.unbookmark(this.currentProfile.id)
-            .then(res => {
+            .then(() => {
               this.$message({ type: 'success', message: '取消成功' })
               this.currentProfile.is_bookmarked = 0
             })
@@ -391,7 +391,7 @@ export default {
         })
       } else {
         await this.$API.bookmark(this.currentProfile.id)
-          .then(res => {
+          .then(() => {
             this.$message({ type: 'success', message: '收藏成功' })
             this.currentProfile.is_bookmarked = 1
           })
@@ -437,7 +437,7 @@ export default {
     hideClient() {
       this.offSlidebar = Date.now()
     },
-    getArticle(id, popEvent) {
+    getArticle(id) {
       // console.log(id, popEvent)
       this.$route.params.id = id
       const { origin } = window.location

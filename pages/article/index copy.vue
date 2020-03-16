@@ -43,11 +43,10 @@
 
 <script>
 import throttle from 'lodash/throttle'
-import debounce from 'lodash/debounce'
 // import tokenTab from '@/components/article_page/token.vue'
 // import followTab from '@/components/article_page/follow.vue'
 // import articleTab from '@/components/article_page/article.vue'
-import { recommend, paginationData, getTags } from '@/api/async_data_api.js'
+import { recommend, paginationData } from '@/api/async_data_api.js'
 // import bannerMatataki from '@/components/banner/banner_matataki.vue'
 // import RAList from '@/components/recommend_author_list'
 // import swipe from '@/components/swipe/index.vue'

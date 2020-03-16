@@ -143,6 +143,7 @@ export default {
         Promise.all(PromiseLoadScript)
           .then(res => {
             console.log('done', res)
+            // eslint-disable-next-line no-undef
             if (ScrollMagic) {
               this.initScrollAnimation()
             }
@@ -160,12 +161,14 @@ export default {
   methods: {
     initScrollAnimation() {
       try {
+        // eslint-disable-next-line no-undef
         var controller = new ScrollMagic.Controller()
 
         let list = document.querySelectorAll('.animated-list')
-        list.forEach((el, i) => {
+        list.forEach((el) => {
           let animated = el.querySelectorAll('.animated')
-          let scene = new ScrollMagic.Scene({
+          // eslint-disable-next-line no-undef
+          new ScrollMagic.Scene({
             triggerElement: el,
             duration: '100%',
             triggerHook: 1,

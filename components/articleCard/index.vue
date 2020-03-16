@@ -105,7 +105,6 @@ import moment from 'moment'
 import { isNDaysAgo } from '@/utils/momentFun'
 import avatar from '@/components/avatar/index.vue'
 import { precision } from '@/utils/precisionConversion'
-import { tagColor } from '@/utils/tag'
 import { xssFilter } from '@/utils/xss'
 
 export default {

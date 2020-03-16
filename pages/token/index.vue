@@ -226,9 +226,9 @@ export default {
       }
 
       this.currentPage = 1
-      const query = {
-        sort
-      }
+      // const query = {
+      //   sort
+      // }
       this.pull.list = []
 
       this.sort = sort

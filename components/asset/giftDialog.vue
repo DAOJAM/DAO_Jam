@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import { precision, toPrecision } from '@/utils/precisionConversion'
+import { toPrecision } from '@/utils/precisionConversion'
 import debounce from 'lodash/debounce'
 import { xssFilter } from '@/utils/xss'
 import avatar from '@/common/components/avatar'
@@ -272,7 +272,7 @@ export default {
       this.$alert(`${message}，点击确定刷新`, '温馨提示', {
         showClose: false,
         type: 'success',
-        callback: action => {
+        callback: () => {
           this.$router.go(0)
         }
       })

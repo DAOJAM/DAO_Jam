@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import avatar from '@/components/avatar/index.vue'
 export default {
   name: 'FansCard',

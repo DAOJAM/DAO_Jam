@@ -510,7 +510,7 @@ export default {
         const controller = new ScrollMagic.Controller()
         // const clientHeight = document.body.clientHeight || document.documentElement.clientHeight
 
-        componentStory.forEach((el, i) => {
+        componentStory.forEach((el) => {
           const childHeaderInner = el.querySelector('.component-story__header .component-story__inner')
           const childSumaryInner = el.querySelector('.component-story__summary .component-story__inner')
           const tl = new TimelineMax()
@@ -521,7 +521,7 @@ export default {
 
           // tl.to('.roadmap .roadmap-time__block', 1, { z: 0, y: -20, ease: Linear.easeNone })
 
-          const scene = new ScrollMagic.Scene({
+          new ScrollMagic.Scene({
             triggerElement: el,
             triggerHook: 1,
             duration: '200%'
@@ -555,7 +555,7 @@ export default {
           })
         })
 
-        const scene1 = new ScrollMagic.Scene({
+        new ScrollMagic.Scene({
           triggerElement: roadmap
           // triggerHook: 1,
           // duration: '160%'

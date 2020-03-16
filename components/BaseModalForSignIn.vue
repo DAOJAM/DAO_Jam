@@ -138,18 +138,6 @@ export default {
       default: false
     }
   },
-  watch: {
-    showModal(val) {
-      this.$emit('input', val)
-    },
-    value(val) {
-      this.showModal = val
-    }
-  },
-  computed: {
-    ...mapState(['userConfig']),
-    ...mapGetters(['currentUserInfo'])
-  },
   data() {
     return {
       step: 1,
@@ -293,6 +281,18 @@ export default {
           }
         }
       ]
+    }
+  },
+  computed: {
+    ...mapState(['userConfig']),
+    ...mapGetters(['currentUserInfo'])
+  },
+  watch: {
+    showModal(val) {
+      this.$emit('input', val)
+    },
+    value(val) {
+      this.showModal = val
     }
   },
   methods: {

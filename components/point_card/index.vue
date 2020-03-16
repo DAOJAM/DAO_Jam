@@ -21,7 +21,6 @@
 <script>
 import moment from 'moment'
 // import { isNDaysAgo } from '@/common/methods';
-import { precision } from '@/utils/precisionConversion'
 
 export default {
   name: 'AssetCard',
@@ -48,7 +47,7 @@ export default {
       }
     },
     assetType() {
-      const { status, type } = this.asset
+      const { type } = this.asset
       const pointTypes = {
         read: this.$t('pointCard.read'),
         read_like: this.$t('pointCard.read_like'),

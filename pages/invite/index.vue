@@ -133,11 +133,11 @@ export default {
         }
       })
     },
-    formatterDate(row, column) {
-      // console.log(row, column)
+    formatterDate(row) {
+      // console.log(row)
       return row.date + 1
     },
-    formatterPoint(row, column) {
+    formatterPoint(row) {
       // console.log(row, column)
       return row.point + 11
     }

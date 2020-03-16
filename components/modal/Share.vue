@@ -301,7 +301,7 @@ export default {
         }
       )
     },
-    selectValue(e) {
+    selectValue() {
       event.currentTarget.select()
     },
     resetStatus() {

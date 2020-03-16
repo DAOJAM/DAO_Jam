@@ -96,13 +96,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import moment from 'moment'
 import avatar from '@/common/components/avatar/index.vue'
 import { precision } from '@/utils/precisionConversion'
 import { isNDaysAgo } from '@/utils/momentFun'
-import { tagColor } from '@/utils/tag'
-import { xssFilter, filterOutHtmlTags } from '@/utils/xss'
+import { filterOutHtmlTags } from '@/utils/xss'
 
 export default {
   name: 'ArticleCard',

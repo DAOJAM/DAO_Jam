@@ -315,7 +315,7 @@ export default {
     promptComputed(index) {
       return index === 2 ? this.$t('notFollowContent') : this.$t('notArticle')
     },
-    handleCheckedFilterChanged(value) {
+    handleCheckedFilterChanged() {
       this.onCheckedFilterChanged()
     },
     onCheckedFilterChanged: debounce(async function () {

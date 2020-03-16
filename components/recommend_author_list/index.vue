@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import avatar from '@/components/avatar'
 
 export default {

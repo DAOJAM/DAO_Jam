@@ -96,7 +96,7 @@
 
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 // import avatar from '@/common/components/avatar/index.vue'
 // import followBtn from '@/components/follow_btn'
 import socialIcon from '@/components/social_icon/index.vue'

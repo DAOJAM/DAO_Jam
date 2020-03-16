@@ -796,7 +796,6 @@ import articleTransfer from '@/components/articleTransfer'
 import articleImport from '@/components/article_import/index.vue'
 import statement from '@/components/statement/index.vue'
 
-import { getCookie } from '@/utils/cookie'
 import { toPrecision, precision } from '@/utils/precisionConversion'
 
 import userPagination from '@/components/user/user_pagination.vue'
@@ -1067,7 +1066,7 @@ export default {
     // 更新草稿方法
     updateDraftFunc: debounce(function () {
       const {
-        currentUserInfo,
+        // currentUserInfo,
         title,
         markdownData: content,
         fissionFactor,
@@ -1133,7 +1132,7 @@ export default {
         console.log('err', err)
       })
       // 获取文章信息
-      const res = await this.$API.getMyPost(id).then(res => {
+      await this.$API.getMyPost(id).then(res => {
         if (res.code === 0) {
           this.fissionNum = res.data.fission_factor / 1000
           this.signature = res.data.sign
@@ -1311,9 +1310,8 @@ export default {
       article.requireToken = this.requireToken
       // 设置积分
       article.commentPayPoint = this.commentPayPoint
-      const { failed, success } = this
+      const { failed } = this
       try {
-        const { author } = article
         // 取消钱包签名, 暂注释后面再彻底删除 start
         const response = await this.$API.publishArticle({ article })
         if (response.code !== 0) throw new Error(response.message)
@@ -1330,7 +1328,7 @@ export default {
               if (this.readauThority) promiseArr.push(this.postMineTokens(response.data)) // 持通证阅读
               if (this.paymentTokenVisible) promiseArr.push(this.articlePrices(response.data)) // 支付通证
               promiseArr.push(this.delDraft(this.$route.params.id)) // 删除草稿
-              Promise.all(promiseArr).then(res => {
+              Promise.all(promiseArr).then(() => {
                 this.success(response.data, `${this.$t('publish.publishArticleSuccess', [this.$point.publish])}`)
                 this.fullscreenLoading = false // remove full loading
               }).catch(err => {
@@ -1388,7 +1386,6 @@ export default {
       article.tags = this.setArticleTag(this.tagCards)
       article.requireBuy = this.requireBuy
       article.requireToken = this.requireToken
-      const { author } = article
       const { failed, success } = this
       try {
         const res = await this.$API.editArticle({ article })
@@ -1455,7 +1452,7 @@ export default {
 
       if (this.fissionFactor === '') this.fissionFactor = 2 // 用户不填写裂变系数则默认为2
       this.allowLeave = true
-      const { type, id } = this.$route.params
+      const { type } = this.$route.params
 
       const {
         currentUserInfo,
@@ -1721,7 +1718,7 @@ export default {
     },
     // 确定管理编辑
     confirmRelated(i) {
-      const { id, type } = this.$route.params
+      const { type } = this.$route.params
       if (!this.relatedList[i].urlInput || !this.relatedList[i].titleInput) return this.$message.warning('引用文章链接或标题不能为空!!!')
       const data = {
         url: this.relatedList[i].urlInput,
@@ -1762,7 +1759,7 @@ export default {
     },
     // 删除关联
     removeRelated(i, number) {
-      const { id, type } = this.$route.params
+      const { type } = this.$route.params
       const resSuccess = res => {
         // 提交数据等判断
         if (res.code === 0) {
@@ -1791,7 +1788,7 @@ export default {
       }
     },
     editRelated(i, number) {
-      const { id, type } = this.$route.params
+      const { type } = this.$route.params
       const resSuccess = res => {
         if (res.code === 0) {
           this.relatedList[i].urlInput = res.data.url

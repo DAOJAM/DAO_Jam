@@ -205,31 +205,6 @@ export default {
       buyDialog: false // buy dialog
     }
   },
-  async asyncData({ $axios, route, req }) {
-    // 获取cookie token
-    let accessToekn = ''
-    // 请检查您是否在服务器端
-    if (process.server) {
-      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
-      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
-      accessToekn = token ? token[0] : ''
-    }
-    const res = await $axios({
-      url: `/minetoken/${route.params.id}`,
-      methods: 'get',
-      headers: { 'x-access-token': accessToekn }
-    })
-
-    if (res.code === 0) {
-      return {
-        minetokenToken: res.data.token || Object.create(null),
-        minetokenUser: res.data.user || Object.create(null),
-        minetokenExchange: res.data.exchange || Object.create(null)
-      }
-    } else {
-      console.error(res.message)
-    }
-  },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined']),
     logo() {
@@ -277,6 +252,31 @@ export default {
       if (newVal) {
         this.getUserBalance()
       }
+    }
+  },
+  async asyncData({ $axios, route, req }) {
+    // 获取cookie token
+    let accessToekn = ''
+    // 请检查您是否在服务器端
+    if (process.server) {
+      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
+      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
+      accessToekn = token ? token[0] : ''
+    }
+    const res = await $axios({
+      url: `/minetoken/${route.params.id}`,
+      methods: 'get',
+      headers: { 'x-access-token': accessToekn }
+    })
+
+    if (res.code === 0) {
+      return {
+        minetokenToken: res.data.token || Object.create(null),
+        minetokenUser: res.data.user || Object.create(null),
+        minetokenExchange: res.data.exchange || Object.create(null)
+      }
+    } else {
+      console.error(res.message)
     }
   },
   mounted() {

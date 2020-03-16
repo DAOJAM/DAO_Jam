@@ -199,8 +199,6 @@ import { mapGetters, mapActions } from 'vuex'
 // import homeLogo from '@/assets/img/home_logo.png' // 因为tag页面不需要换颜色了, 可以逐步删掉props
 import point from './point'
 import language from './language'
-import homeLogo from '@/assets/img/m_logo_square.png'
-import homeLogoWhile from '@/assets/img/home_logo_white.png'
 // added DaoJam logo
 import daodelion from '@/assets/img/daodelion.png'
 // import avatarComponents from '@/components/avatar/index.vue'
@@ -359,7 +357,7 @@ export default {
           this.$alert('很抱歉，退出登录失败，点击确定刷新', '温馨提示', {
             showClose: false,
             type: 'success',
-            callback: action => {
+            callback: () => {
               window.location.reload()
             }
           })
@@ -367,7 +365,7 @@ export default {
 
         // 重置all store
         this.resetAllStore()
-          .then(res => {
+          .then(() => {
             removeCookie('ACCESS_TOKEN')
             removeCookie('idProvider')
             removeCookie('referral')
