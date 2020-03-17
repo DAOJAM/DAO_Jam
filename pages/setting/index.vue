@@ -38,7 +38,7 @@
             <el-input
               v-model="username"
               :placeholder="$t('rule.username')"
-              maxlength="12"
+              maxlength="50"
               show-word-limit
               clearable
             />
@@ -385,10 +385,10 @@ export default {
     checkSaveParams() {
       const introductionLength = 200
       // 中文 字母 数字 1-12
-      const reg = /^[\u4E00-\u9FA5A-Za-z0-9]{1,12}$/
+      const reg = /^[\u4E00-\u9FA5A-Za-z0-9]{1,50}$/
       // const regEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
       if (!reg.test(this.username)) {
-        throw this.$t('rule.strEnglishNumber', ['1-12'])
+        throw this.$t('rule.strEnglishNumber', ['1-50'])
       } else if (this.introduction.length > introductionLength) {
         throw this.$t('rule.profileNotExceedStr', [introductionLength])
       }
