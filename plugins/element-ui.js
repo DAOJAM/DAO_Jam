@@ -35,6 +35,8 @@ import {
   Option,
   Divider,
   Radio,
+  RadioButton,
+  RadioGroup,
   Alert,
   Carousel,
   CarouselItem
@@ -73,6 +75,8 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Divider)
 Vue.use(Radio)
+Vue.use(RadioButton)
+Vue.use(RadioGroup)
 Vue.use(Alert)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
