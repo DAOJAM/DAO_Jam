@@ -16,7 +16,26 @@
             class="token-avatar"
           />
           <div class="head-user__info">
-            <h2>{{ minetokenToken.symbol }} - {{ minetokenToken.name }}</h2>
+            <div class="fl ac">
+              <h2>{{ minetokenToken.symbol }} - {{ minetokenToken.name }}</h2>
+              <el-tooltip
+                class="pentagram"
+                effect="dark"
+                :content="pentagram ? '取消收藏该项目' : '收藏该项目'"
+                placement="top"
+              >
+                <div @click="pentagram = !pentagram">
+                  <svg-icon
+                    v-if="pentagram"
+                    icon-class="pentagram_active"
+                  />
+                  <svg-icon
+                    v-else
+                    icon-class="pentagram"
+                  />
+                </div>
+              </el-tooltip>
+            </div>
             <div class="head-user__founder">
               Founder:
               <router-link :to="{name: 'user-id', params: {id: minetokenToken.uid}}">
@@ -247,6 +266,7 @@ export default {
       joinDialog: false, // 申请加入
       joinEmail: '', // 申请加入
       joinContent: '', // 申请加入
+      pentagram: true, // 收藏
     }
   },
   computed: {
@@ -563,5 +583,11 @@ export default {
 }
 .join-content {
   margin: 20px 0;
+}
+
+.pentagram {
+  margin-left: 10px;
+  cursor: pointer;
+  user-select: none;
 }
 </style>

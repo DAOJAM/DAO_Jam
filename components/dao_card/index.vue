@@ -12,7 +12,21 @@
           <div class="dao-block__head">
             <avatar :src="cover(card.logo)" />
             <div class="dao-block__head__info">
-              <h3>{{ card.symbol || '&nbsp;' }}({{ card.name || '&nbsp;' }})</h3>
+              <div class="fl ac jsb">
+                <h3>{{ card.symbol || '&nbsp;' }}({{ card.name || '&nbsp;' }})</h3>
+                <template>
+                  <svg-icon
+                    v-if="true"
+                    class="icon-pentagram"
+                    icon-class="pentagram_active"
+                  />
+                  <svg-icon
+                    v-else
+                    class="icon-pentagram"
+                    icon-class="pentagram"
+                  />
+                </template>
+              </div>
               <div class="dao-block__info__number dao-number__one">
                 <div class="dao__info__number__block">
                   <svg-icon
@@ -241,6 +255,10 @@ export default {
   display: none;
   opacity: 0;
   visibility: hidden;
+}
+
+.icon-pentagram {
+  margin-left: 10px;
 }
 
 
