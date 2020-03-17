@@ -7,91 +7,121 @@
         class="dao-content"
       >
         <div class="dao-head">
-          <h2>DAOs ({{ count }})</h2>
-          <el-input
-            v-model="searchVal"
-            style="width: 192px;"
-            size="medium"
-            placeholder="Search DAO"
-            suffix-icon="el-icon-search"
-          />
+          <!-- <h2>DAOs ({{ count }})</h2> -->
+          <div class="dao-head__filter">
+            <div class="dao-head__block">
+              <p class="dao-head__title">
+                排序
+              </p>
+              <el-select
+                v-model="filterValue"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in filterOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+            <div class="dao-head__block">
+              <p class="dao-head__title">
+                筛选
+              </p>
+              <el-radio-group v-model="sortRadio">
+                <el-radio-button label="全部" />
+                <el-radio-button label="持有" />
+                <el-radio-button label="星标" />
+              </el-radio-group>
+            </div>
+          </div>
+
+          <div class="dao-head__block">
+            <p class="dao-head__title">
+              排序
+            </p>
+
+            <el-input
+              v-model="searchVal"
+              style="width: 192px;"
+              size="medium"
+              placeholder="Search DAO"
+              suffix-icon="el-icon-search"
+            />
+          </div>
         </div>
 
         <div class="dao-cow">
-          <div
+          <div class="dao-col">
+            <div
+              class="dao-block"
+              @click="createDaoDialog = true"
+            >
+              <svg-icon
+                icon-class="add"
+                class="icon-add"
+              />
+              <p class="dao-add__text">
+                Apply for DAO creation (need 1000
+                <svg-icon
+                  icon-class="daos"
+                  class="icon-dao"
+                />
+                )
+              </p>
+            </div>
+          </div>
+          <daoCard
             v-for="(item, index) in pull.list"
             :key="index"
             class="dao-col"
-          >
-            <router-link :to="{name: 'token-id', params: {id: item.id}}">
-              <div class="dao-block">
-                <div class="dao-block__head">
-                  <avatar :src="cover(item.logo)" />
-                  <div class="dao-block__head__info">
-                    <h3>{{ item.symbol || '&nbsp;' }}</h3>
-                    <div class="dao-block__info__number dao-number__one">
-                      <div class="dao__info__number__block">
-                        <svg-icon
-                          icon-class="members"
-                          class="icon"
-                        />
-                        {{ item.member || 0 }}
-                      </div>
-                      <div class="dao__info__number__block">
-                        <svg-icon
-                          icon-class="daos"
-                          class="icon"
-                        />
-                        {{ formatDecimal(item.liquidity, item.decimals, -1) }}
-                      </div>
-                      <div class="dao__info__number__block">
-                        <svg-icon
-                          icon-class="tickets"
-                          class="icon"
-                        />
-                        {{ totalSupply(item.total_supply, item.decimals, -1) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="dao-block__info__number dao-number__two">
-                  <div class="dao__info__number__block">
-                    <svg-icon
-                      icon-class="members"
-                      class="icon"
-                    />
-                    {{ item.member }}
-                  </div>
-                  <div class="dao__info__number__block">
-                    <svg-icon
-                      icon-class="daos"
-                      class="icon"
-                    />
-                    {{ formatDecimal(item.liquidity, item.decimals, -1) }}
-                  </div>
-                  <div class="dao__info__number__block">
-                    <svg-icon
-                      icon-class="tickets"
-                      class="icon"
-                    />
-                    {{ totalSupply(item.total_supply, item.decimals, -1) }}
-                  </div>
-                </div>
-                <div class="dao-block__brief">
-                  {{ item.brief || '暂无' }}
-                </div>
-                <div class="dao-footer">
-                  <router-link
-                    class="dao-btn"
-                    :to="{name: 'token-id', params: {id: item.id}}"
-                  >
-                    VIEW
-                  </router-link>
-                </div>
-              </div>
-            </router-link>
-          </div>
+            :card="item"
+          />
         </div>
+
+        <m-dialog
+          v-model="createDaoDialog"
+          width="400px"
+          title="开通项目功能"
+        >
+          <div class="create-dao">
+            <div class="create-dao__cover">
+              <img
+                src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg"
+                alt="cover"
+              >
+            </div>
+            <div class="line" />
+            <div class="create-dao__footer">
+              <div>
+                <p>
+                  需要支付1000金币
+                  <svg-icon
+                    icon-class="daos"
+                    class="icon-dao"
+                  />
+                </p>
+                <a href="#">如果获得金币?</a>
+              </div>
+
+              <div>
+                <el-button
+                  type="small"
+                  @click="createDao(true)"
+                >
+                  足够支付
+                </el-button>
+                <el-button
+                  type="small" 
+                  @click="createDao(false)"
+                >
+                  不够支付
+                </el-button>
+              </div>
+            </div>
+          </div>
+        </m-dialog>
 
         <user-pagination
           v-show="!loading"
@@ -111,23 +141,24 @@
 </template>
 
 <script>
-import avatar from '@/common/components/avatar/index.vue'
-import userPagination from '@/components/user/user_pagination.vue'
-import { precision } from '@/utils/precisionConversion'
+import { mapGetters } from 'vuex'
 
+import userPagination from '@/components/user/user_pagination.vue'
+import daoCard from '@/components/dao_card'
 export default {
   components: {
-    avatar,
-    userPagination
+    userPagination,
+    daoCard
   },
   data() {
     return {
+      createDaoDialog: false,
       tokenList: [],
       searchVal: '',
 
       pull: {
         params: {
-          pagesize: 9
+          pagesize: 8
         },
         apiUrl: 'tokenAll',
         list: [
@@ -140,29 +171,42 @@ export default {
       assets: {
       },
       viewStatus: 0, // 0 1
-      count: 0
+      count: 0,
+
+      filterOptions: [{
+        value: 'liquidity',
+        label: '流动金总量'
+      }, {
+        value: 'supporter',
+        label: '支持者人数'
+      }, {
+        value: 'developer',
+        label: '开发者数量'
+      }],
+      filterValue: 'liquidity',
+      sortRadio: '全部',
     }
   },
   computed: {
+    ...mapGetters(['isLogined']),
   },
   methods: {
-    // 转换k
-    totalSupply(val, decimals, decimal) {
-      let amount = this.formatDecimal(val, decimals, decimal)
-      return amount < 10000 ? amount : amount / 1000 + 'K'
-    },
-    formatDecimal(val, decimals, decimal) {
-      const amount = precision(val || 0, 'CNY', decimals)
-      // 不会有使用0位小数的传参进来
-      if (decimal) return this.$publishMethods.formatDecimal(amount, decimal)
-      else return amount
-    },
-    cover (src) {
-      if (!src) return ''
-      return src ? this.$ossProcess(src) : ''
+    // 创建dao
+    createDao(val) {
+      if (val) {
+        this.$alert('请在 设置-项目管理 中进行进一步设置', '项目开通成功', {
+          confirmButtonText: '立即设置',
+          callback: action => {
+            if (action === 'confirm' && this.isLogined) {
+              this.$router.push('/setting')
+            }
+          }
+        })
+      } else {
+        this.$message.warning('对不起, 您的金币不够!')
+      }
     },
     paginationData(res) {
-      console.log(1, res)
       this.count = res.data.count
       this.pull.list = res.data.list
       this.total = res.data.count || 0
@@ -191,7 +235,7 @@ export default {
 
 .dao-main {
   min-height: 1120px;
-  background-color: #0E2144;
+  background-color: #0e2144;
   background-image: url(../../assets/img/index_head_bg.png);
   background-size: contain;
   background-position: top;
@@ -211,20 +255,30 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-top: 60px;
-  h2 {
-    font-size:24px;
-    font-weight:500;
-    color:rgba(255,255,255,1);
-    line-height:33px;
-    padding: 0;
-    margin: 0;
+  &__filter {
+    display: flex;
   }
+
+  &__title {
+    font-size: 16px;
+    color: #fff;
+    padding: 0;
+    margin: 0 0 10px;
+  }
+
+  &__block {
+    text-align: left;
+    &:nth-child(1) {
+      margin-right: 20px;
+    }
+  }
+  
 }
 
 .dao-cow {
   min-height: 300px;
   &::after {
-    content: '';
+    content: "";
     display: block;
     width: 0;
     height: 0;
@@ -235,38 +289,60 @@ export default {
   float: left;
   width: calc(33.333% - (80px / 3));
   margin-top: 40px;
-  &:nth-of-type(3n+2) {
+  &:nth-of-type(3n + 2) {
     margin-left: 40px;
     margin-right: 40px;
   }
 }
+
+.dao-pagination {
+  margin: 40px 0;
+}
+
 .dao-block {
-  // min-height: 240px;
+  min-height: 290px;
   border-radius: 16px;
   box-sizing: border-box;
   color: #fff;
   position: relative;
   z-index: 1;
   overflow: hidden;
-  transition: all .2s;
+  transition: all 0.2s;
   cursor: pointer;
-  padding: 20px;
   // background: rgba(98,54,255,0.3);
 
-  background: rgba(98,54,255,0.1);
+  background: rgba(98, 54, 255, 0.1);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  .components-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    flex: 0 0 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .icon-add {
+    color: #fff;
+    font-size: 80px;
   }
+  .icon-dao {
+    font-size: 14px;
+  }
+
+  .dao-add__text {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 1);
+    line-height: 20px;
+    font-weight: bold;
+    padding: 0;
+    margin: 20px 0 0 0;
+  }
+
   &:hover {
-    background:rgba(98,54,255,1);
+    background: rgba(98, 54, 255, 1);
   }
   &::after {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 0;
@@ -280,143 +356,52 @@ export default {
   }
 }
 
-.dao-block__head {
-  display: flex;
-  align-items: center;
-}
-
-.dao-block__head__info {
-  width: 100%;
-  height: 60px;
-  margin: 0 0 0 10px;
-  box-sizing: border-box;
-  overflow: hidden;
-  h3 {
-    text-align: left;
-    padding: 0;
-    margin: 0;
-    font-size:24px;
-    font-weight:500;
-    color:rgba(255,255,255,1);
-    line-height:33px;
+.create-dao {
+  &__cover {
+    width: 100%;
+    height: 300px;
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
-}
-.dao-block__info__number {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  font-size:16px;
-  font-weight:400;
-  color:rgba(255,255,255,1);
-  line-height:22px;
-  margin-top: 6px;
-  .dao__info__number__block {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  .line {
+    width: 100%;
+    height: 1px;
+    background-color: #aeaeae;
+    margin: 20px 0;
   }
-  .icon {
-    font-size: 20px;
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    p {
+      padding: 0;
+      margin: 0 0 10px 0;
+      font-size: 16px;
+      color: #333;
+      .icon {
+        font-size: 18px;
+      }
+    }
+    a {
+      font-size: 14px;
+      color: #565656;
+      text-decoration: underline;
+    }
   }
-}
-
-.dao-block__brief {
-  padding: 0;
-  margin: 10px 0 0 0;
-  color: #000;
-  font-size:16px;
-  font-weight:400;
-  color:rgba(255,255,255,1);
-  line-height:22px;
-  height: (22px * 4);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
-  text-align: left;
-}
-
-.dao-footer {
-  text-align: right;
-}
-
-.dao-btn {
-  display: inline-block;
-  padding: 0 20px;
-  margin: 10px 0 0 0;
-  height:30px;
-  background:rgba(255,255,255,1);
-  border-radius:34px;
-  font-size:16px;
-  font-weight:500;
-  color:rgba(98,54,255,1);
-  line-height: 30px;
-  text-align: center;
-  transition: all .2s;
-  &:hover {
-    background: mix(rgba(255,255,255,1), #000, 90%);
-  }
-}
-
-.dao-pagination {
-  margin: 40px 0;
-}
-
-.dao-number__two {
-  display: none;
-  opacity: 0;
-  visibility: hidden;
 }
 
 
 
 @media screen and (max-width: 520px) {
-
-  .dao-number__one {
-    display: none;
-    opacity: 0;
-    visibility: hidden;
-  }
-  .dao-number__two {
-    display: flex;
-    opacity: 1;
-    visibility: initial;
-  }
-  .dao-footer {
-    display: none;
-    opacity: 0;
-    visibility: hidden;
-  }
-
-
-  .dao-head {
-    margin-top: 40px;
-    h2 {
-      font-size:22px;
-      font-weight:400;
-    }
-  }
-
-
   .dao-col {
     width: 100%;
     margin-top: 20px;
     margin-left: 0 !important;
     margin-right: 0 !important;
-  }
-
-  .dao-block__head__info h3 {
-    font-size: 16px;
-    line-height: 22px;
-    font-weight: 400;
-  }
-
-  .dao-block__brief {
-    font-size: 14px;
   }
 }
 
@@ -433,15 +418,6 @@ export default {
       margin-right: 0;
     }
   }
-
-  .dao-block__head__info h3 {
-    font-size: 16px;
-    line-height: 22px;
-  }
-
-  .dao-block__brief {
-    font-size: 14px;
-  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
@@ -451,60 +427,10 @@ export default {
   .dao-col {
     width: calc(33.333% - (40px / 3));
     margin-top: 20px;
-    &:nth-of-type(3n+2) {
+    &:nth-of-type(3n + 2) {
       margin-left: 20px;
       margin-right: 20px;
     }
-  }
-  .dao-block__head__info h3 {
-    font-size: 16px;
-    line-height: 22px;
-  }
-}
-@media screen and (min-width: 520px) and (max-width: 992px) {
-  .dao-number__one {
-    display: none;
-    opacity: 0;
-    visibility: hidden;
-  }
-  .dao-number__two {
-    display: flex;
-    opacity: 1;
-    visibility: initial;
-  }
-  .dao-footer {
-    display: none;
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1200px) {
-  .dao-block__head__info {
-    height: 50px;
-  }
-  .dao-block .components-avatar {
-    width: 50px;
-    height: 50px;
-    flex: 0 0 50px;
-  }
-  .dao-block__info__number {
-    font-size: 14px;
-    line-height: 20px;
-    .icon {
-      font-size: 16px;
-    }
-  }
-
-  .dao-block__brief {
-    font-size: 14px;
-    line-height: 20px;
-    height: (20px * 4);
-  }
-  .dao-btn {
-    height: 28px;
-    font-size: 14px;
-    line-height: 28px;
   }
 }
 
@@ -512,10 +438,5 @@ export default {
   .dao-content {
     max-width: 80%;
   }
-  .dao-block__head__info h3 {
-    font-size: 18px;
-    line-height: 24px;
-  }
 }
-
 </style>

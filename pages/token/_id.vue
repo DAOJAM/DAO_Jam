@@ -16,7 +16,26 @@
             class="token-avatar"
           />
           <div class="head-user__info">
-            <h2>{{ minetokenToken.symbol }} - {{ minetokenToken.name }}</h2>
+            <div class="fl ac">
+              <h2>{{ minetokenToken.symbol }} - {{ minetokenToken.name }}</h2>
+              <el-tooltip
+                class="pentagram"
+                effect="dark"
+                :content="pentagram ? '取消收藏该项目' : '收藏该项目'"
+                placement="top"
+              >
+                <div @click="pentagram = !pentagram">
+                  <svg-icon
+                    v-if="pentagram"
+                    icon-class="pentagram_active"
+                  />
+                  <svg-icon
+                    v-else
+                    icon-class="pentagram"
+                  />
+                </div>
+              </el-tooltip>
+            </div>
             <div class="head-user__founder">
               Founder:
               <router-link :to="{name: 'user-id', params: {id: minetokenToken.uid}}">
@@ -109,12 +128,30 @@
             >
               购买
             </el-button>
+            <el-button
+              class="head-btn"
+              size="small"
+              icon="el-icon-setting"
+              @click="joinDialog = true"
+            >
+              申请加入
+            </el-button>
           </div>
           <span class="head-amount">
             已持有：{{ balance }} {{ minetokenToken.symbol }}
           </span>
         </div>
       </div>
+
+      <div class="repo">
+        <svg-icon icon-class="github" />
+        Github Repo Address:
+        <a
+          href="https://github.com/DAOJAM/DAO_Jam"
+          target="_blank"
+        >https://github.com/DAOJAM/DAO_Jam</a>
+      </div>
+
       <nav class="token-nav">
         <n-link
           :to="{name: 'token-id', params: { id: $route.params.id }}"
@@ -151,6 +188,29 @@
       title="购买"
     >
       <tokenBuyCard :token="minetokenToken" />
+    </m-dialog>
+
+    <m-dialog
+      v-model="joinDialog"
+      width="600px"
+      title="申请加入"
+    >
+      <div>
+        <el-input
+          v-model="joinEmail"
+          placeholder="请输入联系邮箱"
+        />
+        <el-input
+          v-model="joinContent"
+          class="join-content"
+          type="textarea"
+          :rows="6"
+          placeholder="请输入加入理由"
+        />
+        <el-button @click="sendJoin">
+          发送
+        </el-button>
+      </div>
     </m-dialog>
   </div>
 </template>
@@ -202,7 +262,11 @@ export default {
       showTokenSetting: false, // 显示设置按钮
       balance: 0, // 余额
       shareModalShow: false, // share dialog
-      buyDialog: false // buy dialog
+      buyDialog: false, // buy dialog
+      joinDialog: false, // 申请加入
+      joinEmail: '', // 申请加入
+      joinContent: '', // 申请加入
+      pentagram: true, // 收藏
     }
   },
   computed: {
@@ -303,6 +367,16 @@ export default {
         } else console.log(res.message)
       })
     },
+    // 发送加入请求
+    sendJoin() {
+      if (this.joinEmail && this.joinContent) {
+        this.$message.success('发送成功')
+        this.joinEmail = ''
+        this.joinContent = ''
+      } else {
+        this.$message.warning('邮箱或者加入理由不能为空')
+      }
+    }
   }
 }
 </script>
@@ -496,5 +570,24 @@ export default {
       margin-left: 0;
     }
   }
+}
+
+.repo {
+  color: #fff;
+  font-size: 16px;
+  margin: 40px 0 0 0;
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+}
+.join-content {
+  margin: 20px 0;
+}
+
+.pentagram {
+  margin-left: 10px;
+  cursor: pointer;
+  user-select: none;
 }
 </style>

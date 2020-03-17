@@ -6,6 +6,16 @@
         <div class="user-avatar">
           <avatar :src="userAvatar" />
           <h1>{{ userInfo.nickname || userInfo.username || '&nbsp;' }}</h1>
+          <el-tooltip
+            effect="dark"
+            content="专业评委"
+            placement="top"
+          >
+            <svg-icon
+              icon-class="crown"
+              class="icon-crown"
+            />
+          </el-tooltip>
         </div>
         <div class="user-edit">
           <a
@@ -148,11 +158,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 .user {
   padding: 60px 0 0 0;
   min-height: calc(100% - (60px + 200px));
-  background-color: #0E2144;
+  background-color: #0e2144;
 }
 
 .user-main {
@@ -170,16 +179,26 @@ export default {
 .user-avatar {
   display: flex;
   align-items: center;
+  position: relative;
+  .icon-crown {
+    position: absolute;
+    top: -20px;
+    left: 84px;
+    font-size: 65px;
+    z-index: 1;
+    transform: rotate(45deg);
+    cursor: pointer;
+  }
   .components-avatar {
     width: 120px;
     height: 120px;
   }
   h1 {
     margin-left: 20px;
-    font-size:24px;
-    font-weight:500;
-    color:rgba(255,255,255,1);
-    line-height:33px;
+    font-size: 24px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 33px;
   }
 }
 
@@ -191,10 +210,10 @@ export default {
     padding: 0 0 5px 0;
     margin: 0 0 0 68px;
     display: block;
-    font-size:20px;
-    font-weight:500;
-    color:rgba(178,178,178,1);
-    line-height:28px;
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(178, 178, 178, 1);
+    line-height: 28px;
     box-sizing: border-box;
     border-bottom: 3px solid transparent;
     &:hover {
@@ -202,7 +221,7 @@ export default {
     }
     &.active {
       color: #fff;
-      border-bottom-color: #6236FF;
+      border-bottom-color: #6236ff;
     }
     &:nth-child(1) {
       margin-left: 0;

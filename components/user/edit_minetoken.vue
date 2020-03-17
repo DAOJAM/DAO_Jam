@@ -190,6 +190,16 @@
       </el-form-item>
 
       <el-form-item
+        label="项目REPO"
+        prop=""
+      >
+        <el-input
+          v-model="repo"
+          placeholder="项目REPO地址(Github)"
+        />
+      </el-form-item>
+
+      <el-form-item
         label="相关网站"
         prop=""
       >
@@ -507,7 +517,8 @@ export default {
         viewWidth: '240px',
         viewHeight: '240px',
         aspectRatio: 1 / 1
-      }
+      },
+      repo: '',
     }
   },
   computed: {
