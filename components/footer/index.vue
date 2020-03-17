@@ -2,15 +2,20 @@
   <footer class="footer">
     <div class="footer-social">
       <div
-        v-for="(item, index) in socialList"
-        :key="index"
+        v-for="item in socialList"
+        :key="item.name"
         class="footer-social__block"
         :class="item.name"
       >
-        <svg-icon
-          :icon-class="item.icon"
-          class="icon"
-        />
+        <a
+          :href="item.link"
+          rel="noopener"
+        >
+          <svg-icon
+            :icon-class="item.icon"
+            class="icon"
+          />
+        </a>
       </div>
     </div>
     <p class="footer-copyright">
@@ -30,15 +35,18 @@ export default {
         },
         {
           name: 'weibo',
-          icon: 'weibo'
+          icon: 'weibo',
+          // link: 'https://weibo.com/__URL__HERE'
         },
         {
           name: 'twitter',
-          icon: 'twitter'
+          icon: 'twitter',
+          link: 'https://twitter.com/realdaojam'
         },
         {
           name: 'facebook',
-          icon: 'fb'
+          icon: 'fb',
+          // link: 'https://twitter.com/__URL__HERE'
         }
       ]
     }
@@ -79,6 +87,7 @@ export default {
   &:nth-child(1) {
     margin-left: 0;
   }
+  a { color: #FFF; }
   .icon {
     font-size: 34px;
   }
