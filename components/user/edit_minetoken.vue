@@ -200,6 +200,40 @@
       </el-form-item>
 
       <el-form-item
+        label="项目成员"
+        prop=""
+      >
+        <div>
+          <div class="project-people">
+            <div
+              v-for="item in 10"
+              :key="item"
+              class="project-people__block"
+            >
+              <cAvatar />
+              <p>xiaotianxiaotian</p>
+              <svg-icon
+                icon-class="close"
+                class="icon-close"
+                @click="removeProjectPeople(item)"
+              />
+            </div>
+          </div>
+          <el-button
+            class="project-btn"
+            type="primary"
+            size="small"
+            @click="addProjectPeopleDialog = true"
+          >
+            邀请队员
+          </el-button>
+          <p class="project-text">
+            队员加入48h后不能变动
+          </p>
+        </div>
+      </el-form-item>
+
+      <el-form-item
         label="相关网站"
         prop=""
       >
@@ -373,6 +407,12 @@
       :aspect-ratio="imgUploadConfig.aspectRatio"
       @done="done"
     />
+
+    <addProjectPeople 
+      v-model="addProjectPeopleDialog"
+      :article-id="Number(1)"
+      from="share"
+    />
   </div>
 </template>
 
@@ -384,11 +424,16 @@ import { precision, toPrecision } from '@/utils/precisionConversion'
 import { getCookie } from '@/utils/cookie'
 import socialIcon from '@/components/social_icon/index.vue'
 import socialTypes from '@/config/social_types'
+import cAvatar from '@/common/components/avatar'
+import addProjectPeople from '@/components/add_project_people/index.vue'
+
 export default {
   components: {
     imgUpload,
     imgUploads,
-    socialIcon
+    socialIcon,
+    cAvatar,
+    addProjectPeople
   },
   data() {
     const checkSymbol = (rule, value, callback) => {
@@ -519,6 +564,7 @@ export default {
         aspectRatio: 1 / 1
       },
       repo: '',
+      addProjectPeopleDialog: false, // 添加队员
     }
   },
   computed: {
@@ -737,6 +783,23 @@ export default {
       this.imgUploadConfig.type = type
       this.imgUploadConfig.aspectRatio = 440 / 124
       this.imgUploadConfig.open++
+    },
+    removeProjectPeople(i) {
+      this.$confirm('删除队员, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: `删除成功!${i}`
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })          
+      })
     }
   }
 }
@@ -745,22 +808,22 @@ export default {
 <style lang="less" scoped>
 .coins-head {
   h1 {
-    font-size:24px;
-    font-weight:600;
-    color:rgba(0,0,0,1);
-    line-height:33px;
+    font-size: 24px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1);
+    line-height: 33px;
     padding: 0;
     margin: 0;
   }
   .help-icon {
-    color:rgba(219,219,219,1);
+    color: rgba(219, 219, 219, 1);
     margin-left: 10px;
     margin-right: 10px;
   }
   .help-link {
-    font-size:14px;
+    font-size: 14px;
     color: #eaeaea;
-    line-height:20px;
+    line-height: 20px;
     text-decoration: underline;
     margin-left: 10px;
   }
@@ -864,10 +927,10 @@ export default {
 .social-title {
   padding: 0;
   margin: 12px 0 10px 60px;
-  font-size:14px;
-  font-weight:400;
+  font-size: 14px;
+  font-weight: 400;
   color: #fff;
-  line-height:20px;
+  line-height: 20px;
 }
 .social-icons {
   width: 60px;
@@ -886,7 +949,6 @@ export default {
   color: #fff;
   font-size: 14px;
 }
-
 
 .progress {
   margin-top: 40px;
@@ -944,7 +1006,6 @@ h3.progress.title {
 //   }
 // }
 
-
 .progress-list {
   padding: 0;
   margin: 0;
@@ -980,7 +1041,6 @@ h3.progress.title {
   }
 }
 
-
 .cover {
   width: 440px;
   height: 124px;
@@ -1002,7 +1062,6 @@ h3.progress.title {
     color: #8c939d;
   }
 }
-
 
 .cover-cover {
   width: 100%;
@@ -1033,12 +1092,60 @@ h3.progress.title {
   }
 }
 
+.project-people {
+  &::after {
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+  .project-people__block {
+    float: left;
+    margin: 0 20px 20px 0;
+    position: relative;
+    &:nth-last-child(1) {
+      margin-right: 0;
+    }
 
+    .components-avatar {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+    }
+    p {
+      padding: 0;
+      margin: 10px 0 0 0;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      line-height: 22px;
+    }
+    .icon-close{
+      position: absolute;
+      right: 0;
+      top: 0;
+            color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+}
+.project-btn {
+  margin: 20px 0;
+}
+.project-text {
+  padding: 0;
+  margin: 0;
+  color: #fff;
+  font-size: 14px;
+  line-height: 22px;
+}
 </style>
 
 <style lang="less">
 .social-title span span {
-  color:red;
+  color: red;
 }
 
 .minetoken-page {
