@@ -171,6 +171,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import throttle from 'lodash/throttle'
+
 import { removeCookie } from '@/utils/cookie'
 import store from '@/utils/store.js'
 import avatar from '@/common/components/avatar/index.vue'
@@ -182,6 +184,7 @@ export default {
     return {
       avatarSrc: '',
       toggle: false,
+      scrollEvent: null
     }
   },
   computed: {
@@ -196,9 +199,34 @@ export default {
   created() {
     const { isLogined, refreshUser } = this
     if (isLogined) refreshUser()
+    if (process.browser) {
+      this.$nextTick(() => {
+        this.setHeader()
+        this.scrollEvent = throttle(this.setHeader, 300)
+        window.addEventListener('scroll', this.scrollEvent)
+      })
+    }
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.scrollEvent)
   },
   methods: {
     ...mapActions(['getCurrentUser', 'resetAllStore']),
+    setHeader() {
+      try {
+        let domHeader = document.querySelector('.header')
+        let scrollTop = document.body.scrollTop || document.documentElement.scrollTop
+
+        console.log('scrollTop', scrollTop)
+        if (scrollTop > 20) {
+          domHeader.style.backgroundColor = 'rgba(98,54,255,0.1)'
+        } else {
+          domHeader.style.backgroundColor = '#372BA1'
+        }
+      } catch (error) {
+        console.log(error) 
+      }
+    },
     async refreshUser() {
       const { avatar } = await this.getCurrentUser()
       if (avatar) this.avatarSrc = this.$ossProcess(avatar, { h: 60 })
@@ -283,9 +311,30 @@ export default {
   z-index: 99;
   padding: 0 20px;
 
-  background: rgba(85, 85, 85, 1);
-  box-shadow: 0px 1px 0px 0px rgba(178, 178, 178, 1);
-  border-bottom: 1px solid rgba(151, 151, 151, 1);
+  background: rgba(98,54,255,0.1);
+  transition: all .3s;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  overflow: hidden;
+
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    filter: blur(10px);
+    z-index: -1;
+    margin: -30px;
+  }
+
+
+
   .logo {
     height: 36px;
   }
