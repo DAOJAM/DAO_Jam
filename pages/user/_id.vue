@@ -9,12 +9,14 @@
           <el-tooltip
             effect="dark"
             content="专业评委"
-            placement="top"
+            placement="bottom"
           >
-            <svg-icon
-              icon-class="crown"
-              class="icon-crown"
-            />
+            <div class="judge">
+              <svg-icon
+                icon-class="judge"
+                class="icon-judge"
+              />
+            </div>
           </el-tooltip>
         </div>
         <div class="user-edit">
@@ -180,14 +182,24 @@ export default {
   display: flex;
   align-items: center;
   position: relative;
-  .icon-crown {
+  .judge {
     position: absolute;
-    top: -20px;
-    left: 84px;
-    font-size: 65px;
+    bottom: 0px;
+    left: 90px;
     z-index: 1;
-    transform: rotate(45deg);
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f7b500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-judge {
+    font-size: 16px;
+    color: #fff;
   }
   .components-avatar {
     width: 120px;
