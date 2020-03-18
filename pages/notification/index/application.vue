@@ -1,6 +1,10 @@
 <template>
   <div>
-    <NotificationList :notifications="notifications" />
+    <applicationCard
+      v-for="(item, index) in 10"
+      :key="index"
+      class="application-card"
+    />
     <buttonLoadMore
       class="load-more"
       :type-index="1"
@@ -14,11 +18,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import buttonLoadMore from '@/components/button_load_more/index.vue'
-import NotificationList from '@/components/notification/NotificationList.vue'
+import applicationCard from '@/components/notification/application_card'
 const PROVIDERS = ['follow']
 export default {
   name: 'NotificationPage',
-  components: { NotificationList, buttonLoadMore },
+  components: { buttonLoadMore, applicationCard },
   data() {
     const active = this.$route.params.provider && PROVIDERS.indexOf(this.$route.params.provider) >= 0 ? PROVIDERS.indexOf(this.$route.params.provider) : 0
     return {
@@ -59,5 +63,11 @@ export default {
 <style lang="less" scoped>
 .load-more  {
   font-size: 16px !important;
+}
+.application-card {
+  margin: 20px 20px 0 20px;
+  &:nth-child(1) {
+    margin-top: 0;
+  }
 }
 </style>
