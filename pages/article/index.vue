@@ -207,7 +207,7 @@ export default {
 
 <style lang="less" scoped>
 .home {
-  margin-top: 60px;
+  padding-top: 60px;
   background-color: #0E2144;
 }
 .home-head {
