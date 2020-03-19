@@ -68,6 +68,50 @@
             />
           </div>
         </div>
+        <!-- 身份 -->
+        <div class="list">
+          <span class="title">身份</span>
+          <div class="job">
+            <div
+              v-for="(item, index) in job"
+              :key="index"
+              class="job-checkbox customize"
+            >
+              <el-checkbox
+                v-model="item.checked"
+                :label="item.text_english"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- 技能 -->
+        <div class="list ">
+          <span class="title">技能</span>
+          <div class="skill">
+            <div
+              v-for="(item, index) in skill"
+              :key="index"
+              class="skill-checkbox customize"
+            >
+              <el-checkbox
+                v-model="item.checked"
+                :label="item.text_english"
+              />
+              <el-input
+                v-if="item.checked"
+                v-model="item.value"
+                class="skill-number"
+                style="width:50px;"
+                minlength="1"
+                maxlength="3"
+                placeholder="1-100"
+                :min="1"
+                :max="100"
+                @change="skillChange(index)"
+              />
+            </div>
+          </div>
+        </div>
         <div class="line" />
         <!-- 相关网站 -->
         <div class="social-div">
@@ -129,50 +173,6 @@
             </div>
           </div>
         </div>
-        
-        <!-- 身份 -->
-        <div class="job">
-          <p>身份</p>
-          <div
-            v-for="(item, index) in job"
-            :key="index"
-            class="job-checkbox"
-          >
-            <el-checkbox
-              v-model="item.checked"
-              :label="item.text_english"
-              border
-              size="medium"
-            />
-          </div>
-        </div>
-
-
-        <!-- 技能 -->
-        <div class="skill">
-          <p>技能</p>
-          <div
-            v-for="(item, index) in skill"
-            :key="index"
-            class="skill-checkbox"
-          >
-            <el-checkbox
-              v-model="item.checked"
-              :label="item.text_english"
-              border
-              size="medium"
-            />
-            <el-input-number
-              v-if="item.checked"
-              v-model="item.value"
-              style="width: 130px;"
-              size="medium"
-              :min="1"
-              :max="100"
-            />
-          </div>
-        </div>
-
         <!-- 保存 -->
         <div class="line" />
         <el-button
@@ -660,6 +660,22 @@ export default {
     abountLess(i) {
       if (this.about.length <= 1) return
       this.about.splice(i, 1)
+    },
+    // 技能数字改变
+    skillChange(i) {
+      let val = this.skill[i].value
+      if (parseInt(val)) {
+        if (val > 100) {
+          this.skill[i].value = 100
+        } else if (val < 1) {
+          this.skill[i].value = 1
+        } else {
+          console.log(this.skill[i].value)
+        }
+      } else {
+        this.skill[i].value = 1
+      }
+      
     }
   }
 }
@@ -672,28 +688,29 @@ export default {
   background-color: #eee;
 }
 .list {
-    margin: 40px 0;
-    padding: 0;
-    display: flex;
-    &.center {
-      align-items: center;
-    }
+  margin: 20px 0;
+  padding: 0;
+  display: flex;
+  &.center {
+    align-items: center;
+  }
 }
 .title {
-  font-size:18px;
-  font-weight:400;
-  color:#fff;
-  line-height:28px;
-  margin-right: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 28px;
+  margin-right: 10px;
+  min-width: 50px;
   &.right0 {
     margin-right: 0;
   }
 }
 .title-note {
-  font-size:12px;
-  font-weight:400;
-  color:#eaeaea;
-  line-height:28px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #eaeaea;
+  line-height: 28px;
 }
 
 @avatarWidth: 90px;
@@ -718,7 +735,7 @@ export default {
   &:hover .edit {
     display: flex;
   }
-  .edit{
+  .edit {
     display: none;
     cursor: pointer;
     position: absolute;
@@ -730,7 +747,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,.6);
+    background: rgba(0, 0, 0, 0.6);
     font-size: 14px;
     .el-icon-camera {
       font-size: 24px;
@@ -749,8 +766,8 @@ export default {
 }
 .save {
   display: block;
-  width:200px;
-  height:40px;
+  width: 200px;
+  height: 40px;
   border-radius: @borderRadius6;
   border: none;
   outline: none;
@@ -766,10 +783,10 @@ export default {
 .social-title {
   padding: 0;
   margin: 12px 0 10px 60px;
-  font-size:14px;
-  font-weight:400;
+  font-size: 14px;
+  font-weight: 400;
   color: #fff;
-  line-height:20px;
+  line-height: 20px;
 }
 .social-icons {
   width: 60px;
@@ -829,7 +846,7 @@ export default {
   }
   &::after {
     display: block;
-    content: '';
+    content: "";
     width: 0;
     height: 0;
     clear: both;
@@ -839,7 +856,10 @@ export default {
 .job-checkbox,
 .skill-checkbox {
   float: left;
-  margin: 0 10px 10px 0;
+  margin: 0 20px 10px 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
 }
 </style>
 
@@ -880,6 +900,27 @@ export default {
     .el-textarea .el-input__count {
       color: #909399;
       background: transparent;
+    }
+    .el-checkbox__label,
+    .el-checkbox__input.is-checked + .el-checkbox__label {
+      color: #fff;
+    }
+
+    .skill-number .el-input__inner {
+      padding: 0 4px;
+      margin: 0;
+      border: none;
+      background-color: transparent;
+      border-bottom: 1px solid #dbdbdb;
+      color: #dbdbdb;
+      font-size: 16px;
+      box-sizing: border-box;
+      outline: none;
+      height: 24px;
+      line-height: 24px;
+      &::-webkit-input-placeholder {
+        color: #b2b2b2;
+      }
     }
   }
 }
