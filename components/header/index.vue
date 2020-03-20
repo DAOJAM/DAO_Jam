@@ -336,15 +336,18 @@ export default {
 
 
   .logo {
-    height: 36px;
+    height: 32px;
   }
 
   .header-content {
+    max-width: 1200px;
     height: 100%;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
+    margin: 0 auto;
   }
 
   &-right {
