@@ -49,7 +49,7 @@ export default {
 
 <style lang="less" scoped>
 .dao-list {
-  background-color: #0e2144;
+  background-color: #62077B;
   overflow: hidden;
 }
 
