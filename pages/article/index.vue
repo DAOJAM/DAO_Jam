@@ -9,7 +9,10 @@
         >
       </h1>
       <p class="home-head__des animated fadeInUp">
-        A DAO JAM combines the concepts of Game Jam and DAO, offering an unprecedent way for game developers to untie with each other based on a common goal, in a structured yet autonomous way. The event is 100% online, so you can participate as long as you have a machine and internet.
+        The DAO Jam combines the concepts of Hackathon and DAO, offering an unprecedented way for developers to unite with each other based on a common goal, in a structured yet autonomous way. By utilizing blockchain technology, the DAO Jam ensures a transparent, fair voting and ranking process for the projects.
+        <br>
+        <br>
+        The event is 100% virtual so everyone from all over the world can participate online at no charge.
       </p>
       <a
         href="https://discord.gg/tj6aJNG"
@@ -92,11 +95,13 @@
           alt="about"
         >
         <p class="about-des animated">
-          A game jam is a hackathon for video games. It is a gathering of people for the purpose of planning, designing, and creating one or more games within a very short span of time.
+          Due to the outbreak of Covid-19, offline events are cancelled and offices are closing down, all of which pose a challenge for people to collaborate with each other.
           <br><br>
-          A DAO (or a Decentralized Autonomous Organizations) is a group of people united by trustless decision-making frameworks, usually built on the blockchain. They combine ideas about cooperativism with newly invented cryptography and networking technology.
+          A DAO (or a Decentralized Autonomous Organizations), on the other hand, is a new form of organization built on a blockchain, that unites people with a common goal via a trustless decision making framework.
           <br><br>
-          A DAO JAM combines the concepts of Game Jam and DAO, offering an unprecedent way for game developers to untie with each other based on a common goal, in a structured yet autonomous way. The event is 100% online, so you can participate as long as you have a machine and internet.
+          As developers who believe in inclusivity and hacking for a cause, we want to bring people together from all over the world to try out this virtual hackathon in the form of DAOs, and experiment a new way for people to work with each other.
+          <br><br>
+          The event is 100% virtual and free.
         </p>
       </div>
     </div>
@@ -108,8 +113,8 @@
           :src="homeBase64.schedule"
         >
         <p class="schedule-des animated">
-          (Tentative)April 11th to April 17th, a continous 7x24 hacking experience<br>
-          <a href="https://www.matataki.io/p/564">https://www.matataki.io/p/564</a>
+          (Tentative) May 4th, 2020 to May 13th, 2020, a continuous 10x24 hacking experience<br>
+          <!-- <a href="https://www.matataki.io/p/564">https://www.matataki.io/p/564</a> -->
         </p>
       </div>
     </div>
@@ -145,6 +150,10 @@ import loadScript from '@/utils/load_script'
 import homeBase64 from '@/assets/img/home_base64'
 import peopleCard from '@/components/people_card'
 
+import daftPunkImg1 from '@/assets/img/avatar/daft_punk_weeknd.png'
+import daftPunkImg2 from '@/assets/img/avatar/daft_punk_weeknd2.png'
+import daftPunkImg3 from '@/assets/img/avatar/daft_punk_weeknd3.png'
+
 export default {
   transition: 'page',
   components: {
@@ -157,22 +166,30 @@ export default {
       homeBase64: homeBase64,
       daoLoading: false,
       sponsors: [
-        {'name': 'Near', 'photoUrl': 'https://nearprotocol.com/wp-content/themes/near-19/assets/downloads/near_logo_stack_wht.png?t=1567197567'},
-        {
-          'name': 'DAO Square',
-          'photoUrl': 'https://ssimg.frontenduse.top/avatar/2020/02/19/998392f4a28ec5e0aeb64a9e695260e7.png'
-        },
-        {
-          'name': 'DAO Fest',
-          'photoUrl': 'https://ssimg.frontenduse.top/article/2020/03/05/f44e212b007a72cd3c65caec9ee9dca3.png'
-        },
-        {'name': 'Indie Light', 'photoUrl': 'https://ssimg.frontenduse.top/article/2020/03/05/874350184e4ce93a66baabbcffb8862c.png'},
-        {'name': 'Meta Cartel', 'photoUrl': 'https://ssimg.frontenduse.top/article/2020/03/05/1ac76e868e2e591e46cc49e2e216ef03.png'},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
+        {'name': 'Chris Brown', 'photoUrl': daftPunkImg2},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1}
+        // {'name': 'Near', 'photoUrl': 'https://nearprotocol.com/wp-content/themes/near-19/assets/downloads/near_logo_stack_wht.png?t=1567197567'},
+        // {
+        //   'name': 'DAO Square',
+        //   'photoUrl': 'https://ssimg.frontenduse.top/avatar/2020/02/19/998392f4a28ec5e0aeb64a9e695260e7.png'
+        // },
+        // {
+        //   'name': 'DAO Fest',
+        //   'photoUrl': 'https://ssimg.frontenduse.top/article/2020/03/05/f44e212b007a72cd3c65caec9ee9dca3.png'
+        // },
+        // {'name': 'Indie Light', 'photoUrl': 'https://ssimg.frontenduse.top/article/2020/03/05/874350184e4ce93a66baabbcffb8862c.png'},
+        // {'name': 'Meta Cartel', 'photoUrl': 'https://ssimg.frontenduse.top/article/2020/03/05/1ac76e868e2e591e46cc49e2e216ef03.png'},
       ],
       judges: [
-        {'name': 'Illia Polosukhin', 'photoUrl': 'https://www.ethdenver.com/wp-content/uploads/2020/01/illia-250x250.jpg'},
-        {'name': 'Vincent Niu', 'photoUrl': 'https://www.nft.nyc/hubfs/Vincent-photo.jpg'},
-        {'name': 'Tina Zhen', 'photoUrl': 'https://pbs.twimg.com/profile_images/1177965467572428800/mWBN6yqP_400x400.jpg'}
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
+        {'name': 'Chris Brown', 'photoUrl': daftPunkImg2},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3}
+        // {'name': 'Illia Polosukhin', 'photoUrl': 'https://www.ethdenver.com/wp-content/uploads/2020/01/illia-250x250.jpg'},
+        // {'name': 'Vincent Niu', 'photoUrl': 'https://www.nft.nyc/hubfs/Vincent-photo.jpg'},
+        // {'name': 'Tina Zhen', 'photoUrl': 'https://pbs.twimg.com/profile_images/1177965467572428800/mWBN6yqP_400x400.jpg'}
       ],
       daoList: [
         {},{},{},{},{},{},{},{},{},{},{},{},{},{}
@@ -289,15 +306,15 @@ export default {
   }
   &__sign {
     display: inline-block;
-    padding: 0 87px;
+    padding: 5px 87px;
     height: 40px;
     background: #6236ff;
     border-radius: 34px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
     color: #ffffff;
     line-height: 40px;
-    margin: 260px 0 0;
+    margin: 170px 0 0;
     text-align: center;
     transition: all 0.3s;
     animation-delay: 0.2s;
