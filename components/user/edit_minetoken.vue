@@ -113,7 +113,7 @@
           />
           <div
             class="cover-full"
-            @click="removeCoinsIcon"
+            @click="form.logo = ''"
           >
             <i class="el-icon-delete remove" />
           </div>
@@ -164,14 +164,14 @@
       >
         <div class="cover">
           <div
-            v-show="!cover"
+            v-show="!form.cover"
             class="cover-upload"
             @click="coverUpload('coinsCover')"
           >
             <i class="el-icon-plus add" />
           </div>
           <div
-            v-show="cover"
+            v-show="form.cover"
             class="cover-cover"
           >
             <el-image
@@ -181,7 +181,7 @@
             />
             <div
               class="cover-full"
-              @click="cover = ''"
+              @click="form.cover = ''"
             >
               <i class="el-icon-delete remove" />
             </div>
@@ -454,6 +454,7 @@ export default {
         logo: '',
         brief: '',
         introduction: '',
+        cover: '',
         agree: false
       },
       rules: {
@@ -579,7 +580,7 @@ export default {
       return this.form.logo ? this.$ossProcess(this.form.logo) : ''
     },
     coverSrc() {
-      return this.cover ? this.$ossProcess(this.cover) : ''
+      return this.form.cover ? this.$ossProcess(this.form.cover) : ''
     },
     isPost() {
       return this.$route.name === 'postminetoken'
@@ -609,6 +610,7 @@ export default {
               this.form.logo = token.logo
               this.form.brief = token.brief
               this.form.introduction = token.introduction
+              this.form.cover = token.cover
               this.tokenId = token.id
               this.tokenDetailData = res.data
 
@@ -621,12 +623,13 @@ export default {
       })
     },
     async minetokenTokenId(id) {
-      const { name, logo, brief, introduction } = this.form
+      const { name, logo, brief, introduction, cover } = this.form
       const data = {
         name: name,
         brief: brief,
         introduction,
-        logo: logo
+        logo: logo,
+        cover: cover,
       }
       const res = await this.$API.minetokenTokenId(data, id)
       if (res.code === 0) return res.message
@@ -668,7 +671,7 @@ export default {
       else throw res.message
     },
     async minetokenCreate() {
-      const { name, symbol, logo, brief, introduction, number } = this.form
+      const { name, symbol, logo, brief, introduction, number, cover } = this.form
       const data = {
         name: name,
         symbol: symbol,
@@ -676,6 +679,7 @@ export default {
         brief: brief,
         introduction,
         logo: logo,
+        cover: cover,
         initialSupply: toPrecision(number, 'CNY') + '' // to string type
       }
       await this.$API.minetokenCreate(data)
@@ -743,9 +747,6 @@ export default {
       this.form.logo = res.data.data.cover
       this.imgUploadDone += Date.now()
     },
-    removeCoinsIcon() {
-      this.form.logo = ''
-    },
     aboutAdd() {
       if (this.about.length >= 5) return
       this.about.push('')
@@ -771,10 +772,10 @@ export default {
         // 不写这个取消时候会报错
       })
     },
+    // 图片上传完成
     done(data) {
-      console.log('data', data)
       if (data.type === 'coinsCover') {
-        this.cover = data.data.cover
+        this.form.cover = data.data.cover
       }
     },
     coverUpload(type) {
