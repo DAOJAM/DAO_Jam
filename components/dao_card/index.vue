@@ -4,7 +4,7 @@
       <div class="dao-block">
         <div class="dao-block__cover">
           <img
-            src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg"
+            :src="card.cover ? cover(card.cover) : 'https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg'"
             alt="cover"
           >
         </div>

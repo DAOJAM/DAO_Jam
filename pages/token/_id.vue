@@ -4,7 +4,7 @@
     <div class="token-main">
       <div class="token-banner">
         <img
-          src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg"
+          :src="tokenCover"
           alt="banner"
         >
       </div>
@@ -303,6 +303,12 @@ export default {
       return this.minetokenToken.logo
         ? this.$ossProcess(this.minetokenToken.logo, { h: 200 })
         : ''
+    },
+    tokenCover() {
+      if (!this.minetokenToken.cover) return 'https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg'
+      return this.minetokenToken.cover
+        ? this.$ossProcess(this.minetokenToken.cover, { h: 400 })
+        : 'https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg'
     },
     userAvatar() {
       if (!this.minetokenUser.avatar) return ''
