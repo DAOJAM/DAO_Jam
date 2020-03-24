@@ -147,9 +147,9 @@
         <svg-icon icon-class="github" />
         Github Repo Address:
         <a
-          href="https://github.com/DAOJAM/DAO_Jam"
+          :href="minetokenToken.repo"
           target="_blank"
-        >https://github.com/DAOJAM/DAO_Jam</a>
+        >{{ minetokenToken.repo }}</a>
       </div>
 
       <nav class="token-nav">

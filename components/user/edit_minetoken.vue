@@ -191,10 +191,10 @@
 
       <el-form-item
         label="项目REPO"
-        prop=""
+        prop="repo"
       >
         <el-input
-          v-model="repo"
+          v-model="form.repo"
           placeholder="项目REPO地址(Github)"
         />
       </el-form-item>
@@ -455,6 +455,7 @@ export default {
         brief: '',
         introduction: '',
         cover: '',
+        repo: '',
         agree: false
       },
       rules: {
@@ -479,6 +480,9 @@ export default {
         brief: [
           { required: true, message: '请输入简介', trigger: 'blur' },
           { min: 1, max: 100, message: '简介最多100字', trigger: ['blur', 'change'] }
+        ],
+        repo: [
+          { type: 'url', message: '请输入正确的地址', trigger: ['blur', 'change'] }
         ]
       },
       imgUploadDone: 0, // 图片是否上传完成
@@ -564,7 +568,6 @@ export default {
         viewHeight: '240px',
         aspectRatio: 1 / 1
       },
-      repo: '',
       addProjectPeopleDialog: false, // 添加队员
     }
   },
@@ -611,6 +614,7 @@ export default {
               this.form.brief = token.brief
               this.form.introduction = token.introduction
               this.form.cover = token.cover
+              this.form.repo = token.repo
               this.tokenId = token.id
               this.tokenDetailData = res.data
 
@@ -623,13 +627,14 @@ export default {
       })
     },
     async minetokenTokenId(id) {
-      const { name, logo, brief, introduction, cover } = this.form
+      const { name, logo, brief, introduction, cover, repo } = this.form
       const data = {
         name: name,
         brief: brief,
         introduction,
         logo: logo,
         cover: cover,
+        repo: repo,
       }
       const res = await this.$API.minetokenTokenId(data, id)
       if (res.code === 0) return res.message
@@ -671,7 +676,7 @@ export default {
       else throw res.message
     },
     async minetokenCreate() {
-      const { name, symbol, logo, brief, introduction, number, cover } = this.form
+      const { name, symbol, logo, brief, introduction, number, cover, repo } = this.form
       const data = {
         name: name,
         symbol: symbol,
@@ -680,6 +685,7 @@ export default {
         introduction,
         logo: logo,
         cover: cover,
+        repo: repo,
         initialSupply: toPrecision(number, 'CNY') + '' // to string type
       }
       await this.$API.minetokenCreate(data)
