@@ -24,7 +24,7 @@
                 :content="pentagram ? '取消收藏该项目' : '收藏该项目'"
                 placement="top"
               >
-                <div @click="pentagram = !pentagram">
+                <div @click="setBookmark">
                   <svg-icon
                     v-if="pentagram"
                     icon-class="pentagram_active"
@@ -266,7 +266,7 @@ export default {
       joinDialog: false, // 申请加入
       joinEmail: '', // 申请加入
       joinContent: '', // 申请加入
-      pentagram: true, // 收藏
+      pentagram: false, // 收藏
     }
   },
   computed: {
@@ -320,6 +320,7 @@ export default {
   watch: {
     isLogined(newVal) {
       if (newVal) {
+        this.getBookmarkStatus()
         this.getUserBalance()
       }
     }
@@ -352,7 +353,10 @@ export default {
   mounted() {
     if (process.browser) {
       if (this.currentUserInfo.id) this.tokenUserId(this.currentUserInfo.id)
-      if (this.isLogined) this.getUserBalance()
+      if (this.isLogined) {
+        this.getBookmarkStatus()
+        this.getUserBalance()
+      }
     }
   },
   methods: {
@@ -381,6 +385,41 @@ export default {
         this.joinContent = ''
       } else {
         this.$message.warning('邮箱或者加入理由不能为空')
+      }
+    },
+    async getBookmarkStatus() {
+      try {
+        const res = await this.$API.getTokenBookmark(this.$route.params.id)
+        this.pentagram = res.data
+      } catch(err) {
+        this.$message.error('无法获取星标状态')
+        console.error('get token bookmark error', err)
+      }
+    },
+    async setBookmark() {
+      if(!this.isLogined) return this.$store.commit('setLoginModal', true)
+      try {
+        if (!this.pentagram) {
+          const res = await this.$API.addTokenBookmark(this.$route.params.id)
+          if (res.code === 0) {
+            this.$message.success('添加星标')
+            this.pentagram = true
+          }
+          else this.$message.error(res.message)
+        } else {
+          const res2 = await this.$API.unTokenbookmark(this.$route.params.id)
+          if (res2.code === 0) {
+            this.pentagram = false
+            this.$message.success('取消星标')
+          }
+          else this.$message.error(res2.message)
+        }
+      } catch (err) {
+        console.error('ToggleBookmark err', err)
+        this.$message.error('无法修改星标状态')
+        if (err.response.status === 401) {
+          this.$store.commit('setLoginModal', true)
+        }
       }
     }
   }
