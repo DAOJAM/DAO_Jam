@@ -61,6 +61,7 @@
             保存修改
           </el-button>
           <el-button
+            v-if="editIndex === -1"
             type="primary"
             @click="addNews"
           >
@@ -131,14 +132,19 @@ export default {
     },
     // 添加数据
     addNews() {
-      this.news.push({
-        uid: 1053,
-        title: this.newTitle,
-        content: this.newContent
-      })
+      if (this.newTitle && this.newContent) {
+        this.news.push({
+          uid: 1053,
+          title: this.newTitle,
+          content: this.newContent
+        })
 
-      this.newTitle = ''
-      this.newContent = ''
+        this.newTitle = ''
+        this.newContent = ''
+      } else {
+        this.$message.warning('标题或内容不能为空')
+      }
+
     },
     // 清空数据
     removeNewData() {

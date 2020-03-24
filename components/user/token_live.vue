@@ -68,6 +68,7 @@
           保存修改
         </el-button>
         <el-button
+          v-if="editIndex === -1"
           type="primary"
           @click="addLive"
         >
@@ -144,14 +145,18 @@ export default {
     },
     // 添加数据
     addLive() {
-      this.lives.push({
-        uid: 1053,
-        title: this.liveTitle,
-        content: this.liveContent
-      })
+      if (this.liveTitle && this.liveContent) {
+        this.lives.push({
+          uid: 1053,
+          title: this.liveTitle,
+          content: this.liveContent
+        })
 
-      this.liveTitle = ''
-      this.liveContent = ''
+        this.liveTitle = ''
+        this.liveContent = ''
+      } else {
+        this.$message.warning('标题或内容不能为空')
+      }
     },
     // 清空数据
     removeLiveData() {
