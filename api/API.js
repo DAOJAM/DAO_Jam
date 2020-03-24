@@ -463,18 +463,34 @@ export default {
   * @param {Object} data token资源
   * @param {Number} tokenId token id
   */
-minetokenResources(data, tokenId) {
+  minetokenResources(data, tokenId) {
     return request({
       method: 'PUT',
       url: `/minetoken/${tokenId}/resources`,
       data: data
     })
   },
-minetokenGetResources(tokenId) {
+  minetokenGetResources(tokenId) {
     return request({
       method: 'GET',
       url: `/minetoken/${tokenId}/resources`,
     })
+  },
+  // 获取项目的live
+  minetokenGetLives(id) {
+    return request.get(`/minetoken/${id}/lives`)
+  },
+  // 设置项目的live
+  minetokenLives(id, data) {
+    return request.put(`/minetoken/${id}/lives`, data)
+  },
+  // 获取项目的new
+  minetokenGetNews(id) {
+    return request.get(`/minetoken/${id}/news`)
+  },
+  // 设置项目的new
+  minetokenNews(id, data) {
+    return request.put(`/minetoken/${id}/news`, data)
   },
   /**
    * 转移token
@@ -963,5 +979,5 @@ minetokenGetResources(tokenId) {
   // 用户托管地址
   userAddress(params) {
     return request.get('/_daothon_/useraddress', { params })
-  }
+  },
 }

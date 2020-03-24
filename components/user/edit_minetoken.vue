@@ -322,81 +322,12 @@
     </el-form>
 
     <template v-if="!isPost">
-      <div class="progress customize">
+      <div class="progress">
         <h2 class="progress-title">
           Project progress
         </h2>
-
-        <h3 class="progress-title">
-          Live
-        </h3>
-        <ul class="live-list">
-          <li
-            v-for="item in 10"
-            :key="item"
-          >
-            <a
-              href="https://www.douyu.com/room/share/288016"
-              target="_blank"
-            >LPL春季赛OMGvsRW - https://www.douyu.com/room/share/288016</a>
-            <svg-icon icon-class="close" />
-          </li>
-        </ul>
-
-        <div class="progress-input">
-          <el-input
-            v-model="liveName"
-            size="small"
-            placeholder="请输入直播昵称"
-            class="progress-name"
-          />
-          <el-input
-            v-model="liveAddress"
-            size="small"
-            placeholder="请输入直播地址"
-            class="progress-address"
-          />
-          <svg-icon
-            icon-class="add"
-            class="icon"
-          />
-        </div>
-
-        <h3 class="progress-title">
-          Progress
-        </h3>
-        <ul class="progress-list">
-          <li
-            v-for="item in 10"
-            :key="item"
-          >
-            LPL春季赛OMGvsRW
-            <svg-icon icon-class="close" />
-          </li>
-        </ul>
-
-        <div class="progress-input">
-          <el-input
-            v-model="dynamicTitle"
-            size="small"
-            placeholder="请输入动态标题"
-            class="progress-name"
-          />
-          <div>
-            <el-input
-              v-model="dynamicContent"
-              class="progress-address"
-              size="small"
-              type="textarea"
-              :rows="4"
-              placeholder="请输入动态内容"
-            />
-            <svg-icon
-              icon-class="add"
-              class="icon"
-            />
-          </div>
-        </div>
+        <userLive :token-id="tokenId" />
+        <userProgress :token-id="tokenId" />
       </div>
     </template>
     <imgUploads
@@ -426,14 +357,17 @@ import socialIcon from '@/components/social_icon/index.vue'
 import socialTypes from '@/config/social_types'
 import cAvatar from '@/common/components/avatar'
 import addProjectPeople from '@/components/add_project_people/index.vue'
-
+import userLive from '@/components/user/token_live.vue'
+import userProgress from '@/components/user/token_progress.vue'
 export default {
   components: {
     imgUpload,
     imgUploads,
     socialIcon,
     cAvatar,
-    addProjectPeople
+    addProjectPeople,
+    userLive,
+    userProgress
   },
   data() {
     const checkSymbol = (rule, value, callback) => {
@@ -446,7 +380,7 @@ export default {
       }
     }
     return {
-      tokenId: null,
+      tokenId: -1,
       form: {
         name: '',
         symbol: '',
@@ -556,10 +490,6 @@ export default {
       ],
       tokenDetailData: {},
       addToLoading: false,
-      liveName: '', // live
-      liveAddress: '', // live
-      dynamicTitle: '', // 动态
-      dynamicContent: '', // 动态
       cover: '', // 封面
       imgUploadConfig: { // 图片上传配置
         open: 0,
@@ -957,96 +887,6 @@ export default {
   font-size: 14px;
 }
 
-.progress {
-  margin-top: 40px;
-  padding: 0 10px;
-}
-.progress-title {
-  padding: 0;
-  margin: 0;
-  font-weight: bold;
-  color: #fff;
-  margin-top: 10px;
-}
-h2.progress.title {
-  font-size: 20px;
-}
-h3.progress.title {
-  font-size: 18px;
-}
-.live-list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  li {
-    margin: 10px 0 0 0;
-    color: #ffff;
-    a {
-      color: #fff;
-      text-decoration: underline;
-      font-size: 16px;
-      padding: 0;
-      margin: 0;
-      line-height: 22px;
-    }
-  }
-}
-// .live-input {
-//   display: flex;
-//   align-items: center;
-//   margin-top: 10px;
-//   .live-name {
-//     max-width: 200px;
-//   }
-//   .live-address {
-//     margin: 0 10px;
-//   }
-//   .icon {
-//     background: #542de0;
-//     color: #fff;
-//     font-size: 14px;
-//     padding: 5px 18px;
-//     border-radius: 0px;
-//     font-size: 22px;
-//     display: block;
-//     cursor: pointer;
-//   }
-// }
-
-.progress-list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  li {
-    margin: 10px 0 0 0;
-    color: #ffff;
-    font-size: 16px;
-    padding: 0;
-    line-height: 22px;
-  }
-}
-
-.progress-input {
-  margin-top: 10px;
-  .progress-name {
-    max-width: 500px;
-  }
-  .progress-address {
-    max-width: 500px;
-    margin-top: 10px;
-  }
-  .icon {
-    margin-top: 10px;
-    background: #542de0;
-    color: #fff;
-    font-size: 14px;
-    padding: 5px 18px;
-    border-radius: 0px;
-    font-size: 22px;
-    display: block;
-    cursor: pointer;
-  }
-}
 
 .cover {
   width: 440px;
@@ -1147,6 +987,17 @@ h3.progress.title {
   color: #fff;
   font-size: 14px;
   line-height: 22px;
+}
+
+.progress-title {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 10px;
+}
+h2.progress.title {
+  font-size: 20px;
 }
 </style>
 
