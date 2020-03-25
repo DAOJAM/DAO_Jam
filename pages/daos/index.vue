@@ -211,6 +211,7 @@ export default {
       this.pull.list = res.data.list
       this.total = res.data.count || 0
       this.loading = false
+      if(this.isLogined) this.getBookmarkByTokenIds()
     },
     togglePage(i) {
       this.loading = true
@@ -222,6 +223,13 @@ export default {
         }
       })
     },
+    async getBookmarkByTokenIds() {
+      await this.$API.getBookmarkByTokenIds(this.pull.list.map(row => row.id)).then(res => {
+        if (res.code === 0) {
+          res.data.forEach(item => this.$set(this.pull.list.find(token => token.id === item.token_id), 'pentagram', true))
+        } else console.error(res.message)
+      })
+    }
   }
 }
 </script>

@@ -16,7 +16,7 @@
                 <h3>{{ card.symbol || '&nbsp;' }}({{ card.name || '&nbsp;' }})</h3>
                 <template>
                   <svg-icon
-                    v-if="true"
+                    v-if="card.pentagram"
                     class="icon-pentagram"
                     icon-class="pentagram_active"
                   />
