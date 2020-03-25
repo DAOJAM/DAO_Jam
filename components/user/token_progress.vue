@@ -115,10 +115,12 @@ export default {
     getNews() {
       if (!(~this.tokenId)) return
       this.loading = true
-      this.$API.minetokenGetNews(this.tokenId)
+      this.$API.minetokenGetNews(this.tokenId, {
+        pagesize: -1 // all
+      })
         .then(res => {
           if (res.code === 0) {
-            this.news = res.data
+            this.news = res.data.list
           } else {
             this.$message.warning(res.message)
           }

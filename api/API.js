@@ -477,16 +477,16 @@ export default {
     })
   },
   // 获取项目的live
-  minetokenGetLives(id) {
-    return request.get(`/minetoken/${id}/lives`)
+  minetokenGetLives(id, params) {
+    return request.get(`/minetoken/${id}/lives`, { params })
   },
   // 设置项目的live
   minetokenLives(id, data) {
     return request.put(`/minetoken/${id}/lives`, data)
   },
   // 获取项目的new
-  minetokenGetNews(id) {
-    return request.get(`/minetoken/${id}/news`)
+  minetokenGetNews(id, params) {
+    return request.get(`/minetoken/${id}/news`, { params })
   },
   // 设置项目的new
   minetokenNews(id, data) {

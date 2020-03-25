@@ -1,7 +1,7 @@
 <template>
   <m-dialog
     v-model="showModal"
-    title="邀请项目队员"
+    title="搜索用户"
     width="600px"
     class="transfer-dialog"
   >
@@ -93,7 +93,7 @@
             size="small"
             @click="submitForm('form')"
           >
-            发送邀请
+            确定
           </el-button>
         </div>
       </el-form-item>
@@ -227,15 +227,12 @@ export default {
       if (this.$utils.isNull(this.toUserInfo)) {
         this.$message.warning('请选择用户')
       } else {
-        this.sendInvite()
+        this.$emit('searchResult', this.toUserInfo)
+        this.showModal = false
       }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
-    },
-    // 发送邀请
-    sendInvite() {
-      this.$message.success('发送成功')
     },
     // 重置状态
     resetStatus() {

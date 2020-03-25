@@ -11,7 +11,7 @@
         <a
           :href="item.content"
           target="_blank"
-        >{{ item.title }} - {{ item.content }}</a>
+        >{{ item.title }}</a>
         <svg-icon
           icon-class="edit"
           @click="editLive(index)"
@@ -26,11 +26,24 @@
     <div class="progress-input">
       <div>
         <el-button
+          v-if="!liveUser"
           type="primary"
           @click="searchUserDialog = true"
         >
           选择用户
         </el-button>
+        <div
+          v-else
+          class="live-user"
+        >
+          <c-avatar :src="liveAvatar" />
+          <span v-html="liveUser.nickname || liveUser.username" />
+          <svg-icon
+            class="icon"
+            icon-class="close"
+            @click="liveUser = null"
+          />
+        </div>
       </div>
       <el-input
         v-model="liveTitle"
@@ -87,7 +100,10 @@
         </el-button>
       </div>
     </div>
-    <searchUser v-model="searchUserDialog" />
+    <searchUser
+      v-model="searchUserDialog"
+      @searchResult="searchResult"
+    />
   </div>
 </template>
 
@@ -95,7 +111,7 @@
 import searchUser from '@/components/search_user'
 export default {
   components: {
-    searchUser
+    searchUser,
   },
   props: {
     tokenId: {
@@ -109,8 +125,14 @@ export default {
       searchUserDialog: false,
       editIndex: -1,
       lives: [],
+      liveUser: null,
       liveTitle: '', // live
       liveContent: '', // live
+    }
+  },
+  computed: {
+    liveAvatar() {
+      return this.liveUser.avatar ? this.$ossProcess(this.liveUser.avatar) : ''
     }
   },
   watch: {
@@ -128,10 +150,12 @@ export default {
     getLives() {
       if (!(~this.tokenId)) return
       this.loading = true
-      this.$API.minetokenGetLives(this.tokenId)
+      this.$API.minetokenGetLives(this.tokenId, {
+        pagesize: -1 // all
+      })
         .then(res => {
           if (res.code === 0) {
-            this.lives = res.data
+            this.lives = res.data.list
           } else {
             this.$message.warning(res.message)
           }
@@ -145,21 +169,27 @@ export default {
     },
     // 添加数据
     addLive() {
-      if (this.liveTitle && this.liveContent) {
+      if (this.liveTitle && this.liveContent && this.liveUser) {
         this.lives.push({
-          uid: 1053,
+          nickname: this.liveUser.nickname,
+          username: this.liveUser.username,
+          avatar: this.liveUser.avatar,
+          uid: this.liveUser.id,
+
           title: this.liveTitle,
           content: this.liveContent
         })
 
+        this.liveUser = null
         this.liveTitle = ''
         this.liveContent = ''
       } else {
-        this.$message.warning('标题或内容不能为空')
+        this.$message.warning('用户、标题或内容不能为空')
       }
     },
     // 清空数据
     removeLiveData() {
+      this.liveUser = null
       this.liveTitle = ''
       this.liveContent = ''
 
@@ -177,6 +207,12 @@ export default {
     editLive(i) {
       this.editIndex = i
 
+      this.liveUser = {
+        nickname: this.lives[i].nickname,
+        username: this.lives[i].username,
+        avatar: this.lives[i].avatar,
+        id: this.lives[i].uid,
+      }
       this.liveTitle = this.lives[i].title
       this.liveContent = this.lives[i].content
     },
@@ -187,14 +223,20 @@ export default {
     },
     // 保存修改
     saveEditLive() {
+      this.lives[this.editIndex].nickname = this.liveUser.nickname
+      this.lives[this.editIndex].username = this.liveUser.username
+      this.lives[this.editIndex].avatar = this.liveUser.avatar
+      this.lives[this.editIndex].uid = this.liveUser.id
+
       this.lives[this.editIndex].title = this.liveTitle
       this.lives[this.editIndex].content = this.liveContent
-      
+
       // 清空数据
       this.removeLiveData()
     },
     // 保存数据
     saveLives() {
+      console.log(this.lives)
       const livesMap = this.lives.map(item => {
         return {
           uid: item.uid,
@@ -216,6 +258,13 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    // 搜索结果
+    searchResult(data) {
+      console.log(data)
+      if (data) {
+        this.liveUser = data
+      }
     }
   }
 }
@@ -308,6 +357,25 @@ h3.progress.title {
     // padding: 5px 18px;
     // border-radius: 0px;
     // display: block;
+    cursor: pointer;
+  }
+}
+
+.live-user {
+  display: flex;
+  align-items: center;
+  span {
+    color: #fff;
+    font-size: 16px;
+    margin: 0 10px;
+    /deep/ em {
+      color: #fff;
+      font-style: normal;
+    }
+  }
+  .icon {
+    color: #fff;
+    font-size: 16px;
     cursor: pointer;
   }
 }
