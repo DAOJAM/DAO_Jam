@@ -211,7 +211,7 @@ export default {
       this.pull.list = res.data.list
       this.total = res.data.count || 0
       this.loading = false
-      this.getBookmarkByTokenIds()
+      if(this.isLogined) this.getBookmarkByTokenIds()
     },
     togglePage(i) {
       this.loading = true
