@@ -55,6 +55,8 @@ export const paginationUrl = {
   tokenTokenLogs: '/token/tokenlogs',
   // 所有的token 分页
   tokenAll: 'token/all',
+  // 筛选星标token
+  tokenBookmarks: '/token/all/bookmarks',
   // 我持有的流动金
   liquidityLogs: 'token/holdLiquidity',
   // 我持有的流动金详情
