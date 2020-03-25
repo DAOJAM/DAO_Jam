@@ -80,5 +80,9 @@ export const paginationUrl = {
   // 分享列表
   share: 'share',
   // dao jam 某个用户的token list
-  'daothonTokenlist': '/_daothon_/tokenlist'
+  'daothonTokenlist': '/_daothon_/tokenlist',
+  // token lives
+  'minetokenLives': '/minetoken/:id/lives',
+  // token news
+  'minetokenNews': '/minetoken/:id/news',
 }

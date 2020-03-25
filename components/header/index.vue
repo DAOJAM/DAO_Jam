@@ -217,7 +217,6 @@ export default {
         let domHeader = document.querySelector('.header')
         let scrollTop = document.body.scrollTop || document.documentElement.scrollTop
 
-        console.log('scrollTop', scrollTop)
         if (scrollTop > 20) {
           domHeader.style.backgroundColor = 'rgba(98,54,255,0.1)'
         } else {
