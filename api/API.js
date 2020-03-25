@@ -980,4 +980,17 @@ export default {
   userAddress(params) {
     return request.get('/_daothon_/useraddress', { params })
   },
+  // 收藏
+  getTokenBookmark(id) { return request.get(`/token/${id}/bookmark`) },
+  addTokenBookmark(id) { return request.post(`/token/${id}/bookmark`) },
+  unTokenbookmark(id) { return request.delete(`/token/${id}/bookmark`) },
+  getBookmarkByTokenIds(ids) {
+    return request({
+      method: 'GET',
+      url: '/token/bookmark/ids',
+      params: {
+        ids: JSON.stringify(ids)
+      }
+    })
+  }
 }
