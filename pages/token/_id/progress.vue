@@ -111,7 +111,8 @@ export default {
       pullLives: {
         loading: false,
         params: {
-          pagesize: 5
+          pagesize: 5,
+          order: 'desc',
         },
         apiUrl: 'minetokenLives',
         list: [],
@@ -122,7 +123,8 @@ export default {
       pullNews: {
         loading: false,
         params: {
-          pagesize: 5
+          pagesize: 5,
+          order: 'desc',
         },
         apiUrl: 'minetokenNews',
         list: [],

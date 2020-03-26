@@ -83,18 +83,8 @@
         <el-button
           v-if="editIndex === -1"
           type="primary"
-          @click="addLive"
-        >
-          <svg-icon
-            icon-class="add"
-            class="icon"
-          />
-          添加
-        </el-button>
-        <el-button
-          type="primary"
           :disabled="loading"
-          @click="saveLives"
+          @click="createLive"
         >
           保存
         </el-button>
@@ -167,26 +157,6 @@ export default {
           this.loading = false
         })
     },
-    // 添加数据
-    addLive() {
-      if (this.liveTitle && this.liveContent && this.liveUser) {
-        this.lives.push({
-          nickname: this.liveUser.nickname,
-          username: this.liveUser.username,
-          avatar: this.liveUser.avatar,
-          uid: this.liveUser.id,
-
-          title: this.liveTitle,
-          content: this.liveContent
-        })
-
-        this.liveUser = null
-        this.liveTitle = ''
-        this.liveContent = ''
-      } else {
-        this.$message.warning('用户、标题或内容不能为空')
-      }
-    },
     // 清空数据
     removeLiveData() {
       this.liveUser = null
@@ -197,11 +167,28 @@ export default {
     },
     // 删除数据
     removeLive(i) {
-      if (i === this.editIndex) {
-        // 清空数据
-        this.removeLiveData()
-      }
-      this.lives.splice(i, 1)
+      this.$confirm('是否删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$API.minetokenDeleteLives(this.tokenId, {
+          live: {
+            id: this.lives[i].id
+          }
+        }).then(res => {
+          if (res.code === 0) {
+            this.$message.success(res.message)
+            if (i === this.editIndex) {
+            // 清空数据
+              this.removeLiveData()
+            }
+            this.lives.splice(i, 1)
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }).catch(() => {      })
     },
     // 编辑live
     editLive(i) {
@@ -223,41 +210,79 @@ export default {
     },
     // 保存修改
     saveEditLive() {
-      this.lives[this.editIndex].nickname = this.liveUser.nickname
-      this.lives[this.editIndex].username = this.liveUser.username
-      this.lives[this.editIndex].avatar = this.liveUser.avatar
-      this.lives[this.editIndex].uid = this.liveUser.id
-
-      this.lives[this.editIndex].title = this.liveTitle
-      this.lives[this.editIndex].content = this.liveContent
-
-      // 清空数据
-      this.removeLiveData()
-    },
-    // 保存数据
-    saveLives() {
-      console.log(this.lives)
-      const livesMap = this.lives.map(item => {
-        return {
-          uid: item.uid,
-          title: item.title,
-          content: item.content
-        }
-      })
-      const data = {
-        lives: livesMap
-      }
-      this.$API.minetokenLives(this.tokenId, data)
-        .then(res => {
-          if (res.code === 0) {
-            this.$message.success(res.message)
-          } else {
-            this.$message.warning(res.message)
+      if (this.liveTitle && this.liveContent && this.liveUser) {
+        this.$API.minetokenUpdateLives(this.tokenId, {
+          live: {
+            id: this.lives[this.editIndex].id,
+            uid: this.liveUser.id,
+            title: this.liveTitle,
+            content: this.liveContent
           }
         })
-        .catch(err => {
-          console.log(err)
+          .then(res => {
+            if (res.code === 0) {
+              this.$message.success(res.message)
+
+              this.lives[this.editIndex].nickname = this.liveUser.nickname
+              this.lives[this.editIndex].username = this.liveUser.username
+              this.lives[this.editIndex].avatar = this.liveUser.avatar
+              this.lives[this.editIndex].uid = this.liveUser.id
+
+              this.lives[this.editIndex].title = this.liveTitle
+              this.lives[this.editIndex].content = this.liveContent
+
+              // 清空数据
+              this.removeLiveData()
+            } else {
+              this.$message.warning(res.message)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.$message.warning('用户、标题或内容不能为空')
+      }
+    },
+    // 创建数据
+    createLive() {
+      if (this.liveTitle && this.liveContent && this.liveUser) {
+        this.$API.minetokenCreateLives(this.tokenId, {
+          live: {
+            uid: this.liveUser.id,
+            title: this.liveTitle,
+            content: this.liveContent
+          }
         })
+          .then(res => {
+            if (res.code === 0) {
+              this.$message.success(res.message)
+
+              this.lives.push({
+                id: res.data.id,
+                nickname: this.liveUser.nickname,
+                username: this.liveUser.username,
+                avatar: this.liveUser.avatar,
+                uid: this.liveUser.id,
+
+                title: this.liveTitle,
+                content: this.liveContent
+              })
+
+              this.liveUser = null
+              this.liveTitle = ''
+              this.liveContent = ''
+        
+            } else {
+              this.$message.warning(res.message)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.$message.warning('用户、标题或内容不能为空')
+      }
     },
     // 搜索结果
     searchResult(data) {
