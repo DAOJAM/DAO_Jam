@@ -17,20 +17,27 @@
             <div class="dao-block__head__info">
               <div class="fl ac jsb">
                 <h3>{{ card.symbol || '&nbsp;' }}({{ card.name || '&nbsp;' }})</h3>
-                <a href="javascript:;">
-                  <span @click="setBookmark">
-                    <svg-icon
-                      v-if="card.pentagram"
-                      class="icon-pentagram"
-                      icon-class="pentagram_active"
-                    />
-                    <svg-icon
-                      v-else
-                      class="icon-pentagram"
-                      icon-class="pentagram"
-                    />
-                  </span>
-                </a>
+                <el-tooltip
+                  class="pentagram"
+                  effect="dark"
+                  :content="card.pentagram ? '取消收藏该项目' : '收藏该项目'"
+                  placement="top"
+                >
+                  <a href="javascript:;">
+                    <span @click="setBookmark">
+                      <svg-icon
+                        v-if="card.pentagram"
+                        class="icon-pentagram"
+                        icon-class="pentagram_active"
+                      />
+                      <svg-icon
+                        v-else
+                        class="icon-pentagram"
+                        icon-class="pentagram"
+                      />
+                    </span>
+                  </a>
+                </el-tooltip>
               </div>
               <div class="dao-block__info__number dao-number__one">
                 <div class="dao__info__number__block">

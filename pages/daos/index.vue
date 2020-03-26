@@ -138,7 +138,7 @@
           :current-page="currentPage"
           :params="pull[sortRadio].params"
           :api-url="pull[sortRadio].apiUrl"
-          :page-size="9"
+          :page-size="8"
           :total="total"
           :need-access-token="true"
           :reload="reload"
@@ -174,7 +174,7 @@ export default {
           },
           apiUrl: 'tokenAll',
           list: [
-            {},{},{},{},{},{},{},{},{}
+            {},{},{},{},{},{},{},{}
           ]
         },
         hold: {
@@ -183,7 +183,7 @@ export default {
           },
           apiUrl: 'tokenAll',
           list: [
-            {},{},{},{},{},{},{},{},{}
+            {},{},{},{},{},{},{},{}
           ]
         },
         bookmark: {
@@ -192,7 +192,7 @@ export default {
           },
           apiUrl: 'tokenBookmarks',
           list: [
-            {},{},{},{},{},{},{},{},{}
+            {},{},{},{},{},{},{},{}
           ]
         }
       },
@@ -257,6 +257,10 @@ export default {
       this.total = res.data.count || 0
       this.loading = false
       if(this.isLogined) this.getBookmarkByTokenIds()
+      
+      if(this.pull[this.sortRadio].list.length === 0 && this.currentPage > 1) {
+        this.togglePage(this.currentPage - 1)
+      }
     },
     togglePage(i) {
       this.loading = true
@@ -277,7 +281,12 @@ export default {
       })
     },
     switchStar() {
-      if(this.sortRadio === 'bookmark') this.reload = Date.now()
+      if(this.sortRadio === 'bookmark') {
+        if(this.pull[this.sortRadio].list.length < 2 && this.currentPage > 1) {
+          this.togglePage(this.currentPage - 1)
+        }
+        else this.reload = Date.now()
+      }
     }
   }
 }
