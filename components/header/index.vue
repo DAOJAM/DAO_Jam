@@ -52,7 +52,7 @@
             />
           </el-tooltip>
         </div>
-        <div
+        <!-- <div
           v-if="isLogined"
           class="daos"
         >
@@ -61,7 +61,8 @@
             icon-class="daos"
           />
           0
-        </div>
+        </div> -->
+        <votingDropdownMenu />
         <a
           v-if="!isLogined"
           href="javascript:;"
@@ -176,9 +177,11 @@ import throttle from 'lodash/throttle'
 import { removeCookie } from '@/utils/cookie'
 import store from '@/utils/store.js'
 import avatar from '@/common/components/avatar/index.vue'
+import votingDropdownMenu from '@/components/voting_dropdown_menu/index.vue'
 export default {
   components: {
-    avatar
+    avatar,
+    votingDropdownMenu
   },
   data() {
     return {
