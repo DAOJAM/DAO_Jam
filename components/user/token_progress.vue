@@ -63,19 +63,12 @@
           <el-button
             v-if="editIndex === -1"
             type="primary"
-            @click="addNews"
+            @click="createNew"
           >
             <svg-icon
               icon-class="add"
               class="icon"
             />
-            添加
-          </el-button>
-
-          <el-button
-            type="primary"
-            @click="saveNews"
-          >
             保存
           </el-button>
         </div>
@@ -132,22 +125,6 @@ export default {
           this.loading = false
         })
     },
-    // 添加数据
-    addNews() {
-      if (this.newTitle && this.newContent) {
-        this.news.push({
-          uid: 1053,
-          title: this.newTitle,
-          content: this.newContent
-        })
-
-        this.newTitle = ''
-        this.newContent = ''
-      } else {
-        this.$message.warning('标题或内容不能为空')
-      }
-
-    },
     // 清空数据
     removeNewData() {
       this.newTitle = ''
@@ -157,11 +134,28 @@ export default {
     },
     // 删除数据
     removeNew(i) {
-      if (i === this.editIndex) {
-        // 清空数据
-        this.removeNewData()
-      }
-      this.news.splice(i, 1)
+      this.$confirm('是否删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$API.minetokenDeleteNews(this.tokenId, {
+          news: {
+            id: this.news[i].id
+          }
+        }).then(res => {
+          if (res.code === 0) {
+            this.$message.success(res.message)
+            if (i === this.editIndex) {
+              // 清空数据
+              this.removeNewData()
+            }
+            this.news.splice(i, 1)
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }).catch(() => {      })
     },
     // 编辑live
     editLive(i) {
@@ -177,35 +171,65 @@ export default {
     },
     // 保存修改
     saveEditLive() {
-      this.news[this.editIndex].title = this.newTitle
-      this.news[this.editIndex].content = this.newContent
-      
-      // 清空数据
-      this.removeNewData()
-    },
-    // 保存数据
-    saveNews() {
-      const newsMap = this.news.map(item => {
-        return {
-          uid: item.uid,
-          title: item.title,
-          content: item.content
-        }
-      })
-      const data = {
-        news: newsMap
-      }
-      this.$API.minetokenNews(this.tokenId, data)
-        .then(res => {
-          if (res.code === 0) {
-            this.$message.success(res.message)
-          } else {
-            this.$message.warning(res.message)
+      if (this.newTitle && this.newContent) {
+        this.$API.minetokenUpdateNews(this.tokenId, {
+          news: {
+            id: this.news[this.editIndex].id,
+            title: this.newTitle,
+            content: this.newContent
           }
         })
-        .catch(err => {
-          console.log(err)
+          .then(res => {
+            if (res.code === 0) {
+              this.$message.success(res.message)
+
+              this.news[this.editIndex].title = this.newTitle
+              this.news[this.editIndex].content = this.newContent
+      
+              // 清空数据
+              this.removeNewData()
+            } else {
+              this.$message.warning(res.message)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.$message.warning('标题或内容不能为空')
+      }
+    },
+    // 保存数据
+    createNew() {
+      if (this.newTitle && this.newContent) {
+        this.$API.minetokenCreateNews(this.tokenId, {
+          news: {
+            title: this.newTitle,
+            content: this.newContent
+          }
         })
+          .then(res => {
+            if (res.code === 0) {
+              this.$message.success(res.message)
+
+              this.news.push({
+                title: this.newTitle,
+                content: this.newContent
+              })
+
+              this.newTitle = ''
+              this.newContent = ''
+        
+            } else {
+              this.$message.warning(res.message)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.$message.warning('标题或内容不能为空')
+      }
     }
   }
 }

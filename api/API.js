@@ -480,17 +480,33 @@ export default {
   minetokenGetLives(id, params) {
     return request.get(`/minetoken/${id}/lives`, { params })
   },
-  // 设置项目的live
-  minetokenLives(id, data) {
+  // 添加 live
+  minetokenCreateLives(id, data) {
+    return request.post(`/minetoken/${id}/lives`, data)
+  },
+  // 更新 live
+  minetokenUpdateLives(id, data) {
     return request.put(`/minetoken/${id}/lives`, data)
+  },
+  // 删除
+  minetokenDeleteLives(id, data) {
+    return request.delete(`/minetoken/${id}/lives`, { data })
   },
   // 获取项目的new
   minetokenGetNews(id, params) {
     return request.get(`/minetoken/${id}/news`, { params })
   },
-  // 设置项目的new
-  minetokenNews(id, data) {
+  // 添加 new
+  minetokenCreateNews(id, data) {
+    return request.post(`/minetoken/${id}/news`, data)
+  },
+  // 更新 new
+  minetokenUpdateNews(id, data) {
     return request.put(`/minetoken/${id}/news`, data)
+  },
+  // 删除 new
+  minetokenDeleteNews(id, data) {
+    return request.delete(`/minetoken/${id}/news`, { data })
   },
   /**
    * 转移token
