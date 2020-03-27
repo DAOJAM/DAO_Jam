@@ -508,6 +508,15 @@ export default {
   minetokenDeleteNews(id, data) {
     return request.delete(`/minetoken/${id}/news`, { data })
   },
+  // ---------------------- 团队管理 ------------------------
+  // 邀请队员
+  teamMemberInvite(id, data) { return request.post(`/minetoken/${id}/teamMemberInvite`, data) },
+  // 同意邀请
+  teamMemberInviteSuccess(id, data) { return request.post(`/minetoken/${id}/teamMemberInviteSuccess`, data) },
+  // 删除队员
+  teamMemberRemove(id, data) { return request.delete(`/minetoken/${id}/teamMemberRemove`, { data }) },
+  // 获取所有队员
+  teamMember(id) { return request.get(`/minetoken/${id}/teamMember`) },
   /**
    * 转移token
    * @param {*} data tokenId to amount
