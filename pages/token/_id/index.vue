@@ -11,6 +11,30 @@
 
     <div class="token-list">
       <h2 class="token-title">
+        Team Member
+      </h2>
+      <div class="teammember">
+        <div
+          v-for="(item, index) in teamData.list"
+          :key="index"
+          class="teammember-block"
+        >
+          <router-link target="_blank" :to="{name: 'user-id', params: { id: item.uid }}">
+            <c-avatar :src="teamMemberAvatar(item.avatar)" />
+            <p>{{ item.nickname || item.username }}</p>
+          </router-link>
+        </div>
+        <p
+          v-if="achievementList.length === 0"
+          class="token-not"
+        >
+          暂无
+        </p>
+      </div>
+    </div>
+
+    <div class="token-list">
+      <h2 class="token-title">
         Achievement
       </h2>
       <div class="achievement">
@@ -155,7 +179,8 @@ export default {
           img: achievement4,
           text: 'Get 1000000 goidcoin from other users.'
         }
-      ]
+      ],
+      teamData: []// team Member
     }
   },
   asyncData() {
@@ -166,6 +191,7 @@ export default {
       const id = this.$route.params.id
       this.minetokenId(id)
       this.minetokenGetResources(id)
+      this.teamMember()
     }
   },
   methods: {
@@ -208,7 +234,26 @@ export default {
       const isHttps = url.indexOf('https://')
       if (isHttp !== 0 && isHttps !== 0) url = 'http://' + url
       return url
-    }
+    },
+    // 获取所有队员
+    async teamMember() {
+      if (this.tokenId === -1) return
+      await this.$API.teamMember(Number(this.$route.params.id))
+        .then(res => {
+          if (res.code === 0) {
+            this.teamData = res.data
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    // 团队头像
+    teamMemberAvatar(src) {
+      return src ? this.$ossProcess(src, { h: 90 }) : ''
+    },
   }
 }
 </script>
@@ -221,10 +266,10 @@ export default {
 .token-title {
   padding: 0;
   margin: 0;
-  font-size:20px;
-  font-weight:500;
-  color:rgba(255,255,255,1);
-  line-height:28px;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 28px;
 }
 .token-not {
   font-size: 16px;
@@ -235,16 +280,46 @@ export default {
 
 // common end
 
-
 .token-brief {
   padding: 0;
   margin: 20px 0 0 0;
-  font-size:16px;
-  font-weight:400;
-  color:rgba(255,255,255,1);
-  line-height:30px;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 30px;
   white-space: pre-wrap;
   word-break: break-all;
+}
+
+.teammember {
+  margin-top: 10px;
+  &::after {
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+}
+.teammember-block {
+  float: left;
+  width: 140px;
+  overflow: hidden;
+  text-align: center;
+  .components-avatar {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+  }
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #fff;
+    font-size: 16px;
+    padding: 0;
+    margin: 10px 0 0 0;
+  }
 }
 
 .achievement {
@@ -262,10 +337,10 @@ export default {
   margin-top: 20px;
   a {
     display: block;
-    font-size:16px;
-    font-weight:400;
-    color:rgba(255,255,255,1);
-    line-height:22px;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 22px;
     padding: 0;
     margin: 10px 0 0;
     text-decoration: underline;
@@ -275,13 +350,12 @@ export default {
   }
 }
 
-
 .contact {
   margin-top: 20px;
   .social-btn {
     &::after {
       display: block;
-      content: '';
+      content: "";
       width: 0;
       height: 0;
       clear: both;
@@ -298,7 +372,6 @@ export default {
     }
   }
 }
-
 
 .group,
 .supporters,

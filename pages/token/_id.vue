@@ -129,10 +129,9 @@
               购买
             </el-button>
             <el-button
-              class="head-btn"
               size="small"
               icon="el-icon-setting"
-              @click="joinDialog = true"
+              @click="teamApply"
             >
               申请加入
             </el-button>
@@ -182,6 +181,7 @@
       :minetoken-user="minetokenUser"
       @input="val => shareModalShow = val"
     />
+    
     <m-dialog
       v-model="buyDialog"
       width="600px"
@@ -189,29 +189,48 @@
     >
       <tokenBuyCard :token="minetokenToken" />
     </m-dialog>
-
+    
+    <!-- 团队申请 start -->
     <m-dialog
       v-model="joinDialog"
       width="600px"
       title="申请加入"
     >
-      <div>
-        <el-input
-          v-model="joinEmail"
-          placeholder="请输入联系邮箱"
-        />
-        <el-input
-          v-model="joinContent"
-          class="join-content"
-          type="textarea"
-          :rows="6"
-          placeholder="请输入加入理由"
-        />
-        <el-button @click="sendJoin">
-          发送
-        </el-button>
-      </div>
+      <el-form
+        ref="joinForm"
+        :model="joinForm"
+        :rules="joinRules"
+        label-width="80px"
+      >
+        <el-form-item label="联系邮箱" prop="contact">
+          <el-input
+            v-model="joinForm.contact"
+            maxlength="50"
+            show-word-limit
+            placeholder="请输入联系邮箱"
+          />
+        </el-form-item>
+        <el-form-item label="申请理由" prop="content">
+          <el-input
+            v-model="joinForm.content"
+            class="join-content"
+            type="textarea"
+            :rows="6"
+            maxlength="100"
+            show-word-limit
+            placeholder="请输入加入理由"
+          />
+        </el-form-item>
+        
+
+        <div class="join-btn">
+          <el-button @click="sendJoinForm('joinForm')">
+            发送
+          </el-button>
+        </div>
+      </el-form>
     </m-dialog>
+    <!-- 团队申请 end -->
   </div>
 </template>
 
@@ -264,9 +283,20 @@ export default {
       shareModalShow: false, // share dialog
       buyDialog: false, // buy dialog
       joinDialog: false, // 申请加入
-      joinEmail: '', // 申请加入
-      joinContent: '', // 申请加入
       pentagram: false, // 收藏
+      joinForm: {
+        contact: '',
+        content: ''
+      },
+      joinRules: {
+        contact: [
+          { type: 'email', required: true, message: '请输入合法的邮箱地址', trigger: 'change' }
+        ],
+        content: [
+          { required: true, message: '请输入申请理由', trigger: 'blur' },
+          { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
+        ],
+      }
     }
   },
   computed: {
@@ -377,16 +407,6 @@ export default {
         } else console.log(res.message)
       })
     },
-    // 发送加入请求
-    sendJoin() {
-      if (this.joinEmail && this.joinContent) {
-        this.$message.success('发送成功')
-        this.joinEmail = ''
-        this.joinContent = ''
-      } else {
-        this.$message.warning('邮箱或者加入理由不能为空')
-      }
-    },
     async getBookmarkStatus() {
       try {
         const res = await this.$API.getTokenBookmark(this.$route.params.id)
@@ -421,7 +441,58 @@ export default {
           this.$store.commit('setLoginModal', true)
         }
       }
-    }
+    },
+    // 团队申请 显示dialog
+    teamApply() {
+      // 登录
+      if(!this.isLogined) {
+        this.$store.commit('setLoginModal', true)
+        return
+      }
+
+      // 不能申请加入自己的团队
+      if (this.minetokenUser.id === this.currentUserInfo.id) {
+        this.$message.warning('不能申请加入自己的团队')
+        return
+      }
+
+      this.joinDialog = true
+
+    },
+    // 发送加入请求
+    async sendJoin() {
+      await this.$API.teamMemberApply(Number(this.$route.params.id), {
+        teamMember: {
+          uid: this.currentUserInfo.id,
+          contact: this.joinForm.contact,
+          content: this.joinForm.content,
+        }
+      })
+        .then(res => {
+          if (res.code === 0) {
+            this.$message.success('发送成功')
+            this.joinForm.contact = ''
+            this.joinForm.content = ''
+
+            this.joinDialog = false
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    // 发送加入请求 表单验证
+    async sendJoinForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.sendJoin()
+        } else {
+          return false
+        }
+      })
+    },
   }
 }
 </script>
@@ -630,6 +701,9 @@ export default {
   margin: 20px 0;
 }
 
+.join-btn {
+  text-align: right;
+}
 .pentagram {
   margin-left: 10px;
   cursor: pointer;

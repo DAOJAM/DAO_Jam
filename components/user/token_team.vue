@@ -1,16 +1,45 @@
 <template>
   <div>
     <div class="project-people">
+      <h3 class="project-title">
+        申请列表({{ teamApplyData.count }})
+      </h3>
+      <div
+        v-for="(item, index) in teamApplyData.list"
+        :key="item.uid + '-' +index"
+        class="apply-list"
+      >
+        <div class="fl ac jsb">
+          <router-link class="apply-list__avatar" target="_blank" :to="{name: 'user-id', params: { id: item.uid }}">
+            <c-avatar :src="teamMemberAvatar(item.avatar)" />
+            <p>{{ item.nickname || item.username }}</p>
+          </router-link>
+          <div>
+            <el-button type="primary" @click="agreeApply(index)">
+              同意
+            </el-button>
+            <el-button type="primary" @click="denyApply(index)">
+              忽略
+            </el-button>
+          </div>
+        </div>
+        <p v-if="item.contact" class="apply-list__text">联系方式: {{ item.contact }}</p>
+        <p v-if="item.content" class="apply-list__text content">申请理由: {{ item.content }}</p>
+      </div>
+      <h3 class="project-title">
+        队员列表({{ teamData.count }})
+      </h3>
       <div
         v-for="(item, index) in teamData.list"
-        :key="index"
+        :key="item.uid + '-' +index"
         class="project-people__block"
       >
         <router-link target="_blank" :to="{name: 'user-id', params: { id: item.uid }}">
-          <c-avatar />
-          <p>{{ item.uid }}</p>
+          <c-avatar :src="teamMemberAvatar(item.avatar)" />
+          <p>{{ item.nickname || item.username }}</p>
         </router-link>
         <svg-icon
+          v-if="item.uid !== currentUserInfo.id"
           icon-class="close"
           class="icon-close"
           @click="removeTeamPeople(index)"
@@ -26,7 +55,7 @@
       邀请队员
     </el-button>
     <p class="project-text">
-      队员加入48h后不能变动(当前队员数: {{ teamData.count }})
+      队员加入48h后不能变动
     </p>
     <searchUser
       v-model="searchUserDialog"
@@ -78,7 +107,8 @@ export default {
       searchUserDialog: false, // 添加队员
       inviteSuccess: false, // 邀请成功
       inviteAddress: '',
-      teamData: []
+      teamData: [],
+      teamApplyData: [] // 申请人
     }
   },
   computed: {
@@ -87,10 +117,12 @@ export default {
   watch: {
     tokenId() {
       this.teamMember()
+      this.teamMemberApply()
     }
   },
   mounted() {
     this.teamMember()
+    this.teamMemberApply()
   },
   methods: {
     // 获取所有队员
@@ -100,6 +132,21 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.teamData = res.data
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    // 获取申请队员
+    async teamMemberApply() {
+      if (this.tokenId === -1) return
+      await this.$API.teamMemberApplyList(this.tokenId)
+        .then(res => {
+          if (res.code === 0) {
+            this.teamApplyData = res.data
           } else {
             this.$message.error(res.message)
           }
@@ -127,12 +174,17 @@ export default {
             console.log(e)
           })
       }
+
+      if (this.teamData.list[i].uid === this.currentUserInfo.id) {
+        this.$message.error('不能删除自己')
+        return
+      }
+
       this.$confirm('是否删除该队员?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log(111)
         removeTeam()
       }).catch(() => {})
     
@@ -184,7 +236,52 @@ export default {
     // 搜索结果
     searchResult(data) {
       this.inviteTeam(data)
-    }
+    },
+    // 同意申请
+    async agreeApply(i) {
+      await this.$API.teamMemberApplySuccess(this.tokenId, {
+        teamMember: {
+          uid: this.teamApplyData.list[i].uid
+        }
+      })
+        .then(res => {
+          if (res.code === 0) {
+            this.$message.success(res.message)
+            this.teamMember()
+            this.teamMemberApply()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    // 拒绝申请
+    async denyApply(i) {
+      await this.$API.teamMemberRemove(this.tokenId, {
+        teamMember: {
+          uid: this.teamApplyData.list[i].uid
+        }
+      })
+        .then(res => {
+          if (res.code === 0) {
+            this.$message.success(res.message)
+            this.teamMember()
+            this.teamMemberApply()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+
+    },
+    // 团队头像
+    teamMemberAvatar(src) {
+      return src ? this.$ossProcess(src, { h: 90 }) : ''
+    },
   }
 }
 </script>
@@ -202,7 +299,8 @@ export default {
     float: left;
     margin: 0 20px 20px 0;
     position: relative;
-    width: 110px;
+    width: 140px;
+    overflow: hidden;
     &:nth-last-child(1) {
       margin-right: 0;
     }
@@ -219,12 +317,15 @@ export default {
       font-size: 16px;
       text-align: center;
       line-height: 22px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    .icon-close{
+    .icon-close {
       position: absolute;
       right: 0;
       top: 0;
-            color: #fff;
+      color: #fff;
       font-size: 16px;
       cursor: pointer;
     }
@@ -240,5 +341,42 @@ export default {
 .project-btn {
   margin: 20px 0;
 }
+.project-title {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 0;
+  margin: 0;
+}
 
+.apply-list {
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.apply-list__avatar {
+  display: flex;
+  align-items: center;
+  .components-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  p {
+    padding: 0;
+    margin: 0 0 0 10px;
+    font-size: 16px;
+  }
+}
+.apply-list__text {
+  padding: 0;
+  margin: 10px 0 0 0;
+  font-size: 16px;
+  line-height: 22px;
+  &.content {
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
+}
 </style>

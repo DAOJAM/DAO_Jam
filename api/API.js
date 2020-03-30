@@ -508,15 +508,23 @@ export default {
   minetokenDeleteNews(id, data) {
     return request.delete(`/minetoken/${id}/news`, { data })
   },
-  // ---------------------- 团队管理 ------------------------
+  // ---------------------- 团队管理 start ----------------------
   // 邀请队员
   teamMemberInvite(id, data) { return request.post(`/minetoken/${id}/teamMemberInvite`, data) },
-  // 同意邀请
+  // 申请加入
+  teamMemberApply(id, data) { return request.post(`/minetoken/${id}/teamMemberApply`, data) },
+  // 同意加入 申请同意
+  teamMemberApplySuccess(id, data) { return request.post(`/minetoken/${id}/teamMemberApplySuccess`, data) },
+  // 同意邀请 邀请同意
   teamMemberInviteSuccess(id, data) { return request.post(`/minetoken/${id}/teamMemberInviteSuccess`, data) },
   // 删除队员
   teamMemberRemove(id, data) { return request.delete(`/minetoken/${id}/teamMemberRemove`, { data }) },
   // 获取所有队员
   teamMember(id) { return request.get(`/minetoken/${id}/teamMember`) },
+  // 申请队员
+  teamMemberApplyList(id) { return request.get(`/minetoken/${id}/teamMemberApply`) },
+  // ---------------------- 团队管理 end ----------------------
+
   /**
    * 转移token
    * @param {*} data tokenId to amount
