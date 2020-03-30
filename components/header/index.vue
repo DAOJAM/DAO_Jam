@@ -31,10 +31,10 @@
             </n-link>
           </li>
           <li>
-            <n-link :to="{name: 'article'}">
+            <n-link :to="{name: 'stat'}">
               STAT
             </n-link>
-          </li>          
+          </li>
         </ul>
         <div
           class="notification"
