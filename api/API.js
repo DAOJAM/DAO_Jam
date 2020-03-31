@@ -520,9 +520,7 @@ export default {
   // 删除队员
   teamMemberRemove(id, data) { return request.delete(`/minetoken/${id}/teamMemberRemove`, { data }) },
   // 获取所有队员
-  teamMember(id) { return request.get(`/minetoken/${id}/teamMember`) },
-  // 申请队员
-  teamMemberApplyList(id) { return request.get(`/minetoken/${id}/teamMemberApply`) },
+  teamMember(id, params) { return request.get(`/minetoken/${id}/teamMember`, { params }) },
   // ---------------------- 团队管理 end ----------------------
 
   /**

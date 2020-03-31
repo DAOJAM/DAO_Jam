@@ -2,6 +2,27 @@
   <div>
     <div class="project-people">
       <h3 class="project-title">
+        邀请列表({{ teamInviteData.count }})
+      </h3>
+      <div
+        v-for="(item, index) in teamInviteData.list"
+        :key="item.uid + '-' +index"
+        class="apply-list"
+      >
+        <div class="fl ac jsb">
+          <router-link class="apply-list__avatar" target="_blank" :to="{name: 'user-id', params: { id: item.uid }}">
+            <c-avatar :src="teamMemberAvatar(item.avatar)" />
+            <p>{{ item.nickname || item.username }}</p>
+          </router-link>
+          <div>
+            <span>还在等待对方确定...</span>
+            <el-button type="primary" @click="removeTeamMember(index, 'invite')">
+              取消邀请
+            </el-button>
+          </div>
+        </div>
+      </div>
+      <h3 class="project-title">
         申请列表({{ teamApplyData.count }})
       </h3>
       <div
@@ -18,7 +39,7 @@
             <el-button type="primary" @click="agreeApply(index)">
               同意
             </el-button>
-            <el-button type="primary" @click="denyApply(index)">
+            <el-button type="primary" @click="removeTeamMember(index, 'apply')">
               忽略
             </el-button>
           </div>
@@ -39,7 +60,7 @@
           <p>{{ item.nickname || item.username }}</p>
         </router-link>
         <svg-icon
-          v-if="item.uid !== currentUserInfo.id"
+          v-if="item.uid !== currentUserInfo.id || item.note !== 'owner'"
           icon-class="close"
           class="icon-close"
           @click="removeTeamPeople(index)"
@@ -108,7 +129,8 @@ export default {
       inviteSuccess: false, // 邀请成功
       inviteAddress: '',
       teamData: [],
-      teamApplyData: [] // 申请人
+      teamApplyData: [], // 申请
+      teamInviteData: [] // 邀请
     }
   },
   computed: {
@@ -117,21 +139,33 @@ export default {
   watch: {
     tokenId() {
       this.teamMember()
-      this.teamMemberApply()
+      this.teamMember('invite')
+      this.teamMember('apply')
     }
   },
   mounted() {
     this.teamMember()
-    this.teamMemberApply()
+    this.teamMember('invite')
+    this.teamMember('apply')
   },
   methods: {
     // 获取所有队员
-    async teamMember() {
+    async teamMember(note = '') {
       if (this.tokenId === -1) return
-      await this.$API.teamMember(this.tokenId)
+      let params = {}
+      if (note) params = { 
+        note: note
+      }
+      await this.$API.teamMember(this.tokenId, params)
         .then(res => {
           if (res.code === 0) {
-            this.teamData = res.data
+            if (note === 'apply') {
+              this.teamApplyData = res.data
+            } else if (note === 'invite') {
+              this.teamInviteData = res.data
+            } else {
+              this.teamData = res.data
+            }
           } else {
             this.$message.error(res.message)
           }
@@ -140,41 +174,54 @@ export default {
           console.log(e)
         })
     },
-    // 获取申请队员
-    async teamMemberApply() {
-      if (this.tokenId === -1) return
-      await this.$API.teamMemberApplyList(this.tokenId)
-        .then(res => {
-          if (res.code === 0) {
-            this.teamApplyData = res.data
+    // 移除项目成员 (删除, 邀请, 申请)
+    async removeTeamMember(i, note) {
+      let teamMember = {}
+      if (note === 'apply') {
+        // 删除申请
+        teamMember= {
+          uid: this.teamApplyData.list[i].uid,
+          note: this.teamApplyData.list[i].note,
+        }
+      } else if (note === 'invite') {
+        // 删除邀请
+        teamMember= {
+          uid: this.teamInviteData.list[i].uid,
+          note: this.teamInviteData.list[i].note,
+        }
+      } else {
+        // 删除队员
+        teamMember = {
+          uid: this.teamData.list[i].uid,
+          note: this.teamData.list[i].note,
+        }
+      }
+          
+      await this.$API.teamMemberRemove(this.tokenId, {
+        teamMember: teamMember,
+      }).then(res => {
+        if (res.code === 0) {
+          this.$message.success(res.message)
+          if (note === 'apply') {
+            // 删除申请
+            this.teamMember('apply')
+          } else if (note === 'invite') {
+            // 删除邀请
+            this.teamMember('invite')
           } else {
-            this.$message.error(res.message)
+            // 删除队员
+            this.teamMember()
           }
-        })
+        } else {
+          this.$message.error(res.message)
+        }
+      })
         .catch(e => {
           console.log(e)
         })
     },
     // 移除项目成员
     async removeTeamPeople(i) {
-      const removeTeam = async () => {
-        await this.$API.teamMemberRemove(this.tokenId, {
-          teamMember: {
-            uid: this.teamData.list[i].uid
-          }
-        }).then(res => {
-          if (res.code === 0) {
-            this.$message.success(res.message)
-            this.teamMember()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-          .catch(e => {
-            console.log(e)
-          })
-      }
-
       if (this.teamData.list[i].uid === this.currentUserInfo.id) {
         this.$message.error('不能删除自己')
         return
@@ -185,7 +232,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        removeTeam()
+        this.removeTeamMember(i)
       }).catch(() => {})
     
     },
@@ -248,7 +295,7 @@ export default {
           if (res.code === 0) {
             this.$message.success(res.message)
             this.teamMember()
-            this.teamMemberApply()
+            this.teamMember('apply')
           } else {
             this.$message.error(res.message)
           }
@@ -256,27 +303,6 @@ export default {
         .catch(e => {
           console.log(e)
         })
-    },
-    // 拒绝申请
-    async denyApply(i) {
-      await this.$API.teamMemberRemove(this.tokenId, {
-        teamMember: {
-          uid: this.teamApplyData.list[i].uid
-        }
-      })
-        .then(res => {
-          if (res.code === 0) {
-            this.$message.success(res.message)
-            this.teamMember()
-            this.teamMemberApply()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-        .catch(e => {
-          console.log(e)
-        })
-
     },
     // 团队头像
     teamMemberAvatar(src) {
