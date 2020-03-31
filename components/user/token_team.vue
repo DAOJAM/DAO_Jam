@@ -266,7 +266,11 @@ export default {
               // t token_id   i invite_id   d date(time)
               const address = `${window.location.origin}/team?t=${this.tokenId}&i=${this.currentUserInfo.id}&u=${data.id}&d=${Date.now()}`
               this.inviteAddress = address
+
             }
+
+            // 刷新列表
+            this.teamMember('invite')
 
           } else {
             this.$message.error(res.message)
