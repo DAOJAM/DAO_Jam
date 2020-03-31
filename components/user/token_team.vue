@@ -16,6 +16,9 @@
           </router-link>
           <div>
             <span>还在等待对方确定...</span>
+            <el-button type="primary" @click="copyInviteLink(index)">
+              复制邀请链接
+            </el-button>
             <el-button type="primary" @click="removeTeamMember(index, 'invite')">
               取消邀请
             </el-button>
@@ -266,7 +269,6 @@ export default {
               // t token_id   i invite_id   d date(time)
               const address = `${window.location.origin}/team?t=${this.tokenId}&i=${this.currentUserInfo.id}&u=${data.id}&d=${Date.now()}`
               this.inviteAddress = address
-
             }
 
             // 刷新列表
@@ -312,6 +314,15 @@ export default {
     teamMemberAvatar(src) {
       return src ? this.$ossProcess(src, { h: 90 }) : ''
     },
+    // 复制邀请链接
+    copyInviteLink(i) {
+      if (process.browser) {
+        // 字段太长了 缩写
+        // t token_id   i invite_id   d date(time)
+        const address = `${window.location.origin}/team?t=${this.tokenId}&i=${this.currentUserInfo.id}&u=${this.teamInviteData.list[i].uid}&d=${Date.now()}`
+        this.copyText(address)
+      }
+    }
   }
 }
 </script>
