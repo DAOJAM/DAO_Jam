@@ -54,12 +54,13 @@
       ref="form"
       :rules="rules"
       :model="form"
-      class="input-form customize"
+      class="input-form"
       label-width="80px"
     >
       <el-form-item
         label="名称"
         prop="name"
+        class="customize"
       >
         <el-input
           v-model="form.name"
@@ -71,6 +72,7 @@
       <el-form-item
         label="缩写"
         prop="symbol"
+        class="customize"
       >
         <el-input
           v-model="form.symbol"
@@ -82,6 +84,7 @@
       <el-form-item
         label="图标"
         prop="logo"
+        class="customize"
       >
         <el-input
           v-model="form.logo"
@@ -124,6 +127,7 @@
         v-if="isPost"
         label="发行数量"
         prop="number"
+        class="customize"
       >
         <el-input
           v-model="form.number"
@@ -135,6 +139,7 @@
       <el-form-item
         label="简介"
         prop="brief"
+        class="customize"
       >
         <el-input
           v-model="form.brief"
@@ -146,6 +151,7 @@
       <el-form-item
         label="介绍"
         prop=""
+        class="customize"
       >
         <el-input
           v-model="form.introduction"
@@ -161,6 +167,7 @@
       <el-form-item
         label="封面"
         prop=""
+        class="customize"
       >
         <div class="cover">
           <div
@@ -192,6 +199,7 @@
       <el-form-item
         label="项目REPO"
         prop="repo"
+        class="customize"
       >
         <el-input
           v-model="form.repo"
@@ -202,40 +210,15 @@
       <el-form-item
         label="项目成员"
         prop=""
+        class="project"
       >
-        <div>
-          <div class="project-people">
-            <div
-              v-for="item in 10"
-              :key="item"
-              class="project-people__block"
-            >
-              <cAvatar />
-              <p>xiaotianxiaotian</p>
-              <svg-icon
-                icon-class="close"
-                class="icon-close"
-                @click="removeProjectPeople(item)"
-              />
-            </div>
-          </div>
-          <el-button
-            class="project-btn"
-            type="primary"
-            size="small"
-            @click="addProjectPeopleDialog = true"
-          >
-            邀请队员
-          </el-button>
-          <p class="project-text">
-            队员加入48h后不能变动
-          </p>
-        </div>
+        <tokenTeam :token-id="tokenId" />
       </el-form-item>
 
       <el-form-item
         label="相关网站"
         prop=""
+        class="customize"
       >
         <div
           v-for="(item, index) in about"
@@ -272,6 +255,7 @@
       <el-form-item
         label="社交帐号"
         prop=""
+        class="customize"
       >
         <div
           v-for="(item, index) in social"
@@ -338,12 +322,6 @@
       :aspect-ratio="imgUploadConfig.aspectRatio"
       @done="done"
     />
-
-    <addProjectPeople 
-      v-model="addProjectPeopleDialog"
-      :article-id="Number(1)"
-      from="share"
-    />
   </div>
 </template>
 
@@ -355,19 +333,17 @@ import { precision, toPrecision } from '@/utils/precisionConversion'
 import { getCookie } from '@/utils/cookie'
 import socialIcon from '@/components/social_icon/index.vue'
 import socialTypes from '@/config/social_types'
-import cAvatar from '@/common/components/avatar'
-import addProjectPeople from '@/components/add_project_people/index.vue'
 import userLive from '@/components/user/token_live.vue'
 import userProgress from '@/components/user/token_progress.vue'
+import tokenTeam from '@/components/user/token_team'
 export default {
   components: {
     imgUpload,
     imgUploads,
     socialIcon,
-    cAvatar,
-    addProjectPeople,
     userLive,
-    userProgress
+    userProgress,
+    tokenTeam
   },
   data() {
     const checkSymbol = (rule, value, callback) => {
@@ -498,7 +474,7 @@ export default {
         viewHeight: '240px',
         aspectRatio: 1 / 1
       },
-      addProjectPeopleDialog: false, // 添加队员
+      searchUserDialog: false, // 添加队员
     }
   },
   computed: {
@@ -737,7 +713,7 @@ export default {
           message: '已取消删除'
         })          
       })
-    }
+    },
   }
 }
 </script>
@@ -887,7 +863,6 @@ export default {
   font-size: 14px;
 }
 
-
 .cover {
   width: 440px;
   height: 124px;
@@ -938,57 +913,6 @@ export default {
     }
   }
 }
-
-.project-people {
-  &::after {
-    display: block;
-    content: "";
-    width: 0;
-    height: 0;
-    clear: both;
-  }
-  .project-people__block {
-    float: left;
-    margin: 0 20px 20px 0;
-    position: relative;
-    &:nth-last-child(1) {
-      margin-right: 0;
-    }
-
-    .components-avatar {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto;
-    }
-    p {
-      padding: 0;
-      margin: 10px 0 0 0;
-      color: #fff;
-      font-size: 16px;
-      text-align: center;
-      line-height: 22px;
-    }
-    .icon-close{
-      position: absolute;
-      right: 0;
-      top: 0;
-            color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  }
-}
-.project-btn {
-  margin: 20px 0;
-}
-.project-text {
-  padding: 0;
-  margin: 0;
-  color: #fff;
-  font-size: 14px;
-  line-height: 22px;
-}
-
 .progress-title {
   padding: 0;
   margin: 0;
@@ -1039,6 +963,11 @@ h2.progress.title {
     }
 
     .el-checkbox {
+      color: #fff;
+    }
+  }
+  .project {
+    & > .el-form-item__label {
       color: #fff;
     }
   }

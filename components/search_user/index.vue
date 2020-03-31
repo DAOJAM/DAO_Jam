@@ -13,7 +13,7 @@
       <el-form-item label="用户">
         <el-input
           v-model="transferUsername"
-          :placeholder="$t('p.articleTransferPlaceholder')"
+          placeholder="请输入用户名"
           size="small"
           style="z-index: 2;"
         />
