@@ -86,7 +86,6 @@ export default {
 <style lang="less" scoped>
 .ring {
   background-color: #F7F7F7;
-  padding-top: 60px;
   min-height: 100%;
   &-logo {
     width: 128px;

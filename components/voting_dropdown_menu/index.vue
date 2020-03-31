@@ -127,7 +127,7 @@ export default {
   font-weight:400;
   color:rgba(255,255,255,1);
   line-height:22px;
-  margin: 0 40px 0 0;
+  margin: 0;
   .icon {
     color: #fff;
     font-size: 20px;

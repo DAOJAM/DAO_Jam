@@ -121,7 +121,6 @@ export default {
 
 <style lang="less" scoped>
 .tasks {
-  padding-top: 60px;
   background-color: #0e2144;
   align-content: center;
 }

@@ -161,7 +161,6 @@ export default {
 
 <style lang="less" scoped>
 .user {
-  padding: 60px 0 0 0;
   min-height: calc(100% - (60px + 200px));
   background-color: #0e2144;
 }
