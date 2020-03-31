@@ -208,6 +208,7 @@
       </el-form-item>
 
       <el-form-item
+        v-if="!isPost"
         label="项目成员"
         prop=""
         class="project"
