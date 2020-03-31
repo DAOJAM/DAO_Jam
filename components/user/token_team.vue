@@ -75,9 +75,9 @@
     >
       邀请队员
     </el-button>
-    <p class="project-text">
+    <!-- <p class="project-text">
       队员加入48h后不能变动
-    </p>
+    </p> -->
     <searchUser
       v-model="searchUserDialog"
       @searchResult="searchResult"
