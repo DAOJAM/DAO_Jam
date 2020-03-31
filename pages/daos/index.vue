@@ -30,9 +30,18 @@
                 筛选
               </p>
               <el-radio-group v-model="sortRadio">
-                <el-radio-button label="全部" />
-                <el-radio-button label="持有" />
-                <el-radio-button label="星标" />
+                <el-radio-button label="all">
+                  全部
+                </el-radio-button>
+                <el-radio-button label="hold">
+                  持有
+                </el-radio-button>
+                <el-radio-button
+                  :disabled="!isLogined"
+                  label="bookmark"
+                >
+                  星标
+                </el-radio-button>
               </el-radio-group>
             </div>
           </div>
@@ -73,10 +82,11 @@
             </div>
           </div>
           <daoCard
-            v-for="(item, index) in pull.list"
+            v-for="(item, index) in pull[sortRadio].list"
             :key="index"
             class="dao-col"
             :card="item"
+            @switchStar="switchStar"
           />
         </div>
 
@@ -126,11 +136,12 @@
         <user-pagination
           v-show="!loading"
           :current-page="currentPage"
-          :params="pull.params"
-          :api-url="pull.apiUrl"
-          :page-size="9"
+          :params="pull[sortRadio].params"
+          :api-url="pull[sortRadio].apiUrl"
+          :page-size="8"
           :total="total"
           :need-access-token="true"
+          :reload="reload"
           class="dao-pagination"
           @paginationData="paginationData"
           @togglePage="togglePage"
@@ -157,13 +168,33 @@ export default {
       searchVal: '',
 
       pull: {
-        params: {
-          pagesize: 8
+        all: {
+          params: {
+            pagesize: 8
+          },
+          apiUrl: 'tokenAll',
+          list: [
+            {},{},{},{},{},{},{},{}
+          ]
         },
-        apiUrl: 'tokenAll',
-        list: [
-          {},{},{},{},{},{},{},{},{}
-        ]
+        hold: {
+          params: {
+            pagesize: 8
+          },
+          apiUrl: 'tokenAll',
+          list: [
+            {},{},{},{},{},{},{},{}
+          ]
+        },
+        bookmark: {
+          params: {
+            pagesize: 8
+          },
+          apiUrl: 'tokenBookmarks',
+          list: [
+            {},{},{},{},{},{},{},{}
+          ]
+        }
       },
       currentPage: Number(this.$route.query.page) || 1,
       loading: false, // 加载数据
@@ -184,11 +215,25 @@ export default {
         label: '开发者数量'
       }],
       filterValue: 'liquidity',
-      sortRadio: '全部',
+      sortRadio: this.$route.query.filter || 'all',
+      reload: 0
     }
   },
   computed: {
     ...mapGetters(['isLogined']),
+  },
+  watch: {
+    sortRadio(newVal) {
+      this.loading = true
+      this.pull[newVal].list = []
+      this.currentPage = 1
+      this.$router.push({
+        query: {
+          filter: newVal,
+          page: 1
+        }
+      })
+    }
   },
   methods: {
     // 创建dao
@@ -208,27 +253,40 @@ export default {
     },
     paginationData(res) {
       this.count = res.data.count
-      this.pull.list = res.data.list
+      this.pull[this.sortRadio].list = res.data.list
       this.total = res.data.count || 0
       this.loading = false
       if(this.isLogined) this.getBookmarkByTokenIds()
+      
+      if(this.pull[this.sortRadio].list.length === 0 && this.currentPage > 1) {
+        this.togglePage(this.currentPage - 1)
+      }
     },
     togglePage(i) {
       this.loading = true
-      this.pull.list = []
+      this.pull[this.sortRadio].list = []
       this.currentPage = i
       this.$router.push({
         query: {
+          ...this.$route.query,
           page: i
         }
       })
     },
     async getBookmarkByTokenIds() {
-      await this.$API.getBookmarkByTokenIds(this.pull.list.map(row => row.id)).then(res => {
+      await this.$API.getBookmarkByTokenIds(this.pull[this.sortRadio].list.map(row => row.id)).then(res => {
         if (res.code === 0) {
-          res.data.forEach(item => this.$set(this.pull.list.find(token => token.id === item.token_id), 'pentagram', true))
+          res.data.forEach(item => this.$set(this.pull[this.sortRadio].list.find(token => token.id === item.token_id), 'pentagram', true))
         } else console.error(res.message)
       })
+    },
+    switchStar() {
+      if(this.sortRadio === 'bookmark') {
+        if(this.pull[this.sortRadio].list.length < 2 && this.currentPage > 1) {
+          this.togglePage(this.currentPage - 1)
+        }
+        else this.reload = Date.now()
+      }
     }
   }
 }

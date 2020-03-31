@@ -463,18 +463,50 @@ export default {
   * @param {Object} data token资源
   * @param {Number} tokenId token id
   */
-minetokenResources(data, tokenId) {
+  minetokenResources(data, tokenId) {
     return request({
       method: 'PUT',
       url: `/minetoken/${tokenId}/resources`,
       data: data
     })
   },
-minetokenGetResources(tokenId) {
+  minetokenGetResources(tokenId) {
     return request({
       method: 'GET',
       url: `/minetoken/${tokenId}/resources`,
     })
+  },
+  // 获取项目的live
+  minetokenGetLives(id, params) {
+    return request.get(`/minetoken/${id}/lives`, { params })
+  },
+  // 添加 live
+  minetokenCreateLives(id, data) {
+    return request.post(`/minetoken/${id}/lives`, data)
+  },
+  // 更新 live
+  minetokenUpdateLives(id, data) {
+    return request.put(`/minetoken/${id}/lives`, data)
+  },
+  // 删除
+  minetokenDeleteLives(id, data) {
+    return request.delete(`/minetoken/${id}/lives`, { data })
+  },
+  // 获取项目的new
+  minetokenGetNews(id, params) {
+    return request.get(`/minetoken/${id}/news`, { params })
+  },
+  // 添加 new
+  minetokenCreateNews(id, data) {
+    return request.post(`/minetoken/${id}/news`, data)
+  },
+  // 更新 new
+  minetokenUpdateNews(id, data) {
+    return request.put(`/minetoken/${id}/news`, data)
+  },
+  // 删除 new
+  minetokenDeleteNews(id, data) {
+    return request.delete(`/minetoken/${id}/news`, { data })
   },
   /**
    * 转移token

@@ -5,6 +5,7 @@
       height: size
     }"
     class="g-avatar"
+    :class="square && 'br-square'"
   >
     <el-image
       :src="src"
@@ -35,6 +36,10 @@ export default {
     size: {
       type: String,
       default: '1rem'
+    },
+    square: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -60,6 +65,9 @@ export default {
 .g-avatar {
   overflow: hidden;
   border-radius: 50%;
+  &.br-square {
+    border-radius: 15%;
+  }
   border: 1px solid #ececec;
   cursor: pointer;
   display: flex;

@@ -31,10 +31,15 @@
             </n-link>
           </li>
           <li>
-            <n-link :to="{name: 'article'}">
+            <n-link :to="{name: 'stat'}">
               STAT
             </n-link>
-          </li>          
+          </li>
+          <li>
+            <n-link :to="{name: 'tasks'}">
+              TASKS
+            </n-link>
+          </li>
         </ul>
         <div
           class="notification"
@@ -52,7 +57,7 @@
             />
           </el-tooltip>
         </div>
-        <div
+        <!-- <div
           v-if="isLogined"
           class="daos"
         >
@@ -61,7 +66,8 @@
             icon-class="daos"
           />
           0
-        </div>
+        </div> -->
+        <votingDropdownMenu />
         <a
           v-if="!isLogined"
           href="javascript:;"
@@ -176,9 +182,11 @@ import throttle from 'lodash/throttle'
 import { removeCookie } from '@/utils/cookie'
 import store from '@/utils/store.js'
 import avatar from '@/common/components/avatar/index.vue'
+import votingDropdownMenu from '@/components/voting_dropdown_menu/index.vue'
 export default {
   components: {
-    avatar
+    avatar,
+    votingDropdownMenu
   },
   data() {
     return {
@@ -217,7 +225,6 @@ export default {
         let domHeader = document.querySelector('.header')
         let scrollTop = document.body.scrollTop || document.documentElement.scrollTop
 
-        console.log('scrollTop', scrollTop)
         if (scrollTop > 20) {
           domHeader.style.backgroundColor = 'rgba(98,54,255,0.1)'
         } else {
