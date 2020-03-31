@@ -1,178 +1,188 @@
 <template>
-  <header class="header">
-    <div class="header-content">
-      <a
-        href="/"
-        class="logo-link"
-      >
-        <img
-          class="logo"
-          src="@/assets/img/daojam_logo.png"
-          alt="logo"
+  <div class="header-bg">
+    <header class="header">
+      <div class="header-content">
+        <a
+          href="/"
+          class="logo-link"
         >
-      </a>
+          <img
+            class="logo"
+            src="@/assets/img/daojam_logo.png"
+            alt="logo"
+          >
+        </a>
 
-      <svg-icon
-        icon-class="menu"
-        class="menu-icon"
-        @click.stop="showSidebar"
-      />
-
-      <div class="header-right">
-        <ul>
-          <li>
-            <n-link :to="{name: 'index'}">
-              HOME
-            </n-link>
-          </li>
-          <li>
-            <n-link :to="{name: 'daos'}">
-              Projects
-            </n-link>
-          </li>
-          <li>
-            <n-link :to="{name: 'stat'}">
-              STAT
-            </n-link>
-          </li>
-          <li>
-            <n-link :to="{name: 'tasks'}">
-              TASKS
-            </n-link>
-          </li>
-        </ul>
+        <svg-icon
+          v-if="isLevelOnePage"
+          icon-class="menu"
+          class="menu-icon"
+          @click.stop="showSidebar"
+        />
         <div
-          class="notification"
-          @click="viewNotification"
+          v-else
+          class="menu-icon"
+          @click.stop="$router.go(-1)"
         >
-          <el-tooltip
-            effect="dark"
-            content="通知中心"
-            placement="bottom"
+          <i class="el-icon-arrow-left" />
+        </div>
+
+        <div class="header-right">
+          <ul class="header-tag">
+            <li>
+              <n-link :to="{name: 'index'}">
+                HOME
+              </n-link>
+            </li>
+            <li>
+              <n-link :to="{name: 'daos'}">
+                Projects
+              </n-link>
+            </li>
+            <li>
+              <n-link :to="{name: 'stat'}">
+                STAT
+              </n-link>
+            </li>
+            <li>
+              <n-link :to="{name: 'tasks'}">
+                TASKS
+              </n-link>
+            </li>
+          </ul>
+          <div
+            class="notification"
+            @click="viewNotification"
+          >
+            <el-tooltip
+              effect="dark"
+              content="通知中心"
+              placement="bottom"
+            >
+              <svg-icon
+                :class="{ badge: hasNewNotification }"
+                class="icon"
+                icon-class="bell"
+              />
+            </el-tooltip>
+          </div>
+          <!-- <div
+            v-if="isLogined"
+            class="daos"
           >
             <svg-icon
-              :class="{ badge: hasNewNotification }"
               class="icon"
-              icon-class="bell"
+              icon-class="daos"
             />
-          </el-tooltip>
-        </div>
-        <!-- <div
-          v-if="isLogined"
-          class="daos"
-        >
-          <svg-icon
-            class="icon"
-            icon-class="daos"
-          />
-          0
-        </div> -->
-        <votingDropdownMenu />
-        <a
-          v-if="!isLogined"
-          href="javascript:;"
-          class="sign-btn"
-          @click="login"
-        >{{ $t('home.signIn') }}</a>
-        <el-dropdown
-          v-else
-          class="user-menu"
-        >
-          <avatar :src="avatarSrc" />
-          <el-dropdown-menu
-            slot="dropdown"
-            class="user-dorpdown"
+            0
+          </div> -->
+          <votingDropdownMenu class="daos-margin" />
+          <a
+            v-if="!isLogined"
+            href="javascript:;"
+            class="sign-btn"
+            @click="login"
+          >{{ $t('home.signIn') }}</a>
+          <el-dropdown
+            v-else
+            class="user-menu"
           >
-            <n-link
-              :to="{name: 'user-id', params:{id: currentUserInfo.id}}"
-              class="link"
+            <avatar :src="avatarSrc" />
+            <el-dropdown-menu
+              slot="dropdown"
+              class="user-dorpdown"
             >
-              <el-dropdown-item>
-                {{ currentUserInfo.nickname || currentUserInfo.name }}
-              </el-dropdown-item>
-            </n-link>
-            <n-link
-              :to="{name: 'setting', params:{id: currentUserInfo.id}}"
-              class="link"
-            >
-              <el-dropdown-item>
-                <svg-icon
-                  class="icon"
-                  icon-class="setting"
-                />
-                Setting
-              </el-dropdown-item>
-            </n-link>
+              <n-link
+                :to="{name: 'user-id', params:{id: currentUserInfo.id}}"
+                class="link"
+              >
+                <el-dropdown-item>
+                  {{ currentUserInfo.nickname || currentUserInfo.name }}
+                </el-dropdown-item>
+              </n-link>
+              <n-link
+                :to="{name: 'setting', params:{id: currentUserInfo.id}}"
+                class="link"
+              >
+                <el-dropdown-item>
+                  <svg-icon
+                    class="icon"
+                    icon-class="setting"
+                  />
+                  Setting
+                </el-dropdown-item>
+              </n-link>
+              <div
+                class="link"
+                @click="signOut"
+              >
+                <el-dropdown-item>
+                  <svg-icon
+                    class="icon"
+                    icon-class="signout"
+                  />
+                  {{ $t('home.signOut') }}
+                </el-dropdown-item>
+              </div>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </div>
+
+      <div
+        class="header-sidebar"
+        :class="toggle && 'open'"
+      >
+        <div
+          class="header-sidebar__full"
+          @click.stop="toggle = false"
+        />
+        <div class="header-sidebar__content">
+          <avatar
+            class="user-avatar"
+            :src="avatarSrc"
+          />
+          <p class="user-name">
+            {{ currentUserInfo.nickname || currentUserInfo.name }}
+          </p>
+
+          <ul>
+            <li>
+              <svg-icon
+                icon-class="user"
+                class="icon"
+              />
+              <n-link :to="{name: 'user-id', params:{id: currentUserInfo.id}}">
+                我的主页
+              </n-link>
+            </li>
+            <li>
+              <svg-icon
+                icon-class="home"
+                class="icon"
+              />
+              <n-link :to="{name: 'setting', params:{id: currentUserInfo.id}}">
+                {{ $t('home.account') }}
+              </n-link>
+            </li>
+          </ul>
+
+          <div class="user-footer">
             <div
-              class="link"
+              class="user-footer__block"
               @click="signOut"
             >
-              <el-dropdown-item>
-                <svg-icon
-                  class="icon"
-                  icon-class="signout"
-                />
-                {{ $t('home.signOut') }}
-              </el-dropdown-item>
+              <svg-icon
+                icon-class="logout"
+                class="logout-icon"
+              />
+              {{ isLogined ? $t('home.signOut') : $t('home.signIn') }}
             </div>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-    </div>
-
-    <div
-      class="header-sidebar"
-      :class="toggle && 'open'"
-    >
-      <div
-        class="header-sidebar__full"
-        @click.stop="toggle = false"
-      />
-      <div class="header-sidebar__content">
-        <avatar
-          class="user-avatar"
-          :src="avatarSrc"
-        />
-        <p class="user-name">
-          {{ currentUserInfo.nickname || currentUserInfo.name }}
-        </p>
-
-        <ul>
-          <li>
-            <svg-icon
-              icon-class="user"
-              class="icon"
-            />
-            <n-link :to="{name: 'user-id', params:{id: currentUserInfo.id}}">
-              我的主页
-            </n-link>
-          </li>
-          <li>
-            <svg-icon
-              icon-class="home"
-              class="icon"
-            />
-            <n-link :to="{name: 'setting', params:{id: currentUserInfo.id}}">
-              {{ $t('home.account') }}
-            </n-link>
-          </li>
-        </ul>
-
-        <div class="user-footer">
-          <div
-            class="user-footer__block"
-            @click="signOut"
-          >
-            <svg-icon
-              icon-class="logout"
-              class="logout-icon"
-            />
-            {{ isLogined ? $t('home.signOut') : $t('home.signIn') }}
           </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
+  </div>
 </template>
 
 <script>
@@ -192,12 +202,22 @@ export default {
     return {
       avatarSrc: '',
       toggle: false,
-      scrollEvent: null
+      scrollEvent: null,
+      levelOnePage: [
+        'article',
+        'daos',
+        'stat',
+        'tasks',
+      ]
     }
   },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined', 'isMe']),
     ...mapGetters('notification', ['hasNewNotification']),
+
+    isLevelOnePage() {
+      return  this.levelOnePage.includes(this.$route.name)
+    }
   },
   watch: {
     isLogined(newState) {
@@ -306,6 +326,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.header-bg {
+  height: 60px;
+}
 .header {
   width: 100%;
   height: 60px;
@@ -321,7 +344,6 @@ export default {
   background: rgba(98,54,255,0.1);
   transition: all .3s;
   -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
 
   overflow: hidden;
 
@@ -355,6 +377,7 @@ export default {
     justify-content: space-between;
     box-sizing: border-box;
     margin: 0 auto;
+    backdrop-filter: blur(10px);
   }
 
   &-right {
@@ -533,9 +556,27 @@ export default {
     cursor: pointer;
   }
 }
-@media screen and (max-width: 520px) {
+.daos-margin {
+  margin: 0 40px 0 0;
+}
+@media screen and (max-width: 760px) {  
+  .header-bg {
+    height: 50px;
+  }
+
+  .header {
+    height: 50px;
+    padding: 0;
+  }
+
   .user-menu,
   .logo-link {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .header-tag {
     display: none;
     opacity: 0;
     visibility: hidden;
@@ -549,7 +590,7 @@ export default {
   .header-right ul li:nth-last-child(1) {
     margin-right: 0;
   }
-  .header-right .notification {
+  .header-right {
     margin-right: 0;
   }
   .menu-icon {
@@ -557,9 +598,12 @@ export default {
     visibility: initial;
     opacity: 1;
   }
+  .daos-margin{
+    margin: 0;
+  }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 920px) {
   .header .logo {
     height: 24px;
   }

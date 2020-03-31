@@ -284,7 +284,6 @@ export default {
 
 <style lang="less" scoped>
 .home {
-  padding-top: 60px;
   background-color: #0e2144;
 }
 .home-head {

@@ -166,7 +166,6 @@ export default {
 
 <style lang="less" scoped>
 .stat {
-  padding-top: 60px;
   background-color: #0e2144;
   align-content: center;
 }

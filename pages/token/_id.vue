@@ -500,7 +500,6 @@ export default {
 <style lang="less" scoped>
 
 .token {
-  padding: 60px 0 0 0;
   min-height: calc(100% - (60px + 120px));
   background-color: #0E2144;
 }
