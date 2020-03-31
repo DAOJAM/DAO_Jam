@@ -35,6 +35,11 @@
               STAT
             </n-link>
           </li>
+          <li>
+            <n-link :to="{name: 'tasks'}">
+              TASKS
+            </n-link>
+          </li>
         </ul>
         <div
           class="notification"
