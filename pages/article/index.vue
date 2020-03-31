@@ -94,15 +94,27 @@
           :src="homeBase64.about"
           alt="about"
         >
-        <p class="about-des animated">
-          Due to the outbreak of Covid-19, offline events are cancelled and offices are closing down, all of which pose a challenge for people to collaborate with each other.
-          <br><br>
-          A DAO (or a Decentralized Autonomous Organizations), on the other hand, is a new form of organization built on a blockchain, that unites people with a common goal via a trustless decision making framework.
-          <br><br>
-          As developers who believe in inclusivity and hacking for a cause, we want to bring people together from all over the world to try out this virtual hackathon in the form of DAOs, and experiment a new way for people to work with each other.
-          <br><br>
-          The event is 100% virtual and free.
-        </p>
+        <div class="about-text">
+          <h3>
+            What’s a DAO?
+          </h3>
+          <p><a href="https://en.wikipedia.org/wiki/Decentralized_autonomous_organization" target="_blank">Decentralized autonomous organizations (or DAOs)</a> are typified by the use of blockchain technology to provide a secure digital ledger to track financial interactions across the internet, hardened against forgery by trusted timestamping and dissemination of a distributed database. This approach eliminates the need to involve a mutually acceptable trusted third party.</p>
+          <h3>
+            How is this different from a traditional hackathon?
+          </h3>
+          <p>
+            Each participating developer and audience can vote on their favorite projects every day, while the system will replenish your votes at the end of each day. The goal is to promote active engagement with the projects being built. The progress of the projects could also be updated at any time, and it is possible to embed a prediction market for the final outcomes of the hackathon projects.
+          </p>
+          <p>
+            We proposed using a <a href="https://en.wikipedia.org/wiki/Quadratic_voting" target="_blank">quadratic voting system</a> to more efficiently mirror population preference (TBD). Through the use of blockchain technology by recording all votes on chain, the DAO Jam also offers a transparent and fair scoring process for the projects. 
+          </p>
+          <h3>
+            Rule
+          </h3>
+          <p>
+            The total ranking of the hacking projects are calculated based on the number of votes received from the audience and judges over the course of the event. Each sponsor can also set their own challenges with rewards. 
+          </p>
+        </div>
       </div>
     </div>
 
@@ -373,6 +385,29 @@ export default {
     }
   }
 }
+.about-text {
+  h3 {
+    color: #fff;
+    padding: 0;
+    margin: 40px 0 0 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  p {
+    color: #fff;
+    padding: 0;
+    margin: 10px 0 0 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.4;
+    a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+  }
+}
 
 .schedule {
   background: #132d5e;
@@ -388,10 +423,10 @@ export default {
     max-width: 100%;
     margin: 40px auto 0;
 
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     color: rgba(255, 255, 255, 1);
-    line-height: 30px;
+    line-height: 1.4;
 
     a {
       color: #fff;
@@ -528,7 +563,6 @@ export default {
     height: 46px;
     max-width: none;
   }
-
 
   .judges .judges-content,
   .sponsors .sponsors-content {

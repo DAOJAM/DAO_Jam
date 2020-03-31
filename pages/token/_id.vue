@@ -21,7 +21,7 @@
               <el-tooltip
                 class="pentagram"
                 effect="dark"
-                :content="pentagram ? '取消收藏该项目' : '收藏该项目'"
+                :content="pentagram ? 'Unstar' : 'Star'"
                 placement="top"
               >
                 <div @click="setBookmark">
@@ -47,7 +47,7 @@
               </router-link>
             </div>
             <p>
-              {{ minetokenToken.brief || '暂无' }}
+              {{ minetokenToken.brief || 'Not' }}
             </p>
             <div class="dao__info__number">
               <div class="dao__info__number__block">
@@ -86,7 +86,7 @@
                 size="small"
               >
                 <svg-icon icon-class="eth_mini" />
-                链上查看
+                View on chain
               </el-button>
             </a>
             <router-link
@@ -99,7 +99,7 @@
                 size="small"
                 icon="el-icon-setting"
               >
-                管理
+                Manage
               </el-button>
             </router-link>
             <el-button
@@ -108,7 +108,7 @@
               @click="shareModalShow = true"
             >
               <svg-icon icon-class="share_new" />
-              分享
+              Share
             </el-button>
           </div>
           <div>
@@ -116,8 +116,8 @@
               class="head-btn"
               :to="{name: 'exchange', hash: '#swap', query: { output: minetokenToken.symbol }}"
             >
-              <el-button size="small">
-                交易Fan票
+              <el-button size="small" icon="el-icon-setting">
+                Transaction
               </el-button>
             </router-link>
             <el-button
@@ -126,19 +126,19 @@
               icon="el-icon-setting"
               @click="buyDialog = true"
             >
-              购买
+              Buy
             </el-button>
             <el-button
               size="small"
               icon="el-icon-setting"
               @click="teamApply"
             >
-              申请加入
+              Join
             </el-button>
           </div>
-          <span class="head-amount">
-            已持有：{{ balance }} {{ minetokenToken.symbol }}
-          </span>
+          <p class="head-amount">
+            Held: {{ balance }} {{ minetokenToken.symbol }}
+          </p>
         </div>
       </div>
 
@@ -185,7 +185,7 @@
     <m-dialog
       v-model="buyDialog"
       width="600px"
-      title="购买"
+      title="Buy"
     >
       <tokenBuyCard :token="minetokenToken" />
     </m-dialog>
@@ -194,7 +194,7 @@
     <m-dialog
       v-model="joinDialog"
       width="600px"
-      title="申请加入"
+      title="Join"
     >
       <el-form
         ref="joinForm"
@@ -202,15 +202,15 @@
         :rules="joinRules"
         label-width="80px"
       >
-        <el-form-item label="联系邮箱" prop="contact">
+        <el-form-item label="Email" prop="contact">
           <el-input
             v-model="joinForm.contact"
             maxlength="50"
             show-word-limit
-            placeholder="请输入联系邮箱"
+            placeholder="Please input your email"
           />
         </el-form-item>
-        <el-form-item label="申请理由" prop="content">
+        <el-form-item label="Reason" prop="content">
           <el-input
             v-model="joinForm.content"
             class="join-content"
@@ -218,14 +218,14 @@
             :rows="6"
             maxlength="100"
             show-word-limit
-            placeholder="请输入加入理由"
+            placeholder="Please enter a reason for joining"
           />
         </el-form-item>
         
 
         <div class="join-btn">
           <el-button @click="sendJoinForm('joinForm')">
-            发送
+            Send
           </el-button>
         </div>
       </el-form>
@@ -658,6 +658,9 @@ export default {
   font-weight:400;
   color:rgba(255,255,255,1);
   line-height:22px;
+  text-align: right;
+  padding: 0;
+  margin: 0;
 }
 
 

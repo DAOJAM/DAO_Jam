@@ -11,11 +11,11 @@
           <div class="dao-head__filter">
             <div class="dao-head__block">
               <p class="dao-head__title">
-                排序
+                Sort
               </p>
               <el-select
                 v-model="filterValue"
-                placeholder="请选择"
+                placeholder="please choose"
               >
                 <el-option
                   v-for="item in filterOptions"
@@ -27,20 +27,20 @@
             </div>
             <div class="dao-head__block">
               <p class="dao-head__title">
-                筛选
+                Filter
               </p>
               <el-radio-group v-model="sortRadio">
                 <el-radio-button label="all">
-                  全部
-                </el-radio-button>
-                <el-radio-button label="hold">
-                  持有
+                  All
                 </el-radio-button>
                 <el-radio-button
                   :disabled="!isLogined"
                   label="bookmark"
                 >
-                  星标
+                  Star
+                </el-radio-button>
+                <el-radio-button label="hold">
+                  Support
                 </el-radio-button>
               </el-radio-group>
             </div>
@@ -48,14 +48,14 @@
 
           <div class="dao-head__block">
             <p class="dao-head__title">
-              排序
+              Search
             </p>
 
             <el-input
               v-model="searchVal"
               style="width: 192px;"
               size="medium"
-              placeholder="Search DAO"
+              placeholder="Search Project"
               suffix-icon="el-icon-search"
             />
           </div>
@@ -205,16 +205,16 @@ export default {
       count: 0,
 
       filterOptions: [{
-        value: 'liquidity',
-        label: '流动金总量'
+        value: 'support',
+        label: 'Support'
       }, {
-        value: 'supporter',
-        label: '支持者人数'
+        value: 'votes',
+        label: 'Votes'
       }, {
-        value: 'developer',
-        label: '开发者数量'
+        value: 'score',
+        label: 'Score'
       }],
-      filterValue: 'liquidity',
+      filterValue: 'support',
       sortRadio: this.$route.query.filter || 'all',
       reload: 0
     }
