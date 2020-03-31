@@ -70,7 +70,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 2;
   padding: 0 20px;
   background: rgba(98, 54, 255, 0.1);
   transition: all 0.3s;
