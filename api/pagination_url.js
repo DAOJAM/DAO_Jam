@@ -85,4 +85,5 @@ export const paginationUrl = {
   'minetokenLives': '/minetoken/:id/lives',
   // token news
   'minetokenNews': '/minetoken/:id/news',
+  projectAll: '/daojam/project'
 }
