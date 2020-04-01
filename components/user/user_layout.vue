@@ -2,12 +2,12 @@
   <div class="user user-layout">
     <g-header />
     <el-row class="user-container mw">
-      <el-col :span="4">
-        <div class="account-nav position-sticky top70">
+      <el-col :span="6">
+        <div class="position-sticky top70">
           <slot name="nav" />
         </div>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="18">
         <div :class="needFrame && 'user-main'">
           <slot name="main" />
         </div>
@@ -45,13 +45,6 @@ export default {
   border-radius: @br10;
   box-sizing: border-box;
   margin-bottom: 120px;
-}
-
-.account-nav {
-  // width: 270px;
-  // height: 396px;
-  border-radius: @br10;
-  background-color: #132D5E;
 }
 
 .position-sticky {
