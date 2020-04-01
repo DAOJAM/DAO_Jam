@@ -2,10 +2,10 @@
   <div class="card">
     <div class="fl ac jsb">
       <div class="fl ac">
-        <c-avatar :src="teamMemberAvatar(application.applicant.avatar)" />
+        <c-avatar />
         <div class="card-user">
-          <p>{{ application.applicant.nickname }}</p>
-          <time>{{ application.datetime }}</time>
+          <p>有人邀请你加入 <b>{{ inviteDetail.message }}</b> 组织</p>
+          <time>{{ inviteDetail.datetime }}</time>
         </div>
       </div>
 
@@ -36,15 +36,6 @@
         </span>
       </div>
     </div>
-
-    <p class="card-email">
-      Email: {{ application.applicant.contact }}
-    </p>
-    <p
-      class="card-content"
-    >
-      留言：{{ application.message }}
-    </p>
   </div>
 </template>
 
@@ -54,23 +45,19 @@ export default {
   components: {
     cAvatar
   },
-  props: [ 'notification' ],
+  props: ['invitation'],
   data() {
     return {
       status: 0 // 1 同意 2 拒绝
     }
   },
   computed: {
-    application() {
-      const datetime = new Date(this.notification.timestamp).toLocaleString()
-      return {...this.notification, datetime}
+    inviteDetail() {
+      const datetime = new Date(this.invitation.timestamp).toLocaleString()
+      return {...this.invitation, datetime}
     }
   },
   methods: {
-    // 团队头像
-    teamMemberAvatar(src) {
-      return src ? this.$ossProcess(src, { h: 90 }) : ''
-    },
     accept() {
       // @todo: implement needed.
       alert('Not implemented')
