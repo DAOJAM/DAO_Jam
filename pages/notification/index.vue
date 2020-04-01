@@ -2,7 +2,7 @@
   <div class="notification">
     <g-header />
     <el-row class="notification-container">
-      <el-col :span="5">
+      <el-col :span="7">
         <nav>
           <ul>
             <li
@@ -22,7 +22,7 @@
           </ul>
         </nav>
       </el-col>
-      <el-col :span="19">
+      <el-col :span="17">
         <router-view />
       </el-col>
     </el-row>
@@ -35,9 +35,10 @@ export default {
   data() {
     return {
       navItems: [
-        { name: 'follow', route: 'notification-index', text: '粉丝', icon: 'follow' },
-        { name: 'recommend', route: 'notification-index-application', text: '申请', icon: 'follow' },
-        { name: 'recommend', route: 'notification-index-achievement', text: '成就', icon: 'follow' },
+        { name: 'follow', route: 'notification-index', text: 'Follower', icon: 'follow' },
+        { name: 'recommend', route: 'notification-index-application', text: 'Application', icon: 'follow' },
+        { name: 'recommend', route: 'notification-index-achievement', text: 'Achievement', icon: 'follow' },
+        { name: 'recommend', route: 'notification-index-invitation', text: 'Invitation', icon: 'follow' },
       ],
       notifications: []
     }
