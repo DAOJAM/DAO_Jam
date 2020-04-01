@@ -674,7 +674,7 @@ export default {
   kyc: {
     notificationPop: {
       title: 'Special offer',
-      message: 'You can get 100 DaoT bonus after you registered your email and GitHub account!',
+      message: 'You can get 100 DaoT bonus after you registered your email, ethereum wallet and GitHub account!',
       buttonText: 'Go'
     }
   }
