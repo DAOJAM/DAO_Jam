@@ -34,7 +34,7 @@
           新用户奖励
         </p>
         <p class="annotate">
-          绑定邮箱帐户和GitHub账号后即可领取
+          绑定邮箱、GitHub、以太坊钱包后即可领取
         </p>
         <el-button
           class="get-button"
@@ -142,7 +142,7 @@ export default {
     async getNewbieBonus() {
       const { data } = await this.$API.getKycStatus()
       if (!data.verified) {
-        this.$alert('请先绑定GitHub账号和邮箱账号', '领取失败', {
+        this.$alert('请先绑定GitHub账号、邮箱账号和以太坊钱包', '领取失败', {
           confirmButtonText: '立刻绑定',
           type: 'error',
           // callback: (action) => {
@@ -153,8 +153,13 @@ export default {
           this.$router.push('/setting/account')
         })
         return
+      } else {
+        try {
+          await this.$API.mintVotes()
+        } catch (error) {
+          console.log(error)
+        }
       }
-      // @todo 接下来领取逻辑
     }
   }
 }
