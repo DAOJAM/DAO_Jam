@@ -29,7 +29,27 @@
         </div>
       </div>
       <el-divider />
-      <div>
+      <div v-if="isNewbie" class="bonus-get">
+        <p class="main-text">
+          新用户奖励
+        </p>
+        <p class="annotate">
+          绑定邮箱帐户和GitHub账号后即可领取
+        </p>
+        <el-button
+          class="get-button"
+          type="primary"
+          round
+          @click="getNewbieBonus"
+        >
+          立刻领取 100 票
+          <svg-icon
+            class="get-button-icon"
+            icon-class="daot"
+          />
+        </el-button>
+      </div>
+      <div v-else class="bonus-get">
         <p class="main-text">
           Today you can get 120 tickets
         </p>
@@ -47,6 +67,8 @@
             icon-class="daot"
           />
         </el-button>
+      </div>
+      <div>
         <p class="main-text">
           Today voted: 600 T
         </p>
@@ -91,6 +113,7 @@ export default {
   },
   data() {
     return {
+      isNewbie: true, // 是不是新人
       daoList: [
         {
           title: 'MTF DAO',
@@ -116,6 +139,23 @@ export default {
     ...mapGetters(['isLogined']),
   },
   methods: {
+    async getNewbieBonus() {
+      const { data } = await this.$API.getKycStatus()
+      if (!data.verified) {
+        this.$alert('请先绑定GitHub账号和邮箱账号', '领取失败', {
+          confirmButtonText: '立刻绑定',
+          type: 'error',
+          // callback: (action) => {
+          //   if (action === 'confirm') this.$router.push('/setting/account')
+          //   else 
+          // }
+        }).then(() => {
+          this.$router.push('/setting/account')
+        })
+        return
+      }
+      // @todo 接下来领取逻辑
+    }
   }
 }
 </script>
