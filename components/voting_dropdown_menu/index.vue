@@ -160,7 +160,6 @@ export default {
           console.log(error)
         }
       }
-      // @todo 接下来领取逻辑
     }
   }
 }
