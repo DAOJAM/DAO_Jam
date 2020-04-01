@@ -1026,5 +1026,14 @@ export default {
         ids: JSON.stringify(ids)
       }
     })
+  },
+  mintVotes(address) {
+    return request({
+      method: 'POST',
+      url: '/daojam/voting/mint',
+      data: {
+        address
+      }
+    })
   }
 }

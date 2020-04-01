@@ -4,13 +4,6 @@
     <el-button
       type="primary"
       size="small"
-      @click="createProposal"
-    >
-      创建项目
-    </el-button>
-    <el-button
-      type="primary"
-      size="small"
       @click="getProposal"
     >
       项目数量和数据
@@ -25,30 +18,57 @@
     <el-button
       type="primary"
       size="small"
-      @click="mint"
-    >
-      领取dot
-    </el-button>
-    <el-button
-      type="primary"
-      size="small"
-      @click="balance"
-    >
-      查看用户的dot
-    </el-button>
-    <el-button
-      type="primary"
-      size="small"
       @click="countVotes"
     >
       计算票数
     </el-button>
+    <el-button
+      type="primary"
+      size="small"
+      @click="setCreateCost"
+    >
+      设置创建需要话费的dot
+    </el-button>
+    <div>
+      <h1>领取dot</h1>
+      <el-input v-model="userAddress" placeholder="用户address"></el-input>
+      <el-button
+        type="primary"
+        size="small"
+        @click="mintByBackend"
+      >
+        领取 200 dot
+      </el-button>
+    </div>
+    <div>
+      <h1>创建项目</h1>
+      <el-input v-model="pjName" placeholder="项目名"></el-input>
+      <el-input v-model="pjDescription" type="textarea" placeholder="项目秒速"></el-input>
+      <el-button
+        type="primary"
+        size="small"
+        @click="createProposal"
+      >
+        创建项目
+      </el-button>
+    </div>
+    <div>
+      <h1>查询用户能量点</h1>
+      <el-input v-model="userAddress" placeholder="用户address"></el-input>
+      <el-button
+        type="primary"
+        size="small"
+        @click="balance"
+      >
+        查看用户的dot
+      </el-button>
+      <span>能量点数量：{{ userDaot }}</span>
+    </div>
   </div>
 </template>
 
 <script>
-import jsonData from '@/api/voting/QVVoting.json'
-// import QVVoting from '@/api/voting/qvvoting.js'
+import qv from '@/api/voting/qvvoting.js'
 
 export default {
   transition: 'page',
@@ -56,36 +76,32 @@ export default {
   },
   data() {
     return {
-      // address: '0x9CF123de9927E8a03B12a9bca3B86E84C2dfEA8D', // THE CONTRACT ADDRESS
-      // abi: jsonData.abi
+      userAddress: '',
+      userDaot: 0,
+      pjName: '',
+      pjDescription: ''
     }
   },
   mounted() {
-    // const web3 = window.web3
-    // const { address, abi } = this
-    // console.log(address, abi)
-    // console.log(web3.eth.Contract)
-    // const instance = new web3.eth.Contract(abi, address)
-    // console.log(instance)
   },
   methods: {
-    contractInstance() {
-      const web3 = window.web3
-      const address = '0x9CF123de9927E8a03B12a9bca3B86E84C2dfEA8D'
-      const QVVoting = new web3.eth.Contract(jsonData.abi, address)
-      return QVVoting
-    },
     async createProposal() {
+      console.log('-----------createProposal-------------')
       const web3 = window.web3
-      const QVVoting = this.contractInstance()
-      const result = await QVVoting.methods.createProposal('zxplus的dao组织', 1000).send({
-        from: web3.currentProvider.selectedAddress
+      const QVVoting = qv.contractInstance()
+      const accounts = await web3.eth.getAccounts()
+      const coinbase = await web3.eth.getCoinbase()
+      const owner = accounts[0]
+      console.log(coinbase, owner)
+      const expireTime = 7 * 24 * 60 * 60
+      const result = await QVVoting.methods.createProposal(this.pjName, this.pjDescription, expireTime).send({
+        from: owner
       })
       console.log(result)
     },
     async getProposal() {
       // const web3 = window.web3
-      const QVVoting = this.contractInstance()
+      const QVVoting = qv.contractInstance()
       const resultCount = await QVVoting.methods.ProposalCount().call()
       console.log(resultCount)
       const result = await QVVoting.methods.Proposals(1).call()
@@ -95,17 +111,21 @@ export default {
     },
     async mint() {
       const web3 = window.web3
-      const QVVoting = this.contractInstance()
+      const QVVoting = qv.contractInstance()
       const currentAddress = web3.currentProvider.selectedAddress
-      const address = '0x0d8E708F9CfF2634169D7c221CF6bfA0C5731d63'
-      const result = await QVVoting.methods.mint(address, 200).send({
+      // const address = '0x0530b049EebbB433De580f6358150574C7FB0346'
+      const result = await QVVoting.methods.mint(this.userAddress, 200).send({
         from: currentAddress
       })
       console.log(result)
     },
+    async mintByBackend() {
+      const result = await this.$API.mintVotes(this.userAddress)
+      console.log(result)
+    },
     async voting() {
       const web3 = window.web3
-      const QVVoting = this.contractInstance()
+      const QVVoting = qv.contractInstance()
       const currentAddress = web3.currentProvider.selectedAddress
       const result = await QVVoting.methods.castVote(1, 100, true).send({
         from: currentAddress
@@ -114,16 +134,26 @@ export default {
     },
     async balance() {
       // const web3 = window.web3
-      const QVVoting = this.contractInstance()
+      const QVVoting = qv.contractInstance()
       // const currentAddress = web3.currentProvider.selectedAddress
-      const address = '0x0d8E708F9CfF2634169D7c221CF6bfA0C5731d63'
-
-      const result = await QVVoting.methods.balanceOf(address).call()
-      console.log(result)
+      // const address = '0x0d8E708F9CfF2634169D7c221CF6bfA0C5731d63'
+      const result = await QVVoting.methods.balanceOf(this.userAddress).call()
+      this.userDaot = result
     },
     async countVotes() {
-      const QVVoting = this.contractInstance()
+      const QVVoting = qv.contractInstance()
       const result = await QVVoting.methods.countVotes(1).call()
+      const result2 = await QVVoting.methods.createCost().call()
+      console.log(result2)
+      console.log(result)
+    },
+    async setCreateCost() {
+      const web3 = window.web3
+      const QVVoting = qv.contractInstance()
+      const currentAddress = web3.currentProvider.selectedAddress
+      const result = await QVVoting.methods.setCreateCost(20).send({
+        from: currentAddress
+      })
       console.log(result)
     }
   }
