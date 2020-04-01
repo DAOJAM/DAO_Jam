@@ -670,5 +670,12 @@ export default {
     orange: 'Orange Book',
     scanCode: 'Remark "into the group" after scanning the code',
     follow: 'Follow the public number'
+  },
+  kyc: {
+    notificationPop: {
+      title: 'Special offer',
+      message: 'You can get 100 DaoT bonus after you registered your email and GitHub account!',
+      buttonText: 'Go'
+    }
   }
 }

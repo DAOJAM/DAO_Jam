@@ -951,6 +951,9 @@ export default {
   accountChange(params) { return request.post('/account/changeMainAccount', params) },
   // 账号列表
   accountList() { return request.get('/account/list') },
+  getKycStatus(params) {
+    return request.get('/account/isVerified', params)
+  },
   // -------------------------------- 分享 --------------------------------
   // 创建分享
   createShare(data) { return request.post('/share', data) },

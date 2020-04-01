@@ -257,6 +257,7 @@ export default {
     async refreshUser() {
       const { avatar } = await this.getCurrentUser()
       if (avatar) this.avatarSrc = this.$ossProcess(avatar, { h: 60 })
+      this.checkIsVerified()
     },
     // 显示侧边栏
     showSidebar () {
@@ -319,6 +320,28 @@ export default {
         this.$router.push('/notification')
       } else {
         this.$store.commit('setLoginModal', true)
+      }
+    },
+    async checkIsVerified() {
+      const { data } = await this.$API.getKycStatus()
+      console.info('kyc ', data)
+      if (!data.verified) {
+        // 提示用户去绑定 Email 和 GitHub 实现用户认证
+        this.$notify.closeAll() // 先清理掉其他 Notification
+        const h = this.$createElement
+        this.$notify({
+          title: this.$t('kyc.notificationPop.title'),
+          type: 'info',
+          dangerouslyUseHTMLString: true,
+          message: h('p', null, [
+            h('p',  null, this.$t('kyc.notificationPop.message')),
+            h('el-button', { 
+              props: {size: 'small', type: 'primary'},
+              on: { click: () => { this.$router.push('/setting/account') }} 
+            }, this.$t('kyc.notificationPop.buttonText')),
+          ]),
+          duration: 0
+        })
       }
     }
   }

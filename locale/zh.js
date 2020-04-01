@@ -670,5 +670,12 @@ export default {
     orange: '橙皮书',
     scanCode: '扫码后备注“进群”',
     follow: '关注公众号'
+  },
+  kyc: {
+    notificationPop: {
+      title: '温馨提示',
+      message: '绑定电子邮件和Github账户后，即刻获得 100 DaoT 奖励！',
+      buttonText: '去绑定'
+    }
   }
 }

@@ -39,7 +39,8 @@ import {
   RadioGroup,
   Alert,
   Carousel,
-  CarouselItem
+  CarouselItem,
+  Notification
 } from 'element-ui'
 
 Vue.use(Row)
@@ -84,6 +85,7 @@ Vue.use(CarouselItem)
 Vue.use(Loading.directive)
 Vue.prototype.$message = Message
 Vue.prototype.$loading = Loading.service
+Vue.prototype.$notify = Notification
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
