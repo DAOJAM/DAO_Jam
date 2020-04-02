@@ -72,7 +72,7 @@
                 class="icon-add"
               />
               <p class="dao-add__text">
-                Apply for DAO creation (need 1000
+                Apply for DAO creation (need 100
                 <svg-icon
                   icon-class="daos"
                   class="icon-dao"
@@ -95,10 +95,15 @@
           width="400px"
           title="Create Your Project"
         >
-          <el-form ref="form" label-position="top" :model="form" label-width="80px">
+          <el-form  
+            ref="form"
+            :model="form"
+            label-position="top" 
+            label-width="80px"
+          >
             <el-form-item>
               <p class="dao-add__text">
-                Apply for project creation (need 1000
+                Apply for project creation (need 100
                 <svg-icon
                   icon-class="daos"
                   class="icon-dao"
@@ -232,17 +237,35 @@ export default {
     // 创建dao
     async createDao() {
       console.log('-----------createProposal start-------------')
-      const web3 = window.web3
-      const QVVoting = qv.contractInstance()
-      const accounts = await web3.eth.getAccounts()
-      const coinbase = await web3.eth.getCoinbase()
-      const owner = accounts[0]
-      console.log(coinbase, owner)
-      const expireTime = 7 * 24 * 60 * 60
-      const result = await QVVoting.methods.createProposal(this.form.name, this.form.description, expireTime).send({
-        from: owner
+      const loading = this.$loading({
+        text: '创建中'
       })
-      console.log(result)
+      try {
+        const web3 = window.web3
+        const QVVoting = qv.contractInstance()
+        const accounts = await web3.eth.getAccounts()
+        const coinbase = await web3.eth.getCoinbase()
+        const owner = accounts[0]
+        console.log(coinbase, owner)
+        const expireTime = 7 * 24 * 60 * 60
+        const result = await QVVoting.methods.createProposal(this.form.name, this.form.description, expireTime).send({
+          from: owner
+        })
+        console.log(result)
+        loading.close()
+        this.$notify.success({
+          title: '成功',
+          message: '创建成功'
+        })
+        window.location.reload()
+      } catch (error) {
+        console.log(error)
+        loading.close()
+        this.$notify.error({
+          title: '失败',
+          message: '创建失败'
+        })
+      }
       console.log('-----------createProposal end-------------')
     },
     paginationData(res) {

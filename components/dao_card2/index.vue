@@ -52,14 +52,14 @@
                     icon-class="daos"
                     class="icon"
                   />
-                  {{ formatDecimal(card.liquidity, card.decimals, -1) }}
+                  {{ card.daot || 0 }}
                 </div>
                 <div class="dao__info__number__block">
                   <svg-icon
                     icon-class="tickets"
                     class="icon"
                   />
-                  {{ totalSupply(card.total_supply, card.decimals, -1) }}
+                  {{ card.weight || 0 }}
                 </div>
               </div>
             </div>

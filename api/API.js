@@ -1035,5 +1035,11 @@ export default {
         address
       }
     })
+  },
+  balanceOf() {
+    return request({
+      method: 'GET',
+      url: '/daojam/voting/balance'
+    })
   }
 }
