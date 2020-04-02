@@ -72,7 +72,7 @@
                 class="icon-add"
               />
               <p class="dao-add__text">
-                Apply for DAO creation (need 1000
+                Apply for DAO creation (need 100
                 <svg-icon
                   icon-class="daos"
                   class="icon-dao"

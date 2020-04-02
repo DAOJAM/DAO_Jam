@@ -43,7 +43,7 @@
                   :src="userAvatar"
                   class="user-avatar"
                 />
-                <span>{{ minetokenUser.nickname || minetokenUser.username || '&nbsp;' }}</span>
+                <span>{{ pj.owner }}</span>
               </router-link>
             </div>
             <p>
@@ -62,14 +62,14 @@
                   icon-class="daos"
                   class="icon"
                 />
-                {{ cnyReserve }}
+                {{ pj.daot }}
               </div>
               <div class="dao__info__number__block">
                 <svg-icon
                   icon-class="tickets"
                   class="icon"
                 />
-                {{ totalSupply }}
+                {{ pj.weight }}
               </div>
             </div>
           </div>
@@ -81,7 +81,13 @@
               <svg-icon icon-class="daot" />
             </div>
             <div class="vote-group">
-              <input type="text" v-model="voteNum" autocomplete="off" placeholder="" class="daojam-vote-input">
+              <input 
+                v-model="voteNum" 
+                type="text"
+                autocomplete="off" 
+                placeholder="" 
+                class="daojam-vote-input"
+              >
               <div class="daojam-vote-btn" @click="vote">
                 VOTE
                 <svg-icon
@@ -292,7 +298,8 @@ export default {
       joinEmail: '', // 申请加入
       joinContent: '', // 申请加入
       pentagram: false, // 收藏
-      voteNum: 0
+      voteNum: 0,
+      daot: 0
     }
   },
   computed: {
@@ -368,8 +375,11 @@ export default {
       methods: 'get',
       headers: { 'x-access-token': accessToekn }
     })
+    console.log('--------------------------')
+    console.log(res)
     if (res.code === 0) {
       return {
+        pj: res.data || Object.create(null),
         minetokenToken: res.data || Object.create(null),
         minetokenUser: res.data.user || Object.create(null),
         minetokenExchange: res.data.exchange || Object.create(null)
@@ -379,6 +389,7 @@ export default {
     }
   },
   mounted() {
+    this.balanceOfDaot()
     if (process.browser) {
       if (this.currentUserInfo.id) this.tokenUserId(this.currentUserInfo.id)
       if (this.isLogined) {
@@ -388,23 +399,45 @@ export default {
     }
   },
   methods: {
+    async balanceOfDaot() {
+      try {
+        const result = await this.$API.balanceOf()
+        this.daot = parseInt(result.data)
+      } catch (error) {
+        console.log(error)
+      }
+    },
     async vote() {
       this.$alert(`Do you confirm cost ${this.voteCost} daots to vote this project?`, {
         confirmButtonText: 'Confirm',
         callback: async action => {
           if (action === 'confirm' && this.isLogined) {
+            const loading = this.$loading({
+              text: '投票中'
+            })
             const web3 = window.web3
             const QVVoting = qv.contractInstance()
-            const currentAddress = web3.currentProvider.selectedAddress
+            const coinbase = await web3.eth.getCoinbase()
             const id = this.$route.params.id
             const votes = this.voteCost
             try {
               const result = await QVVoting.methods.castVote(id, votes, true).send({
-                from: currentAddress
+                from: coinbase
               })
               console.log(result)
+              loading.close()
+              this.$notify.success({
+                title: '成功',
+                message: '投票成功'
+              })
+              window.location.reload()
             } catch (error) {
               console.log(error)
+              loading.close()
+              this.$notify.error({
+                title: '失败',
+                message: '投票失败'
+              })
             }
           }
         }
@@ -412,9 +445,16 @@ export default {
     },
     async setVoteNum(n) {
       if (n === 'max') {
-        this.voteNum = 0
+        this.voteNum = Math.floor(Math.sqrt(this.daot))
       } else {
-        this.voteNum = n
+        if (this.daot < (n**2)) {
+          this.$notify.error({
+            title: '错误',
+            message: '能量点不足'
+          })
+        } else {
+          this.voteNum = n
+        }
       }
     },
     async tokenUserId(id) {

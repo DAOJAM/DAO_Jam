@@ -64,6 +64,7 @@
       </el-button>
       <span>能量点数量：{{ userDaot }}</span>
     </div>
+    <h1>{{ daot }}</h1>
   </div>
 </template>
 
@@ -79,10 +80,12 @@ export default {
       userAddress: '',
       userDaot: 0,
       pjName: '',
-      pjDescription: ''
+      pjDescription: '',
+      daot: 0
     }
   },
   mounted() {
+    this.balanceOfDaot()
   },
   methods: {
     async createProposal() {
@@ -122,6 +125,18 @@ export default {
     async mintByBackend() {
       const result = await this.$API.mintVotes(this.userAddress)
       console.log(result)
+    },
+    async balanceOfDaot() {
+      try {
+        const coinbase = await window.web3.eth.getCoinbase()
+        const QVVoting = qv.contractInstance()
+        const result = await QVVoting.methods.balanceOf(coinbase).call()
+        this.daot = result || 0 
+        console.log('==========================================')
+        console.log(result)
+      } catch (error) {
+        console.log(error)
+      }
     },
     async voting() {
       const web3 = window.web3

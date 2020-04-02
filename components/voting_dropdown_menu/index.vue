@@ -9,7 +9,7 @@
         class="icon"
         icon-class="daot"
       />
-      12000
+      {{ daot }}
     </div>
     <el-dropdown-menu
       slot="dropdown"
@@ -17,7 +17,7 @@
     >
       <div class="fl tickets">
         <p class="main-text f1">
-          I have 12000 tickets
+          I have {{ daot }} tickets
         </p>
         <div>
           <el-button
@@ -135,13 +135,28 @@ export default {
           num: '- 15'
         }
       ],
+      daot: 0
     }
   },
   // props: {},
   computed: {
     ...mapGetters(['isLogined']),
   },
+  beforeMount() {
+    this.balanceOfDaot()
+  },
+  /* mounted() {
+    this.balanceOfDaot()
+  }, */
   methods: {
+    async balanceOfDaot() {
+      try {
+        const result = await this.$API.balanceOf()
+        this.daot = result.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
     async getNewbieBonus() {
       const { data } = await this.$API.getKycStatus()
       if (!data.verified) {
@@ -157,10 +172,24 @@ export default {
         })
         return
       } else {
+        const loading = this.$loading({
+          text: '领取中...'
+        })
         try {
           await this.$API.mintVotes()
+          loading.close()
+          this.$notify.success({
+            title: '成功',
+            message: '领取成功'
+          })
+          window.location.reload()
         } catch (error) {
           console.log(error)
+          loading.close()
+          this.$notify.error({
+            title: '失败',
+            message: '领取失败'
+          })
         }
       }
     }
