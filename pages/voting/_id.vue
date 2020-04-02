@@ -17,7 +17,7 @@
           />
           <div class="head-user__info">
             <div class="fl ac">
-              <h2>{{ minetokenToken.description }}</h2>
+              <h2>{{ pj.name }}</h2>
               <el-tooltip
                 class="pentagram"
                 effect="dark"
@@ -168,9 +168,9 @@
               申请加入
             </el-button>
           </div>
-          <span class="head-amount">
+          <!-- <span class="head-amount">
             已持有：{{ balance }} {{ minetokenToken.symbol }}
-          </span>
+          </span> -->
         </div>
       </div>
 
