@@ -16,7 +16,7 @@
             <avatar :src="cover(card.logo)" />
             <div class="dao-block__head__info">
               <div class="fl ac jsb">
-                <h3>{{ card.symbol || '&nbsp;' }}({{ card.name || '&nbsp;' }})</h3>
+                <h3>{{ card.name || '&nbsp;' }}</h3>
                 <el-tooltip
                   class="pentagram"
                   effect="dark"
@@ -88,7 +88,7 @@
             </div>
           </div>
           <div class="dao-block__brief">
-            {{ card.brief || '暂无' }}
+            {{ card.introduction || '暂无' }}
           </div>
         </div>
       </div>
