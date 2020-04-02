@@ -1045,5 +1045,7 @@ export default {
       method: 'GET',
       url: '/daojam/voting/balance'
     })
-  }
+  },
+  // 订阅邮件
+  setEmailSubscriber(email) { return request.post('/email/subscriber/' + email) }
 }

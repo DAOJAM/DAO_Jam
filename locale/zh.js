@@ -603,7 +603,7 @@ export default {
     infoSetting: '资料设置',
     accountSetting: '账号管理',
     systemSetting: '其他操作',
-    wallet: '我的票夹',
+    wallet: '我的DaoT',
     point: '积分详情',
     invite: '邀请记录',
     buycoins: '持有的Fan票',

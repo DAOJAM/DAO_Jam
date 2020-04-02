@@ -603,7 +603,7 @@ export default {
     infoSetting: 'settings',
     accountSetting: 'account management',
     systemSetting: 'other settings',
-    wallet: 'Tickets Folder',
+    wallet: 'My DaoT',
     point: 'point detail',
     invite: 'Invitation Records',
     buycoins: 'Fan tickets held',
