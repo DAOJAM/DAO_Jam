@@ -1,74 +1,102 @@
 <template>
   <div>
-    <invitationCard
-      v-for="(notification, index) in notifications"
-      :key="index"
-      :invitation="notification"
-      class="notifications-card"
-    />
-    <buttonLoadMore
-      class="load-more"
-      :type-index="1"
-      :params="pull.params"
-      :api-url="pull.apiUrl"
-      return-type="Array"
-      @buttonLoadMore="onFetch"
-    />
+    <template 
+      v-if="list.length !== 0"
+    >
+      <invitationCard
+        v-for="(item, index) in list"
+        :key="index"
+        :card="item"
+        :index="index"
+        class="application-card"
+        @accept="accept"
+        @deny="deny"
+      />
+    </template>
+    <p v-else class="not">暂无</p>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
-import buttonLoadMore from '@/components/button_load_more/index.vue'
+// 从简 直接请求接口...
+// 查看别人邀请自己的列表
+import { mapGetters } from 'vuex'
 import invitationCard from '@/components/notification/invitation_card'
-const PROVIDERS = ['teamInviteRequest']
 export default {
-  name: 'NotificationPage',
-  components: { buttonLoadMore, invitationCard },
+  components: { invitationCard },
   data() {
-    const active = this.$route.params.provider && PROVIDERS.indexOf(this.$route.params.provider) >= 0 ? PROVIDERS.indexOf(this.$route.params.provider) : 0
     return {
-      PROVIDERS,
-      active,
-      notifications: []
+      list: [],
     }
   },
   computed: {
-    ...mapState('notification', ['notificationCounters']),
-    provider() {
-      return PROVIDERS[this.active]
-    },
-    pull() {
-      return {
-        apiUrl: 'notifications',
-        params: { 
-          page: 1, 
-          type: 'check_time', 
-          provider: this.provider }
-      }
+    ...mapGetters(['isLogined']),
+  },
+  watch: {
+    isLogined() {
+      this.teamMemberInviteList()
     }
   },
   created() {
-    this.getNotificationCounters()
+    this.teamMemberInviteList()
   },
   methods: {
-    ...mapActions('notification', ['getNotificationCounters']),
-    onFetch({ data }) {
-      if (Array.isArray(data) && data.length) {
-        this.notifications.push(...data)
-        this.$API.readNotifications(this.provider)
-      }
+    async teamMemberInviteList() {
+      // 获取所有队员
+      if (!this.isLogined) return
+
+      await this.$API.teamMemberInviteList()
+        .then(res => {
+          if (res.code === 0) {
+            this.list = res.data.list
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    async teamMemberInviteUser(i, from) {
+      await this.$API.teamMemberInviteUser({
+        teamMember: {
+          token_id: this.list[i].token_id,
+          uid: this.list[i].uid,
+          from: from
+        }
+      })
+        .then(res => {
+          if (res.code === 0) {
+            this.$message.success(res.message)
+            this.teamMemberInviteList()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    // 同意
+    async accept(i) {
+      this.teamMemberInviteUser(i, 'accept')
+    },
+    async deny(i) {
+      // 删除申请
+      this.teamMemberInviteUser(i, 'deny')
     }
   }
 }
 </script>
 <style lang="less" scoped>
-.load-more  {
-  font-size: 16px !important;
-}
 .application-card {
   margin: 20px 20px 0 20px;
   &:nth-child(1) {
     margin-top: 0;
   }
+}
+.not {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
 }
 </style>

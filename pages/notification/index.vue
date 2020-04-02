@@ -16,7 +16,6 @@
                   class="icon"
                 />
                 {{ nav.text }}
-                <span class="count">+{{ notificationCounters[nav.name] || 0 }}</span>
               </router-link>
             </li>
           </ul>
