@@ -603,20 +603,22 @@ export default {
     infoSetting: 'settings',
     accountSetting: 'account management',
     systemSetting: 'other settings',
-    wallet: 'wallet detail',
+    wallet: 'Tickets Folder',
     point: 'point detail',
-    invite: 'invite history',
+    invite: 'Invitation Records',
     buycoins: 'Fan tickets held',
     selfcoins: 'Fan tickets issued',
-    fanWallet: 'Fan ticket holder',
-    editcoins: 'manage Fan ticket',
+    fanWallet: 'My Vote',
+    editcoins: 'DAO Information',
     applycoins: 'Apply for Fan Ticket',
     issuecoins: 'issue Fan tickets',
     editProfile: 'edit profile',
     information: 'information',
-    userInformation: 'user information',
+    userInformation: 'Personal Information',
     bookmark: 'bookmark',
     myBookmark: 'myBookmark',
+    mission: 'Mission Selection',
+    projectProgress: 'Project Progress',
     message: 'message'
   },
   withdraw: {
@@ -674,7 +676,7 @@ export default {
   kyc: {
     notificationPop: {
       title: 'Special offer',
-      message: 'You can get 100 DaoT bonus after you registered your email and GitHub account!',
+      message: 'You can get 100 DaoT bonus after you registered your email, ethereum wallet and GitHub account!',
       buttonText: 'Go'
     }
   }

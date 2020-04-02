@@ -1,10 +1,10 @@
 <template>
   <div>
-    <applicationCard
-      v-for="(item, index) in notifications"
+    <invitationCard
+      v-for="(notification, index) in notifications"
       :key="index"
-      :notification="item"
-      class="application-card"
+      :invitation="notification"
+      class="notifications-card"
     />
     <buttonLoadMore
       class="load-more"
@@ -19,11 +19,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import buttonLoadMore from '@/components/button_load_more/index.vue'
-import applicationCard from '@/components/notification/application_card'
-const PROVIDERS = ['teamApplyRequest']
+import invitationCard from '@/components/notification/invitation_card'
+const PROVIDERS = ['teamInviteRequest']
 export default {
   name: 'NotificationPage',
-  components: { buttonLoadMore, applicationCard },
+  components: { buttonLoadMore, invitationCard },
   data() {
     const active = this.$route.params.provider && PROVIDERS.indexOf(this.$route.params.provider) >= 0 ? PROVIDERS.indexOf(this.$route.params.provider) : 0
     return {

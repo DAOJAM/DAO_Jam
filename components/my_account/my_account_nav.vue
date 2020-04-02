@@ -1,13 +1,37 @@
 <template>
-  <div class="info">
-    <router-link
-      v-for="(tag, index) in tagsList"
-      :key="index"
-      :to="{ name: tag.url }"
-      :class="$route.name === tag.url && 'active'"
-    >
-      {{ tag.title }}
-    </router-link>
+  <div>
+    <div class="info">
+      <h3>
+        <svg-icon
+          icon-class="voted_users"
+        />
+        PERSONAL SETTING
+      </h3>
+      <router-link
+        v-for="(tag, index) in tagsList"
+        :key="index"
+        :to="{ name: tag.url }"
+        :class="$route.name === tag.url && 'active'"
+      >
+        {{ tag.title }}
+      </router-link>
+    </div>
+    <div class="info">
+      <h3>
+        <svg-icon
+          icon-class="project_team"
+        />
+        DAO SETTING
+      </h3>
+      <router-link
+        v-for="(tag, index) in projectTagsList"
+        :key="index"
+        :to="{ name: tag.url }"
+        :class="$route.name === tag.url && 'active'"
+      >
+        {{ tag.title }}
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -23,13 +47,17 @@ export default {
       tagsList: [
         { title: this.$t('user.userInformation'), url: 'setting' },
         { title: this.$t('user.accountSetting'), url: 'setting-account' },
-        { title: this.$t('user.fanWallet'), url: 'tokens' },
-        { title: this.$t('user.applycoins'), url: 'tokens-apply' },
-        // { title: this.$t('user.myBookmark'), url: 'bookmark' },
         { title: this.$t('user.wallet'), url: 'account' },
+        { title: this.$t('user.fanWallet'), url: 'tokens' },
+        // { title: this.$t('user.myBookmark'), url: 'bookmark' },
         // { title: this.$t('user.buyHistory'), url: 'buy' },
         { title: this.$t('user.invite'), url: 'invite' },
         // { title: this.$t('user.systemSetting'), url: 'setting-system' }
+      ],
+      projectTagsList: [
+        { title: this.$t('user.mission'), url: '' },
+        { title: this.$t('user.applycoins'), url: 'tokens-apply' },
+        { title: this.$t('user.projectProgress'), url: '' },
       ],
       tokens: false
     }
@@ -46,10 +74,10 @@ export default {
   methods: {
     async whichButtonToShow() {
       await this.getMyUserData()
-      const i = this.tagsList.findIndex(tag => tag.url === 'tokens-apply')
+      const i = this.projectTagsList.findIndex(tag => tag.url === 'tokens-apply')
       if (i !== -1 && this.tokens) {
-        this.tagsList[i].title = this.$t('user.editcoins')
-        this.tagsList[i].url = 'editminetoken'
+        this.projectTagsList[i].title = this.$t('user.editcoins')
+        this.projectTagsList[i].url = 'editminetoken'
         this.tokenDetail()
       }
     },
@@ -57,9 +85,9 @@ export default {
       await this.$API.tokenDetail().then(res => {
         if (res.code === 0) {
           if (!res.data.token) {
-            const i = this.tagsList.findIndex(tag => tag.url === 'editminetoken')
+            const i = this.projectTagsList.findIndex(tag => tag.url === 'editminetoken')
             if (i !== -1) {
-              this.tagsList[i].url = 'postminetoken'
+              this.projectTagsList[i].url = 'postminetoken'
             }
           }
         } else {
@@ -94,6 +122,14 @@ export default {
       font-weight:bold;
       color: #fff;
     }
+  }
+  h3 {
+    font-size:20px;
+    color: white;
+    line-height:28px;
+  }
+  &:nth-child(2) {
+    margin-top: 20px;
   }
 }
 </style>

@@ -23,6 +23,7 @@
           <el-button
             size="mini"
             class="details-button"
+            @click="$router.push({ name: 'account' })"
           >
             DETAILS
           </el-button>
@@ -89,8 +90,10 @@
             </p>
           </div>
           <p class="more">
-            more details
-            <i class="el-icon-d-arrow-right" />
+            <router-link :to="{ name: 'tokens' }">
+              more details
+              <i class="el-icon-d-arrow-right" />
+            </router-link>
           </p>
         </div>
         <p class="main-text">
@@ -202,6 +205,7 @@ export default {
   color:rgba(255,255,255,1);
   line-height:22px;
   margin: 0;
+  cursor: pointer;
   .icon {
     color: #fff;
     font-size: 20px;
@@ -260,11 +264,13 @@ export default {
   .dao-list {
     margin: 20px 0;
     .more{
-      font-size:12px;
-      font-weight:500;
-      line-height:17px;
       text-align:center;
-      cursor:pointer;
+      a {
+        color: white;
+        font-size:12px;
+        font-weight:500;
+        line-height:17px;
+      }
     }
     .dao{
       margin: 10px 0;
