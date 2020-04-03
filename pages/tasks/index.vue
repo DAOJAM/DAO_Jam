@@ -13,11 +13,7 @@
             What’s The Mission?
           </h3>
           <p class="summary">
-            And when I prophesied, Pelatiah the son of Benaiah died; and I fell on my face and cried out with a loud voice,
-            and I said, Ah, Lord Jehovah! Are You making a full end to the remnant of Israel?And when I prophesied,
-            Pelatiah the son of Benaiah died; and I fell on my face and cried out with a loud voice, and I said, Ah,
-            Lord Jehovah! Are You making a full end to the remnant of Israel?And when I prophesied, Pelatiah the son of Benaiah died;
-            and I fell on my face and cried out with a loud voice, and I said, Ah, Lord Jehovah!
+            In project management, a task is an activity that needs to be accomplished within a defined period of time or by a deadline to work towards work-related goals. It is a small essential piece of a job that serves as a means to differentiate various components of a project. A task can be broken down into assignments which should also have a defined start and end date or a deadline for completion. One or more assignments on a task puts the task under execution. Completion of all assignments on a specific task normally renders the task completed. Tasks can be linked together to create dependencies.
           </p>
         </div>
         <div class="mission">
@@ -33,19 +29,11 @@
               <h4>
                 Main Mission (Single Choice)
               </h4>
-              <dl>
+              <dl v-for="(item, index) in tasks.mainTasks" :key="index">
                 <dt>
-                  <span class="mission-tag">Main Mission</span> 1: Make a webgame about blockchain elements.
+                  <span class="mission-tag">Main Mission{{ index+1 }}: </span>{{ item.title }}
                 </dt>
-                <dd>
-                  It’s blabla blabla, blabla blablabla, blablabla, blabla blablabla
-                </dd>
-                <dt>
-                  <span class="mission-tag">Main Mission</span> 2: Make a project about any theme.
-                </dt>
-                <dd>
-                  It’s blabla blabla, blabla blablabla, blablabla, blabla blablabla
-                </dd>
+                <dd>{{ item.content }}</dd>
               </dl>
             </div>
           </div>
@@ -59,19 +47,11 @@
               <h4>
                 Side Mission (Multiple Choice)
               </h4>
-              <dl>
+              <dl v-for="(item, index) in tasks.sideTasks" :key="index">
                 <dt>
-                  <span class="mission-tag">Side Mission</span> 1: Make a webgame by Game Creator.
+                  <span class="mission-tag">Side Mission{{ index+1 }}: </span>{{ item.title }}
                 </dt>
-                <dd>
-                  It’s blabla blabla, blabla blablabla, blablabla, blabla blablabla
-                </dd>
-                <dt>
-                  <span class="mission-tag">Side Mission</span> 2: Make a project by Nearprotocal.
-                </dt>
-                <dd>
-                  It’s blabla blabla, blabla blablabla, blablabla, blabla blablabla
-                </dd>
+                <dd>{{ item.content }}</dd>
               </dl>
             </div>
           </div>
@@ -93,11 +73,13 @@ export default {
       usersRankFilter: 'All',
       usersRankList: [],
       ticketsRankFilter: 'All',
-      ticketsRankList: []
+      ticketsRankList: [],
+      tasks: {} // 任务
     }
   },
   // async asyncData({ $axios }) {},
   created() {
+    this.task()
     for(let i = 0; i < 20; i++) {
       this.usersRankList.push({
         name: 'Daft Punk',
@@ -115,6 +97,31 @@ export default {
     }
   },
   methods: {
+    async task() {
+      this.$API.task()
+        .then(res => {
+          if (res.code === 0) {
+            let mainTasks = []
+            let sideTasks = []
+            res.data.map(item => {
+              if (Number(item.type) === 0) {
+                mainTasks.push(item)
+              } else if (Number(item.type) === 1) {
+                sideTasks.push(item)
+              } else {
+                console.log('error', item)
+              }
+            })
+            this.tasks = {
+              mainTasks,
+              sideTasks
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>
@@ -175,6 +182,8 @@ h3 {
       font-weight: 400;
       color: #B2B2B2;
       line-height: 20px;
+      word-break: break-all;
+      white-space: pre-wrap;
     }
   }
 
