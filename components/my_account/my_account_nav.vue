@@ -21,7 +21,7 @@
         <svg-icon
           icon-class="project_team"
         />
-        DAO SETTING
+        PROJECT SETTING
       </h3>
       <router-link
         v-for="(tag, index) in projectTagsList"

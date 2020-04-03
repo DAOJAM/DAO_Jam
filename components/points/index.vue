@@ -1,9 +1,5 @@
 <template>
   <div class="points-main">
-    <h2 class="tag-title">
-      {{ $t('user.point') }}
-    </h2>
-    <div class="line" />
     <div
       v-loading="loading"
       class="card-container"
@@ -50,7 +46,7 @@ export default {
     return {
       pointLog: {
         params: {
-          pagesize: 5
+          pagesize: 6
         },
         apiUrl: 'userPoint',
         list: []
@@ -88,18 +84,21 @@ export default {
 </script>
 
 <style lang="less">
+.card-container {
+  margin-bottom: 20px;
+}
 .point-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
-  padding: 20px 20px 20px 10px;
+  padding: 0 20px 20px 10px;
   border-bottom: 1px solid #DBDBDB;
   .title {
-    font-size: 16px;
-    font-weight: 400;
+    font-weight: bold;
+    font-size: 20px;
+    line-height:28px;
     color: #fff;
-    line-height: 28px;
   }
   .point-pricing {
     padding: 0;

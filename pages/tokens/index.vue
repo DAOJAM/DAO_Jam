@@ -10,14 +10,14 @@
           v-loading="loading"
           class="card-container buycoins"
         >
-          <div class="line" />
-
           <el-table
             :data="pointLog.list"
             :expand-row-keys="expands"
             class="hide-expand-button"
             style="width: 100%"
             row-key="token_id"
+            :row-style="tableRowStyle"
+            :header-cell-style="tableHeaderColor"
             @sort-change="sortChange"
           >
             <el-table-column
@@ -274,8 +274,6 @@
           </el-form>
         </m-dialog>
       </div>
-      <!-- 流动金 -->
-      <holdliquidity />
     </template>
     <template slot="nav">
       <myAccountNav />
@@ -292,7 +290,6 @@ import avatar from '@/common/components/avatar'
 import userLayout from '@/components/user/user_layout.vue'
 import myAccountNav from '@/components/my_account/my_account_nav.vue'
 import { precision, toPrecision } from '@/utils/precisionConversion'
-import holdliquidity from '@/components/holdliquidity/index.vue'
 import tokensDetail from '@/components/tokens_detail/index.vue'
 
 export default {
@@ -300,7 +297,6 @@ export default {
     userLayout,
     myAccountNav,
     userPagination,
-    holdliquidity,
     tokensDetail,
     avatar
   },
@@ -357,7 +353,10 @@ export default {
       expands: [],
       searchUserList: [], // 搜索结果
       toUserInfo: null, // 转让的对象
-      historyUser: [] // 历史转让用户
+      historyUser: [], // 历史转让用户
+      // 表的背景色
+      tableRowStyle: 'background-color: #132D5E',
+      tableHeaderColor: 'background-color: #132D5E; color: #fff; font-weight: 500;'
     }
   },
   computed: {
@@ -579,7 +578,7 @@ export default {
 .username {
   // margin-left: 10px;
   font-size: 16px;
-  color:#333;
+  color: white;
   flex: 1;
   overflow: hidden;
   text-overflow:ellipsis;
@@ -587,7 +586,7 @@ export default {
 }
 .scope {
   font-size: 16px;
-  color:#333;
+  color: white;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -632,6 +631,7 @@ export default {
 }
 .expand-button {
   font-size: 14px;
+  color: white;
   .i-spin {
     &-z90 {
           transform: rotate(90deg)
@@ -769,9 +769,17 @@ export default {
   }
   .el-table__expanded-cell {
     padding: 0;
-    background-color: #F1F1F1;
+    background-color: #1C4085;
     &:hover {
-      background-color: #F1F1F1!important;
+      background-color: #1C4085!important;
+    }
+  }
+  .el-table__row {
+    background-color: #132D5E!important;
+  }
+  .el-table__row:hover {
+    td {
+      background-color: #1c448f !important;
     }
   }
 }

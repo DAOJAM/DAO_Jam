@@ -581,7 +581,7 @@ export default {
     unitPrice: 'unit price',
     totalPrice: 'total price',
     // account
-    remainingPoints: 'Remaining points',
+    remainingPoints: 'Remaining DaoT:',
     inviteUser: 'Users I invited',
     registeredDate: 'Registration time',
     inviteRule: 'Note: Those who are not activated can complete activation after reading 5 articles and making an evaluation. After activation, you can receive extra {0} points.',
@@ -606,7 +606,7 @@ export default {
     wallet: 'My DaoT',
     point: 'point detail',
     invite: 'Invitation Records',
-    buycoins: 'Fan tickets held',
+    buycoins: 'Items I voted for',
     selfcoins: 'Fan tickets issued',
     fanWallet: 'My Vote',
     editcoins: 'DAO Information',

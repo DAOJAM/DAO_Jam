@@ -36,7 +36,7 @@
             </li>
             <li>
               <n-link :to="{name: 'daos'}">
-                Projects
+                PROJECTS
               </n-link>
             </li>
             <li>
