@@ -548,7 +548,7 @@ export default {
     font-size:16px;
   }
   .span1 {
-    width: 255px;
+    width: 254px;
     position: relative;
   }
   button {
