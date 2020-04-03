@@ -55,7 +55,7 @@ export default {
         // { title: this.$t('user.systemSetting'), url: 'setting-system' }
       ],
       projectTagsList: [
-        { title: this.$t('user.mission'), url: '' },
+        { title: 'Task', url: 'project-task' },
         { title: this.$t('user.applycoins'), url: 'tokens-apply' },
         { title: this.$t('user.projectProgress'), url: '' },
       ],
