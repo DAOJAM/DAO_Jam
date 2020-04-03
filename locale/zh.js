@@ -581,7 +581,7 @@ export default {
     unitPrice: '单价',
     totalPrice: '总价',
     // account
-    remainingPoints: '剩余积分',
+    remainingPoints: '剩余DaoT:',
     inviteUser: '我邀请的用户',
     registeredDate: '注册时间',
     inviteRule: '注：未激活者阅读5篇文章并作出评价后即可完成激活，激活后您即可领取额外{0}积分。',

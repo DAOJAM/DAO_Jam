@@ -581,7 +581,7 @@ export default {
     unitPrice: 'unit price',
     totalPrice: 'total price',
     // account
-    remainingPoints: 'Remaining points',
+    remainingPoints: 'Remaining DaoT:',
     inviteUser: 'Users I invited',
     registeredDate: 'Registration time',
     inviteRule: 'Note: Those who are not activated can complete activation after reading 5 articles and making an evaluation. After activation, you can receive extra {0} points.',
