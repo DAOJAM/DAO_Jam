@@ -147,7 +147,7 @@ export default {
 .username {
   font-size:16px;
   font-weight:400;
-  color:rgba(0,0,0,1);
+  color: white;
   line-height:28px;
   margin-right: 4px;
 }

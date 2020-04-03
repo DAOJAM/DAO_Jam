@@ -606,7 +606,7 @@ export default {
     wallet: 'My DaoT',
     point: 'point detail',
     invite: 'Invitation Records',
-    buycoins: 'Fan tickets held',
+    buycoins: 'Items I voted for',
     selfcoins: 'Fan tickets issued',
     fanWallet: 'My Vote',
     editcoins: 'DAO Information',
