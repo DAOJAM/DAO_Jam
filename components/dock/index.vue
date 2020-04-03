@@ -31,7 +31,7 @@ export default {
         },
         {
           name: 'daos',
-          label: 'Projects',
+          label: 'PROJECTS',
           icon: 'el-icon-menu'
         },
         {
@@ -41,7 +41,7 @@ export default {
         },
         {
           name: 'tasks',
-          label: 'TASKs',
+          label: 'TASKS',
           icon: 'el-icon-s-claim'
         }
       ]
