@@ -527,6 +527,12 @@ export default {
   teamMemberInviteUser(data) { return request.post(`/teamMemberInviteUser`, data) },
   // ---------------------- 团队管理 end ----------------------
 
+  // ---------------------- 任务 ----------------------
+  task(){ return request.get('/task') },
+  updateTask(data){ return request.post('/task', data) },
+  taskTeam(){ return request.get('/taskTeam') },
+  // ---------------------- 团队管理 end ----------------------
+
   /**
    * 转移token
    * @param {*} data tokenId to amount
