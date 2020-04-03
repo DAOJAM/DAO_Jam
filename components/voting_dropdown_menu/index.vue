@@ -17,7 +17,7 @@
     >
       <div class="fl tickets">
         <p class="main-text f1">
-          I have {{ daot }} tickets
+          I have {{ daot }} DaoT
         </p>
         <div>
           <el-button
@@ -43,7 +43,7 @@
           round
           @click="getNewbieBonus"
         >
-          立刻领取 100 票
+          立刻领取 100 DaoT
           <svg-icon
             class="get-button-icon"
             icon-class="daot"
@@ -52,7 +52,7 @@
       </div>
       <div v-else class="bonus-get">
         <p class="main-text">
-          Today you can get 120 tickets
+          Today you can get 120 DaoT
         </p>
         <p class="annotate">
           Come to get it today!
@@ -71,10 +71,10 @@
       </div>
       <div>
         <p class="main-text">
-          Today voted: 600 T
+          Today voted: 600 DaoT
         </p>
         <p class="annotate">
-          You can vote 1/3tickets at most and up to 30.
+          You can vote 1/3 DaoT at most and up to 30.
         </p>
         <div class="dao-list">
           <div
@@ -97,10 +97,10 @@
           </p>
         </div>
         <p class="main-text">
-          Tomorrow you  can get: 600 T
+          Tomorrow you  can get: 600 DaoT
         </p>
         <p class="annotate">
-          You can get 1/3tickets + 20.
+          You can get 1/3 DaoT + 20.
         </p>
       </div>
     </el-dropdown-menu>

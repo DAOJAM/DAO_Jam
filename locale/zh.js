@@ -606,7 +606,7 @@ export default {
     wallet: '我的DaoT',
     point: '积分详情',
     invite: '邀请记录',
-    buycoins: '持有的Fan票',
+    buycoins: '我投票的项目',
     selfcoins: '发行的Fan票',
     fanWallet: '我的投票',
     editcoins: '项目设置',
