@@ -2,68 +2,62 @@
   <div class="card">
     <div class="fl ac jsb">
       <div class="fl ac">
-        <c-avatar :src="teamMemberAvatar(application.applicant.avatar)" />
+        <c-avatar :src="teamMemberAvatar(card.avatar)" />
         <div class="card-user">
-          <p>{{ application.applicant.nickname }}</p>
-          <time>{{ application.datetime }}</time>
+          <p>{{ card.nickname || card.username }}</p>
+          <time>{{ time }}</time>
         </div>
       </div>
 
       <div>
-        <template v-if="status === 0">
-          <el-button 
-            size="small"
-            type="primary"
-            @click="accept"
-          >
-            <svg-icon icon-class="accept" />
-            Accept
-          </el-button>
-          <el-button 
-            size="small"
-            type="primary"
-            @click="deny"
-          >
-            <svg-icon icon-class="accept" />
-            Deny
-          </el-button>
-        </template>
-        <span
-          v-else
-          class="card-status"
+        <el-button 
+          size="small"
+          type="primary"
+          @click="accept"
         >
-          {{ status === 1 ? '同意' : '拒绝' }}
-        </span>
+          <svg-icon icon-class="accept" />
+          Accept
+        </el-button>
+        <el-button 
+          size="small"
+          type="primary"
+          icon="el-icon-circle-close"
+          @click="deny"
+        >
+          Deny
+        </el-button>
       </div>
     </div>
 
-    <p class="card-email">
-      Email: {{ application.applicant.contact }}
+    <p v-if="card.contact" class="card-email">
+      Email: {{ card.contact }}
     </p>
     <p
+      v-if="card.content"
       class="card-content"
     >
-      留言：{{ application.message }}
+      留言：{{ card.content }}
     </p>
   </div>
 </template>
 
 <script>
-import cAvatar from '@/common/components/avatar'
+import moment from 'moment'
+
 export default {
-  components: {
-    cAvatar
-  },
-  props: [ 'notification' ],
-  data() {
-    return {
-      status: 0 // 1 同意 2 拒绝
+  props: {
+    card: {
+      type: Object,
+      required: true
+    },
+    index: {
+      type: Number,
+      required: true
     }
   },
   computed: {
-    application() {
-      const datetime = new Date(this.notification.timestamp).toLocaleString()
-      return {...this.notification, datetime}
+    time() {
+      return moment(this.card.create_time).format('YYYY-MM-DD HH:mm:ss')
     }
   },
   methods: {
@@ -72,12 +66,10 @@ export default {
       return src ? this.$ossProcess(src, { h: 90 }) : ''
     },
     accept() {
-      // @todo: implement needed.
-      alert('Not implemented')
+      this.$emit('accept', this.index)
     },
     deny() {
-      // @todo: implement needed.
-      alert('Not implemented')
+      this.$emit('deny', this.index)
     }
   }
 }
@@ -100,7 +92,11 @@ export default {
     margin: 0;
     color: #fff;
     font-size: 16px;
-    line-height:22px;
+    line-height: 22px;
+    width: 140px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   time {
     font-size: 14px;
