@@ -69,7 +69,7 @@
               持有
               <span class="amount">{{ needTokenAmount }}</span>
               <router-link
-                :to="{name: 'token-id', params:{ id:needTokenId }}"
+                :to="{name: 'daos-id', params:{ id:needTokenId }}"
                 target="_blank"
                 class="fl"
               >

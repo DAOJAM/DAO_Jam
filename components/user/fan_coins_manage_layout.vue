@@ -34,7 +34,7 @@
       </div>
 
       <div>
-        <router-link :to="{name: 'token-id', params: { id: tokenDetailData.token.id || 0}}">
+        <router-link :to="{name: 'daos-id', params: { id: tokenDetailData.token.id || 0}}">
           <el-button size="small">
             详情
           </el-button>

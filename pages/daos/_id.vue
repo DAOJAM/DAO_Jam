@@ -290,20 +290,20 @@
 
       <nav class="token-nav">
         <n-link
-          :to="{name: 'token-id', params: { id: $route.params.id }}"
-          :class="$route.name === 'token-id' && 'active'"
+          :to="{name: 'daos-id', params: { id: $route.params.id }}"
+          :class="$route.name === 'daos-id' && 'active'"
         >
           INFORMATION
         </n-link>
         <n-link
-          :to="{name: 'token-id-progress', params: { id: $route.params.id }}"
-          :class="$route.name === 'token-id-progress' && 'active'"
+          :to="{name: 'daos-id-progress', params: { id: $route.params.id }}"
+          :class="$route.name === 'daos-id-progress' && 'active'"
         >
           PROGRESS
         </n-link>
         <n-link
-          :to="{name: 'token-id-capital', params: { id: $route.params.id }}"
-          :class="$route.name === 'token-id-capital' && 'active'"
+          :to="{name: 'daos-id-capital', params: { id: $route.params.id }}"
+          :class="$route.name === 'daos-id-capital' && 'active'"
         >
           CAPITAL
         </n-link>
