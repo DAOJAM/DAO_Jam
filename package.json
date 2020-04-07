@@ -42,6 +42,8 @@
     "markdown-it-katex": "^2.0.3",
     "mavon-editor-matataki": "2.20.0",
     "moment": "^2.24.0",
+    "near-web3-provider": "git+https://github.com/nearprotocol/near-web3-provider.git",
+    "nearlib": "^0.22.0",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "6.6.0",

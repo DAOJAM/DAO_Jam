@@ -1052,6 +1052,33 @@ export default {
       url: '/daojam/voting/balance'
     })
   },
+  nearMint(name) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/mint',
+      data: {
+        name
+      }
+    })
+  },
+  createProposal(id) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/createProposal',
+      data: {
+        id
+      }
+    })
+  },
+  voteProposal(id) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/vote',
+      data: {
+        id
+      }
+    })
+  },
   // 订阅邮件
   setEmailSubscriber(email) { return request.post('/email/subscriber/' + email) }
 }

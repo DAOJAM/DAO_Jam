@@ -90,6 +90,16 @@ export default {
           disabled: false
         },
         {
+          type: 'near',
+          icon: 'near_icon_wht', // 随时可换 防止影响
+          typename: 'Near',
+          username: '', // 最好后端混淆后返回
+          loading: false,
+          status: false,
+          is_main: 0,
+          disabled: false
+        },
+        {
           type: 'weixin',
           icon: 'wechat', // 随时可换 防止影响
           typename: '微信',
@@ -402,6 +412,8 @@ export default {
         })
       } else if (type === 'telegram') {
         this.$router.push({ name: 'login-telegram' })
+      } else if (type === 'near') {
+        this.$router.push({ name: 'login-near', query: { from: 'binding' } })
       } else this.$message.warning('PC端暂不支持绑定')
     },
     unbindFunc(type, typename, idx) {
@@ -555,6 +567,15 @@ export default {
     }
     .icon {
       font-size: 20px;
+    }
+  }
+  &.near {
+    background-color: #333333;
+    &:hover {
+      background-color: mix(#000, #333, 20%);
+    }
+    .icon {
+      font-size: 24px;
     }
   }
   &.eos {

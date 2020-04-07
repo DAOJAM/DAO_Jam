@@ -676,7 +676,7 @@ export default {
   kyc: {
     notificationPop: {
       title: '温馨提示',
-      message: '绑定电子邮件、Github账户和以太坊钱包后，即刻获得 100 DaoT 奖励！',
+      message: '绑定 Near 钱包后，即刻获得 100 DaoT 奖励！',
       buttonText: '去绑定'
     }
   }

@@ -11,11 +11,11 @@
           <div class="dao-head__filter">
             <div class="dao-head__block">
               <p class="dao-head__title">
-                排序
+                Sort
               </p>
               <el-select
                 v-model="filterValue"
-                placeholder="请选择"
+                placeholder="please choose"
               >
                 <el-option
                   v-for="item in filterOptions"
@@ -27,20 +27,20 @@
             </div>
             <div class="dao-head__block">
               <p class="dao-head__title">
-                筛选
+                Filter
               </p>
               <el-radio-group v-model="sortRadio">
                 <el-radio-button label="all">
-                  全部
-                </el-radio-button>
-                <el-radio-button label="hold">
-                  持有
+                  All
                 </el-radio-button>
                 <el-radio-button
                   :disabled="!isLogined"
                   label="bookmark"
                 >
-                  星标
+                  Star
+                </el-radio-button>
+                <el-radio-button label="hold">
+                  Support
                 </el-radio-button>
               </el-radio-group>
             </div>
@@ -48,14 +48,14 @@
 
           <div class="dao-head__block">
             <p class="dao-head__title">
-              排序
+              Search
             </p>
 
             <el-input
               v-model="searchVal"
               style="width: 192px;"
               size="medium"
-              placeholder="Search DAO"
+              placeholder="Search Project"
               suffix-icon="el-icon-search"
             />
           </div>
@@ -93,36 +93,44 @@
         <m-dialog
           v-model="createDaoDialog"
           width="400px"
-          title="Create Your Project"
+          title="开通项目功能"
         >
-          <el-form  
-            ref="form"
-            :model="form"
-            label-position="top" 
-            label-width="80px"
-          >
-            <el-form-item>
-              <p class="dao-add__text">
-                Apply for project creation (need 100
-                <svg-icon
-                  icon-class="daos"
-                  class="icon-dao"
-                />
-                )
-              </p>
-            </el-form-item>
-            <el-form-item label="NAME THE Project">
-              <el-input v-model="form.name" />
-            </el-form-item>
-            <el-form-item label="DESCRIBE THE Project">
-              <el-input v-model="form.description" type="textarea" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="createDao">
-                SUBMIT
-              </el-button>
-            </el-form-item>
-          </el-form>
+          <div class="create-dao">
+            <div class="create-dao__cover">
+              <img
+                src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg"
+                alt="cover"
+              >
+            </div>
+            <div class="line" />
+            <div class="create-dao__footer">
+              <div>
+                <p>
+                  需要支付1000金币
+                  <svg-icon
+                    icon-class="daos"
+                    class="icon-dao"
+                  />
+                </p>
+                <a href="#">如果获得金币?</a>
+              </div>
+
+              <div>
+                <el-button
+                  type="small"
+                  @click="createDao(true)"
+                >
+                  足够支付
+                </el-button>
+                <el-button
+                  type="small" 
+                  @click="createDao(false)"
+                >
+                  不够支付
+                </el-button>
+              </div>
+            </div>
+          </div>
         </m-dialog>
 
         <user-pagination
@@ -147,9 +155,7 @@
 import { mapGetters } from 'vuex'
 
 import userPagination from '@/components/user/user_pagination.vue'
-import daoCard from '@/components/dao_card2'
-import qv from '@/api/voting/qvvoting.js'
-
+import daoCard from '@/components/dao_card'
 export default {
   components: {
     userPagination,
@@ -157,10 +163,6 @@ export default {
   },
   data() {
     return {
-      form: {
-        name: '',
-        description: ''
-      },
       createDaoDialog: false,
       tokenList: [],
       searchVal: '',
@@ -170,7 +172,7 @@ export default {
           params: {
             pagesize: 8
           },
-          apiUrl: 'projectAll',
+          apiUrl: 'tokenAll',
           list: [
             {},{},{},{},{},{},{},{}
           ]
@@ -179,7 +181,7 @@ export default {
           params: {
             pagesize: 8
           },
-          apiUrl: 'projectAll',
+          apiUrl: 'tokenAll',
           list: [
             {},{},{},{},{},{},{},{}
           ]
@@ -203,16 +205,16 @@ export default {
       count: 0,
 
       filterOptions: [{
-        value: 'liquidity',
-        label: '流动金总量'
+        value: 'support',
+        label: 'Support'
       }, {
-        value: 'supporter',
-        label: '支持者人数'
+        value: 'votes',
+        label: 'Votes'
       }, {
-        value: 'developer',
-        label: '开发者数量'
+        value: 'score',
+        label: 'Score'
       }],
-      filterValue: 'liquidity',
+      filterValue: 'support',
       sortRadio: this.$route.query.filter || 'all',
       reload: 0
     }
@@ -235,38 +237,19 @@ export default {
   },
   methods: {
     // 创建dao
-    async createDao() {
-      console.log('-----------createProposal start-------------')
-      const loading = this.$loading({
-        text: '创建中'
-      })
-      try {
-        const web3 = window.web3
-        const QVVoting = qv.contractInstance()
-        const accounts = await web3.eth.getAccounts()
-        const coinbase = await web3.eth.getCoinbase()
-        const owner = accounts[0]
-        console.log(coinbase, owner)
-        const expireTime = 7 * 24 * 60 * 60
-        const result = await QVVoting.methods.createProposal(this.form.name, this.form.description, expireTime).send({
-          from: owner
+    createDao(val) {
+      if (val) {
+        this.$alert('请在 设置-项目管理 中进行进一步设置', '项目开通成功', {
+          confirmButtonText: '立即设置',
+          callback: action => {
+            if (action === 'confirm' && this.isLogined) {
+              this.$router.push('/setting')
+            }
+          }
         })
-        console.log(result)
-        loading.close()
-        this.$notify.success({
-          title: '成功',
-          message: '创建成功'
-        })
-        window.location.reload()
-      } catch (error) {
-        console.log(error)
-        loading.close()
-        this.$notify.error({
-          title: '失败',
-          message: '创建失败'
-        })
+      } else {
+        this.$message.warning('对不起, 您的金币不够!')
       }
-      console.log('-----------createProposal end-------------')
     },
     paginationData(res) {
       this.count = res.data.count
@@ -311,7 +294,6 @@ export default {
 
 <style lang="less" scoped>
 .dao {
-  padding: 60px 0 0 0;
   min-height: calc(100% - (60px + 200px));
   background: #0c2143;
 }

@@ -170,6 +170,22 @@
             />
           </div>
         </el-tooltip>
+        <el-tooltip
+          :content="'Near Login'"
+          class="item"
+          effect="dark"
+          placement="top"
+        >
+          <div
+            class="oauth-bg bg-gray"
+            @click="walletLogin('Near')"
+          >
+            <svg-icon
+              class="eos"
+              icon-class="near_icon_wht"
+            />
+          </div>
+        </el-tooltip>
       </div>
     </div>
     <img
@@ -186,6 +202,7 @@
 import { mapActions, mapGetters, mapState } from "vuex";
 import { idProvider } from "./icon.js";
 import { getCookie, setCookie } from '@/utils/cookie'
+import near from '@/api/voting/near.js'
 
 export default {
   name: "LoginContent",
@@ -232,7 +249,7 @@ export default {
         ]
       },
       referral: false,
-      loading: false
+      loading: false,
     };
   },
   computed: {
@@ -259,8 +276,10 @@ export default {
 
     }
   },
-  mounted() {
-    if (process.browser) this.getReferral()
+  async mounted() {
+    if (process.browser) {
+      this.getReferral()
+    }
   },
   methods: {
     ...mapActions(["signIn"]),
@@ -289,6 +308,8 @@ export default {
         this.telegramLogin();
       } else if (type === "Twitter") {
         // this.twitterLogin();
+      } else if (type === 'Near') {
+        this.nearLogin()
       } else await this.signInx(type);
     },
     async signInx(type) {
@@ -308,6 +329,10 @@ export default {
           this.$message.error(this.$t("error.loginFail"));
         }
       }
+    },
+    async nearLogin() {
+      this.$store.commit('setLoginModal', false)
+      this.$router.push({ name: 'login-near', query: { from: 'login' } })
     },
     async vntLogin() {
       this.loading = true;

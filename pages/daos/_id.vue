@@ -254,7 +254,7 @@ import utils from '@/utils/utils'
 import { precision } from '@/utils/precisionConversion'
 import Share from '@/components/token/token_share.vue'
 import tokenBuyCard from '@/components/token/token_buy_card.vue'
-import qv from '@/api/voting/qvvoting.js'
+// import qv from '@/api/voting/qvvoting.js'
 
 export default {
   components: {
@@ -415,16 +415,20 @@ export default {
             const loading = this.$loading({
               text: '投票中'
             })
-            const web3 = window.web3
-            const QVVoting = qv.contractInstance()
-            const coinbase = await web3.eth.getCoinbase()
+            // const web3 = window.web3
+            // const QVVoting = qv.contractInstance()
+            // const coinbase = await web3.eth.getCoinbase()
             const id = this.$route.params.id
             const votes = this.voteCost
             try {
-              const result = await QVVoting.methods.castVote(id, votes, true).send({
-                from: coinbase
+              const result = await window.contract.cast_vote({
+                proposal_id: parseInt(id),
+                num_tokens: votes,
+                vote: true
               })
-              console.log(result)
+              console.log('vote', result)
+              const res = await this.$API.voteProposal(id)
+              console.log('vote', res)
               loading.close()
               this.$notify.success({
                 title: '成功',
