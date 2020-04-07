@@ -395,7 +395,7 @@ export default {
     jutmpToSearch() {
       if (!strTrim(this.searchInput)) return this.$message.warning(this.$t('warning.searchContent'))
 
-      const names = ['sharehall', 'share-id', 'token', 'token-id']
+      const names = ['sharehall', 'share-id', 'token', 'daos-id']
       const types = [1, 1, 2, 2]
       const type = types[names.indexOf(this.$route.name)]
 

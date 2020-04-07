@@ -8,7 +8,7 @@
         :key="index"
         :card="item"
         :index="index"
-        :token-id="tokenId"
+        :daos-id="tokenId"
         class="application-card"
         @accept="accept"
         @deny="deny"

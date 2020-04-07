@@ -26,7 +26,7 @@
             >
               <template slot-scope="scope">
                 <router-link
-                  :to="{name: 'token-id', params: {id: scope.row.token_id}}"
+                  :to="{name: 'daos-id', params: {id: scope.row.token_id}}"
                   class="fl ac"
                 >
                   <avatar
@@ -42,7 +42,7 @@
               label="名称"
             >
               <template slot-scope="scope">
-                <router-link :to="{name: 'token-id', params: {id: scope.row.token_id}}">
+                <router-link :to="{name: 'daos-id', params: {id: scope.row.token_id}}">
                   <span class="scope">{{ scope.row.name }}</span>
                 </router-link>
               </template>

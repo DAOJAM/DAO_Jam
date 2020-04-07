@@ -7,7 +7,7 @@
           v-for="(item, index) in list"
           :key="index"
           class="dao-block animated"
-          :to="{name: 'token-id', params: {id: item.id}}"
+          :to="{name: 'daos-id', params: {id: item.id}}"
           :style="{animationDelay: index * 0.08 + 's'}"
         >
           <div class="dao">

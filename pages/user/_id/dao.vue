@@ -8,7 +8,7 @@
       <div class="dao">
         <div class="dao-list">
           <router-link
-            :to="{name: 'token-id', params: { id: tokenData.id }}"
+            :to="{name: 'daos-id', params: { id: tokenData.id }}"
             class="dao-block not"
           >
             <avatar :src="cover(tokenData.logo)" />
@@ -34,7 +34,7 @@
           <router-link
             v-for="(item, index) in pull.list"
             :key="index"
-            :to="{name: 'token-id', params: { id: item.token_id }}"
+            :to="{name: 'daos-id', params: { id: item.token_id }}"
             class="dao-block"
           >
             <avatar :src="cover(item.logo)" />
