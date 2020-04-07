@@ -94,7 +94,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 760px) {
+@media screen and (min-width: 830px) {
   .dock-bg {
     display: none;
     opacity: 0;
