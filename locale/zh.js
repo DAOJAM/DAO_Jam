@@ -610,7 +610,7 @@ export default {
     selfcoins: '发行的Fan票',
     fanWallet: '我的投票',
     editcoins: '项目设置',
-    applycoins: '申请Fan票',
+    applycoins: '申请项目',
     issuecoins: '发行Fan票',
     editProfile: '编辑资料',
     information: '信息',
