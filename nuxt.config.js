@@ -31,18 +31,18 @@ export default {
       { hid: 'robots', name: 'robots', property: 'robots', content: 'index,follow' },
       { hid: 'copyright', name: 'copyright', property: 'copyright', content: 'Copyright © 2018-2020 ANDOROMEDA pte ltd.' },
       { hid: 'description', name: 'description', content: 'DAO Jam combines the concepts of Game Jam and DAO, offering an unprecedent way for game developers to untie with each other based on a common goal, in a structured yet autonomous way.' },
-      { hid: 'keywords', name: 'keywords', content: '岛娘,小岛美奈子,唐飞虎,DAOJAM,GAME JAM,Matataki,ANDOROMEDA,Ethereum,以太坊,去中心化,DApp,ETH' },
+      { hid: 'keywords', name: 'keywords', content: '岛娘,小岛美奈子,唐飞虎,DAOJAM,GAME JAM,ANDOROMEDA,Near,Near Protocol,去中心化,DApp,ETH' },
       /* <!--  Meta for Twitter Card --> */
       { hid: 'twitter:card', name: 'twitter:card', property: 'twitter:card', content: 'summary' },
       { hid: 'twitter:site', name: 'twitter:site', property: 'twitter:site', content: 'DAOJAM' },
       { hid: 'twitter:title', property: 'twitter:title', content: 'DAO Jam' },
-      { hid: 'twitter:image', name: 'twitter:image', property: 'twitter:image', content: 'https://ssimg.frontenduse.top/avatar/2019/08/30/c1d6ae7ed4e6102cb45d0a8f656d5569.png' },
+      { hid: 'twitter:image', name: 'twitter:image', property: 'twitter:image', content: 'https://ssimg.frontenduse.top/article/2020/04/07/90dc8d81582e395c7e25108c931d6aa7.png' },
       { hid: 'twitter:description', name: 'description', property: 'twitter:description', content: 'DAO Jam combines the concepts of Game Jam and DAO, offering an unprecedent way for game developers to untie with each other based on a common goal, in a structured yet autonomous way.' },
       /* <!--  Meta for OpenGraph --> */
       { hid: 'og:type', name: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:site_name', name: 'og:site_name', property: 'og:site_name', content: 'DAO Jam combines the concepts of Game Jam and DAO, offering an unprecedent way for game developers to untie with each other based on a common goal, in a structured yet autonomous way.' },
+      { hid: 'og:site_name', name: 'og:site_name', property: 'og:site_name', content: 'DAO Jam' },
       { hid: 'og:title', property: 'og:title', content: 'DAO Jam' },
-      { hid: 'og:image', name: 'og:image', property: 'og:image', content: 'https://ssimg.frontenduse.top/avatar/2019/08/30/c1d6ae7ed4e6102cb45d0a8f656d5569.png' },
+      { hid: 'og:image', name: 'og:image', property: 'og:image', content: 'https://ssimg.frontenduse.top/article/2020/04/07/90dc8d81582e395c7e25108c931d6aa7.png' },
       { hid: 'og:description', name: 'description', property: 'og:description', content: 'DAO Jam combines the concepts of Game Jam and DAO, offering an unprecedent way for game developers to untie with each other based on a common goal, in a structured yet autonomous way.' },
       { hid: 'og:type', name: 'og:type', property: 'og:type', content: 'article' }
       /* end */
@@ -172,7 +172,7 @@ export default {
   },
   pwa: {
     manifest: {
-      name: 'Matataki',
+      name: 'DAOJam',
       gcm_sender_id: '1011435306795'
     },
     workbox: {

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#">
-    <img width="200" src="https://github.com/noctoid/daothon/blob/master/daothon_server/daothon_server/static/icons/platform_icon/DAOdelion.png">
+    <img width="200" src="https://ssimg.frontenduse.top/article/2020/04/07/90dc8d81582e395c7e25108c931d6aa7.png">
   </a>
 </p>
 
