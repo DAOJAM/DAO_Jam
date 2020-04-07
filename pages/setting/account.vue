@@ -412,6 +412,8 @@ export default {
         })
       } else if (type === 'telegram') {
         this.$router.push({ name: 'login-telegram' })
+      } else if (type === 'near') {
+        this.$router.push({ name: 'login-near', query: { from: 'binding' } })
       } else this.$message.warning('PC端暂不支持绑定')
     },
     unbindFunc(type, typename, idx) {

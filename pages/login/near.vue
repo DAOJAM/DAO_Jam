@@ -65,7 +65,7 @@ export default {
               this.$message.warning(res.message)
             }
             this.$router.push({
-              name: 'index'
+              name: 'setting-account'
             })
           })
           .catch(err => {

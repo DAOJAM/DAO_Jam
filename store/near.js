@@ -8,7 +8,8 @@ import { setToken, removeToken } from '../utils/auth'
 
 // 初始化
 export const state = () => ({
-  account: null
+  account: null,
+  balance: 0
 })
 
 export const mutations = {
@@ -27,6 +28,19 @@ export const actions = {
   },
   async isSignedIn() {
     const isSignedIn = window.walletConnection.isSignedIn()
+    return isSignedIn
+  },
+  async balanceOf({ state }, { name }) {
+    console.log(state)
+    const res = await API.nearMint(name)
+    return res
+  },
+  async userHasVoted({ state }, { name, id }) {
+    console.log(state)
+    const isSignedIn = await window.contract.user_has_voted({
+      name,
+      proposal_id: id
+    })
     return isSignedIn
   },
   async testLogin() {
