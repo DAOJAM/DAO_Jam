@@ -148,7 +148,7 @@ import { mapGetters } from 'vuex'
 
 import userPagination from '@/components/user/user_pagination.vue'
 import daoCard from '@/components/dao_card2'
-import qv from '@/api/voting/qvvoting.js'
+// import qv from '@/api/voting/qvvoting.js'
 
 export default {
   components: {
@@ -157,6 +157,9 @@ export default {
   },
   data() {
     return {
+      contract: null,
+      nearConfig: null,
+      walletConnection: null,
       form: {
         name: '',
         description: ''
@@ -241,17 +244,13 @@ export default {
         text: '创建中'
       })
       try {
-        const web3 = window.web3
-        const QVVoting = qv.contractInstance()
-        const accounts = await web3.eth.getAccounts()
-        const coinbase = await web3.eth.getCoinbase()
-        const owner = accounts[0]
-        console.log(coinbase, owner)
-        const expireTime = 7 * 24 * 60 * 60
-        const result = await QVVoting.methods.createProposal(this.form.name, this.form.description, expireTime).send({
-          from: owner
+        const expireTime = 30 * 24 * 60 * 60
+        const result = await window.contract.create_proposal({
+          name: this.pjName, description: this.pjDescription, expiration_time: expireTime
         })
-        console.log(result)
+        console.log('create_proposal', result)
+        const res = await this.$API.createProposal(result)
+        console.log('createProposal', res)
         loading.close()
         this.$notify.success({
           title: '成功',

@@ -133,6 +133,9 @@ export default {
     ** You can extend webpack config here
     */
     extend(config, { isDev, isClient }) {
+      config.node = {
+        fs: 'empty'
+      }
       if (isDev) {
         config.devtool = isClient ? 'source-map' : 'inline-source-map'
       }
