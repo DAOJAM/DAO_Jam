@@ -104,13 +104,15 @@ export default {
     },
     async getProposal() {
       // const web3 = window.web3
-      const QVVoting = qv.contractInstance()
-      const resultCount = await QVVoting.methods.ProposalCount().call()
+      const QVVoting = await qv.contractInstance()
+      const symbol = await QVVoting.methods.symbol().call()
+      console.log(symbol)
+      /* const resultCount = await QVVoting.methods.ProposalCount().call()
       console.log(resultCount)
       const result = await QVVoting.methods.Proposals(1).call()
       console.log(result)
       const resultStatus = await QVVoting.methods.getProposalStatus(1).call()
-      console.log(resultStatus)
+      console.log(resultStatus) */
     },
     async mint() {
       const web3 = window.web3
@@ -149,7 +151,7 @@ export default {
     },
     async balance() {
       // const web3 = window.web3
-      const QVVoting = qv.contractInstance()
+      const QVVoting = await qv.contractInstance()
       // const currentAddress = web3.currentProvider.selectedAddress
       // const address = '0x0d8E708F9CfF2634169D7c221CF6bfA0C5731d63'
       const result = await QVVoting.methods.balanceOf(this.userAddress).call()

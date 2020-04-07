@@ -1041,5 +1041,32 @@ export default {
       method: 'GET',
       url: '/daojam/voting/balance'
     })
+  },
+  nearMint(name) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/mint',
+      data: {
+        name
+      }
+    })
+  },
+  createProposal(id) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/createProposal',
+      data: {
+        id
+      }
+    })
+  },
+  voteProposal(id) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/vote',
+      data: {
+        id
+      }
+    })
   }
 }
