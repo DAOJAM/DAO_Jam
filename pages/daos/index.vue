@@ -250,6 +250,7 @@ export default {
               this.$router.push('/setting/account')
             }
           })
+        return // End of exec
       }
       console.log('-----------createProposal start-------------')
       const loading = this.$loading({
