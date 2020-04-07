@@ -8,13 +8,14 @@ export default {
   //   { name: '中文简体', code: 'zh', file: zh },
   //   { name: 'English', code: 'en', file: en },
   // ],
-  locales: ['zh', 'en'],
+  locales: ['en'],
+  // locales: ['zh', 'en'],
   strategy: 'no_prefix',
   defaultLocale: Cookies.get('language') || 'en',
   vueI18n: {
     fallbackLocale: 'en',
     messages: {
-      zh: zh,
+      // zh: zh,
       en: en
     }
   },
