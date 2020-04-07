@@ -239,6 +239,18 @@ export default {
   methods: {
     // 创建dao
     async createDao() {
+      // Detect if you have NEAR bind
+      const { data } = await this.$API.getKycStatus()
+      if (!data.verified) {
+        // 提示用户去绑定 Near 钱包，这样才有 account 可以操作
+        this.$alert('DAOJam was built on NEAR protocol, you will need to bind your NEAR wallet with us',
+          'Almost there, just missing NEAR wallet binding', {
+            confirmButtonText: 'Go to bind my NEAR Wallet',
+            callback: () => {
+              this.$router.push('/setting/account')
+            }
+          })
+      }
       console.log('-----------createProposal start-------------')
       const loading = this.$loading({
         text: '创建中'
