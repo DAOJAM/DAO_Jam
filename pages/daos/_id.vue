@@ -523,7 +523,7 @@ export default {
             // const web3 = window.web3
             // const QVVoting = qv.contractInstance()
             // const coinbase = await web3.eth.getCoinbase()
-            const id = this.$route.params.id
+            const id = this.pj.pid
             const votes = this.voteCost
             try {
               const result = await window.contract.cast_vote({
