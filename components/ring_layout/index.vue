@@ -2,7 +2,7 @@
   <div class="ring">
     <g-header />
     <div class="ring-logo">
-      <router-link :to="{name: 'token-id', params: { id: $route.params.id }}">
+      <router-link :to="{name: 'daos-id', params: { id: $route.params.id }}">
         <img
           v-if="logo"
           :src="logoSrc"
@@ -10,7 +10,7 @@
         >
       </router-link>
     </div>
-    <router-link :to="{name: 'token-id', params: { id: $route.params.id }}">
+    <router-link :to="{name: 'daos-id', params: { id: $route.params.id }}">
       <p class="ring-logo-title">
         <i class="el-icon-arrow-right disappear" />
         {{ symbol }}{{ name ? (name) : '' }}

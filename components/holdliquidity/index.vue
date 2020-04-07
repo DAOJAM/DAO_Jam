@@ -24,7 +24,7 @@
         >
           <template slot-scope="scope">
             <router-link
-              :to="{name: 'token-id', params: {id: scope.row.token_id}}"
+              :to="{name: 'daos-id', params: {id: scope.row.token_id}}"
               class="fl ac"
             >
               <avatar

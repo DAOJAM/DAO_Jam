@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="fl ac jsb">
-      <router-link :to="{name: 'token-id', params: {id: card.token_id}}" class="fl ac">
+      <router-link :to="{name: 'daos-id', params: {id: card.token_id}}" class="fl ac">
         <c-avatar :src="teamMemberAvatar(card.logo)" />
         <div class="card-user">
           <p>{{ card.symbol }} 邀请您加入团队</p>

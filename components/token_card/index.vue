@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{name: 'token-id', params: { id: card.id }}"
+    :to="{name: 'daos-id', params: { id: card.id }}"
     class="fl card"
   >
     <div>

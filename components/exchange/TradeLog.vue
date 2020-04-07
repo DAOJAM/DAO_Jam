@@ -29,7 +29,7 @@
           <span class="title">{{ type === 'purchase' ? '交易记录' : '流动金记录' }}</span>
           <n-link
             v-if="currentId"
-            :to="{name: 'token-id', params: {id: currentId}}"
+            :to="{name: 'daos-id', params: {id: currentId}}"
             target="_blank"
             class="gray-btn btn"
           >

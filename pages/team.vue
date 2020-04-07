@@ -7,7 +7,7 @@
         class="team-main"
       >
         <router-link
-          :to="{name: 'token-id', params: { id: tokenData.token.id || query.t }}"
+          :to="{name: 'daos-id', params: { id: tokenData.token.id || query.t }}"
           target="_blank"
         >
           <c-avatar :src="avatar" />

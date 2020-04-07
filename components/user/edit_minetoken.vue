@@ -27,7 +27,7 @@
         v-if="!isPost"
         class="click-box"
       >
-        <router-link :to="{name: 'token-id', params: { id: tokenId || 0}}">
+        <router-link :to="{name: 'daos-id', params: { id: tokenId || 0}}">
           <el-button size="small">
             详情
           </el-button>
@@ -58,6 +58,7 @@
       label-width="80px"
     >
       <el-form-item
+        v-if="isPost"
         label="名称"
         prop="name"
         class="customize"
@@ -70,6 +71,7 @@
       </el-form-item>
 
       <el-form-item
+        v-if="isPost"
         label="缩写"
         prop="symbol"
         class="customize"
@@ -137,6 +139,7 @@
       </el-form-item>
 
       <el-form-item
+        v-if="isPost"
         label="简介"
         prop="brief"
         class="customize"
@@ -213,7 +216,7 @@
         prop=""
         class="project"
       >
-        <tokenTeam :token-id="tokenId" />
+        <tokenTeam :daos-id="tokenId" />
       </el-form-item>
 
       <el-form-item
@@ -311,8 +314,8 @@
         <h2 class="progress-title">
           Project progress
         </h2>
-        <userLive :token-id="tokenId" />
-        <userProgress :token-id="tokenId" />
+        <userLive :daos-id="tokenId" />
+        <userProgress :daos-id="tokenId" />
       </div>
     </template>
     <imgUploads
