@@ -1,7 +1,7 @@
 <template>
   <div>
     <n-link
-      :to="{name: 'daos-id', params: {id: card.pid}}"
+      :to="{name: 'daos-id', params: {id: card.id}}"
       target="_blank"
     >
       <div class="dao-block">
