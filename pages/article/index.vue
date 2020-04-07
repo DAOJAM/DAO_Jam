@@ -323,6 +323,7 @@ export default {
 <style lang="less" scoped>
 .home {
   background-color: #0e2144;
+  padding: 60px 0 0 0;
 }
 .home-head {
   height: 1120px;
