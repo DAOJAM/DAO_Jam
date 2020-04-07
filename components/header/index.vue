@@ -41,7 +41,7 @@
             </li>
             <li>
               <n-link :to="{name: 'stat'}">
-                STAT
+                LEADERBOARD
               </n-link>
             </li>
             <li>
@@ -583,7 +583,7 @@ export default {
 .daos-margin {
   margin: 0 40px 0 0;
 }
-@media screen and (max-width: 760px) {  
+@media screen and (max-width: 830px) {  
   .header-bg {
     height: 50px;
   }
@@ -627,7 +627,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 920px) {
+@media screen and (max-width: 990px) {
   .header .logo {
     height: 24px;
   }
