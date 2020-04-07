@@ -140,6 +140,21 @@
       </div>
       <!-- todo -->
     </div>
+
+    <div class="token-list">
+      <h2 class="token-title">
+        Tasks
+      </h2>
+      <div class="projects">
+        <router-link :to="{name: 'tasks'}">
+          <p v-for="(item, index) in tasksList.mainTasks" :key="item.id + '-' + index" class="project-text">{{ item.title }}</p>
+          <p v-for="(item, index) in tasksList.sideTasks" :key="item.id + '-' + index" class="project-text">{{ item.title }}</p>
+        </router-link>
+        <p v-if="tasksList.mainTasks.length === 0 && tasksList.sideTasks.length === 0" class="token-not">
+          暂无
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -180,7 +195,11 @@ export default {
           text: 'Get 1000000 goidcoin from other users.'
         }
       ],
-      teamData: []// team Member
+      teamData: [], // team Member
+      tasksList: {
+        mainTasks: [],
+        sideTasks: []
+      }, // task
     }
   },
   asyncData() {
@@ -192,6 +211,8 @@ export default {
       this.minetokenId(id)
       this.minetokenGetResources(id)
       this.teamMember()
+
+      this.task()
     }
   },
   methods: {
@@ -253,6 +274,68 @@ export default {
     // 团队头像
     teamMemberAvatar(src) {
       return src ? this.$ossProcess(src, { h: 90 }) : ''
+    },
+    // 所有列表
+    async task() {
+      this.$API.task()
+        .then(res => {
+          if (res.code === 0) {
+            let mainTasks = []
+            let sideTasks = []
+            res.data.map(item => {
+              if (Number(item.type) === 0) {
+                mainTasks.push(item)
+              } else if (Number(item.type) === 1) {
+                sideTasks.push(item)
+              } else {
+                console.log('error', item)
+              }
+            })
+
+            this.taskTeam(this.$route.params.id, {
+              mainTasks,
+              sideTasks
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 团队列表
+    async taskTeam(tokenId, list) {
+      this.$API.taskTeam(tokenId)
+        .then(res => {
+          if (res.code === 0) {
+
+            let mainTask = -1
+            let sideTask = []
+
+            res.data.map(item => {
+              if (Number(item.type) === 0) {
+                mainTask = Number(item.task_id)
+              } else if (Number(item.type) === 1) {
+                sideTask.push(Number(item.task_id))
+              } else {
+                console.log('error', item)
+              }
+            })
+
+            // 主线
+            this.tasksList.mainTasks = list.mainTasks.filter(item => item.id === mainTask)
+            // 支线
+            for(let i = 0; i < sideTask.length; i++) {
+              for (let j = 0; j < list.sideTasks.length; j++) {
+                if (sideTask[i] === list.sideTasks[j].id) {
+                  this.tasksList.sideTasks.push(list.sideTasks[j])
+                }
+              }
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
   }
 }
@@ -377,5 +460,13 @@ export default {
 .supporters,
 .projects {
   margin-top: 20px;
+}
+
+.project-text {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0 0 10px 0;
 }
 </style>

@@ -74,7 +74,7 @@
               <p class="dao-add__text">
                 Create New Project（Need 100 DaoT
                 <svg-icon
-                  icon-class="daos"
+                  icon-class="daot"
                   class="icon-dao"
                 />
                 )
@@ -408,7 +408,7 @@ export default {
     font-size: 80px;
   }
   .icon-dao {
-    font-size: 14px;
+    font-size: 22px;
   }
 
   .dao-add__text {
