@@ -140,7 +140,7 @@
                   icon-class="tickets"
                   class="icon"
                 />
-                23
+                {{ pj.weight }}
               </p>
             </div>
           </div>
