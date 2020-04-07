@@ -216,7 +216,7 @@
         prop=""
         class="project"
       >
-        <tokenTeam :daos-id="tokenId" />
+        <tokenTeam :token-id="tokenId" />
       </el-form-item>
 
       <el-form-item
@@ -314,8 +314,8 @@
         <h2 class="progress-title">
           Project progress
         </h2>
-        <userLive :daos-id="tokenId" />
-        <userProgress :daos-id="tokenId" />
+        <userLive :token-id="tokenId" />
+        <userProgress :token-id="tokenId" />
       </div>
     </template>
     <imgUploads
