@@ -32,10 +32,10 @@
       <el-divider />
       <div v-if="isNewbie" class="bonus-get">
         <p class="main-text">
-          新用户奖励
+          {{ $t('voteDropdown.rewardTitle') }}
         </p>
         <p class="annotate">
-          绑定邮箱、GitHub、以太坊钱包后即可领取
+          {{ $t('voteDropdown.rewardText') }}
         </p>
         <el-button
           class="get-button"
@@ -43,7 +43,7 @@
           round
           @click="getNewbieBonus"
         >
-          立刻领取 100 DaoT
+          {{ $t('voteDropdown.gainDaoT') }}
           <svg-icon
             class="get-button-icon"
             icon-class="daot"
@@ -71,10 +71,13 @@
       </div>
       <div>
         <p class="main-text">
-          Today voted: 600 DaoT
+          {{ $t('voteDropdown.voteTodayTitle', [600, 46]) }}
         </p>
         <p class="annotate">
-          You can vote 1/3 DaoT at most and up to 30.
+          {{ $t('voteDropdown.voteTodayText') }}
+          <router-link :to="{ name: 'account' }">
+            {{ $t('voteDropdown.voteTodayHelp') }}
+          </router-link>
         </p>
         <div class="dao-list">
           <div
@@ -97,10 +100,10 @@
           </p>
         </div>
         <p class="main-text">
-          Tomorrow you  can get: 600 DaoT
+          {{ $t('voteDropdown.tomorrowGainTitle') }}
         </p>
         <p class="annotate">
-          You can get 1/3 DaoT + 20.
+          {{ $t('voteDropdown.tomorrowGainText') }}
         </p>
       </div>
     </el-dropdown-menu>
@@ -235,6 +238,10 @@ export default {
     font-weight:400;
     line-height:20px;
     margin: 0;
+    a {
+      color: #6236FF;
+      text-decoration: underline
+    }
   }
   .tickets {
     align-items: center;
