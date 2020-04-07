@@ -46,10 +46,11 @@
                 <span>{{ pj.owner }}</span>
               </router-link>
             </div>
+            <p>Creation Time: 2020.3.24</p>
             <p>
               {{ minetokenToken.brief || '暂无' }}
             </p>
-            <div class="dao__info__number">
+            <!-- <div class="dao__info__number">
               <div class="dao__info__number__block">
                 <svg-icon
                   icon-class="members"
@@ -71,42 +72,80 @@
                 />
                 {{ pj.weight }}
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="head-info">
-          <div class="vote-container">
-            <div class="vote-cost">
-              <span>cost:{{ voteCost }}</span>
-              <svg-icon icon-class="daot" />
+          <div>
+            <svg-icon
+              icon-class="dao_join"
+              class="dao-icon join"
+              @click="joinDialog = true"
+            />
+            <!-- v-if="showTokenSetting" -->
+            <router-link
+              :to="{ name: 'editminetoken' }"
+            >
+              <svg-icon
+                icon-class="dao_setting"
+                class="dao-icon setting"
+              />
+            </router-link>
+            <svg-icon
+              icon-class="dao_share"
+              class="dao-icon share"
+              @click="shareModalShow = true"
+            />
+          </div>
+          <div class="dao-data__content">
+            <div class="dao-data">
+              <p class="dao-data__help">
+                Supporters
+                <el-tooltip
+                  effect="dark"
+                  content="Supporters"
+                  placement="top"
+                >
+                  <svg-icon
+                    icon-class="dao_help"
+                    class="icon"
+                  />
+                </el-tooltip>
+              </p>
+              <p class="dao-data__number">
+                <svg-icon
+                  icon-class="members"
+                  class="icon"
+                />
+                
+                2300
+              </p>
             </div>
-            <div class="vote-group">
-              <input 
-                v-model="voteNum" 
-                type="text"
-                autocomplete="off" 
-                placeholder="" 
-                class="daojam-vote-input"
-              >
-              <div class="daojam-vote-btn" @click="vote">
-                VOTE
+            <div class="dao-data">
+              <p class="dao-data__help">
+                Tickets
+                <el-tooltip
+                  effect="dark"
+                  content="Tickets"
+                  placement="top"
+                >
+                  <svg-icon
+                    icon-class="dao_help"
+                    class="icon"
+                  />
+                </el-tooltip>
+              </p>
+              <p class="dao-data__number">
                 <svg-icon
                   icon-class="tickets"
-                  class="ticket-icon"
+                  class="icon"
                 />
-              </div>
-            </div>
-            <div class="vote-box" @click="setVoteNum(1)">
-              +1
-            </div>
-            <div class="vote-box" @click="setVoteNum(5)">
-              +5
-            </div>
-            <div class="vote-box" @click="setVoteNum('max')">
-              MAX
+                23
+              </p>
             </div>
           </div>
-          <div>
+
+          <!-- <div>
             <a
               :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address"
               target="_blank"
@@ -121,29 +160,6 @@
               </el-button>
             </a>
             <router-link
-              v-if="showTokenSetting"
-              :to="{ name: 'editminetoken' }"
-              class="head-btn"
-            >
-              <el-button
-                class="btn"
-                size="small"
-                icon="el-icon-setting"
-              >
-                管理
-              </el-button>
-            </router-link>
-            <el-button
-              size="small"
-              class="head-btn"
-              @click="shareModalShow = true"
-            >
-              <svg-icon icon-class="share_new" />
-              分享
-            </el-button>
-          </div>
-          <div>
-            <router-link
               class="head-btn"
               :to="{name: 'exchange', hash: '#swap', query: { output: minetokenToken.symbol }}"
             >
@@ -151,36 +167,125 @@
                 交易Fan票
               </el-button>
             </router-link>
-            <el-button
-              class="head-btn"
-              size="small"
-              icon="el-icon-setting"
-              @click="buyDialog = true"
-            >
-              购买
-            </el-button>
-            <el-button
-              class="head-btn"
-              size="small"
-              icon="el-icon-setting"
-              @click="joinDialog = true"
-            >
-              申请加入
-            </el-button>
-          </div>
+          </div> -->
           <!-- <span class="head-amount">
             已持有：{{ balance }} {{ minetokenToken.symbol }}
           </span> -->
         </div>
       </div>
 
-      <div class="repo">
-        <svg-icon icon-class="github" />
-        Github Repo Address:
-        <a
-          :href="minetokenToken.repo"
-          target="_blank"
-        >{{ minetokenToken.repo }}</a>
+      <div class="fl ac jsb dao-link-vote">
+        <div class="dao-link">
+          <a
+            :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address"
+            target="_blank"
+          >
+            <el-tooltip
+              effect="dark"
+              content="Etherscan"
+              placement="top"
+            >
+              <div class="dao-link__block">
+                <svg-icon
+                  icon-class="eth"
+                  class="icon"
+                />
+              </div>
+
+            </el-tooltip>
+          </a>
+          
+          <a
+            :href="minetokenToken.repo || 'https://github.com/DAOJAM'"
+            target="_blank"
+          >
+            <el-tooltip
+              effect="dark"
+              content="Github"
+              placement="top"
+            >
+              <div class="dao-link__block">
+                <svg-icon
+                  icon-class="github"
+                  class="icon"
+                />
+              </div>
+            </el-tooltip>
+          </a>
+          
+          <div class="dao-link__line" />
+          <div class="dao-link__block">
+            <svg-icon
+              icon-class="github"
+              class="icon"
+            />
+          </div>
+          <div class="dao-link__block">
+            <svg-icon
+              icon-class="github"
+              class="icon"
+            />
+          </div>
+          <div class="dao-link__block">
+            <svg-icon
+              icon-class="github"
+              class="icon"
+            />
+          </div>
+          <div class="dao-link__block">
+            <svg-icon
+              icon-class="github"
+              class="icon"
+            />
+          </div>
+          <div class="dao-link__block">
+            <svg-icon
+              icon-class="github"
+              class="icon"
+            />
+          </div>
+        </div>
+        <div class="dao-vote">
+          <div class="vote-container">
+            <el-tooltip
+              effect="dark"
+              content="DaoT"
+              placement="top"
+            >
+              <div class="vote-cost">
+                <span>cost:{{ voteCost }}</span>
+                <svg-icon icon-class="daot" class="icon" />
+              </div>
+            </el-tooltip>
+
+            <div class="vote-group">
+              <el-input-number
+                v-model="voteNum"
+                class="daojam-vote-input"
+                :min="1"
+                label="Vote"
+                @change="changeVote"
+              />
+
+              <div class="daojam-vote-btn" @click="vote">
+                VOTE
+                <svg-icon
+                  icon-class="tickets"
+                  class="ticket-icon"
+                />
+              </div>
+            </div>
+            <!-- <div class="vote-box" @click="setVoteNum(1)">
+              +1
+            </div>
+            <div class="vote-box" @click="setVoteNum(5)">
+              +5
+            </div>
+            <div class="vote-box" @click="setVoteNum('max')">
+              MAX
+            </div> -->
+          </div>
+        </div>
       </div>
 
       <nav class="token-nav">
@@ -522,6 +627,11 @@ export default {
           this.$store.commit('setLoginModal', true)
         }
       }
+    },
+    changeVote(value) {
+      if (!value) {
+        this.voteNum = 0
+      }
     }
   }
 }
@@ -537,12 +647,18 @@ export default {
   margin-bottom: 10px;
   .flex-center();
   .vote-cost {
-    color: #B2B2B2;
-    font-size: 16px;
+    cursor: pointer;
     .flex-center();
-    margin-right: 10px;
+    margin-right: 20px;
     span {
       margin-right: 5px;
+      font-size:16px;
+      font-weight:400;
+      color:rgba(178,178,178,1);
+      line-height:22px;
+    }
+    .icon {
+      font-size: 22px;
     }
   }
   .vote-box {
@@ -551,7 +667,7 @@ export default {
     white-space: nowrap;
     line-height: normal;
     border-radius: 8px;
-    background-color: #6236FF;
+    background-color: #6236ff;
     .flex-center();
     color: #ffffff;
     margin-left: 10px;
@@ -571,41 +687,49 @@ export default {
   }
 }
 .daojam-vote-input {
-  border-radius: 8px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  vertical-align: middle;
-  display: table-cell;
-  background-color: #1C4085;
-  background-image: none;
-  box-sizing: border-box;
+  width: 140px;
   border: none;
-  color: #ffffff;
-  font-size: inherit;
-  height: 40px;
-  line-height: 40px;
   outline: none;
-  padding: 0 8px;
-  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-  width: 60px;
-  text-align: center
+  /deep/ .el-input-number__decrease, 
+  /deep/ .el-input-number__increase {
+    color: #fff;
+    background-color: #294F98 !important;
+    border-color: #294F98 !important;
+  }
+  /deep/ .el-input-number__increase {
+    border-radius: 0;
+  }
+  /deep/ .el-input {
+    outline: none;
+  }
+  /deep/ .el-input__inner {
+    background-color: #1C4085;
+    border: 1px solid #294e98;
+    color: #fff;
+    border-radius: 4px 0 0 4px;
+  }
 }
 .daojam-vote-btn {
   border-radius: 8px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-left: 0;
-  background-color: #6236FF;
+  background-color: #6236ff;
   color: #ffffff;
   vertical-align: middle;
   display: table-cell;
   position: relative;
   padding: 0 10px;
   white-space: nowrap;
-  line-height: normal;
   border-collapse: separate;
   border-spacing: 0;
   cursor: pointer;
+  width: 110px;
+  text-align: center;
+  box-sizing: border-box;
+  font-size:16px;
+  font-weight:500;
+  line-height:22px;
   &:hover {
     background: #6200ff;
   }
@@ -613,7 +737,7 @@ export default {
 .token {
   padding: 60px 0 0 0;
   min-height: calc(100% - (60px + 120px));
-  background-color: #0E2144;
+  background-color: #0e2144;
 }
 .token-main {
   max-width: 1200px;
@@ -640,9 +764,9 @@ export default {
 }
 
 .head-user {
-    display: flex;
-    align-items: center;
-    max-width: 70%;
+  display: flex;
+  align-items: center;
+  max-width: 70%;
   .token-avatar {
     width: 120px;
     height: 120px;
@@ -673,7 +797,7 @@ export default {
     }
     &::after {
       display: block;
-      content: '';
+      content: "";
       width: 0;
       height: 0;
       clear: both;
@@ -691,19 +815,19 @@ export default {
   h2 {
     padding: 0;
     margin: 0;
-    font-size:24px;
-    font-weight:500;
-    color:rgba(255,255,255,1);
-    line-height:33px;
+    font-size: 24px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 33px;
   }
   .head-user__founder {
     display: flex;
     align-items: center;
 
-    font-size:16px;
-    font-weight:400;
-    color:rgba(178,178,178,1);
-    line-height:22px;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(178, 178, 178, 1);
+    line-height: 22px;
 
     a {
       display: flex;
@@ -711,10 +835,10 @@ export default {
     }
 
     span {
-      font-size:16px;
-      font-weight:400;
-      color:rgba(255,255,255,1);
-      line-height:22px;
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+      line-height: 22px;
       margin-left: 5px;
     }
   }
@@ -722,10 +846,10 @@ export default {
   p {
     padding: 0;
     margin: 0;
-    font-size:16px;
-    font-weight:400;
-    color:rgba(178,178,178,1);
-    line-height:22px;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(178, 178, 178, 1);
+    line-height: 22px;
     max-height: 44px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -738,10 +862,10 @@ export default {
   .dao__info__number {
     display: flex;
     align-items: center;
-    font-size:20px;
-    font-weight:500;
-    color:rgba(255,255,255,1);
-    line-height:28px;
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 28px;
 
     .dao__info__number__block {
       overflow: hidden;
@@ -749,10 +873,10 @@ export default {
       text-overflow: ellipsis;
       margin-left: 26px;
 
-      font-size:16px;
-      font-weight:400;
-      color:rgba(255,255,255,1);
-      line-height:22px;
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+      line-height: 22px;
 
       &:nth-child(1) {
         margin-left: 0;
@@ -765,12 +889,11 @@ export default {
 }
 
 .head-amount {
-  font-size:16px;
-  font-weight:400;
-  color:rgba(255,255,255,1);
-  line-height:22px;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 22px;
 }
-
 
 .token-nav {
   margin: 40px 0 0 0;
@@ -780,10 +903,10 @@ export default {
     padding: 0 0 5px 0;
     margin: 0 0 0 68px;
     display: block;
-    font-size:20px;
-    font-weight:500;
-    color:rgba(178,178,178,1);
-    line-height:28px;
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(178, 178, 178, 1);
+    line-height: 28px;
     box-sizing: border-box;
     border-bottom: 3px solid transparent;
     &:hover {
@@ -791,7 +914,7 @@ export default {
     }
     &.active {
       color: #fff;
-      border-bottom-color: #6236FF;
+      border-bottom-color: #6236ff;
     }
     &:nth-child(1) {
       margin-left: 0;
@@ -816,5 +939,79 @@ export default {
   margin-left: 10px;
   cursor: pointer;
   user-select: none;
+}
+
+.dao-icon {
+  color: #fff;
+  cursor: pointer;
+  &.join {
+    font-size: 22px;
+  }
+  &.setting,
+  &.share {
+    margin-left: 20px;
+    font-size: 20px;
+  }
+}
+
+.dao-data__content {
+  margin-top: 40px;
+}
+.dao-data {
+  text-align: center;
+  &:nth-child(1) {
+    margin-right: 20px;
+  }
+  &__help {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(178, 178, 178, 1);
+    line-height: 22px;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    .icon {
+      font-size: 16px;
+    }
+  }
+  &__number {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 1);
+    line-height: 28px;
+    padding: 0;
+    margin: 5px 0 0 0;
+    .icon {
+      font-size: 22px;
+    }
+  }
+}
+
+.dao-link {
+  display: flex;
+  align-items: center;
+  &__block {
+    width: 30px;
+    height: 30px;
+    background-color: #542de0;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    .icon {
+      color: #fff;
+      font-size: 16px;
+    }
+  }
+  &__line {
+    width: 1px;
+    height: 20px;
+    background-color: #979797;
+    margin-right: 20px;
+  }
+}
+.dao-link-vote {
+  margin-top: 20px;
 }
 </style>
