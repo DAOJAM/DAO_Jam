@@ -422,7 +422,7 @@ export default {
             const votes = this.voteCost
             try {
               const result = await window.contract.cast_vote({
-                proposal_id: id,
+                proposal_id: parseInt(id),
                 num_tokens: votes,
                 vote: true
               })

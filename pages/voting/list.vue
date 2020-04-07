@@ -246,7 +246,7 @@ export default {
       try {
         const expireTime = 30 * 24 * 60 * 60
         const result = await window.contract.create_proposal({
-          name: this.pjName, description: this.pjDescription, expiration_time: expireTime
+          name: this.form.name, description: this.form.description, expiration_time: expireTime
         })
         console.log('create_proposal', result)
         const res = await this.$API.createProposal(result)
