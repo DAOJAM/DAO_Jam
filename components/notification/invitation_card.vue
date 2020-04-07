@@ -1,70 +1,65 @@
 <template>
   <div class="card">
     <div class="fl ac jsb">
-      <div class="fl ac">
-        <c-avatar />
+      <router-link :to="{name: 'token-id', params: {id: card.token_id}}" class="fl ac">
+        <c-avatar :src="teamMemberAvatar(card.logo)" />
         <div class="card-user">
-          <p>有人邀请你加入 <b>{{ inviteDetail.message }}</b> 组织</p>
-          <time>{{ inviteDetail.datetime }}</time>
+          <p>{{ card.symbol }} 邀请您加入团队</p>
+          <time>{{ time }}</time>
         </div>
-      </div>
+      </router-link>
 
       <div>
-        <template v-if="status === 0">
-          <el-button 
-            size="small"
-            type="primary"
-            @click="accept"
-          >
-            <svg-icon icon-class="accept" />
-            Accept
-          </el-button>
-          <el-button 
-            size="small"
-            type="primary"
-            @click="deny"
-          >
-            <svg-icon icon-class="accept" />
-            Deny
-          </el-button>
-        </template>
-        <span
-          v-else
-          class="card-status"
+        <el-button 
+          size="small"
+          type="primary"
+          @click="accept"
         >
-          {{ status === 1 ? '同意' : '拒绝' }}
-        </span>
+          <svg-icon icon-class="accept" />
+          Accept
+        </el-button>
+        <el-button 
+          size="small"
+          type="primary"
+          @click="deny"
+        >
+          <svg-icon icon-class="accept" />
+          Deny
+        </el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import cAvatar from '@/common/components/avatar'
+import moment from 'moment'
+
 export default {
-  components: {
-    cAvatar
-  },
-  props: ['invitation'],
-  data() {
-    return {
-      status: 0 // 1 同意 2 拒绝
+  props: {
+    card: {
+      type: Object,
+      required: true
+    },
+    index: {
+      type: Number,
+      required: true
     }
   },
   computed: {
-    inviteDetail() {
-      const datetime = new Date(this.invitation.timestamp).toLocaleString()
-      return {...this.invitation, datetime}
+    time() {
+      return moment(this.card.create_time).format('YYYY-MM-DD HH:mm:ss')
     }
   },
   methods: {
+    // 团队头像
+    teamMemberAvatar(src) {
+      return src ? this.$ossProcess(src, { h: 90 }) : ''
+    },
     accept() {
-      // @todo: implement needed.
-      alert('Not implemented')
+      this.$emit('accept', this.index)
     },
     deny() {
-      // @todo: implement needed.
-      alert('Not implemented')
+      this.$emit('deny', this.index)
     }
   }
 }

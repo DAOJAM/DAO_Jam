@@ -1,74 +1,132 @@
 <template>
   <div>
-    <applicationCard
-      v-for="(item, index) in notifications"
-      :key="index"
-      :notification="item"
-      class="application-card"
-    />
-    <buttonLoadMore
-      class="load-more"
-      :type-index="1"
-      :params="pull.params"
-      :api-url="pull.apiUrl"
-      return-type="Array"
-      @buttonLoadMore="onFetch"
-    />
+    <template
+      v-if="list.length !== 0"
+    >
+      <applicationCard
+        v-for="(item, index) in list"
+        :key="index"
+        :card="item"
+        :index="index"
+        :token-id="tokenId"
+        class="application-card"
+        @accept="accept"
+        @deny="deny"
+      />
+    </template>
+    <p v-else class="not">暂无</p>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
-import buttonLoadMore from '@/components/button_load_more/index.vue'
+// 从简 直接请求接口...
+// 拥有team的人可以看到别人申请自己团队的列表
 import applicationCard from '@/components/notification/application_card'
-const PROVIDERS = ['teamApplyRequest']
 export default {
-  name: 'NotificationPage',
-  components: { buttonLoadMore, applicationCard },
+  components: { applicationCard },
   data() {
-    const active = this.$route.params.provider && PROVIDERS.indexOf(this.$route.params.provider) >= 0 ? PROVIDERS.indexOf(this.$route.params.provider) : 0
     return {
-      PROVIDERS,
-      active,
-      notifications: []
-    }
-  },
-  computed: {
-    ...mapState('notification', ['notificationCounters']),
-    provider() {
-      return PROVIDERS[this.active]
-    },
-    pull() {
-      return {
-        apiUrl: 'notifications',
-        params: { 
-          page: 1, 
-          type: 'check_time', 
-          provider: this.provider }
-      }
+      list: [],
+      tokenId: -1,
     }
   },
   created() {
-    this.getNotificationCounters()
+    this.getTeamMember()
   },
   methods: {
-    ...mapActions('notification', ['getNotificationCounters']),
-    onFetch({ data }) {
-      if (Array.isArray(data) && data.length) {
-        this.notifications.push(...data)
-        this.$API.readNotifications(this.provider)
+    async getTeamMember() {
+      const tokenId = await this.token()
+      if (tokenId) {
+        this.tokenId = tokenId
+        this.teamMember(tokenId, 'apply')
       }
+    },
+    // 得到token
+    async token() {
+      try {
+        const token = await this.$API.tokenDetail()
+        if (token.code === 0 && token.data) {
+          return token.data.token.id
+        } else {
+          return
+        }
+      } catch (e) {
+        console.log(e)
+        return
+      }
+    },
+    async teamMember(tokenId, note = '') {
+      // 获取所有队员
+      if (this.tokenId === -1) return
+      let params = {}
+      if (note) params = { 
+        note: note
+      }
+      await this.$API.teamMember(tokenId, params)
+        .then(res => {
+          if (res.code === 0) {
+            this.list = res.data.list
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    // 同意
+    async accept(i) {
+      await this.$API.teamMemberApplySuccess(this.tokenId, {
+        teamMember: {
+          uid: this.list[i].uid,
+          note: this.list[i].note,
+        }
+      })
+        .then(res => {
+          if (res.code === 0) {
+            this.$message.success(res.message)
+            this.teamMember(this.tokenId, 'apply')
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    async deny(i) {
+      // 删除申请
+      let teamMember= {
+        uid: this.list[i].uid,
+        note: this.list[i].note,
+      }
+      
+      await this.$API.teamMemberRemove(this.tokenId, {
+        teamMember: teamMember,
+      }).then(res => {
+        if (res.code === 0) {
+          this.$message.success(res.message)
+          this.teamMember(this.tokenId, 'apply')
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+        .catch(e => {
+          console.log(e)
+        })
     }
   }
 }
 </script>
 <style lang="less" scoped>
-.load-more  {
-  font-size: 16px !important;
-}
 .application-card {
   margin: 20px 20px 0 20px;
   &:nth-child(1) {
     margin-top: 0;
   }
+}
+.not {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
 }
 </style>

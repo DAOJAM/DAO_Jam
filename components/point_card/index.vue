@@ -1,29 +1,40 @@
 <template>
   <div class="card">
     <div class="card-info">
-      <span class="card-type">{{ assetType }}</span>
-      <h2
+      <span class="card-type">
+        {{ assetType }}
+        <txHash
+          :hash="'0x0454176b4f5c1bbd209dd44ae8f444ea69f16c4b20e93e1b0687077c88fdee1a'"
+          size="16px"
+        />
+      </span>
+      <span class="card-date">{{ friendlyDate }}</span>
+      <span
         :style="{ color: `${assetColor}` }"
         class="card-pricing"
       >
         {{ assetAmount }}
-      </h2>
+      </span>
     </div>
-    <div class="card-info">
+    <!-- <div class="card-info">
       <span class="card-date">{{ friendlyDate }}</span>
     </div>
     <div class="card-info">
       <span class="card-title">{{ assetTitle }}</span>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import moment from 'moment'
 // import { isNDaysAgo } from '@/common/methods';
+import txHash from '@/components/tx_hash_popover/index'
 
 export default {
   name: 'AssetCard',
+  components: {
+    txHash
+  },
   props: {
     asset: {
       type: Object,
@@ -87,20 +98,17 @@ export default {
 .card {
   margin: 10px 0;
   box-sizing: border-box;
-  padding: 16px 20px;
+  padding: 16px 20px 16px 10px;
   display: flex;
   flex-direction: column;
   position: relative;
   text-align: left;
   width: 100%;
   border-bottom: 1px solid #DBDBDB;
-  &:nth-last-of-type(1) {
-    border: none;
-  }
   &-pricing {
     padding: 0;
     margin: 0;
-    font-size:20px;
+    font-size:16px;
     font-weight:500;
     color:#fff;
     line-height:28px;
@@ -110,11 +118,11 @@ export default {
     font-weight:400;
     color:#fff;
     line-height:28px;
+    width: 300px;
   }
   &-info {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     margin-bottom: 20px;
     width: 100%;
     &:last-child {
@@ -141,6 +149,7 @@ export default {
     font-weight:400;
     color: #eaeaea;
     line-height:22px;
+    flex: 1;
   }
 }
 

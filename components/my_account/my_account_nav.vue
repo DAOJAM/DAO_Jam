@@ -21,7 +21,7 @@
         <svg-icon
           icon-class="project_team"
         />
-        DAO SETTING
+        PROJECT SETTING
       </h3>
       <router-link
         v-for="(tag, index) in projectTagsList"
@@ -55,7 +55,7 @@ export default {
         // { title: this.$t('user.systemSetting'), url: 'setting-system' }
       ],
       projectTagsList: [
-        { title: this.$t('user.mission'), url: '' },
+        { title: 'Task', url: 'project-task' },
         { title: this.$t('user.applycoins'), url: 'tokens-apply' },
         { title: this.$t('user.projectProgress'), url: '' },
       ],

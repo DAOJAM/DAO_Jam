@@ -72,7 +72,7 @@
                 class="icon-add"
               />
               <p class="dao-add__text">
-                Apply for DAO creation (need 100
+                Create New Project（Need 100 DaoT
                 <svg-icon
                   icon-class="daos"
                   class="icon-dao"

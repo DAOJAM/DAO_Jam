@@ -318,7 +318,6 @@ export default {
   }
 }
 .user-main {
-  background-color: #fff;
   padding: 20px;
   border-radius: @br10;
   box-sizing: border-box;

@@ -72,7 +72,7 @@
                 class="icon-add"
               />
               <p class="dao-add__text">
-                Apply for DAO creation (need 100
+                Create New Project（Need 100 DaoT
                 <svg-icon
                   icon-class="daos"
                   class="icon-dao"
@@ -112,10 +112,10 @@
               </p>
             </el-form-item>
             <el-form-item label="NAME THE Project">
-              <el-input v-model="form.name"></el-input>
+              <el-input v-model="form.name" />
             </el-form-item>
             <el-form-item label="DESCRIBE THE Project">
-              <el-input type="textarea" v-model="form.description"></el-input>
+              <el-input v-model="form.description" type="textarea" />
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="createDao">

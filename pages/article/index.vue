@@ -14,6 +14,26 @@
         <br>
         The event is 100% virtual so everyone from all over the world can participate online at no charge.
       </p>
+      <div class="email-subscribe">
+        <!-- <el-input v-model="inEmail" placeholder="请输入内容"/> -->
+        <span class="span1">
+          <input
+            v-model="inEmail"
+            type="text"
+            autocomplete="off"
+            placeholder="Input your mail address"
+          >
+        </span>
+        <span class="span2">
+          <el-button
+            slot="append"
+            :loading="setEmailLoading"
+            @click="uploadEmail"
+          >
+            {{ setEmailLoading ? 'LOADING' : 'SUBSCRIBE' }}
+          </el-button>
+        </span>
+      </div>
       <a
         href="https://discord.gg/tj6aJNG"
         target="_blank"
@@ -205,7 +225,9 @@ export default {
       ],
       daoList: [
         {},{},{},{},{},{},{},{},{},{},{},{},{},{}
-      ]
+      ],
+      inEmail: '',
+      setEmailLoading: false
     }
   },
   created() {
@@ -277,6 +299,22 @@ export default {
         .finally(() => {
           this.daoLoading = false
         })
+    },
+    async uploadEmail() {
+      const pattern = /^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/
+      if(!pattern.test(this.inEmail)) return this.$message.warning('请输入正确的邮箱地址')
+
+      try {
+        this.setEmailLoading = true
+        const res = await this.$API.setEmailSubscriber(this.inEmail)
+        if(res.code === 0) this.$message.success('订阅成功')
+        else this.$message.error(res.message)
+      }
+      catch(e) {
+        this.$message.error('订阅失败')
+        console.error(e)
+      }
+      this.setEmailLoading = false
     }
   }
 }
@@ -316,6 +354,7 @@ export default {
     line-height: 30px;
   }
   &__sign {
+    white-space: nowrap;
     display: inline-block;
     padding: 5px 87px;
     height: 40px;
@@ -325,7 +364,7 @@ export default {
     font-weight: 500;
     color: #ffffff;
     line-height: 40px;
-    margin: 170px 0 0;
+    margin: 20px 0 0;
     text-align: center;
     transition: all 0.3s;
     animation-delay: 0.2s;
@@ -490,6 +529,35 @@ export default {
 .sponsors {
   background-color: #372ba1;
   padding: 80px 0;
+}
+.email-subscribe {
+  margin: 160px 0 0;
+  white-space: nowrap;
+  span {
+    display: inline-block;
+    height: 50px;
+  }
+  input {
+    border: 0 none;
+    width: 239px;
+    height: 50px;
+    border-radius: 100px 0 0 100px;
+    padding-left: 20px;
+    background: #1C4085;
+    color: #B2B2B2;
+    font-size:16px;
+  }
+  .span1 {
+    width: 254px;
+    position: relative;
+  }
+  button {
+    height: 52px;
+    border-radius: 0 100px 100px 0;
+    color: #6236FF;
+    font-size: 16px;
+    width: 135px;
+  }
 }
 
 @media screen and (max-width: 520px) {

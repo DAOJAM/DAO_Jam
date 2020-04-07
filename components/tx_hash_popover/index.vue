@@ -69,7 +69,8 @@ export default {
 
 .components-ipfs_all {
   .eth_mini_icon {
-    color: @purpleDark;
+    // color: @purpleDark;
+    color: white;
     cursor: pointer;
   }
   .tx_hash__title {

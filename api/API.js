@@ -521,6 +521,16 @@ export default {
   teamMemberRemove(id, data) { return request.delete(`/minetoken/${id}/teamMemberRemove`, { data }) },
   // 获取所有队员
   teamMember(id, params) { return request.get(`/minetoken/${id}/teamMember`, { params }) },
+  // 邀请列表（被邀请人的列表）
+  teamMemberInviteList() { return request.get(`/teamMemberInviteList`) },
+  // 邀请同意或删除（被邀请人的操作）
+  teamMemberInviteUser(data) { return request.post(`/teamMemberInviteUser`, data) },
+  // ---------------------- 团队管理 end ----------------------
+
+  // ---------------------- 任务 ----------------------
+  task(){ return request.get('/task') },
+  updateTask(data){ return request.post('/task', data) },
+  taskTeam(){ return request.get('/taskTeam') },
   // ---------------------- 团队管理 end ----------------------
 
   /**
@@ -1068,5 +1078,7 @@ export default {
         id
       }
     })
-  }
+  },
+  // 订阅邮件
+  setEmailSubscriber(email) { return request.post('/email/subscriber/' + email) }
 }
