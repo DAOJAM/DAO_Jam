@@ -679,5 +679,15 @@ export default {
       message: '绑定 Near 钱包后，即刻获得 100 DaoT 奖励！',
       buttonText: '去绑定'
     }
+  },
+  voteDropdown: {
+    rewardTitle: '奖励',
+    rewardText: '绑定NEAR钱包后即可领取 100 DaoT',
+    gainDaoT: '立刻领取 100 DaoT',
+    voteTodayTitle: '你今日已花费 {0} DaoT,投出了 {1}票',
+    voteTodayText: '你每日可在同个项目上投票3次，最多不超过10票',
+    voteTodayHelp: 'DaoT 和 票 是什么？',
+    tomorrowGainTitle: '你明日可领取 600 DaoT',
+    tomorrowGainText: '每天可在导航栏中手动领取昨日投DaoT总量的1/3 + 20 DaoT'
   }
 }

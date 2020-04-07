@@ -679,5 +679,15 @@ export default {
       message: 'You can get 100 DaoT bonus after you bind NEAR Wallet!',
       buttonText: 'Go'
     }
+  },
+  voteDropdown: {
+    rewardTitle: 'Reward',
+    rewardText: 'Gain 100 DaoT after binding NEAR wallet',
+    gainDaoT: 'Gain 100 DaoT',
+    voteTodayTitle: 'You have cost {0} DaoT，voted {1} ticket today',
+    voteTodayText: 'You can voted at most 10 tickets & 3 times perday per project.',
+    voteTodayHelp: 'What is DaoT and ticket?',
+    tomorrowGainTitle: 'You can gain 600 DaoT tommorrow',
+    tomorrowGainText: 'You can gain 1/3 DaoT of your voted yesterday + 20 a day.'
   }
 }
