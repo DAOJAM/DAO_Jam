@@ -218,7 +218,7 @@
 
         <TokenJoinFandom
           :token-symbol="minetokenToken.symbol || ''"
-          :daos-id="Number($route.params.id)"
+          :token-id="Number($route.params.id)"
           :balance="balance"
         />
 

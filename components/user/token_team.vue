@@ -154,7 +154,8 @@ export default {
   methods: {
     // 获取所有队员
     async teamMember(note = '') {
-      if (this.tokenId === -1) return
+      console.log('11', this.tokenId)
+      if (!(~this.tokenId)) return
       let params = {}
       if (note) params = { 
         note: note
