@@ -36,7 +36,7 @@ export default {
         },
         {
           name: 'stat',
-          label: 'STAT',
+          label: 'LEADERBOARD',
           icon: 'el-icon-s-marketing'
         },
         {
