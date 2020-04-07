@@ -1,5 +1,5 @@
 <template>
-  <div class="header-bg">
+  <div>
     <header class="header">
       <div class="header-content">
         <a
@@ -350,9 +350,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.header-bg {
-  height: 60px;
-}
 .header {
   width: 100%;
   height: 60px;
