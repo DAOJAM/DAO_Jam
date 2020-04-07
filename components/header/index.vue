@@ -290,6 +290,7 @@ export default {
         // 重置all store
         this.resetAllStore()
           .then(() => {
+            window.walletConnection.signOut()
             removeCookie('ACCESS_TOKEN')
             removeCookie('idProvider')
             removeCookie('referral')
