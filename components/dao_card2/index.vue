@@ -49,17 +49,17 @@
                 </div>
                 <div class="dao__info__number__block">
                   <svg-icon
-                    icon-class="daos"
-                    class="icon"
-                  />
-                  {{ card.daot || 0 }}
-                </div>
-                <div class="dao__info__number__block">
-                  <svg-icon
                     icon-class="tickets"
                     class="icon"
                   />
                   {{ card.weight || 0 }}
+                </div>
+                <div class="dao__info__number__block">
+                  <svg-icon
+                    icon-class="daot"
+                    class="icon"
+                  />
+                  {{ card.daot || 0 }}
                 </div>
               </div>
             </div>
@@ -74,17 +74,17 @@
             </div>
             <div class="dao__info__number__block">
               <svg-icon
-                icon-class="daos"
-                class="icon"
-              />
-              {{ formatDecimal(card.liquidity, card.decimals, -1) }}
-            </div>
-            <div class="dao__info__number__block">
-              <svg-icon
                 icon-class="tickets"
                 class="icon"
               />
               {{ totalSupply(card.total_supply, card.decimals, -1) }}
+            </div>
+            <div class="dao__info__number__block">
+              <svg-icon
+                icon-class="daot"
+                class="icon"
+              />
+              {{ formatDecimal(card.liquidity, card.decimals, -1) }}
             </div>
           </div>
           <div class="dao-block__brief">
@@ -253,7 +253,7 @@ export default {
     text-overflow: ellipsis;
   }
   .icon {
-    font-size: 20px;
+    font-size: 22px;
   }
 }
 

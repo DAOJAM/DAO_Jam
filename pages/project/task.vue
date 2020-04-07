@@ -73,7 +73,7 @@ export default {
         if (res.code === 0) {
           this.tokenId = res.data.token.id
           this.task()
-          this.taskTeam()
+          this.taskTeam(res.data.token.id)
         } else {
           this.$router.push({name: 'article'})
         }
@@ -108,8 +108,8 @@ export default {
         })
     },
     // 团队列表
-    async taskTeam() {
-      this.$API.taskTeam()
+    async taskTeam(tokenId) {
+      this.$API.taskTeam(tokenId)
         .then(res => {
           if (res.code === 0) {
             res.data.map(item => {
