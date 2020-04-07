@@ -14,7 +14,7 @@
               class="meter-tag-icon"
               icon-class="lamination"
             />
-            DAOs: 125
+            Projects: 125
           </div>
           <div class="meter-tag">
             <svg-icon
@@ -85,7 +85,7 @@
         <div class="rank">
           <div class="fl rank-header">
             <h3>
-              DAO Tickets Rank
+              Project Tickets Rank
             </h3>
             <el-radio-group
               v-model="ticketsRankFilter" 
