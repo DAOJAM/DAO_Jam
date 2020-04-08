@@ -84,29 +84,6 @@
 
     <div class="token-list">
       <h2 class="token-title">
-        Contact of SNS
-      </h2>
-      <div class="contact">
-        <div class="social-btn">
-          <socialIcon
-            v-for="(item, index) in resourcesSocialss"
-            :key="index"
-            :show-tooltip="true"
-            :icon="item.type"
-            :content="item.content"
-          />
-          <p
-            v-if="resourcesSocialss.length === 0"
-            class="token-not"
-          >
-            暂无
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="token-list">
-      <h2 class="token-title">
         Join the fanclub of Telegram
       </h2>
       <!-- todo -->
@@ -164,14 +141,8 @@ import achievement1 from '@/assets/img/achievement1.png'
 import achievement2 from '@/assets/img/achievement2.png'
 import achievement3 from '@/assets/img/achievement3.png'
 import achievement4 from '@/assets/img/achievement4.png'
-import socialIcon from '@/components/social_icon/index.vue'
-import socialTypes from '@/config/social_types.js'
-
 
 export default {
-  components: {
-    socialIcon
-  },
   data() {
     return {
       minetokenToken: Object.create(null),
@@ -236,14 +207,9 @@ export default {
         .minetokenGetResources(id)
         .then(res => {
           if (res.code === 0) {
-            const socialFilter = res.data.socials.filter(i =>
-              socialTypes.includes(i.type)
-            ) // 过滤
-            const socialFilterEmpty = socialFilter.filter(i => i.content) // 过滤
-            this.resourcesSocialss = socialFilterEmpty
             this.resourcesWebsites = res.data.websites
           } else {
-            this.$message.success(res.message)
+            console.log(res.message)
           }
         })
         .catch(err => {
