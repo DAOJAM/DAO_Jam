@@ -180,15 +180,12 @@
               </n-link>
             </li>
             <!-- 我的项目 -->
-            <li>
+            <li v-if="token.id">
               <avatar
                 class="project-logo"
                 :src="logoSrc"
               />
-              <n-link
-                v-if="token.id"
-                :to="{name: 'daos-id', params:{ id: token.id }}"
-              >
+              <n-link :to="{name: 'daos-id', params:{ id: token.id }}">
                 {{ token.name }}
               </n-link>
             </li>
