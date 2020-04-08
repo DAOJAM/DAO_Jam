@@ -25,8 +25,12 @@
                 placement="top"
               >
                 <div @click="setBookmark">
+                  <i
+                    v-if="loading"
+                    class="el-icon-loading"
+                  />
                   <svg-icon
-                    v-if="pentagram"
+                    v-else-if="pentagram"
                     icon-class="pentagram_active"
                   />
                   <svg-icon
@@ -439,6 +443,7 @@ export default {
         ],
       },
       resourcesSocialss: [], // 社交联系方式
+      loading: false
     }
   },
   async asyncData({ $axios, route, req }) {
@@ -661,7 +666,9 @@ export default {
     },
     async setBookmark() {
       if(!this.isLogined) return this.$store.commit('setLoginModal', true)
+      if(this.loading) return
       try {
+        this.loading = true
         if (!this.pentagram) {
           const res = await this.$API.addTokenBookmark(this.$route.params.id)
           if (res.code === 0) {
@@ -684,6 +691,7 @@ export default {
           this.$store.commit('setLoginModal', true)
         }
       }
+      this.loading = false
     },
     changeVote(value) {
       if (!value) {
@@ -1066,6 +1074,7 @@ export default {
   margin-left: 10px;
   cursor: pointer;
   user-select: none;
+  color: #fce812;
 }
 
 .dao-icon {

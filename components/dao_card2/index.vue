@@ -25,8 +25,12 @@
                 >
                   <a href="javascript:;">
                     <span @click="setBookmark">
+                      <i
+                        v-if="loading"
+                        class="el-icon-loading icon-pentagram"
+                      />
                       <svg-icon
-                        v-if="card.pentagram"
+                        v-else-if="card.pentagram"
                         class="icon-pentagram"
                         icon-class="pentagram_active"
                       />
@@ -111,6 +115,11 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      loading: false
+    }
+  },
   computed: {
     ...mapGetters(['isLogined'])
   },
@@ -132,7 +141,9 @@ export default {
     },
     async setBookmark() {
       if(!this.isLogined) return this.$store.commit('setLoginModal', true)
+      if(this.loading) return
       try {
+        this.loading = true
         if (!this.card.pentagram) {
           const res = await this.$API.addTokenBookmark(this.card.id)
           if (res.code === 0) {
@@ -157,6 +168,7 @@ export default {
           this.$store.commit('setLoginModal', true)
         }
       }
+      this.loading = false
     }
   }
 }
@@ -303,6 +315,7 @@ export default {
 
 .icon-pentagram {
   margin-left: 10px;
+  color: #fce812;
 }
 
 
