@@ -590,7 +590,7 @@ export default {
         callback: async action => {
           if (action === 'confirm' && this.isLogined) {
             const loading = this.$loading({
-              text: '投票中'
+              text: 'Voting'
             })
             // const web3 = window.web3
             // const QVVoting = qv.contractInstance()
@@ -608,17 +608,24 @@ export default {
               console.log('vote', res)
               loading.close()
               this.$notify.success({
-                title: '成功',
-                message: '投票成功'
+                title: 'Hooray~',
+                message: 'You just vote for this project!'
               })
               window.location.reload()
             } catch (error) {
-              console.log(error)
+              console.error(error)
               loading.close()
-              this.$notify.error({
-                title: '失败',
-                message: '投票失败'
-              })
+              if (error.type === 'ActionError::FunctionCallError') {
+                this.$notify.error({
+                  title: 'Error happened in the transaction',
+                  message: error.message
+                })
+              } else {
+                this.$notify.error({
+                  title: 'Error happened - ' + error.type,
+                  message: error.message
+                })
+              }
             }
           }
         }
