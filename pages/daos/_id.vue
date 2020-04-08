@@ -43,7 +43,7 @@
                   :src="userAvatar"
                   class="user-avatar"
                 />
-                <span>{{ pj.owner }}</span>
+                <span>{{ minetokenUser.nickname || minetokenUser.username || pj.owner }}</span>
               </router-link>
             </div>
             <p>Creation Time: 2020.3.24</p>
@@ -77,25 +77,47 @@
         </div>
         <div class="head-info">
           <div>
-            <svg-icon
-              icon-class="dao_join"
-              class="dao-icon join"
-              @click="teamApply"
-            />
-            <!-- v-if="showTokenSetting" -->
-            <router-link
-              :to="{ name: 'editminetoken' }"
+            <el-tooltip
+              class="pentagram"
+              effect="dark"
+              content="Join Team"
+              placement="top"
             >
               <svg-icon
-                icon-class="dao_setting"
-                class="dao-icon setting"
+                icon-class="dao_join"
+                class="dao-icon join"
+                @click="teamApply"
               />
-            </router-link>
-            <svg-icon
-              icon-class="dao_share"
-              class="dao-icon share"
-              @click="shareModalShow = true"
-            />
+            </el-tooltip>
+            <!-- v-if="showTokenSetting" -->
+            <el-tooltip
+              class="pentagram"
+              effect="dark"
+              content="Setting"
+              placement="top"
+            >
+              <router-link
+                :to="{ name: 'editminetoken' }"
+              >
+                <svg-icon
+                  icon-class="dao_setting"
+                  class="dao-icon setting"
+                />
+              </router-link>
+            </el-tooltip>
+
+            <el-tooltip
+              class="pentagram"
+              effect="dark"
+              content="Share"
+              placement="top"
+            >
+              <svg-icon
+                icon-class="dao_share"
+                class="dao-icon share"
+                @click="shareModalShow = true"
+              />
+            </el-tooltip>
           </div>
           <div class="dao-data__content">
             <div class="dao-data">
@@ -213,37 +235,15 @@
             </el-tooltip>
           </a>
           
-          <div class="dao-link__line" />
-          <div class="dao-link__block">
-            <svg-icon
-              icon-class="github"
-              class="icon"
-            />
-          </div>
-          <div class="dao-link__block">
-            <svg-icon
-              icon-class="github"
-              class="icon"
-            />
-          </div>
-          <div class="dao-link__block">
-            <svg-icon
-              icon-class="github"
-              class="icon"
-            />
-          </div>
-          <div class="dao-link__block">
-            <svg-icon
-              icon-class="github"
-              class="icon"
-            />
-          </div>
-          <div class="dao-link__block">
-            <svg-icon
-              icon-class="github"
-              class="icon"
-            />
-          </div>
+          <div v-if="resourcesSocialss.length !== 0" class="dao-link__line" />
+          <socialIconDao
+            v-for="(item, index) in resourcesSocialss"
+            :key="index"
+            class="dao-link-social"
+            :show-tooltip="true"
+            :icon="item.type"
+            :content="item.content"
+          />
         </div>
         <div class="dao-vote">
           <div class="vote-container">
@@ -379,12 +379,15 @@ import { precision } from '@/utils/precisionConversion'
 import Share from '@/components/token/token_share.vue'
 import tokenBuyCard from '@/components/token/token_buy_card.vue'
 // import qv from '@/api/voting/qvvoting.js'
+import socialTypes from '@/config/social_types'
+import socialIconDao from '@/components/social_icon_dao'
 
 export default {
   components: {
     avatar,
     Share,
     tokenBuyCard,
+    socialIconDao
   },
   head() {
     return {
@@ -434,8 +437,52 @@ export default {
           { required: true, message: '请输入申请理由', trigger: 'blur' },
           { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
         ],
-      }
+      },
+      resourcesSocialss: [], // 社交联系方式
     }
+  },
+  async asyncData({ $axios, route, req }) {
+    // 获取cookie token
+    let accessToekn = ''
+    // 请检查您是否在服务器端
+    if (process.server) {
+      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
+      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
+      accessToekn = token ? token[0] : ''
+    }
+    let projectResult = {}
+    try {
+      projectResult = await $axios({
+        url: `/daojam/project/${route.params.id}`,
+        methods: 'get',
+        headers: { 'x-access-token': accessToekn }
+      })
+    } catch (e) {
+      console.log(e)
+    }
+
+    let minetokenResult = {}
+    try {
+      minetokenResult = await $axios({
+        url: `/minetoken/${route.params.id}`,
+        methods: 'get',
+        headers: { 'x-access-token': accessToekn }
+      })
+    } catch (e) {
+      console.log(e)
+    }
+
+    let result = {}
+    if (projectResult.code === 0) {
+      result.pj = projectResult.data || Object.create(null)
+    }
+    if (minetokenResult.code === 0) {
+      result.minetokenToken = minetokenResult.data.token || Object.create(null),
+      result.minetokenUser= minetokenResult.data.user || Object.create(null),
+      result.minetokenExchange= minetokenResult.data.exchange || Object.create(null)
+    }
+
+    return result
   },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined']),
@@ -496,37 +543,14 @@ export default {
       }
     }
   },
-  async asyncData({ $axios, route, req }) {
-    // 获取cookie token
-    let accessToekn = ''
-    // 请检查您是否在服务器端
-    if (process.server) {
-      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
-      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
-      accessToekn = token ? token[0] : ''
-    }
-    const res = await $axios({
-      url: `/daojam/project/${route.params.id}`,
-      methods: 'get',
-      headers: { 'x-access-token': accessToekn }
-    })
-    console.log('--------------------------')
-    console.log(res)
-    if (res.code === 0) {
-      return {
-        pj: res.data || Object.create(null),
-        minetokenToken: res.data || Object.create(null),
-        minetokenUser: res.data.user || Object.create(null),
-        minetokenExchange: res.data.exchange || Object.create(null)
-      }
-    } else {
-      console.error(res.message)
-    }
-  },
   mounted() {
     this.balanceOfDaot()
     if (process.browser) {
-      if (this.currentUserInfo.id) this.tokenUserId(this.currentUserInfo.id)
+      this.minetokenGetResources(this.$route.params.id)
+
+      if (this.currentUserInfo.id) {
+        this.tokenUserId(this.currentUserInfo.id)
+      }
       if (this.isLogined) {
         this.getBookmarkStatus()
         this.getUserBalance()
@@ -716,6 +740,25 @@ export default {
           return false
         }
       })
+    },
+    // 得到token的相关资源
+    async minetokenGetResources(id) {
+      await this.$API
+        .minetokenGetResources(id)
+        .then(res => {
+          if (res.code === 0) {
+            const socialFilter = res.data.socials.filter(i =>
+              socialTypes.includes(i.type)
+            ) // 过滤
+            const socialFilterEmpty = socialFilter.filter(i => i.content) // 过滤
+            this.resourcesSocialss = socialFilterEmpty
+          } else {
+            console.log(res.message)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
   }
 }
@@ -1094,6 +1137,9 @@ export default {
     background-color: #979797;
     margin-right: 20px;
   }
+}
+.dao-link-social {
+  margin-right: 20px;
 }
 .dao-link-vote {
   margin-top: 20px;
