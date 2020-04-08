@@ -93,6 +93,7 @@
               slot="dropdown"
               class="user-dorpdown"
             >
+              <!-- 个人主页 -->
               <n-link
                 :to="{name: 'user-id', params:{id: currentUserInfo.id}}"
                 class="link"
@@ -101,6 +102,25 @@
                   {{ currentUserInfo.nickname || currentUserInfo.name }}
                 </el-dropdown-item>
               </n-link>
+
+              <el-divider class="divider" />
+
+              <!-- 我的项目 -->
+              <n-link
+                v-if="token.id"
+                :to="{name: 'daos-id', params:{ id: token.id }}"
+                class="link"
+              >
+                <el-dropdown-item>
+                  <avatar
+                    class="project-logo"
+                    :src="logoSrc"
+                  />
+                  {{ token.name }}
+                </el-dropdown-item>
+              </n-link>
+
+              <!-- 设置 -->
               <n-link
                 :to="{name: 'setting', params:{id: currentUserInfo.id}}"
                 class="link"
@@ -113,6 +133,8 @@
                   Setting
                 </el-dropdown-item>
               </n-link>
+
+              <!-- 退出登录 -->
               <div
                 class="link"
                 @click="signOut"
@@ -155,6 +177,19 @@
               />
               <n-link :to="{name: 'user-id', params:{id: currentUserInfo.id}}">
                 我的主页
+              </n-link>
+            </li>
+            <!-- 我的项目 -->
+            <li>
+              <avatar
+                class="project-logo"
+                :src="logoSrc"
+              />
+              <n-link
+                v-if="token.id"
+                :to="{name: 'daos-id', params:{ id: token.id }}"
+              >
+                {{ token.name }}
               </n-link>
             </li>
             <li>
@@ -209,7 +244,12 @@ export default {
         'daos',
         'stat',
         'tasks',
-      ]
+      ],
+      token: {
+        id: null,
+        name: null,
+        logo: null
+      }
     }
   },
   computed: {
@@ -218,16 +258,25 @@ export default {
 
     isLevelOnePage() {
       return  this.levelOnePage.includes(this.$route.name)
+    },
+    logoSrc() {
+      return this.token.logo ? this.$ossProcess(this.token.logo) : ''
     }
   },
   watch: {
     isLogined(newState) {
-      if (newState) this.refreshUser()
+      if (newState) {
+        this.refreshUser()
+        this.tokenDetail()
+      }
     },
   },
   created() {
-    const { isLogined, refreshUser } = this
-    if (isLogined) refreshUser()
+    const { isLogined, refreshUser, tokenDetail } = this
+    if (isLogined) {
+      refreshUser()
+      tokenDetail()
+    }
     if (process.browser) {
       this.$nextTick(() => {
         this.setHeader()
@@ -261,6 +310,16 @@ export default {
       if (avatar) this.avatarSrc = this.$ossProcess(avatar, { h: 60 })
       this.getNotificationCounters()
       this.checkIsVerified()
+    },
+    // 获取用户创建的项目
+    tokenDetail() {
+      this.$API.tokenDetail().then(res => {
+        if (res.code === 0) {
+          if(res.data.token) this.token = res.data.token
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     // 显示侧边栏
     showSidebar () {
@@ -583,6 +642,20 @@ export default {
 .daos-margin {
   margin: 0 40px 0 0;
 }
+.project-logo {
+  width: 23px;
+  height: 23px;
+  border-radius: 8px;
+  margin-right: 5px;
+  margin-left: -7px;
+}
+
+.divider {
+  margin: 5px auto 10px;
+  width: 80%;
+  background-color: #979797;
+}
+
 @media screen and (max-width: 830px) {  
   .header-bg {
     height: 50px;

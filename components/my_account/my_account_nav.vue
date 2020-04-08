@@ -65,7 +65,8 @@ export default {
         { title: this.$t('user.applycoins'), url: 'tokens-apply' },
         { title: this.$t('user.projectProgress'), url: '' },
       ],
-      hold:  Boolean(this.$route.query.hold) || false
+      // 0：未知 / 1：无项目 / 2：有项目
+      hold:  Number(this.$route.query.hold) || 0
     }
   },
   computed: {
@@ -78,25 +79,27 @@ export default {
   mounted() {
   },
   methods: {
+    // 项目菜单中是显示“新建项目”还是“项目信息”
     tokenDetail() {
-      const i = this.projectTagsList.findIndex(tag => tag.url === 'tokens-apply')
-      if(this.hold) {
-        this.projectTagsList[i].title = this.$t('user.editcoins')
-        this.projectTagsList[i].url = 'editminetoken'
-        this.holdLoading = false
+      const tokenTag = this.projectTagsList.findIndex(tag => tag.url === 'tokens-apply')
+      // 根据之前缓存的状态直接显示
+      if(this.hold == 2) {
+        this.projectTagsList[tokenTag].title = this.$t('user.editcoins')
+        this.projectTagsList[tokenTag].url = 'editminetoken'
       }
+      if(this.hold) this.holdLoading = false
+      // 获取用户是否有项目
       this.$API.tokenDetail().then(res => {
         if (res.code === 0) {
           this.holdLoading = false
           if (res.data.token) {
-            // const i = this.projectTagsList.findIndex(tag => tag.url === 'editminetoken')
-            if (i !== -1) {
-              this.projectTagsList[i].title = this.$t('user.editcoins')
-              this.projectTagsList[i].url = 'editminetoken'
-              this.hold = true
+            if (tokenTag !== -1) {
+              this.projectTagsList[tokenTag].title = this.$t('user.editcoins')
+              this.projectTagsList[tokenTag].url = 'editminetoken'
+              this.hold = 2
             }
           }
-          else this.hold = false
+          else this.hold = 1
         } else {
           this.$message.error(res.message)
         }
