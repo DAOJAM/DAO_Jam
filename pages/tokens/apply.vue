@@ -64,6 +64,9 @@ export default {
       },
     }
   },
+  created() {
+    this.areThereAnyProject()
+  },
   methods: {
     // 创建dao
     async createDao() {
@@ -84,7 +87,7 @@ export default {
           title: '成功',
           message: '创建成功'
         })
-        window.location.reload()
+        this.$router.push({ name: 'editminetoken' })
       } catch (error) {
         console.log(error)
         loading.close()
@@ -95,6 +98,15 @@ export default {
       }
       console.log('-----------createProposal end-------------')
     },
+    // 如果已经有项目了，则跳转到编辑页面
+    areThereAnyProject() {
+      this.$API.tokenDetail().then(res => {
+        if (res.code === 0) {
+          this.holdLoading = false
+          if (res.data.token) this.$router.push({ name: 'editminetoken' })
+        } else this.$message.error(res.message)
+      })
+    }
   }
 }
 </script>
