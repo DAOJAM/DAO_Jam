@@ -30,16 +30,16 @@
                 Filter
               </p>
               <el-radio-group v-model="sortRadio">
-                <el-radio-button label="hold">
+                <el-radio-button label="all">
                   All
                 </el-radio-button>
                 <el-radio-button
                   :disabled="!isLogined"
-                  label="bookmark"
+                  label="hold"
                 >
                   Star
                 </el-radio-button>
-                <el-radio-button label="hold">
+                <el-radio-button label="bookmark">
                   Support
                 </el-radio-button>
               </el-radio-group>
