@@ -271,12 +271,19 @@ export default {
         })
         window.location.reload()
       } catch (error) {
-        console.log(error)
+        console.error(error)
         loading.close()
-        this.$notify.error({
-          title: '失败',
-          message: '创建失败'
-        })
+        if (error.type === 'ActionError::FunctionCallError') {
+          this.$notify.error({
+            title: 'Error happened in the transaction',
+            message: error.message
+          })
+        } else {
+          this.$notify.error({
+            title: 'Error happened - ' + error.type,
+            message: error.message
+          })
+        }
       }
       console.log('-----------createProposal end-------------')
     },
