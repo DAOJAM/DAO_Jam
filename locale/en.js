@@ -609,7 +609,7 @@ export default {
     buycoins: 'Items I voted for',
     selfcoins: 'Fan tickets issued',
     fanWallet: 'My Vote',
-    editcoins: 'DAO Information',
+    editcoins: 'Project Information',
     applycoins: 'Apply project',
     issuecoins: 'issue Fan tickets',
     editProfile: 'edit profile',

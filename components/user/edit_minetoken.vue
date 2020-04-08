@@ -531,6 +531,7 @@ export default {
               this.minetokenGetResources(token.id)
             }
           }
+          else this.$router.push({ name: 'tokens-apply' })
         } else {
           this.$message.error(res.message)
         }

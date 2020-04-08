@@ -35,11 +35,11 @@
                 </el-radio-button>
                 <el-radio-button
                   :disabled="!isLogined"
-                  label="hold"
+                  label="bookmark"
                 >
                   Star
                 </el-radio-button>
-                <el-radio-button label="bookmark">
+                <el-radio-button label="hold">
                   Support
                 </el-radio-button>
               </el-radio-group>
@@ -269,7 +269,7 @@ export default {
           title: '成功',
           message: '创建成功'
         })
-        window.location.reload()
+        this.$router.push({ name: 'editminetoken' })
       } catch (error) {
         console.error(error)
         loading.close()
