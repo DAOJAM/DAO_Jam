@@ -59,11 +59,12 @@
               content="通知中心"
               placement="bottom"
             >
-              <svg-icon
-                :class="{ badge: hasNewNotification }"
-                class="icon"
-                icon-class="bell"
-              />
+              <n-link :class="{ badge: hasNewNotification }" to="/notification">
+                <svg-icon
+                  class="icon"
+                  icon-class="bell"
+                />
+              </n-link>
             </el-tooltip>
           </div>
           <!-- <div
@@ -239,7 +240,8 @@ export default {
     window.removeEventListener('scroll', this.scrollEvent)
   },
   methods: {
-    ...mapActions(['getCurrentUser', 'resetAllStore']),
+    ...mapActions(['getCurrentUser', 'resetAllStore', ]),
+    ...mapActions('notification', ['getNotificationCounters']),
     setHeader() {
       try {
         let domHeader = document.querySelector('.header')
@@ -257,6 +259,7 @@ export default {
     async refreshUser() {
       const { avatar } = await this.getCurrentUser()
       if (avatar) this.avatarSrc = this.$ossProcess(avatar, { h: 60 })
+      this.getNotificationCounters()
       this.checkIsVerified()
     },
     // 显示侧边栏
