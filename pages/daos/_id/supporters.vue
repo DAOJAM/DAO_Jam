@@ -61,6 +61,9 @@
               <div class="table-head-th" style="flex: 0 0 140px">
                 Vote Amount
               </div>
+              <div class="table-head-th" style="flex: 0 0 140px">
+                
+              </div>
             </div>
             <div class="table-body">
               <div v-for="(item, index) in pullVotes.list" :key="index" class="table-body-tr">
@@ -75,6 +78,14 @@
                 </div>
                 <div class="table-body-td" style="flex: 0 0 140px">
                   {{ '+' + item.weight }}
+                </div>
+                <div class="table-body-td" style="flex: 0 0 140px">
+                  <a 
+                    class="near-trx-box" 
+                    :href="'https://explorer.nearprotocol.com/transactions/' + item.trx"
+                    target="_blank">
+                    <svg-icon icon-class="near_logo" class="near-logo" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -191,7 +202,7 @@ export default {
   },
   mounted() {
     this.chartsVote(this.$route.params.id)
-    this.getVotingLog()
+    // this.getVotingLog()
   },
   methods: {
     async getVotingLog() {
@@ -282,6 +293,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.near-trx-box {
+  .near-logo {
+    width: 80px;
+    height: 40px;
+    font-size: 10px;
+  }
+}
 .table-4 {
   width: 35%;
   float: left;
