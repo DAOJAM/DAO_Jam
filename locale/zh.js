@@ -619,7 +619,8 @@ export default {
     myBookmark: '我的收藏',
     mission: '任务选择',
     projectProgress: '开发动态',
-    message: '私信'
+    message: '私信',
+    goToDetails: '前往详情页'
   },
   withdraw: {
     title: '提现',

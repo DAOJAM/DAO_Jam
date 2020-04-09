@@ -619,7 +619,8 @@ export default {
     myBookmark: 'myBookmark',
     mission: 'Mission Selection',
     projectProgress: 'Project Progress',
-    message: 'message'
+    message: 'message',
+    goToDetails: 'Go to details page'
   },
   withdraw: {
     title: 'withdraw',
