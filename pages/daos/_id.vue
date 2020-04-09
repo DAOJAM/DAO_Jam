@@ -25,8 +25,12 @@
                 placement="top"
               >
                 <div @click="setBookmark">
+                  <i
+                    v-if="loading"
+                    class="el-icon-loading"
+                  />
                   <svg-icon
-                    v-if="pentagram"
+                    v-else-if="pentagram"
                     icon-class="pentagram_active"
                   />
                   <svg-icon
@@ -439,6 +443,7 @@ export default {
         ],
       },
       resourcesSocialss: [], // 社交联系方式
+      loading: false
     }
   },
   async asyncData({ $axios, route, req }) {
@@ -585,7 +590,7 @@ export default {
         callback: async action => {
           if (action === 'confirm' && this.isLogined) {
             const loading = this.$loading({
-              text: '投票中'
+              text: 'Voting'
             })
             // const web3 = window.web3
             // const QVVoting = qv.contractInstance()
@@ -603,17 +608,24 @@ export default {
               console.log('vote', res)
               loading.close()
               this.$notify.success({
-                title: '成功',
-                message: '投票成功'
+                title: 'Hooray~',
+                message: 'You just vote for this project!'
               })
               window.location.reload()
             } catch (error) {
-              console.log(error)
+              console.error(error)
               loading.close()
-              this.$notify.error({
-                title: '失败',
-                message: '投票失败'
-              })
+              if (error.type === 'ActionError::FunctionCallError') {
+                this.$notify.error({
+                  title: 'Error happened in the transaction',
+                  message: error.message
+                })
+              } else {
+                this.$notify.error({
+                  title: 'Error happened - ' + error.type,
+                  message: error.message
+                })
+              }
             }
           }
         }
@@ -661,7 +673,9 @@ export default {
     },
     async setBookmark() {
       if(!this.isLogined) return this.$store.commit('setLoginModal', true)
+      if(this.loading) return
       try {
+        this.loading = true
         if (!this.pentagram) {
           const res = await this.$API.addTokenBookmark(this.$route.params.id)
           if (res.code === 0) {
@@ -684,6 +698,7 @@ export default {
           this.$store.commit('setLoginModal', true)
         }
       }
+      this.loading = false
     },
     changeVote(value) {
       if (!value) {
@@ -1067,6 +1082,7 @@ export default {
   margin-left: 10px;
   cursor: pointer;
   user-select: none;
+  color: #fce812;
 }
 
 .dao-icon {

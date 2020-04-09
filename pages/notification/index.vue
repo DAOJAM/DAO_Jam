@@ -10,7 +10,7 @@
               :key="index"
               :class="{ active: $route.name === nav.route }"
             >
-              <router-link :to="{name: nav.route}">
+              <router-link :class="{badge: newNotificationsMap[nav.text]}" :to="{name: nav.route}">
                 <svg-icon
                   :icon-class="nav.icon"
                   class="icon"
@@ -44,6 +44,21 @@ export default {
   },
   computed: {
     ...mapState('notification', ['notificationCounters']),
+    newNotificationsMap() {
+      // Number() is becuz cached data is string, not number
+      const isNew = (num) => Boolean(Number(num))
+      const Follower = isNew(this.notificationCounters.follow)
+      const Application = isNew(this.notificationCounters.teamApplyRequest)
+      const Invitation = isNew(this.notificationCounters.teamInviteRequest)
+      // @todo, no actual Achievement, so no real Achievement notify
+      const Achievement = Boolean(false)
+      return {
+        Follower,
+        Application,
+        Invitation,
+        Achievement
+      }
+    }
   },
   created() {
     this.getNotificationCounters()
@@ -56,3 +71,20 @@ export default {
 }
 </script>
 <style lang="less" scoped src="./index.less"></style>
+<style lang="less" scoped>
+.badge{
+      position: relative;
+      &::after{
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
+        background: rgba(251,104,119,1);
+        position: absolute;
+        z-index: 1000;
+        right: 0%;
+        margin-right: -3px;
+        margin-top: -3px;
+      }
+}
+</style>

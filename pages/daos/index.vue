@@ -30,7 +30,7 @@
                 Filter
               </p>
               <el-radio-group v-model="sortRadio">
-                <el-radio-button label="hold">
+                <el-radio-button label="all">
                   All
                 </el-radio-button>
                 <el-radio-button
@@ -269,14 +269,21 @@ export default {
           title: '成功',
           message: '创建成功'
         })
-        window.location.reload()
+        this.$router.push({ name: 'editminetoken' })
       } catch (error) {
-        console.log(error)
+        console.error(error)
         loading.close()
-        this.$notify.error({
-          title: '失败',
-          message: '创建失败'
-        })
+        if (error.type === 'ActionError::FunctionCallError') {
+          this.$notify.error({
+            title: 'Error happened in the transaction',
+            message: error.message
+          })
+        } else {
+          this.$notify.error({
+            title: 'Error happened - ' + error.type,
+            message: error.message
+          })
+        }
       }
       console.log('-----------createProposal end-------------')
     },

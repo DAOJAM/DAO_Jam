@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="fl ac jsb">
-      <div class="fl ac">
+      <div class="fl ac clickable" @click="jumpToUserPage">
         <c-avatar :src="teamMemberAvatar(card.avatar)" />
         <div class="card-user">
           <p>{{ card.nickname || card.username }}</p>
@@ -70,6 +70,9 @@ export default {
     },
     deny() {
       this.$emit('deny', this.index)
+    },
+    jumpToUserPage() {
+      this.$router.push(`/user/${this.card.uid}`)
     }
   }
 }
@@ -123,5 +126,8 @@ export default {
   font-size: 16px;
   color: #fff;
   line-height: 22px;
+}
+.clickable {
+  cursor: pointer;
 }
 </style>

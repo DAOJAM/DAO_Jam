@@ -10,23 +10,28 @@
       <router-link
         v-for="(tag, index) in tagsList"
         :key="index"
-        :to="{ name: tag.url }"
+        :to="{ name: tag.url, query: { hold } }"
         :class="$route.name === tag.url && 'active'"
       >
         {{ tag.title }}
       </router-link>
     </div>
-    <div class="info">
+    <div
+      v-loading="holdLoading"
+      element-loading-background="#132D5E"
+      class="info"
+    >
       <h3>
         <svg-icon
           icon-class="project_team"
         />
         PROJECT SETTING
       </h3>
+
       <router-link
         v-for="(tag, index) in projectTagsList"
         :key="index"
-        :to="{ name: tag.url }"
+        :to="{ name: tag.url, query: { hold } }"
         :class="$route.name === tag.url && 'active'"
       >
         {{ tag.title }}
@@ -44,6 +49,7 @@ export default {
   },
   data() {
     return {
+      holdLoading: true,
       tagsList: [
         { title: this.$t('user.userInformation'), url: 'setting' },
         { title: this.$t('user.accountSetting'), url: 'setting-account' },
@@ -59,7 +65,8 @@ export default {
         { title: this.$t('user.applycoins'), url: 'tokens-apply' },
         { title: this.$t('user.projectProgress'), url: '' },
       ],
-      tokens: false
+      // 0：未知 / 1：无项目 / 2：有项目
+      hold:  Number(this.$route.query.hold) || 0
     }
   },
   computed: {
@@ -67,40 +74,40 @@ export default {
   watch: {
   },
   created() {
-    this.whichButtonToShow()
+    this.tokenDetail()
   },
   mounted() {
   },
   methods: {
-    async whichButtonToShow() {
-      await this.getMyUserData()
-      const i = this.projectTagsList.findIndex(tag => tag.url === 'tokens-apply')
-      if (i !== -1 && this.tokens) {
-        this.projectTagsList[i].title = this.$t('user.editcoins')
-        this.projectTagsList[i].url = 'editminetoken'
-        this.tokenDetail()
+    // 项目菜单中是显示“新建项目”还是“项目信息”
+    tokenDetail() {
+      const tokenTag = this.projectTagsList.findIndex(tag => tag.url === 'tokens-apply')
+      // 根据之前缓存的状态直接显示
+      if(this.hold == 2) {
+        this.projectTagsList[tokenTag].title = this.$t('user.editcoins')
+        this.projectTagsList[tokenTag].url = 'editminetoken'
       }
-    },
-    async tokenDetail() {
-      await this.$API.tokenDetail().then(res => {
+      if(this.hold) this.holdLoading = false
+      // 获取用户是否有项目
+      this.$API.tokenDetail().then(res => {
         if (res.code === 0) {
-          if (!res.data.token) {
-            const i = this.projectTagsList.findIndex(tag => tag.url === 'editminetoken')
-            if (i !== -1) {
-              this.projectTagsList[i].url = 'postminetoken'
+          this.holdLoading = false
+          if (res.data.token) {
+            if (tokenTag !== -1) {
+              this.projectTagsList[tokenTag].title = this.$t('user.editcoins')
+              this.projectTagsList[tokenTag].url = 'editminetoken'
+              this.hold = 2
             }
           }
+          else this.hold = 1
         } else {
           this.$message.error(res.message)
         }
-      })
-    },
-    async getMyUserData() {
-      await this.$API.getMyUserData().then(res => {
-        const statusToken = (res.data.status & this.$userStatus.hasMineTokenPermission)
-        if (res.code === 0 && statusToken) this.tokens = true
-      }).catch(err => {
-        console.log(err)
+        const query = { ...this.$route.query }
+        query.hold = this.hold
+        this.$router.push({
+          query
+        })
       })
     }
   }
