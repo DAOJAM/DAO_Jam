@@ -165,7 +165,7 @@ export default {
 
 <style lang="less" scoped>
 .user {
-  min-height: calc(100% - (60px + 200px));
+  min-height: calc(100% - 120px);
   background-color: #0e2144;
 }
 
