@@ -31,7 +31,7 @@
           </div>
           <user-pagination
             v-show="!pullSupporters.loading"
-            url-replace="16"
+            :url-replace="$route.params.id"
             :current-page="pullSupporters.currentPage"
             :params="pullSupporters.params"
             :api-url="pullSupporters.apiUrl"
@@ -81,7 +81,7 @@
           </div>
           <user-pagination
             v-show="!pullVotes.loading"
-            url-replace="16"
+            :url-replace="$route.params.id"
             :current-page="pullVotes.currentPage"
             :params="pullVotes.params"
             :api-url="pullVotes.apiUrl"
@@ -185,37 +185,12 @@ export default {
       },
       chartData: {
         columns: ['create_time', 'weight'],
-        rows: [
-          // { '时间': '00:00:00', '投票数': 23, },
-          // { '时间': '01:00:00', '投票数': 23, },
-          // { '时间': '02:00:00', '投票数': 33, },
-          // { '时间': '03:00:00', '投票数': 45, },
-          // { '时间': '04:00:00', '投票数': 44, },
-          // { '时间': '05:00:00', '投票数': 54, },
-          // { '时间': '06:00:00', '投票数': 55, },
-          // { '时间': '07:00:00', '投票数': 77, },
-          // { '时间': '08:00:00', '投票数': 66, },
-          // { '时间': '09:00:00', '投票数': 33, },
-          // { '时间': '10:00:00', '投票数': 44, },
-          // { '时间': '11:00:00', '投票数': 44, },
-          // { '时间': '12:00:00', '投票数': 78, },
-          // { '时间': '13:00:00', '投票数': 32, },
-          // { '时间': '14:00:00', '投票数': 43, },
-          // { '时间': '15:00:00', '投票数': 35, },
-          // { '时间': '16:00:00', '投票数': 64, },
-          // { '时间': '17:00:00', '投票数': 75, },
-          // { '时间': '18:00:00', '投票数': 64, },
-          // { '时间': '19:00:00', '投票数': 13, },
-          // { '时间': '20:00:00', '投票数': 33, },
-          // { '时间': '21:00:00', '投票数': 93, },
-          // { '时间': '22:00:00', '投票数': 23, },
-          // { '时间': '23:00:00', '投票数': 33, },
-        ]
+        rows: []
       }
     }
   },
   mounted() {
-    this.chartsVote(16)
+    this.chartsVote(this.$route.params.id)
   },
   methods: {
     avatar(src) {
