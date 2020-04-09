@@ -1061,21 +1061,44 @@ export default {
       }
     })
   },
-  createProposal(id) {
+  createProposal({
+    id,
+    txHash,
+    blockHash
+  }) {
     return request({
       method: 'POST',
       url: '/daojam/near/createProposal',
       data: {
-        id
+        id,
+        txHash,
+        blockHash
       }
     })
   },
-  voteProposal(id) {
+  getVotingLog({ pid, pageindex = 1, pagesize = 10 }) {
+    return request({
+      method: 'GET',
+      url: '/daojam/near/votinglog',
+      params: {
+        pid,
+        pageindex,
+        pagesize
+      }
+    })
+  },
+  voteProposal({
+    id,
+    txHash,
+    blockHash
+  }) {
     return request({
       method: 'POST',
       url: '/daojam/near/vote',
       data: {
-        id
+        id,
+        txHash,
+        blockHash
       }
     })
   },

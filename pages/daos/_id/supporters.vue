@@ -191,8 +191,19 @@ export default {
   },
   mounted() {
     this.chartsVote(this.$route.params.id)
+    this.getVotingLog()
   },
   methods: {
+    async getVotingLog() {
+      try {
+        const result = await this.$API.getVotingLog({
+          pid: this.pj.pid
+        })
+        console.log(result)
+      } catch (error) {
+        console.log(error)
+      }
+    },
     avatar(src) {
       return src ? this.$ossProcess(src, { h: 90 }) : ''
     },
