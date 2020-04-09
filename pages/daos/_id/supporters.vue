@@ -6,28 +6,29 @@
           Supporters
         </h3>
         <div class="table-content">
-          <div class="table-head">
-            <div class="table-head-th">
-              Username
+          <div>
+            <div class="table-head">
+              <div class="table-head-th">
+                Username
+              </div>
+              <div class="table-head-th" style="flex: 0 0 120px">
+                Vote Amount
+              </div>
             </div>
-            <div class="table-head-th" style="flex: 0 0 120px">
-              Vote Amount
-            </div>
-          </div>
-          <div class="table-body">
-            <div v-for="(item, index) in pullSupporters.list" :key="index" class="table-body-tr">
-              <div class="table-body-td">
-                <div class="fl ac">
-                  <c-avatar :src="avatar(item.avatar)" />
-                  <span class="username">{{ item.nickname || item.username }}</span>
+            <div class="table-body">
+              <div v-for="(item, index) in pullSupporters.list" :key="index" class="table-body-tr">
+                <div class="table-body-td">
+                  <router-link class="fl ac" :to="{name: 'user-id', params: { id: item.uid }}">
+                    <c-avatar :src="avatar(item.avatar)" />
+                    <span class="username">{{ item.nickname || item.username }}</span>
+                  </router-link>
+                </div>
+                <div class="table-body-td" style="flex: 0 0 120px">
+                  {{ '+' + item.weight }}
                 </div>
               </div>
-              <div class="table-body-td" style="flex: 0 0 120px">
-                {{ '+' + item.weight }}
-              </div>
             </div>
           </div>
-
           <user-pagination
             v-show="!pullSupporters.loading"
             url-replace="16"
@@ -49,30 +50,32 @@
           Supporters
         </h3>
         <div class="table-content">
-          <div class="table-head">
-            <div class="table-head-th">
-              Username
+          <div>
+            <div class="table-head">
+              <div class="table-head-th">
+                Username
+              </div>
+              <div class="table-head-th">
+                Vote Time
+              </div>
+              <div class="table-head-th" style="flex: 0 0 140px">
+                Vote Amount
+              </div>
             </div>
-            <div class="table-head-th">
-              Vote Time
-            </div>
-            <div class="table-head-th" style="flex: 0 0 140px">
-              Vote Amount
-            </div>
-          </div>
-          <div class="table-body">
-            <div v-for="(item, index) in pullVotes.list" :key="index" class="table-body-tr">
-              <div class="table-body-td">
-                <div class="fl ac">
-                  <c-avatar :src="avatar(item.avatar)" />
-                  <span class="username">{{ item.nickname || item.username }}</span>
+            <div class="table-body">
+              <div v-for="(item, index) in pullVotes.list" :key="index" class="table-body-tr">
+                <div class="table-body-td">
+                  <router-link class="fl ac" :to="{name: 'user-id', params: { id: item.uid }}">
+                    <c-avatar :src="avatar(item.avatar)" />
+                    <span class="username">{{ item.nickname || item.username }}</span>
+                  </router-link>
                 </div>
-              </div>
-              <div class="table-body-td">
-                {{ time(item.create_time) }}
-              </div>
-              <div class="table-body-td" style="flex: 0 0 140px">
-                {{ '+' + item.weight }}
+                <div class="table-body-td">
+                  {{ time(item.create_time) }}
+                </div>
+                <div class="table-body-td" style="flex: 0 0 140px">
+                  {{ '+' + item.weight }}
+                </div>
               </div>
             </div>
           </div>
@@ -97,12 +100,22 @@
       <h3 class="supporter-title">
         chart
       </h3>
-      <el-radio-group v-model="chartsRadio" size="small" class="chart-toggle">
-        <el-radio-button label="一天" />
-        <el-radio-button label="一周" />
+      <el-radio-group
+        v-model="chartsRadio"
+        size="small"
+        class="chart-toggle"
+        @change="changeCharts"
+      >
+        <el-radio-button label="day">
+          一天
+        </el-radio-button>
+        <el-radio-button label="week">
+          一周
+        </el-radio-button>
       </el-radio-group>
       <div class="chart-content">
         <ve-line
+          :loading="loading"
           :data="chartData"
           :settings="chartSettings"
           :colors="lineColor"
@@ -124,7 +137,11 @@ export default {
   },
   data () {
     this.chartSettings = {
-      area: true
+      area: true,
+      labelMap: {
+        create_time: '访问用户',
+        weight: '投票数'
+      }
     }
     return {
       pullSupporters: {
@@ -151,7 +168,12 @@ export default {
         size: 10,
         total: 0,
       },
-      chartsRadio: '一天',
+      // 图表
+      loading: false,
+      chartsRadio: 'day',
+      chartsData: {}, // 源数据
+      chartsDay: [], // 天数据
+      chartsWeek: [], // 周数据
       lineColor: ['#5031D9'],
       textStyle: {
         color: '#fff'
@@ -162,34 +184,38 @@ export default {
         }
       },
       chartData: {
-        columns: ['时间', '投票数'],
+        columns: ['create_time', 'weight'],
         rows: [
-          { '时间': '01:00:00', '投票数': 23, },
-          { '时间': '02:00:00', '投票数': 33, },
-          { '时间': '03:00:00', '投票数': 45, },
-          { '时间': '04:00:00', '投票数': 44, },
-          { '时间': '05:00:00', '投票数': 54, },
-          { '时间': '06:00:00', '投票数': 55, },
-          { '时间': '07:00:00', '投票数': 77, },
-          { '时间': '08:00:00', '投票数': 66, },
-          { '时间': '09:00:00', '投票数': 33, },
-          { '时间': '10:00:00', '投票数': 44, },
-          { '时间': '11:00:00', '投票数': 44, },
-          { '时间': '12:00:00', '投票数': 78, },
-          { '时间': '13:00:00', '投票数': 32, },
-          { '时间': '14:00:00', '投票数': 43, },
-          { '时间': '15:00:00', '投票数': 35, },
-          { '时间': '16:00:00', '投票数': 64, },
-          { '时间': '17:00:00', '投票数': 75, },
-          { '时间': '18:00:00', '投票数': 64, },
-          { '时间': '19:00:00', '投票数': 13, },
-          { '时间': '20:00:00', '投票数': 33, },
-          { '时间': '21:00:00', '投票数': 93, },
-          { '时间': '22:00:00', '投票数': 23, },
-          { '时间': '24:00:00', '投票数': 33, },
+          // { '时间': '00:00:00', '投票数': 23, },
+          // { '时间': '01:00:00', '投票数': 23, },
+          // { '时间': '02:00:00', '投票数': 33, },
+          // { '时间': '03:00:00', '投票数': 45, },
+          // { '时间': '04:00:00', '投票数': 44, },
+          // { '时间': '05:00:00', '投票数': 54, },
+          // { '时间': '06:00:00', '投票数': 55, },
+          // { '时间': '07:00:00', '投票数': 77, },
+          // { '时间': '08:00:00', '投票数': 66, },
+          // { '时间': '09:00:00', '投票数': 33, },
+          // { '时间': '10:00:00', '投票数': 44, },
+          // { '时间': '11:00:00', '投票数': 44, },
+          // { '时间': '12:00:00', '投票数': 78, },
+          // { '时间': '13:00:00', '投票数': 32, },
+          // { '时间': '14:00:00', '投票数': 43, },
+          // { '时间': '15:00:00', '投票数': 35, },
+          // { '时间': '16:00:00', '投票数': 64, },
+          // { '时间': '17:00:00', '投票数': 75, },
+          // { '时间': '18:00:00', '投票数': 64, },
+          // { '时间': '19:00:00', '投票数': 13, },
+          // { '时间': '20:00:00', '投票数': 33, },
+          // { '时间': '21:00:00', '投票数': 93, },
+          // { '时间': '22:00:00', '投票数': 23, },
+          // { '时间': '23:00:00', '投票数': 33, },
         ]
       }
     }
+  },
+  mounted() {
+    this.chartsVote(16)
   },
   methods: {
     avatar(src) {
@@ -233,6 +259,38 @@ export default {
         query: pageQuery
       })
     },
+    // 获取投票记录
+    chartsVote(id) {
+      this.loading = true
+      this.$API.chartsVote(id).then(res => {
+        if (res.code === 0) {
+          console.log(res.data)
+          this.chartsData = res.data
+
+          if (this.chartsRadio === 'day') {
+            this.chartData.rows = res.data.day
+          } else if (this.chartsRadio === 'week') {
+            this.chartData.rows = res.data.week
+          } else {
+            //
+          }
+        }
+      }).catch(e => {
+        console.log(e)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    // 切换时间
+    changeCharts(val) {
+      if (val === 'day') {
+        this.chartData.rows = this.chartsData.day
+      } else if (val === 'week') {
+        this.chartData.rows = this.chartsData.week
+      } else {
+        //
+      }
+    }
   }
 }
 </script>
@@ -264,6 +322,9 @@ export default {
     border-radius: 8px;
     overflow: hidden;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }
 
@@ -303,11 +364,14 @@ export default {
     line-height: 22px;
     .username {
       margin-left: 10px;
+      color: rgba(255, 255, 255, 1);
+      text-decoration: none;
     }
   }
 }
 .chart {
     position: relative;
+    min-height: 400px;
   &-toggle {
     position: absolute;
     right: 0;
