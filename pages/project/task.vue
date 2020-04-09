@@ -20,7 +20,7 @@
         </h2>
         <el-checkbox-group v-model="sideCheckList">
           <el-checkbox
-            v-for="(item, index) in tasks.mainTasks"
+            v-for="(item, index) in tasks.sideTasks"
             :key="index"
             :label="item.id"
             class="task-checkbox project-task"
@@ -146,7 +146,7 @@ export default {
           this.$message.success(res.message)
           // 刷新一下
           this.task()
-          this.taskTeam()
+          this.taskTeam(this.tokenId)
         } else {
           this.$message.error(res.message)
         }

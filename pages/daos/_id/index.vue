@@ -82,42 +82,7 @@
       </div>
     </div>
 
-    <div class="token-list">
       <h2 class="token-title">
-        Join the fanclub of Telegram
-      </h2>
-      <!-- todo -->
-      <div class="group">
-        <p class="token-not">
-          暂无
-        </p>
-      </div>
-    </div>
-
-    <div class="token-list">
-      <h2 class="token-title">
-        Supporters
-      </h2>
-      <!-- todo -->
-      <div class="supporters">
-        <p class="token-not">
-          暂无
-        </p>
-      </div>
-    </div>
-
-    <div class="token-list">
-      <h2 class="token-title">
-        Projects (Github Link)
-      </h2>
-      <div class="projects">
-        <p class="token-not">
-          暂无
-        </p>
-      </div>
-      <!-- todo -->
-    </div>
-
     <div class="token-list">
       <h2 class="token-title">
         Tasks
