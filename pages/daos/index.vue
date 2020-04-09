@@ -339,7 +339,7 @@ export default {
 <style lang="less" scoped>
 .dao {
   padding: 50px 0 0 0;
-  min-height: calc(100% - (60px + 200px));
+  min-height: calc(100% - (50px + 120px));
   background: #0c2143;
 }
 

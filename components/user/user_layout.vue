@@ -31,6 +31,7 @@ export default {
 .user {
   .minHeight();
   background-color: #0E2144;
+  min-height: calc(100% - (60px + 120px));
 }
 .user-container {
   display: flex;
