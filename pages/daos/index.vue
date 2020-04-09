@@ -258,11 +258,19 @@ export default {
       })
       try {
         const expireTime = 30 * 24 * 60 * 60
-        const result = await window.contract.create_proposal({
+        const result = await window.unpackContract.create_proposal({
           name: this.form.name, description: this.form.description, expiration_time: expireTime
         })
         console.log('create_proposal', result)
-        const res = await this.$API.createProposal(result)
+        const value = Buffer.from(result.status.SuccessValue, 'base64').toString()
+        const id = JSON.parse(value)
+        const txHash = result.transaction.hash
+        const blockHash = result.transaction_outcome.block_hash
+        const res = await this.$API.createProposal({
+          id,
+          txHash,
+          blockHash
+        })
         console.log('createProposal', res)
         loading.close()
         this.$notify.success({

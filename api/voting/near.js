@@ -30,9 +30,21 @@ async function initContract() {
     changeMethods: ['create_proposal', 'set_proposal_to_tally', 'set_proposal_to_ended', 'set_create_cost', 'cast_vote', 'mint'],
     sender: accountId
   })
+  window.near = near
   window.contract = contract
   window.walletConnection = walletConnection
   window.nearConfig = nearConfig
+
+  const connection = near.connection
+  const account = new nearlib.Account(connection, accountId)
+  window.unpackContract = {
+    async cast_vote(paramsObj) {
+      return await account.functionCall(CONTRACT_NAME, 'cast_vote', paramsObj)
+    },
+    async create_proposal(paramsObj) {
+      return await account.functionCall(CONTRACT_NAME, 'create_proposal', paramsObj)
+    }
+  }
   return {
     contract,
     nearConfig,

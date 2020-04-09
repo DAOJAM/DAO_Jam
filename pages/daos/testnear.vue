@@ -35,11 +35,15 @@
         create_proposal
       </button>
     </div>
+    <button @click="getStatus">
+      getStatus
+    </button>
   </div>
 </template>
 
 <script>
 import '@/api/voting/near.js'
+import * as nearlib from 'nearlib'
 
 export default {
   transition: 'page',
@@ -53,21 +57,48 @@ export default {
     }
   },
   methods: {
+    async getStatus() {
+      const rpc = new nearlib.providers.JsonRpcProvider('https://rpc.nearprotocol.com')
+      // const net = await rpc.getNetwork()
+      // const status = await rpc.status()
+      // const buf = Buffer.from('5M6jVXKpdat7HekCAnrMXidFxv41X7eRQ8PjN2EdcWc5')
+      // const z = new Uint8Array(buf)
+      // const txStatus = await rpc.txStatus(z, 'shellteo')
+      // 2wYEwUyMubWKSM5VcV84yrB7AUBjDNLPZn9cv45bFP3U
+      const block = await rpc.block(4447865) // 
+      // 7tketubSHjnwP8o7iPGTUnUMK44ZZjwJdRpKJba9DcB9
+      // console.log(net)
+      // console.log(status)
+      // console.log(txStatus)
+      console.log(block)
+    },
     async get_proposal_count() {
       const result = await window.contract.get_proposal_count()
       console.log(result)
     },
     async vote() {
-      const result = await window.contract.cast_vote({
-        proposal_id: 8,
-        num_tokens: 4,
+      /* const result = await window.contract.cast_vote({
+        proposal_id: 20,
+        num_tokens: 1,
         vote: true
-      })
-      console.log(result)
+      }) */
+      try {
+        const accountId = window.walletConnection.getAccountId()
+        const connection = window.near.connection
+        const account = new nearlib.Account(connection, accountId)
+        const result = await account.functionCall('syntest2', 'cast_vote', {
+          proposal_id: 0,
+          num_tokens: 1,
+          vote: true
+        })
+        console.log(result)
+      } catch (error) {
+        console.log(error)
+      }
     },
     async get_proposal() {
       const result = await window.contract.get_proposal({
-        proposal_id: 8
+        proposal_id: 0
       })
       if (result) {
         console.log(result)
