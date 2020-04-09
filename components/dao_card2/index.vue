@@ -164,7 +164,7 @@ export default {
       } catch (err) {
         console.error('ToggleBookmark err', err)
         this.$message.error('无法修改星标状态')
-        if (err.response.status === 401) {
+        if (err.response && err.response.status === 401) {
           this.$store.commit('setLoginModal', true)
         }
       }

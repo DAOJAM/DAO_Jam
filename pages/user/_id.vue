@@ -57,24 +57,28 @@
         <n-link
           :to="{name: 'user-id', params: { id: $route.params.id }}"
           :class="$route.name === 'user-id' && 'active'"
+          replace
         >
           Information
         </n-link>
         <n-link
           :to="{name: 'user-id-relationship', params: { id: $route.params.id }}"
           :class="$route.name === 'user-id-relationship' && 'active'"
+          replace
         >
           Relationship
         </n-link>
         <n-link
           :to="{name: 'user-id-dao', params: { id: $route.params.id }}"
           :class="$route.name === 'user-id-dao' && 'active'"
+          replace
         >
-          DAO
+          Projects
         </n-link>
         <n-link
           :to="{name: 'user-id-capital', params: { id: $route.params.id }}"
           :class="$route.name === 'user-id-capital' && 'active'"
+          replace
         >
           CAPITAL
         </n-link>
@@ -175,7 +179,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 60px;
+  padding-top: 90px;
 }
 .user-avatar {
   display: flex;
@@ -237,6 +241,21 @@ export default {
     &:nth-child(1) {
       margin-left: 0;
     }
+  }
+}
+@media screen and (max-width: 830px) {
+  .user-nav {
+    justify-content: space-around;
+    a {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+  .user-head {
+    display: block;
+  }
+  .user-edit {
+    margin-top: 20px;
   }
 }
 </style>
