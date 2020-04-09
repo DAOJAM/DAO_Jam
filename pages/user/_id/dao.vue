@@ -313,7 +313,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 992px) {
+@media screen and (min-width: 769px) and (max-width: 992px) {
   .dao-col {
     width: calc(33.333% - (40px / 3));
     margin-top: 20px;
