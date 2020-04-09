@@ -82,7 +82,6 @@
       </div>
     </div>
 
-      <h2 class="token-title">
     <div class="token-list">
       <h2 class="token-title">
         Tasks
