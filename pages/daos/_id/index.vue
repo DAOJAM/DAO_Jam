@@ -62,7 +62,7 @@
 
     <div class="token-list">
       <h2 class="token-title">
-        DAO Website
+        Website
       </h2>
       <div
         v-if="resourcesWebsites.length !== 0"
