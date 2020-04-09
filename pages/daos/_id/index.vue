@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <div class="token-list">
+    <!-- <div class="token-list">
       <h2 class="token-title">
         DAO Website
       </h2>
@@ -86,7 +86,6 @@
       <h2 class="token-title">
         Join the fanclub of Telegram
       </h2>
-      <!-- todo -->
       <div class="group">
         <p class="token-not">
           暂无
@@ -98,7 +97,6 @@
       <h2 class="token-title">
         Supporters
       </h2>
-      <!-- todo -->
       <div class="supporters">
         <p class="token-not">
           暂无
@@ -115,8 +113,7 @@
           暂无
         </p>
       </div>
-      <!-- todo -->
-    </div>
+    </div> -->
 
     <div class="token-list">
       <h2 class="token-title">
