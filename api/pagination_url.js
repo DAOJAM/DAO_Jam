@@ -85,5 +85,10 @@ export const paginationUrl = {
   'minetokenLives': '/minetoken/:id/lives',
   // token news
   'minetokenNews': '/minetoken/:id/news',
-  projectAll: '/daojam/project'
+  projectAll: '/daojam/project',
+  // 支持者
+  supporters: '/minetoken/:id/supporters',
+  // 投票记录
+  votes: '/minetoken/:id/votes',
+
 }

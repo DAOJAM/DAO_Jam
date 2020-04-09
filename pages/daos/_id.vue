@@ -306,10 +306,10 @@
           PROGRESS
         </n-link>
         <n-link
-          :to="{name: 'daos-id-capital', params: { id: $route.params.id }}"
-          :class="$route.name === 'daos-id-capital' && 'active'"
+          :to="{name: 'daos-id-supporters', params: { id: $route.params.id }}"
+          :class="$route.name === 'daos-id-supporters' && 'active'"
         >
-          CAPITAL
+          SUPPORTERS
         </n-link>
       </nav>
       <router-view />
@@ -885,6 +885,7 @@ export default {
   max-width: 1200px;
   padding: 0 20px 60px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .token-banner {
