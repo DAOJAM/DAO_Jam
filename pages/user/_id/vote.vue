@@ -27,13 +27,13 @@
             <div class="table-body-td" style="flex: 0 0 140px;">
               <div class="fl ac">
                 <svg-icon icon-class="tickets" class="icon" />
-                <span class="number">{{ '+' + item.weight }}</span>
+                <span class="number">{{ item.weight }}</span>
               </div>
             </div>
             <div class="table-body-td" style="flex: 0 0 140px;">
               <div class="fl ac">
                 <svg-icon icon-class="daot" class="icon" />
-                <span class="number">{{ '+' + item.weight }}</span>
+                <span class="number">{{ item.daot }}</span>
               </div>
             </div>
             <div class="table-body-td" style="flex: 0 0 200px;">
@@ -60,7 +60,7 @@
                   {{ itemData.weight }}
                 </div>
                 <div class="table-more-td" style="flex: 0 0 140px;">
-                  {{ itemData.weight }}
+                  {{ itemData.daot }}
                 </div>
                 <div class="table-more-td near" style="flex: 0 0 200px;">
                   <router-link :to="{name: 'article'}" class="near-btn" target="_blank">
