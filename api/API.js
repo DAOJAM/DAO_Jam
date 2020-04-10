@@ -1105,5 +1105,5 @@ export default {
   // 订阅邮件
   setEmailSubscriber(email) { return request.post('/email/subscriber/' + email) },
   // 投票图表数据
-  chartsVote(id) { return request.get(`/minetoken/${id}/charts`) }
+  chartsVote(id) { return request.get(`/minetoken/${id}/charts`) },
 }

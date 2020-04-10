@@ -90,5 +90,6 @@ export const paginationUrl = {
   supporters: '/minetoken/:id/supporters',
   // 投票记录
   votes: '/minetoken/:id/votes',
-
+  // 用户投票记录
+  userVotes: '/user/:id/votes',
 }

@@ -82,6 +82,12 @@
         >
           CAPITAL
         </n-link>
+        <n-link
+          :to="{name: 'user-id-vote', params: { id: $route.params.id }}"
+          :class="$route.name === 'user-id-vote' && 'active'"
+        >
+          VOTED
+        </n-link>
       </nav>
       <router-view />
 
