@@ -70,6 +70,7 @@
         </p>
         <user-pagination
           v-show="!pull.loading"
+          :url-replace="$route.params.id + ''"
           :current-page="pull.currentPage"
           :params="pull.params"
           :api-url="pull.apiUrl"
@@ -103,38 +104,13 @@ export default {
       pull: {
         loading: false,
         params: {
-          userId: this.$route.params.id,
-          pagesize: 20,
-          order: 0
+          pagesize: 6
         },
-        apiUrl: 'daothonTokenlist',
+        apiUrl: 'joinedTeamList',
         list: [],
         currentPage: Number(this.$route.query.page) || 1,
-        size: 20,
+        size: 6,
         total: 0,
-      },
-      // 假数据
-      fakeData: {
-        id: 3,
-        pid: 17,
-        uid: 1297,
-        name: 'daojam官方',
-        symbol: 'daojam官方',
-        decimals: 18,
-        total_supply: 0,
-        create_time: '2020-04-07T12:01:34.000Z',
-        status: 0,
-        logo: '/image/2020/04/07/2d94af1301042bf84983b76669665259.jpeg',
-        brief: '快来加入我们，一起快乐coding',
-        introduction: '快来加入我们，一起快乐coding',
-        contract_address: null,
-        cover: '/image/2020/04/07/1ae217f0f97e88d3e9027f514d9f0371.jpg',
-        repo: 'https://github.com/DAOJAM',
-        block_number: 0,
-        trx: '0',
-        owner: 'zxplus',
-        weight: 8,
-        daot: 16
       },
       organizedLoading: true,
       joinedLoading: true
@@ -150,14 +126,6 @@ export default {
     else this.organizedLoading = false
   },
   methods: {
-    // 假数据
-    getFakeDataList(quantity) {
-      const fakeDataList = []
-      for(let i = 0; i < quantity; i++) {
-        fakeDataList.push(this.fakeData)
-      }
-      return fakeDataList
-    },
     cover (src) {
       return src ? this.$ossProcess(src, { h: 120 }) : ''
     },
@@ -174,8 +142,7 @@ export default {
         .catch(err => console.log('get token user error', err))
     },
     async paginationData(res) {
-      // this.pull.list = res.data.list
-      this.pull.list = this.getFakeDataList(6)
+      this.pull.list = res.data.list
       this.pull.total = res.data.count || 0
       this.pull.loading = false
       if(this.isLogined) await this.getBookmarkByTokenIds()
@@ -275,7 +242,7 @@ export default {
       font-size: 16px;
       margin: 0;
       color: #fff;
-      padding: 40px 0 0;
+      padding: 40px 0;
     }
   }
 }

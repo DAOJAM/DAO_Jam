@@ -92,4 +92,6 @@ export const paginationUrl = {
   votes: '/minetoken/:id/votes',
   // 用户投票记录
   userVotes: '/user/:id/votes',
+  // 获取用户加入的项目列表
+  joinedTeamList: '/user/:id/teams',
 }
