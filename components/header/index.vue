@@ -40,7 +40,7 @@
               </n-link>
             </li>
             <li>
-              <n-link :to="{name: 'stat'}">
+              <n-link :to="{name: 'leaderboard'}">
                 LEADERBOARD
               </n-link>
             </li>
