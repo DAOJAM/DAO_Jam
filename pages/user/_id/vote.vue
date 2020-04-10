@@ -147,7 +147,7 @@ export default {
 
 <style lang="less" scoped>
 .vote {
-  max-width:880px;
+  max-width:884px;
   min-height:420px;
   background:rgba(19,45,94,1);
   border-radius:8px;
