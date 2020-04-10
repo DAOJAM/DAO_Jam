@@ -309,7 +309,7 @@
           :to="{name: 'daos-id-supporters', params: { id: $route.params.id }}"
           :class="$route.name === 'daos-id-supporters' && 'active'"
         >
-          SUPPORTERS
+          SUPPORTERS <span class="supporter-count">{{ minetokenToken.supporter }}</span>
         </n-link>
       </nav>
       <router-view />
@@ -1166,5 +1166,11 @@ export default {
 }
 .dao-link-vote {
   margin-top: 20px;
+}
+
+.supporter-count {
+  font-size: 14px;
+  color: #542de0;
+  vertical-align: super;
 }
 </style>
