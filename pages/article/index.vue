@@ -323,7 +323,7 @@ export default {
 <style lang="less" scoped>
 .home {
   background-color: #0e2144;
-  padding: 60px 0 0 0;
+  padding: 50px 0 0 0;
 }
 .home-head {
   height: 1120px;
@@ -537,6 +537,8 @@ export default {
   span {
     display: inline-block;
     height: 50px;
+    transition: all 0.3s;
+    animation-delay: 0.2s;
   }
   input {
     border: 0 none;
@@ -547,6 +549,8 @@ export default {
     background: #1C4085;
     color: #B2B2B2;
     font-size:16px;
+    transition: all 0.3s;
+    animation-delay: 0.2s;
   }
   .span1 {
     width: 254px;
@@ -558,6 +562,8 @@ export default {
     color: #6236FF;
     font-size: 16px;
     width: 135px;
+    transition: all 0.3s;
+    animation-delay: 0.2s;
   }
 }
 
@@ -670,6 +676,25 @@ export default {
   }
 }
 
-@media screen and (min-width: 1920px) {
+@media screen and (max-width: 768px) {
+  .home-head__sign {
+    padding: 5px 50px;
+    font-size: 16px;
+  }
+  .email-subscribe {
+    .span1 {
+      width: 174px;
+    }
+    input {
+    width: 159px;
+    font-size: 14px;
+    }
+    button {
+      height: 50px;
+      font-size: 12px;
+      width: 95px;
+      padding: 8px 10px;
+    }
+  }
 }
 </style>

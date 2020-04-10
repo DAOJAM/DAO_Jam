@@ -4,24 +4,6 @@
       <h2 class="tag-title">
         {{ isPost ? $t('user.issuecoins') : $t('user.editcoins') }}
       </h2>
-      <!-- <el-tooltip v-if="isPost" effect="dark" content="如何发行Fan票?" placement="top-start">
-        <svg-icon
-          class="help-icon"
-          icon-class="help"
-        />
-      </el-tooltip> -->
-
-      <a
-        class="help-link"
-        target="_blank"
-        href="https://www.matataki.io/p/977"
-      >什么是Fan票?</a>
-      &nbsp;
-      <a
-        class="help-link"
-        target="_blank"
-        href="https://www.matataki.io/p/980"
-      >如何发行Fan票?</a>
 
       <div
         v-if="!isPost"
@@ -29,22 +11,7 @@
       >
         <router-link :to="{name: 'daos-id', params: { id: tokenId || 0}}">
           <el-button size="small">
-            详情
-          </el-button>
-        </router-link>
-        <el-button
-          :loading="addToLoading"
-          size="small"
-          @click="addCoins"
-        >
-          增发
-        </el-button>
-        <router-link :to="{name: 'exchange', hash: '#swap', query: { output: form.symbol }}">
-          <el-button
-            size="small"
-            type="primary"
-          >
-            交易
+            {{ $t('user.goToDetails') }}
           </el-button>
         </router-link>
       </div>

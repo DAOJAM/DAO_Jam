@@ -64,7 +64,7 @@
         <div class="dao-cow">
           <div class="dao-col">
             <div
-              class="dao-block"
+              class="dao-block new-project"
               @click="createDaoDialog = true"
             >
               <svg-icon
@@ -258,11 +258,19 @@ export default {
       })
       try {
         const expireTime = 30 * 24 * 60 * 60
-        const result = await window.contract.create_proposal({
+        const result = await window.unpackContract.create_proposal({
           name: this.form.name, description: this.form.description, expiration_time: expireTime
         })
         console.log('create_proposal', result)
-        const res = await this.$API.createProposal(result)
+        const value = Buffer.from(result.status.SuccessValue, 'base64').toString()
+        const id = JSON.parse(value)
+        const txHash = result.transaction.hash
+        const blockHash = result.transaction_outcome.block_hash
+        const res = await this.$API.createProposal({
+          id,
+          txHash,
+          blockHash
+        })
         console.log('createProposal', res)
         loading.close()
         this.$notify.success({
@@ -330,8 +338,8 @@ export default {
 
 <style lang="less" scoped>
 .dao {
-  padding: 60px 0 0 0;
-  min-height: calc(100% - (60px + 200px));
+  padding: 50px 0 0 0;
+  min-height: calc(100% - (50px + 120px));
   background: #0c2143;
 }
 
@@ -354,9 +362,9 @@ export default {
 
 .dao-head {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   margin-top: 60px;
+  align-items: baseline;
   &__filter {
     display: flex;
   }
@@ -439,6 +447,10 @@ export default {
     padding: 0;
     margin: 20px 0 0 0;
   }
+  &.new-project {
+    min-height: 0;
+    height: 290px;
+  }
 
   &:hover {
     background: rgba(98, 54, 255, 1);
@@ -505,6 +517,24 @@ export default {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
+  .dao-head {
+    display: block;
+    &__filter {
+      display: block;
+      margin-bottom: 20px;
+    }
+    &__block {
+      &:nth-child(1) {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .dao-block {
+    &.new-project {
+    height: 320px;
+    }
+  }
 }
 
 @media screen and (min-width: 520px) and (max-width: 768px) {
@@ -520,9 +550,26 @@ export default {
       margin-right: 0;
     }
   }
+
+  .dao-head {
+    &__filter {
+      display: block;
+    }
+    &__block {
+      &:nth-child(1) {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .dao-block {
+    &.new-project {
+    height: 320px;
+    }
+  }
 }
 
-@media screen and (min-width: 768px) and (max-width: 992px) {
+@media screen and (min-width: 769px) and (max-width: 992px) {
   .dao-content {
     max-width: 85%;
   }
@@ -534,11 +581,33 @@ export default {
       margin-right: 20px;
     }
   }
+
+  .dao-head {
+    &__filter {
+      display: block;
+    }
+    &__block {
+      &:nth-child(1) {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .dao-block {
+    &.new-project {
+    height: 298px;
+    }
+  }
 }
 
 @media screen and (min-width: 992px) and (max-width: 1200px) {
   .dao-content {
     max-width: 80%;
+  }
+  .dao-block {
+    &.new-project {
+      height: 272px;
+    }
   }
 }
 </style>

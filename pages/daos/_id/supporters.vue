@@ -23,8 +23,9 @@
                     <span class="username">{{ item.nickname || item.username }}</span>
                   </router-link>
                 </div>
-                <div class="table-body-td" style="flex: 0 0 120px">
-                  {{ '+' + item.weight }}
+                <div class="table-body-td ticket-container">
+                  <svg-icon icon-class="tickets" class="ticket-icon" />  
+                  {{ item.weight }}
                 </div>
               </div>
             </div>
@@ -61,6 +62,7 @@
               <div class="table-head-th" style="flex: 0 0 140px">
                 Vote Amount
               </div>
+              <div class="table-head-th" style="flex: 0 0 140px"></div>
             </div>
             <div class="table-body">
               <div v-for="(item, index) in pullVotes.list" :key="index" class="table-body-tr">
@@ -73,8 +75,19 @@
                 <div class="table-body-td">
                   {{ time(item.create_time) }}
                 </div>
+                <div class="table-body-td ticket-container">
+                  <svg-icon icon-class="tickets" class="ticket-icon" />  
+                  {{ item.weight }}
+                </div>
                 <div class="table-body-td" style="flex: 0 0 140px">
-                  {{ '+' + item.weight }}
+                  <a 
+                    title="view on near explorer"
+                    class="near-trx-box" 
+                    :href="'https://explorer.nearprotocol.com/transactions/' + item.trx"
+                    target="_blank"
+                  >
+                    <svg-icon icon-class="near_logo" class="near-logo" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -191,8 +204,19 @@ export default {
   },
   mounted() {
     this.chartsVote(this.$route.params.id)
+    // this.getVotingLog()
   },
   methods: {
+    async getVotingLog() {
+      try {
+        const result = await this.$API.getVotingLog({
+          pid: this.pj.pid
+        })
+        console.log(result)
+      } catch (error) {
+        console.log(error)
+      }
+    },
     avatar(src) {
       return src ? this.$ossProcess(src, { h: 90 }) : ''
     },
@@ -271,6 +295,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.ticket-container {
+  flex: 0 0 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .ticket-icon {
+    font-size: 24px;
+    margin-right: 10px;
+  }
+}
+.near-trx-box {
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  display: block;
+  width: 80px;
+  height: 30px;
+  background-color: #ffffff;
+  .near-logo {
+    width: 80px;
+    height: 30px;
+    font-size: 10px;
+  }
+}
 .table-4 {
   width: 35%;
   float: left;

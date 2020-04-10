@@ -203,17 +203,17 @@
       <div class="fl ac jsb dao-link-vote">
         <div class="dao-link">
           <a
-            :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address"
+            :href="'https://explorer.nearprotocol.com/transactions/' + pj.trx"
             target="_blank"
           >
             <el-tooltip
               effect="dark"
-              content="Etherscan"
+              content="Near Explorer"
               placement="top"
             >
               <div class="dao-link__block">
                 <svg-icon
-                  icon-class="eth"
+                  icon-class="near_icon_wht"
                   class="icon"
                 />
               </div>
@@ -598,13 +598,19 @@ export default {
             const id = this.pj.pid
             const votes = this.voteCost
             try {
-              const result = await window.contract.cast_vote({
+              const result = await window.unpackContract.cast_vote({
                 proposal_id: parseInt(id),
                 num_tokens: votes,
                 vote: true
               })
               console.log('vote', result)
-              const res = await this.$API.voteProposal(id)
+              const txHash = result.transaction.hash
+              const blockHash = result.transaction_outcome.block_hash
+              const res = await this.$API.voteProposal({
+                id,
+                txHash,
+                blockHash
+              })
               console.log('vote', res)
               loading.close()
               this.$notify.success({
