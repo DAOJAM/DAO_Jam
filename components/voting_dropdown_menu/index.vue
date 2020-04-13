@@ -120,13 +120,16 @@
         <el-tooltip
           class="pentagram"
           effect="dark"
-          content="Gain 100 DaoT after binding NEAR wallet. https://wallet.nearprotocol.com/"
           placement="bottom"
         >
           <svg-icon
             class="help-icon"
             icon-class="help"
           />
+          <div slot="content">
+            Gain 100 DaoT after binding NEAR wallet.
+            <a style="color: white; text-decoration: underline;" href="https://wallet.nearprotocol.com/">https://wallet.nearprotocol.com/</a>
+          </div>
         </el-tooltip>
       </el-row>
       <el-row>
