@@ -18,13 +18,24 @@
       <el-row>
         <el-col :span="16">
           <span class="header">Vote Power</span>
+          <el-tooltip
+            class="pentagram"
+            effect="dark"
+            content="You can voted projects by Vote Power."
+            placement="bottom"
+          >
+            <svg-icon
+              class="help-icon"
+              icon-class="help"
+            />
+          </el-tooltip>
         </el-col>
         <el-col class="second-column" :span="8">
           <span class="what">What is it?</span>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col class="data-column" :span="16">
           <span class="amount">{{ power }}</span>
           <svg-icon
             class="get-button-icon"
@@ -45,10 +56,21 @@
       <el-row>
         <el-col>
           <span class="header">Vote Record</span>
+          <el-tooltip
+            class="pentagram"
+            effect="dark"
+            content="You can voted at most 10 tickets & 3 times perday per project."
+            placement="bottom"
+          >
+            <svg-icon
+              class="help-icon"
+              icon-class="help"
+            />
+          </el-tooltip>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col class="data-column" :span="16">
           <span class="amount">{{ today.count }}</span>
           <svg-icon
             class="get-button-icon"
@@ -64,7 +86,7 @@
             ) Today
           </span>
         </el-col>
-        <el-col :span="8">
+        <el-col class="second-column" :span="8">
           <el-button
             size="mini"
             class="details-button"
@@ -93,10 +115,36 @@
           </router-link>
         </p>
       </div>
-      <span class="header">Get Rewards</span>
-      <p class="main-text">
-        {{ $t('voteDropdown.tomorrowGainTitle') }}
-      </p>
+      <el-row>
+        <span class="header">Get Rewards</span>
+        <el-tooltip
+          class="pentagram"
+          effect="dark"
+          content="Gain 100 DaoT after binding NEAR wallet. https://wallet.nearprotocol.com/"
+          placement="bottom"
+        >
+          <svg-icon
+            class="help-icon"
+            icon-class="help"
+          />
+        </el-tooltip>
+      </el-row>
+      <el-row>
+        <span>
+          {{ $t('voteDropdown.tomorrowGainTitle') }}
+        </span>
+        <el-tooltip
+          class="pentagram"
+          effect="dark"
+          content="You can gain 1/3 VP of your costed yesterday + 20 a day."
+          placement="bottom"
+        >
+          <svg-icon
+            class="help-icon"
+            icon-class="help"
+          />
+        </el-tooltip>
+      </el-row>
       <el-row>
         <el-col :span="12">
           <div class="reward-text">
@@ -121,6 +169,17 @@
         <el-col :span="12">
           <div class="reward-text">
             <span>Link to NEAR</span>
+            <el-tooltip
+              class="pentagram"
+              effect="dark"
+              content="Gain 100 VP after binding NEAR wallet"
+              placement="bottom"
+            >
+              <svg-icon
+                class="help-icon"
+                icon-class="help"
+              />
+            </el-tooltip>
           </div>
         </el-col>
         <el-col :span="12">
@@ -298,6 +357,10 @@ export default {
     text-decoration: underline;
     cursor: pointer;
   }
+  .help-icon {
+    width: 12px;
+    height: 12px;
+  }
 
   .main-text {
     font-size:16px;
@@ -322,7 +385,7 @@ export default {
   .tickets {
     align-items: center;
   }
-  .reward-text {
+  .data-column, .reward-text {
     padding: 7px 0;
     line-height: 22px;
   }
