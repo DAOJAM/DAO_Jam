@@ -35,11 +35,6 @@
               </n-link>
             </li>
             <li>
-              <n-link :to="{name: 'leaderboard'}">
-                LEADERBOARD
-              </n-link>
-            </li>
-            <li>
               <n-link :to="{name: 'tasks'}">
                 TASKS
               </n-link>
