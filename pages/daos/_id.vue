@@ -126,6 +126,29 @@
           <div class="dao-data__content">
             <div class="dao-data">
               <p class="dao-data__help">
+                Rank
+                <el-tooltip
+                  effect="dark"
+                  content="Rank"
+                  placement="top"
+                >
+                  <svg-icon
+                    icon-class="dao_help"
+                    class="icon"
+                  />
+                </el-tooltip>
+              </p>
+              <p class="dao-data__number">
+                <svg-icon
+                  icon-class="members"
+                  class="icon"
+                />
+                
+                1
+              </p>
+            </div>
+            <div class="dao-data">
+              <p class="dao-data__help">
                 Supporters
                 <el-tooltip
                   effect="dark"
@@ -170,30 +193,6 @@
               </p>
             </div>
           </div>
-
-          <!-- <div>
-            <a
-              :href="'http://rinkeby.etherscan.io/address/' + minetokenToken.contract_address"
-              target="_blank"
-              class="head-btn"
-            >
-              <el-button
-                class="link-btn"
-                size="small"
-              >
-                <svg-icon icon-class="eth_mini" />
-                链上查看
-              </el-button>
-            </a>
-            <router-link
-              class="head-btn"
-              :to="{name: 'exchange', hash: '#swap', query: { output: minetokenToken.symbol }}"
-            >
-              <el-button size="small">
-                交易Fan票
-              </el-button>
-            </router-link>
-          </div> -->
           <!-- <span class="head-amount">
             已持有：{{ balance }} {{ minetokenToken.symbol }}
           </span> -->
@@ -291,27 +290,6 @@
           </div>
         </div>
       </div>
-
-      <nav class="token-nav">
-        <n-link
-          :to="{name: 'daos-id', params: { id: $route.params.id }}"
-          :class="$route.name === 'daos-id' && 'active'"
-        >
-          INFORMATION
-        </n-link>
-        <n-link
-          :to="{name: 'daos-id-progress', params: { id: $route.params.id }}"
-          :class="$route.name === 'daos-id-progress' && 'active'"
-        >
-          PROGRESS
-        </n-link>
-        <n-link
-          :to="{name: 'daos-id-supporters', params: { id: $route.params.id }}"
-          :class="$route.name === 'daos-id-supporters' && 'active'"
-        >
-          SUPPORTERS
-        </n-link>
-      </nav>
       <router-view />
     </div>
 
