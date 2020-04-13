@@ -17,7 +17,7 @@
     >
       <div class="fl tickets">
         <p class="main-text f1">
-          I have {{ daot }} DaoT
+          I have {{ daot }} VotePower
         </p>
         <div>
           <el-button
@@ -52,7 +52,7 @@
       </div>
       <div v-else class="bonus-get">
         <p class="main-text">
-          Today you can get 120 DaoT
+          Today you can get 120 VotePower
         </p>
         <p class="annotate">
           Come to get it today!
