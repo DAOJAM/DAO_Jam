@@ -30,11 +30,6 @@
         <div class="header-right">
           <ul class="header-tag">
             <li>
-              <n-link :to="{name: 'index'}">
-                HOME
-              </n-link>
-            </li>
-            <li>
               <n-link :to="{name: 'daos'}">
                 PROJECTS
               </n-link>
