@@ -9,103 +9,154 @@
         class="icon"
         icon-class="daot"
       />
-      {{ daot }}
+      {{ power }}
     </div>
     <el-dropdown-menu
       slot="dropdown"
       class="user-dorpdown"
     >
-      <div class="fl tickets">
-        <p class="main-text f1">
-          I have {{ daot }} VotePower
-        </p>
-        <div>
+      <el-row>
+        <el-col :span="16">
+          <span class="header">Vote Power</span>
+        </el-col>
+        <el-col class="second-column" :span="8">
+          <span class="what">What is it?</span>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="16">
+          <span class="amount">{{ power }}</span>
+          <svg-icon
+            class="get-button-icon"
+            icon-class="daot"
+          />
+        </el-col>
+        <el-col class="second-column" :span="8">
           <el-button
             size="mini"
             class="details-button"
             @click="$router.push({ name: 'account' })"
           >
-            DETAILS
+            Detail
           </el-button>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
       <el-divider />
-      <div v-if="isNewbie" class="bonus-get">
-        <p class="main-text">
-          {{ $t('voteDropdown.rewardTitle') }}
-        </p>
-        <p class="annotate">
-          {{ $t('voteDropdown.rewardText') }}
-        </p>
-        <el-button
-          class="get-button"
-          type="primary"
-          round
-          @click="getNewbieBonus"
-        >
-          {{ $t('voteDropdown.gainDaoT') }}
+      <el-row>
+        <el-col>
+          <span class="header">Vote Record</span>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="16">
+          <span class="amount">{{ today.count }}</span>
           <svg-icon
             class="get-button-icon"
             icon-class="daot"
           />
-        </el-button>
-      </div>
-      <div v-else class="bonus-get">
-        <p class="main-text">
-          Today you can get 120 VotePower
-        </p>
-        <p class="annotate">
-          Come to get it today!
-        </p>
-        <el-button
-          class="get-button"
-          type="primary"
-          round
-        >
-          GET 120
-          <svg-icon
-            class="get-button-icon"
-            icon-class="daot"
-          />
-        </el-button>
-      </div>
-      <div>
-        <p class="main-text">
-          {{ $t('voteDropdown.voteTodayTitle', [600, 46]) }}
-        </p>
-        <p class="annotate">
-          {{ $t('voteDropdown.voteTodayText') }}
-          <router-link :to="{ name: 'account' }">
-            {{ $t('voteDropdown.voteTodayHelp') }}
-          </router-link>
-        </p>
-        <div class="dao-list">
-          <div
-            v-for="(dao, item) in daoList"
-            :key="item"
-            class="dao fl"
+          <span style="font-size: 12px">
+            (
+              <span>{{ today.power }}</span>
+              <svg-icon
+                class="get-button-icon"
+                icon-class="daot"
+              />
+            ) Today
+          </span>
+        </el-col>
+        <el-col :span="8">
+          <el-button
+            size="mini"
+            class="details-button"
+            @click="$router.push({ name: 'tokens' })"
           >
-            <p class="dao-title">
-              {{ dao.title }}
-            </p>
-            <p class="dao-num">
-              {{ dao.num }}
-            </p>
-          </div>
-          <p class="more">
-            <router-link :to="{ name: 'tokens' }">
-              more details
-              <i class="el-icon-d-arrow-right" />
-            </router-link>
+            Detail
+          </el-button>
+        </el-col>
+      </el-row>
+      <div class="dao-list">
+        <div
+          v-for="(dao, item) in daoList"
+          :key="item"
+          class="dao fl"
+        >
+          <p class="dao-title">
+            {{ dao.title }}
+          </p>
+          <p class="dao-num">
+            {{ dao.num }}
           </p>
         </div>
-        <p class="main-text">
-          {{ $t('voteDropdown.tomorrowGainTitle') }}
-        </p>
-        <p class="annotate">
-          {{ $t('voteDropdown.tomorrowGainText') }}
+        <p class="more">
+          <router-link :to="{ name: 'tokens' }">
+            View more
+          </router-link>
         </p>
       </div>
+      <span class="header">Get Rewards</span>
+      <p class="main-text">
+        {{ $t('voteDropdown.tomorrowGainTitle') }}
+      </p>
+      <el-row>
+        <el-col :span="12">
+          <div class="reward-text">
+            <span>Everyday Reward</span>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-button
+            class="get-button"
+            type="primary"
+            size="mini"
+          >
+            Gain 20vp
+            <svg-icon
+              class="get-button-icon"
+              icon-class="daot"
+            />
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <div class="reward-text">
+            <span>Link to NEAR</span>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-button
+            class="get-button"
+            type="primary"
+            size="mini"
+          >
+            Gain 100vp
+            <svg-icon
+              class="get-button-icon"
+              icon-class="daot"
+            />
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <div class="reward-text">
+            <span>Voted 5 projects</span>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-button
+            class="get-button"
+            type="primary"
+            size="mini"
+          >
+            Gain 60vp
+            <svg-icon
+              class="get-button-icon"
+              icon-class="daot"
+            />
+          </el-button>
+        </el-col>
+      </el-row>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -138,7 +189,11 @@ export default {
           num: '- 15'
         }
       ],
-      daot: 0
+      power: 0,
+      today: {
+        count: 0,
+        power: 0
+      }
     }
   },
   // props: {},
@@ -155,7 +210,7 @@ export default {
     async balanceOfDaot() {
       try {
         const result = await this.$API.balanceOf()
-        this.daot = result.data
+        this.power = result.data
       } catch (error) {
         console.log(error)
       }
@@ -223,11 +278,32 @@ export default {
   padding: 20px;
   width: 300px;
   box-shadow: 1px 3px 15px rgba(0,0,0,0.9);
+
+  .el-row {
+    margin-bottom: 8px;
+  }
+  .second-column {
+    text-align: right;
+  }
+
+  .header {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .amount {
+    font-size: 18px;
+  }
+  .what {
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   .main-text {
     font-size:16px;
     font-weight:500;
     line-height:22px;
-    margin: 0 0 5px;
+    margin: 5px 0;
     &.f1 {
       flex: 1;
       margin: 0;
@@ -246,14 +322,15 @@ export default {
   .tickets {
     align-items: center;
   }
+  .reward-text {
+    padding: 7px 0;
+    line-height: 22px;
+  }
   .get-button {
     width: 100%;
     font-size:16px;
     font-weight:500;
     line-height:22px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    margin: 20px 0;
     &-icon {
       color: #fff;
       font-size: 22px;
@@ -269,9 +346,12 @@ export default {
     padding: 4px 12px;
   }
   .dao-list {
-    margin: 20px 0;
+    background: rgb(32, 32, 32);
+    margin: 16px 0;
+    padding: 4px 12px;
     .more{
       text-align:center;
+      margin: 2px 0;
       a {
         color: white;
         font-size:12px;
