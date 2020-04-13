@@ -41,7 +41,7 @@
             </li>
             <li>
               <n-link :to="{name: 'tasks'}">
-                PRIZE
+                PRIZES
               </n-link>
             </li>
           </ul>
