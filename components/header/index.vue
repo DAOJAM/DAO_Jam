@@ -36,7 +36,7 @@
             </li>
             <li>
               <n-link :to="{name: 'tasks'}">
-                TASKS
+                PRIZE
               </n-link>
             </li>
           </ul>
@@ -289,7 +289,7 @@ export default {
           domHeader.style.backgroundColor = '#372BA1'
         }
       } catch (error) {
-        console.log(error) 
+        console.log(error)
       }
     },
     async refreshUser() {
@@ -385,9 +385,9 @@ export default {
           dangerouslyUseHTMLString: true,
           message: h('p', null, [
             h('p',  null, this.$t('kyc.notificationPop.message')),
-            h('el-button', { 
+            h('el-button', {
               props: {size: 'small', type: 'primary'},
-              on: { click: () => { this.$router.push('/setting/account') }} 
+              on: { click: () => { this.$router.push('/setting/account') }}
             }, this.$t('kyc.notificationPop.buttonText')),
           ]),
           duration: 0
@@ -643,7 +643,7 @@ export default {
   background-color: #979797;
 }
 
-@media screen and (max-width: 830px) {  
+@media screen and (max-width: 830px) {
   .header-bg {
     height: 50px;
   }
