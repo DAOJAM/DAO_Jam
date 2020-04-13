@@ -1,5 +1,5 @@
 <template>
-  <div class="vote">
+  <div v-loading="pullVote.loading" class="vote">
     <div>
       <div class="table-head">
         <div class="table-head-th">
@@ -19,7 +19,7 @@
         <div v-for="(item, index) in pullVote.list" :key="index">
           <div class="table-body-tr">
             <div class="table-body-td">
-              <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.id }}">
+              <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.pid }}">
                 <c-avatar :src="avatar(item.logo)" />
                 <span class="username">{{ item.name }}</span>
               </router-link>
@@ -42,7 +42,7 @@
                   {{ item.status ? 'fold' : 'unfold' }}
                   <svg-icon icon-class="arrow_down" class="toggle-icon" />
                 </span>
-                <router-link :to="{name: 'daos-id', params: { id: item.id }}">
+                <router-link :to="{name: 'daos-id', params: { id: item.pid }}">
                   <el-button type="primary" size="small" class="vote-btn">
                     VOTE
                   </el-button>
@@ -63,9 +63,14 @@
                   {{ itemData.daot }}
                 </div>
                 <div class="table-more-td near" style="flex: 0 0 200px;">
-                  <router-link :to="{name: 'article'}" class="near-btn" target="_blank">
-                    Near
-                  </router-link>
+                  <a 
+                    title="view on near explorer"
+                    class="near-trx-box near-btn" 
+                    :href="'https://explorer.nearprotocol.com/transactions/' + itemData.trx"
+                    target="_blank"
+                  >
+                    <svg-icon icon-class="near_logo_1" class="near-logo" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -147,10 +152,10 @@ export default {
 
 <style lang="less" scoped>
 .vote {
-  max-width:884px;
-  min-height:420px;
-  background:rgba(19,45,94,1);
-  border-radius:8px;
+  max-width: 884px;
+  min-height: 420px;
+  background: rgba(19, 45, 94, 1);
+  border-radius: 8px;
   overflow: hidden;
   margin-top: 40px;
   padding: 20px 0;
@@ -195,16 +200,16 @@ export default {
       margin-right: 4px;
     }
     .number {
-      font-size:16px;
-      font-weight:500;
-      color:rgba(255,255,255,1);
-      line-height:22px;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      line-height: 22px;
     }
     .toggle {
-      font-size:14px;
-      font-weight:500;
-      color:rgba(255,255,255,1);
-      line-height:20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      line-height: 20px;
       margin-right: 20px;
       width: 80px;
       text-align: right;
@@ -212,7 +217,7 @@ export default {
     }
     .toggle-icon {
       font-size: 12px;
-      color:rgba(255,255,255,1);
+      color: rgba(255, 255, 255, 1);
       margin-left: 4px;
     }
     .vote-btn {
@@ -227,7 +232,7 @@ export default {
 
 .table-more {
   width: 100%;
-  background-color: #1C4085;
+  background-color: #1c4085;
   &-tr {
     flex: 1;
     display: flex;
@@ -239,29 +244,37 @@ export default {
   }
   &-td {
     flex: 1;
-    border-bottom: 1px solid #B2B2B2;
+    border-bottom: 1px solid #b2b2b2;
     padding: 20px 0;
-    font-size:16px;
-    font-weight:500;
-    color:rgba(255,255,255,1);
-    line-height:22px;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 22px;
     height: 30px;
     &.near {
-      text-align: right;
+          display: flex;
+      justify-content: flex-end;
     }
     .near-btn {
-      min-width: 90px;
-      font-size: 16px;
-      display: inline-block;
+      width: 90px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background-color: #fff;
+      border: 1px solid #ffffff;
       padding: 4px 10px;
       box-sizing: border-box;
-      border-radius:4px;
+      border-radius: 4px;
       text-align: center;
-      color: #6236FF;
-      font-size:16px;
-      font-weight:500;
-      line-height:22px;
+      color: #6236ff;
+      font-size: 16px;
+      font-weight: 500;
+      .near-logo {
+        width: 100%;
+        height: 20px;
+        font-size: 16px;
+      }
     }
   }
 }
