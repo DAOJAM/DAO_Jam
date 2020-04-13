@@ -40,23 +40,6 @@
               </n-link>
             </li>
           </ul>
-          <div
-            class="notification"
-            @click="viewNotification"
-          >
-            <el-tooltip
-              effect="dark"
-              content="通知中心"
-              placement="bottom"
-            >
-              <n-link :class="{ badge: hasNewNotification }" to="/notification">
-                <svg-icon
-                  class="icon"
-                  icon-class="bell"
-                />
-              </n-link>
-            </el-tooltip>
-          </div>
           <!-- <div
             v-if="isLogined"
             class="daos"
@@ -107,6 +90,20 @@
                     :src="logoSrc"
                   />
                   {{ token.name }}
+                </el-dropdown-item>
+              </n-link>
+
+              <!-- 通知中心 -->
+              <n-link
+                :class="{ badge: hasNewNotification }"
+                to="/notification"
+                class="link">
+                <el-dropdown-item>
+                  <svg-icon
+                    class="icon"
+                    icon-class="bell"
+                  />
+                  Notification
                 </el-dropdown-item>
               </n-link>
 
@@ -627,7 +624,7 @@ export default {
   }
 }
 .daos-margin {
-  margin: 0 40px 0 0;
+  margin: 0 40px;
 }
 .project-logo {
   width: 23px;
