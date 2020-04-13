@@ -4,31 +4,22 @@
     <div class="dao-main">
       <div
         v-loading="loading"
+        element-loading-background="#0e2144cc"
         class="dao-content"
       >
         <div class="dao-head">
+          <div class="dao-head__block">
+            <el-input
+              v-model="searchVal"
+              style="width: 192px;"
+              size="medium"
+              placeholder="search projects"
+              suffix-icon="el-icon-search"
+            />
+          </div>
           <!-- <h2>DAOs ({{ count }})</h2> -->
           <div class="dao-head__filter">
             <div class="dao-head__block">
-              <p class="dao-head__title">
-                Sort
-              </p>
-              <el-select
-                v-model="filterValue"
-                placeholder="please choose"
-              >
-                <el-option
-                  v-for="item in filterOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </div>
-            <div class="dao-head__block">
-              <p class="dao-head__title">
-                Filter
-              </p>
               <el-radio-group v-model="sortRadio">
                 <el-radio-button label="all">
                   All
@@ -44,20 +35,19 @@
                 </el-radio-button>
               </el-radio-group>
             </div>
-          </div>
-
-          <div class="dao-head__block">
-            <p class="dao-head__title">
-              Search
-            </p>
-
-            <el-input
-              v-model="searchVal"
-              style="width: 192px;"
-              size="medium"
-              placeholder="Search DAO"
-              suffix-icon="el-icon-search"
-            />
+            <div class="dao-head__block">
+              <el-select
+                v-model="filterValue"
+                placeholder="please choose"
+              >
+                <el-option
+                  v-for="item in filterOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
           </div>
         </div>
 
@@ -124,20 +114,17 @@
             </el-form-item>
           </el-form>
         </m-dialog>
-
-        <user-pagination
-          v-show="!loading"
-          :current-page="currentPage"
-          :params="pull[sortRadio].params"
-          :api-url="pull[sortRadio].apiUrl"
-          :page-size="8"
-          :total="total"
-          :need-access-token="true"
-          :reload="reload"
-          class="dao-pagination"
-          @paginationData="paginationData"
-          @togglePage="togglePage"
-        />
+        <div class="load-more">
+          <buttonLoadMore
+            v-show="!loading"
+            :type-index="0"
+            :params="pull[sortRadio].params"
+            :api-url="pull[sortRadio].apiUrl"
+            :is-atuo-request="true"
+            :auto-request-time="reload"
+            @buttonLoadMore="paginationData"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -146,13 +133,15 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import userPagination from '@/components/user/user_pagination.vue'
+// import userPagination from '@/components/user/user_pagination.vue'
 import daoCard from '@/components/dao_card2'
+import buttonLoadMore from '@/components/button_load_more/index.vue'
 // import qv from '@/api/voting/qvvoting.js'
 
 export default {
   components: {
-    userPagination,
+    // userPagination,
+    buttonLoadMore,
     daoCard
   },
   data() {
@@ -174,48 +163,42 @@ export default {
             pagesize: 8
           },
           apiUrl: 'projectAll',
-          list: [
-            {},{},{},{},{},{},{},{}
-          ]
+          list: []
         },
         hold: {
           params: {
-            pagesize: 8
+            pagesize: 9
           },
           apiUrl: 'projectAll',
-          list: [
-            {},{},{},{},{},{},{},{}
-          ]
+          list: []
         },
         bookmark: {
           params: {
-            pagesize: 8
+            pagesize: 9
           },
           apiUrl: 'tokenBookmarks',
-          list: [
-            {},{},{},{},{},{},{},{}
-          ]
+          list: []
         }
       },
+      remainderDate: null,
       currentPage: Number(this.$route.query.page) || 1,
       loading: false, // 加载数据
-      total: 0,
       assets: {
       },
       viewStatus: 0, // 0 1
       count: 0,
 
       filterOptions: [{
-        value: 'support',
-        label: 'Support'
+        value: 'rank',
+        label: 'Rank'
       }, {
-        value: 'votes',
-        label: 'Votes'
+        value: 'recent',
+        label: 'Recent'
       }, {
-        value: 'score',
-        label: 'Score'
+        value: 'name',
+        label: 'Name'
       }],
-      filterValue: 'support',
+      filterValue: 'rank',
       sortRadio: this.$route.query.filter || 'all',
       reload: 0
     }
@@ -227,6 +210,7 @@ export default {
     sortRadio(newVal) {
       this.loading = true
       this.pull[newVal].list = []
+      this.remainderDate = null
       this.currentPage = 1
       this.$router.push({
         query: {
@@ -234,6 +218,7 @@ export default {
           page: 1
         }
       })
+      this.reload = Date.now()
     }
   },
   methods: {
@@ -297,25 +282,19 @@ export default {
     },
     paginationData(res) {
       this.count = res.data.count
-      this.pull[this.sortRadio].list = res.data.list
-      this.total = res.data.count || 0
+      // 如果上次有剩余未显示的，则在这次显示出来
+      if(this.remainderDate) this.pull[this.sortRadio].list.push(this.remainderDate)
+
+      if (res.data && res.data.list && res.data.list.length !== 0){
+        // 因为第一个是New Project，导致第一次能显示的数据少1条，所以要在最后余出一条数据，并在下次加入。
+        if(res.data.list.length >= this.pull[this.sortRadio].params.pagesize)
+          this.remainderDate = res.data.list.splice(res.data.list.length - 1, 1)[0]
+
+        // 将新的项目列表加入队尾
+        this.pull[this.sortRadio].list = this.pull[this.sortRadio].list.concat(res.data.list)
+      }
       this.loading = false
       if(this.isLogined) this.getBookmarkByTokenIds()
-      
-      if(this.pull[this.sortRadio].list.length === 0 && this.currentPage > 1) {
-        this.togglePage(this.currentPage - 1)
-      }
-    },
-    togglePage(i) {
-      this.loading = true
-      this.pull[this.sortRadio].list = []
-      this.currentPage = i
-      this.$router.push({
-        query: {
-          ...this.$route.query,
-          page: i
-        }
-      })
     },
     async getBookmarkByTokenIds() {
       await this.$API.getBookmarkByTokenIds(this.pull[this.sortRadio].list.map(row => row.id)).then(res => {
@@ -449,7 +428,7 @@ export default {
   }
   &.new-project {
     min-height: 0;
-    height: 290px;
+    height: 359px;
   }
 
   &:hover {
@@ -507,6 +486,10 @@ export default {
     }
   }
 }
+// 避免显示更多按钮隐藏后出现塌陷
+.load-more {
+  height: 160px;
+}
 
 
 
@@ -532,7 +515,7 @@ export default {
   }
   .dao-block {
     &.new-project {
-    height: 320px;
+    height: 200px;
     }
   }
 }
@@ -564,7 +547,7 @@ export default {
   }
   .dao-block {
     &.new-project {
-    height: 320px;
+    height: 348px;
     }
   }
 }
@@ -595,7 +578,7 @@ export default {
   }
   .dao-block {
     &.new-project {
-    height: 298px;
+    height: 316px;
     }
   }
 }
@@ -606,7 +589,7 @@ export default {
   }
   .dao-block {
     &.new-project {
-      height: 272px;
+      height: 320px;
     }
   }
 }
