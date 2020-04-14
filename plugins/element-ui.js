@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import '../assets/theme/index.css'
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+
 import {
   Row,
   Col,
@@ -83,6 +86,8 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 
 Vue.use(Loading.directive)
+
+locale.use(lang)
 Vue.prototype.$message = Message
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$notify = Notification
@@ -90,7 +95,4 @@ Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$msgbox = MessageBox
-// import Element from 'element-ui'
-// import locale from 'element-ui/lib/locale/lang/en'
 
-// Vue.use(Element, { locale })

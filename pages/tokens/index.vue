@@ -22,7 +22,7 @@
           >
             <el-table-column
               prop="total_supply"
-              label="Fan票"
+              label="Project Symbol"
             >
               <template slot-scope="scope">
                 <router-link
@@ -39,7 +39,7 @@
             </el-table-column>
             <el-table-column
               prop="total_supply"
-              label="名称"
+              label="Project Name"
             >
               <template slot-scope="scope">
                 <router-link :to="{name: 'daos-id', params: {id: scope.row.token_id}}">
@@ -49,7 +49,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="创始人"
+              label="Creator"
             >
               <template slot-scope="scope">
                 <n-link
@@ -66,6 +66,7 @@
               :label="$t('user.positionCoins')"
               prop="total_supply"
               sortable="custom"
+              width="160px"
             >
               <template slot-scope="scope">
                 <span class="scope">{{ tokenAmount(scope.row.amount, scope.row.decimals) }}</span>
