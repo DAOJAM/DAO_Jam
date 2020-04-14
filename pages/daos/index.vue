@@ -53,23 +53,26 @@
 
         <div class="dao-cow">
           <div class="dao-col new-project-col">
-            <div
-              class="dao-block new-project"
-              @click="createDaoDialog = true"
+            <n-link
+              :to="{ name: 'daos-create' }"
             >
-              <svg-icon
-                icon-class="add"
-                class="icon-add"
-              />
-              <p class="dao-add__text">
-                Create New Project（Need 100 DaoT
+              <div
+                class="dao-block new-project"
+              >
                 <svg-icon
-                  icon-class="daot"
-                  class="icon-dao"
+                  icon-class="add"
+                  class="icon-add"
                 />
-                )
-              </p>
-            </div>
+                <p class="dao-add__text">
+                  Create New Project（Need 100 DaoT
+                  <svg-icon
+                    icon-class="daot"
+                    class="icon-dao"
+                  />
+                  )
+                </p>
+              </div>
+            </n-link>
           </div>
           <daoCard
             v-for="(item, index) in pull[sortRadio].list"

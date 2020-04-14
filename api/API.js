@@ -1061,19 +1061,11 @@ export default {
       }
     })
   },
-  createProposal({
-    id,
-    txHash,
-    blockHash
-  }) {
+  createProposal(data) {
     return request({
       method: 'POST',
       url: '/daojam/near/createProposal',
-      data: {
-        id,
-        txHash,
-        blockHash
-      }
+      data
     })
   },
   getVotingLog({ pid, pageindex = 1, pagesize = 10 }) {
