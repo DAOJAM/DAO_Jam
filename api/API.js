@@ -1106,6 +1106,14 @@ export default {
   setEmailSubscriber(email) { return request.post('/email/subscriber/' + email) },
   // 投票图表数据
   chartsVote(id) { return request.get(`/minetoken/${id}/charts`) },
+  // 项目排行
+  rank(id) { return request.get(`/minetoken/${id}/rank`) },
+  // 项目图片
+  getMinetokenImages(id) { return request.get(`/minetoken/${id}/images`) },
+  postMinetokenImages(id, data) { return request.post(`/minetoken/${id}/images`, data) },
+  // 项目里程碑
+  gettMinetokenMilestones(id) { return request.get(`/minetoken/${id}/milestones`) },
+  postMinetokenMilestones(id, data) { return request.post(`/minetoken/${id}/milestones`, data) },
   // 排行版
   leaderboard() { return request.get(`/leaderboard`) },
 }

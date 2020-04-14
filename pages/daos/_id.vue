@@ -143,8 +143,7 @@
                   icon-class="members"
                   class="icon"
                 />
-                
-                1
+                {{ rank }}
               </p>
             </div>
             <div class="dao-data">
@@ -421,7 +420,8 @@ export default {
         ],
       },
       resourcesSocialss: [], // 社交联系方式
-      loading: false
+      loading: false,
+      rank: 0, // 排名
     }
   },
   async asyncData({ $axios, route, req }) {
@@ -538,9 +538,20 @@ export default {
         this.getBookmarkStatus()
         this.getUserBalance()
       }
+
+      this.rankFunc()
     }
   },
   methods: {
+    async rankFunc() {
+      await this.$API.rank(this.$route.params.id).then(res=> {
+        if (res.code === 0) {
+          this.rank = res.data
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     async balanceOfDaot() {
       try {
         const result = await this.$API.balanceOf()

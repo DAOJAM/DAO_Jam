@@ -3,7 +3,7 @@
     <div class="gallery">
       <div class="fl ac">
         <h2 class="token-title">
-          Gallery
+          Project Images
         </h2>
         <el-tooltip
           effect="dark"
@@ -18,12 +18,12 @@
           width="600px"
         >
           <ul class="gallery-list">
-            <li v-for="(item, index) in galleryImageList" :key="index">
+            <li v-for="(item, index) in projectImageListUpload" :key="index">
               <div>
                 <div class="gallery-list-cover">
-                  <img :src="item" alt="image">
+                  <img v-if="item" :src="item" alt="image">
                 </div>
-                <el-button @click="coverUpload('gallery', index)">
+                <el-button @click="coverUpload(index+'')">
                   上传
                 </el-button>
               </div>
@@ -39,9 +39,9 @@
           @done="done"
         />
       </div>
-      <viewer :images="galleryImageList" class="gallery-m">
-        <div v-for="(item, index) in galleryImageList" :key="index" class="gallery-m-b">
-          <img :src="item" alt="image">
+      <viewer :images="projectImageList" class="gallery-m">
+        <div v-for="(item, index) in projectImageList" :key="index" class="gallery-m-b">
+          <img v-if="item" :src="item" alt="image">
         </div>
       </viewer>
     </div>
@@ -126,15 +126,44 @@
 
         <div class="token-block mt20">
           <div class="token-list">
-            <h2 class="token-title">
-              Milestone
-            </h2>
+            <div class="fl ac">
+              <h2 class="token-title">
+                Milestone
+              </h2><el-tooltip
+                effect="dark"
+                content="Manage"
+                placement="top"
+              >
+                <svg-icon icon-class="setting" class="gallery-setting" @click="milestoneDialog = true" />
+              </el-tooltip>
+            </div>
             <el-checkbox-group v-model="milestoneCheckList" class="milestone">
-              <el-checkbox class="milestone-list" label="MindStorm" disabled />
-              <el-checkbox class="milestone-list" label="PrototypeDesign" disabled />
-              <el-checkbox class="milestone-list" label="Develop" disabled />
-              <el-checkbox class="milestone-list" label="ShowOut" disabled />
+              <el-checkbox
+                v-for="(item, index) in milestoneList"
+                :key="index"
+                class="milestone-list"
+                :label="item.label"
+                disabled
+              />
             </el-checkbox-group>
+            <m-dialog
+              v-model="milestoneDialog"
+              title="Setting Milestone"
+              width="600px"
+            >
+              <div>
+                <div v-for="(item, index) in milestoneList" :key="index">
+                  <el-input v-model="item.label" />
+                  <el-checkbox v-model="item.status" />
+                </div>
+                <el-button @click="milestoneList.push({label: '', status: false})">
+                  添加
+                </el-button>
+                <el-button @click="postMinetokenMilestones">
+                  保存
+                </el-button>
+              </div>
+            </m-dialog>
           </div>
         </div>
 
@@ -446,14 +475,12 @@ export default {
         viewHeight: '240px',
         aspectRatio: 1 / 1
       },
+      milestoneList: [],
+      milestoneDialog: false,
       galleryDialog: false,
-      galleryImageList: [
-        'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3490011077,3063979068&fm=26&gp=0.jpg',
-        'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3490011077,3063979068&fm=26&gp=0.jpg',
-        'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3490011077,3063979068&fm=26&gp=0.jpg',
-        'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3490011077,3063979068&fm=26&gp=0.jpg',
-        'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3490011077,3063979068&fm=26&gp=0.jpg',
+      projectImageList: [
       ],
+      projectImageListUpload: [],
       minetokenToken: Object.create(null),
       resourcesSocialss: [],
       resourcesWebsites: [],
@@ -565,9 +592,15 @@ export default {
       this.task()
 
       this.chartsVote(this.$route.params.id)
+      this.getMinetokenImages(this.$route.params.id)
+      this.getMinetokenMilestones(this.$route.params.id)
+
     }
   },
   methods: {
+    projectImage(src) {
+      return src ? this.$ossProcess(src, { h: 200 }) : ''
+    },
     async minetokenId(id) {
       await this.$API.minetokenId(id).then(res => {
         if (res.code === 0) {
@@ -815,11 +848,66 @@ export default {
     },
     // 图片上传完成
     done(data) {
-      if (data.type === 'coinsCover') {
-        //
-        console.log(data)
+      if (data.type) {
+        this.projectImageListUpload[Number(data.type)] = data.data.cover
+        this.postMinetokenImages()
       }
     },
+    // 项目图片
+    async getMinetokenImages(id) {
+      await this.$API.getMinetokenImages(id).then(res => {
+        const list = res.data.map(item => this.projectImage(item.url))
+        this.projectImageList = list
+
+        this.projectImageListUpload = res.data.map(item => item.url)
+
+        if (this.projectImageListUpload.length < 5) {
+          for (let i = 0; i <= 6 - this.projectImageListUpload.length; i++) {
+            this.projectImageListUpload.push({})
+          }
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    async postMinetokenImages() {
+      const data = this.projectImageListUpload.filter(item => !this.$utils.isNull(item))
+      await this.$API.postMinetokenImages(this.$route.params.id, {
+        images: data
+      }).then(res => {
+        if (res.code === 0) {
+          this.$message.success(res.message)
+          this.getMinetokenImages(this.$route.params.id)
+        } else {
+          this.$message.error(res.message)
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    async getMinetokenMilestones(id) {
+      await this.$API.gettMinetokenMilestones(id).then(res => {
+        this.milestoneList = res.data
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    async postMinetokenMilestones() {
+      this.milestoneList.map(item => {
+        item.status = item.status ? 1 : 0
+      })
+      await this.$API.postMinetokenMilestones(this.$route.params.id, {
+        milestones: this.milestoneList
+      }).then(res => {
+        if (res.code === 0) {
+          this.$message.success(res.message)
+        } else {
+          this.$message.error(res.message)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>
@@ -1123,18 +1211,17 @@ export default {
   }
 }
 .near-trx-box {
-font-size: 36px;
-    color: #542de0;
-    width: 60px;
-    height: 30px;
-    border-radius: 2px;
-    padding: 6px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-
+  font-size: 36px;
+  color: #542de0;
+  width: 60px;
+  height: 30px;
+  border-radius: 2px;
+  padding: 6px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
 
   .near-logo {
     font-size: 50px;
@@ -1220,22 +1307,22 @@ font-size: 36px;
   padding: 0;
   &::after {
     display: block;
-    content: '';
+    content: "";
     width: 0;
     height: 0;
     clear: both;
   }
   &-cover {
-     width: 100px;
-     height: 62px;
-     border: 1px solid #e8e8e8;
-     box-sizing: border-box;
-     margin-bottom: 10px;
-     img {
-       width: 100%;
-       height: 100%;
-       object-fit: cover;
-     }
+    width: 100px;
+    height: 62px;
+    border: 1px solid #e8e8e8;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   li {
     list-style: none;
