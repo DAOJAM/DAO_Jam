@@ -43,7 +43,11 @@
                   </a>
                 </el-tooltip>
               </div>
-              <div class="dao-block__info__number dao-number__one">
+              
+              <div class="dao-block__brief">
+                {{ card.introduction || '暂无' }}
+              </div>
+              <!-- <div class="dao-block__info__number dao-number__one">
                 <div class="dao__info__number__block">
                   <svg-icon
                     icon-class="members"
@@ -65,10 +69,10 @@
                   />
                   {{ card.daot || 0 }}
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
-          <div class="dao-block__info__number dao-number__two">
+          <div class="dao-block__info__number">
             <div class="dao__info__number__block">
               <svg-icon
                 icon-class="members"
@@ -90,9 +94,6 @@
               />
               {{ card.daot || 0 }}
             </div>
-          </div>
-          <div class="dao-block__brief">
-            {{ card.introduction || '暂无' }}
           </div>
         </div>
       </div>
@@ -198,6 +199,11 @@ export default {
   }
   &:hover {
     background:rgba(98,54,255,1);
+    .dao-block__cover {
+      img {
+        transform: scale(1.1);
+      }
+    }
   }
   &::after {
     content: '';
@@ -218,21 +224,22 @@ export default {
   padding: 20px;
 }
 .dao-block__cover {
-  height: 90px;
+  height: 180px;
+  overflow : hidden;
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: all 0.5s;
   }
 }
 .dao-block__head {
   display: flex;
-  align-items: center;
+  align-items: end;
 }
 
 .dao-block__head__info {
   width: 100%;
-  height: 60px;
   margin: 0 0 0 10px;
   box-sizing: border-box;
   overflow: hidden;
@@ -252,7 +259,7 @@ export default {
 .dao-block__info__number {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 
   font-size:16px;
   font-weight:400;
@@ -277,10 +284,10 @@ export default {
   font-weight:400;
   color:rgba(255,255,255,1);
   line-height:22px;
-  height: (22px * 4);
+  height: (22px * 3);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   overflow: hidden;
   text-align: left;
 }
@@ -388,9 +395,12 @@ export default {
   .dao-block__brief {
     font-size: 14px;
   }
+  .dao-block__cover {
+    height: 180px;
+  }
 }
 
-@media screen and (min-width: 768px) and (max-width: 992px) {
+@media screen and (min-width: 769px) and (max-width: 992px) {
   .dao-content {
     max-width: 85%;
   }
@@ -405,6 +415,9 @@ export default {
   .dao-block__head__info h3 {
     font-size: 16px;
     line-height: 22px;
+  }
+  .dao-block__cover {
+    height: 158px;
   }
 }
 @media screen and (min-width: 520px) and (max-width: 992px) {
@@ -425,10 +438,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1200px) {
-  .dao-block__head__info {
-    height: 50px;
-  }
+@media screen and (min-width: 769px) and (max-width: 1200px) {
   .dao-block .components-avatar {
     width: 50px;
     height: 50px;
@@ -445,7 +455,7 @@ export default {
   .dao-block__brief {
     font-size: 14px;
     line-height: 20px;
-    height: (20px * 4);
+    height: (20px * 3);
   }
   // .dao-btn {
   //   height: 28px;
@@ -461,6 +471,9 @@ export default {
   .dao-block__head__info h3 {
     font-size: 18px;
     line-height: 24px;
+  }
+  .dao-block__cover {
+    height: 160px;
   }
 }
 </style>

@@ -690,5 +690,9 @@ export default {
     voteTodayHelp: 'Vote Power 和 票 是什么？',
     tomorrowGainTitle: '你明日可领取 600 Vote Power',
     tomorrowGainText: '每天可在导航栏中手动领取昨日投Vote Power总量的1/3 + 20 Vote Power'
+  },
+  accountManagement: {
+    unbind: '取消绑定',
+    mainAccount: '主账号',
   }
 }

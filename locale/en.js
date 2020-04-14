@@ -13,7 +13,7 @@ export default {
   notFollowContent: 'No connect from follow',
   notBuyHistory: 'No history',
   setting: 'Settings',
-  login: 'Sign In',
+  login: 'LOGIN WITH',
   logout: 'Log out',
   registered: 'Sign Up',
   edit: 'Edit',
@@ -690,5 +690,9 @@ export default {
     voteTodayHelp: 'What is Vote Power and ticket?',
     tomorrowGainTitle: 'You can gain 600 Vote Power tommorrow',
     tomorrowGainText: 'You can gain 1/3 Vote Power of your voted yesterday + 20 a day.'
+  },
+  accountManagement: {
+    unbind: 'Unbind',
+    mainAccount: 'Main account',
   }
 }
