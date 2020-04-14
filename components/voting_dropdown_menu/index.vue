@@ -145,12 +145,11 @@ export default {
   computed: {
     ...mapGetters(['isLogined']),
   },
-  beforeMount() {
-    if (this.isLogined) this.balanceOfDaot()
+  watch: {
+    isLogined(val) {
+      if (val) this.balanceOfDaot()
+    }
   },
-  /* mounted() {
-    this.balanceOfDaot()
-  }, */
   methods: {
     async balanceOfDaot() {
       try {

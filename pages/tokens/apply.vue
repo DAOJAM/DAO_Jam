@@ -112,7 +112,9 @@ export default {
         if (res.code === 0) {
           this.holdLoading = false
           if (res.data.token) this.$router.push({ name: 'editminetoken' })
-        } else this.$message.error(res.message)
+        } else {
+          //this.$message.error(res.message)
+        }
       })
     }
   }

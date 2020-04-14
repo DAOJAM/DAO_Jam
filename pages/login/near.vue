@@ -2,7 +2,7 @@
   <div
     v-loading="loading"
     style="height: 100%;"
-    element-loading-text="near登录中..."
+    element-loading-text="near login..."
   />
 </template>
 
