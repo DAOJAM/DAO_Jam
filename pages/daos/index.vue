@@ -52,7 +52,7 @@
         </div>
 
         <div class="dao-cow">
-          <div class="dao-col">
+          <div class="dao-col new-project-col">
             <div
               class="dao-block new-project"
               @click="createDaoDialog = true"
@@ -382,6 +382,9 @@ export default {
     margin-left: 40px;
     margin-right: 40px;
   }
+  &.new-project-col {
+    max-height: 280px;
+  }
 }
 
 .dao-pagination {
@@ -396,7 +399,6 @@ export default {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  transition: all 0.2s;
   cursor: pointer;
   // background: rgba(98,54,255,0.3);
 
@@ -428,7 +430,7 @@ export default {
   }
   &.new-project {
     min-height: 0;
-    height: 359px;
+    height: 358px;
   }
 
   &:hover {
@@ -547,7 +549,7 @@ export default {
   }
   .dao-block {
     &.new-project {
-    height: 348px;
+    height: 347px;
     }
   }
 }
@@ -578,7 +580,7 @@ export default {
   }
   .dao-block {
     &.new-project {
-    height: 316px;
+    height: 315px;
     }
   }
 }
@@ -589,7 +591,7 @@ export default {
   }
   .dao-block {
     &.new-project {
-      height: 320px;
+      height: 319px;
     }
   }
 }
