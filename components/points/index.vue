@@ -1,5 +1,5 @@
 <template>
-  <div class="points-main">
+  <div>
     <div
       v-loading="loading"
       class="card-container"

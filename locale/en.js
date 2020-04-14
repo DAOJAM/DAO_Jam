@@ -581,7 +581,7 @@ export default {
     unitPrice: 'unit price',
     totalPrice: 'total price',
     // account
-    remainingPoints: 'Remaining DaoT:',
+    remainingPoints: 'Remaining Vote Power:',
     inviteUser: 'Users I invited',
     registeredDate: 'Registration time',
     inviteRule: 'Note: Those who are not activated can complete activation after reading 5 articles and making an evaluation. After activation, you can receive extra {0} points.',
@@ -603,7 +603,7 @@ export default {
     infoSetting: 'settings',
     accountSetting: 'account management',
     systemSetting: 'other settings',
-    wallet: 'My DaoT',
+    wallet: 'My Vote Power',
     point: 'point detail',
     invite: 'Invitation Records',
     buycoins: 'Items I voted for',
@@ -677,19 +677,19 @@ export default {
   kyc: {
     notificationPop: {
       title: 'Special offer',
-      message: 'You can get 100 DaoT bonus after you bind NEAR Wallet!',
+      message: 'You can get 100 Vote Power bonus after you bind NEAR Wallet!',
       buttonText: 'Go'
     }
   },
   voteDropdown: {
     rewardTitle: 'Reward',
-    rewardText: 'Gain 100 DaoT after binding NEAR wallet',
-    gainDaoT: 'Gain 100 DaoT',
-    voteTodayTitle: 'You have cost {0} DaoT，voted {1} ticket today',
+    rewardText: 'Gain 100 Vote Power after binding NEAR wallet',
+    gainVotePower: 'Gain 100 Vote Power',
+    voteTodayTitle: 'You have cost {0} Vote Power，voted {1} ticket today',
     voteTodayText: 'You can voted at most 10 tickets & 3 times perday per project.',
-    voteTodayHelp: 'What is DaoT and ticket?',
-    tomorrowGainTitle: 'You can gain 600 DaoT tommorrow',
-    tomorrowGainText: 'You can gain 1/3 DaoT of your voted yesterday + 20 a day.'
+    voteTodayHelp: 'What is Vote Power and ticket?',
+    tomorrowGainTitle: 'You can gain 600 Vote Power tommorrow',
+    tomorrowGainText: 'You can gain 1/3 Vote Power of your voted yesterday + 20 a day.'
   },
   accountManagement: {
     unbind: 'Unbind',

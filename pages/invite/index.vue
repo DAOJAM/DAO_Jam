@@ -188,6 +188,7 @@ export default {
   font-size: 20px;
   padding-left: 10px;
   margin: 0;
+  color: #ffffff;
 }
 </style>
 

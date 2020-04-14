@@ -52,7 +52,7 @@
         </div>
 
         <div class="dao-cow">
-          <div class="dao-col new-project-col">
+          <div class="dao-col new-project-col" v-if="!hadProject">
             <n-link
               :to="{ name: 'daos-create' }"
             >
@@ -64,7 +64,7 @@
                   class="icon-add"
                 />
                 <p class="dao-add__text">
-                  Create New Project（Need 100 DaoT
+                  Create New Project（Need 100 Vote Power
                   <svg-icon
                     icon-class="daot"
                     class="icon-dao"
@@ -88,10 +88,10 @@
           width="400px"
           title="Create Your Project"
         >
-          <el-form  
+          <el-form
             ref="form"
             :model="form"
-            label-position="top" 
+            label-position="top"
             label-width="80px"
           >
             <el-form-item>
@@ -163,7 +163,7 @@ export default {
       pull: {
         all: {
           params: {
-            pagesize: 8
+            pagesize: 9
           },
           apiUrl: 'projectAll',
           list: []
@@ -203,7 +203,8 @@ export default {
       }],
       filterValue: 'rank',
       sortRadio: this.$route.query.filter || 'all',
-      reload: 0
+      reload: 0,
+      hadProject: true
     }
   },
   computed: {
@@ -224,7 +225,15 @@ export default {
       this.reload = Date.now()
     }
   },
+  mounted() {
+    this.tokenDetail()
+  },
   methods: {
+    async tokenDetail() {
+      const res = await this.$API.tokenDetail()
+      if (res.code === 0 && res.data.token) this.hadProject = true
+      else this.hadProject = false
+    },
     // 创建dao
     async createDao() {
       // Detect if you have NEAR bind
@@ -364,7 +373,7 @@ export default {
       margin-right: 20px;
     }
   }
-  
+
 }
 
 .dao-cow {
