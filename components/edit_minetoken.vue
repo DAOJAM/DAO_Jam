@@ -144,6 +144,26 @@
       </el-form-item>
 
       <el-form-item
+        label="Milestone"
+        prop=""
+        class="customize"
+      >
+        <div class="milestone">
+          <div v-for="(item, index) in milestoneList" :key="index" class="fl ac">
+            <el-input v-model="item.label" />
+            <el-checkbox v-model="item.status" class="milestone-checkbox" />
+            <svg-icon icon-class="close" class="milestone-close" @click="milestoneList.splice(index, 1)" />
+          </div>
+          <el-button type="primary" size="small" @click="milestoneList.push({label: '', status: false})">
+            Add
+          </el-button>
+          <el-button type="primary" size="small" @click="postMinetokenMilestones">
+            Save
+          </el-button>
+        </div>
+      </el-form-item>
+
+      <el-form-item
         v-if="!isPost"
         label="Team Member"
         prop=""
@@ -213,6 +233,32 @@
             />
           </div>
         </div>
+      </el-form-item>
+
+      <el-form-item
+        label="Project Images"
+        prop=""
+        class="customize"
+      >
+        <ul class="gallery-list">
+          <li v-for="(item, index) in projectImageListUpload" :key="index">
+            <div>
+              <div class="gallery-list-cover">
+                <img v-if="item.url" :src="projectImage(item.url)" alt="image">
+              </div>
+              <div>
+                <el-button type="primary" size="small" @click="coverUploadImages(index+'')">
+                  Upload
+                </el-button>
+              </div>
+              <div>
+                <el-button type="primary" size="small" @click="delProjectImage(index)">
+                  Delete
+                </el-button>
+              </div>
+            </div>
+          </li>
+        </ul>
       </el-form-item>
 
       <el-form-item
@@ -372,6 +418,14 @@ export default {
       },
       searchUserDialog: false, // 添加队员
       isPost: true,
+      milestoneList: [], // 里程碑
+      projectImageListUpload: [
+        {url: ''},
+        {url: ''},
+        {url: ''},
+        {url: ''},
+        {url: ''},
+      ], // 项目图片
     }
   },
   computed: {
@@ -497,6 +551,8 @@ export default {
             this.tokenDetailData = res.data
 
             this.minetokenGetResources(token.id)
+            this.getMinetokenMilestones(token.id)
+            this.getMinetokenImages(token.id)
           }
           //else this.$router.push({ name: 'tokens-apply' })
         } else {
@@ -624,16 +680,74 @@ export default {
       if (this.about.length <= 1) return
       this.about.splice(i, 1)
     },
+    // 图片上传完成
     done(data) {
       if (data.type === 'coinsCover') {
         this.form.cover = data.data.cover
+      } else {
+        // project image data type是数字索引
+        this.projectImageListUpload[Number(data.type)].url = data.data.cover
+        this.postMinetokenImages()
       }
+    },
+    // 项目图片上传
+    async postMinetokenImages() {
+      let list = []
+      for (let i = 0; i < this.projectImageListUpload.length; i++) {
+        try {
+          if (this.projectImageListUpload[i].url) {
+            list.push(this.projectImageListUpload[i].url)
+          }
+        } catch (e) {
+          console.log(e)
+        }
+      }
+      await this.$API.postMinetokenImages(this.tokenId, {
+        images: list
+      }).then(res => {
+        if (res.code === 0) {
+          this.$message.success(res.message)
+        } else {
+          this.$message.error(res.message)
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    // 项目图片
+    async getMinetokenImages(id) {
+      await this.$API.getMinetokenImages(id).then(res => {
+        this.projectImageListUpload = res.data.map(item => ({url: item.url}))
+        const len = this.projectImageListUpload.length
+        if (len < 5) {
+          for (let i = 1; i <= 5 - len; i++) {
+            this.projectImageListUpload.push({url: ''})
+          }
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 删除图片
+    delProjectImage(i) {
+      this.projectImageListUpload[i].url = ''
+      this.postMinetokenImages()
+    },
+    projectImage(src) {
+      return src ? this.$ossProcess(src, { h: 200 }) : ''
     },
     coverUpload(type) {
       this.imgUploadConfig.viewWidth =  440 * 0.8 + 'px'
       this.imgUploadConfig.viewHeight = 124 * 0.8 + 'px'
       this.imgUploadConfig.type = type
       this.imgUploadConfig.aspectRatio = 440 / 124
+      this.imgUploadConfig.open++
+    },
+    coverUploadImages(type) {
+      this.imgUploadConfig.viewWidth =  200 + 'px'
+      this.imgUploadConfig.viewHeight = 124 + 'px'
+      this.imgUploadConfig.type = type
+      this.imgUploadConfig.aspectRatio = 200 / 124
       this.imgUploadConfig.open++
     },
     removeProjectPeople(i) {
@@ -653,6 +767,39 @@ export default {
         })          
       })
     },
+    // 里程碑设置
+    async getMinetokenMilestones(id) {
+      await this.$API.gettMinetokenMilestones(id).then(res => {
+        let list = res.data.slice(0)
+        list.map(item => {
+          item.status = !!item.status
+        })
+        this.milestoneList = list
+        console.log(this.milestoneList)
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    async postMinetokenMilestones() {
+      const milestoneList = this.milestoneList
+      let list = []
+      for (let i = 0; i < milestoneList.length; i++) {
+        let item = { ...milestoneList[i] }
+        item.status = item.status ? 1 : 0
+        list.push(item)
+      }
+      await this.$API.postMinetokenMilestones(this.tokenId, {
+        milestones: list
+      }).then(res => {
+        if (res.code === 0) {
+          this.$message.success(res.message)
+        } else {
+          this.$message.error(res.message)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>
@@ -862,6 +1009,50 @@ export default {
 }
 h2.progress.title {
   font-size: 20px;
+}
+
+.milestone {
+  width: 90%;
+  max-width: 400px;
+  &-checkbox {
+    margin-left: 10px;
+  }
+  &-close {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+  }
+}
+
+.gallery-list {
+  margin: 0;
+  padding: 0;
+  &::after {
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+  &-cover {
+    width: 100px;
+    height: 62px;
+    border: 1px solid #e8e8e8;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  li {
+    list-style: none;
+    float: left;
+    width: 100px;
+    margin-right: 10px;
+  }
 }
 </style>
 

@@ -1,44 +1,9 @@
 <template>
   <div>
     <div class="gallery">
-      <div class="fl ac">
-        <h2 class="token-title">
-          Project Images
-        </h2>
-        <el-tooltip
-          effect="dark"
-          content="Manage"
-          placement="top"
-        >
-          <svg-icon icon-class="setting" class="gallery-setting" @click="galleryDialog = true" />
-        </el-tooltip>
-        <m-dialog
-          v-model="galleryDialog"
-          title="Setting Gallery"
-          width="600px"
-        >
-          <ul class="gallery-list">
-            <li v-for="(item, index) in projectImageListUpload" :key="index">
-              <div>
-                <div class="gallery-list-cover">
-                  <img v-if="item" :src="item" alt="image">
-                </div>
-                <el-button @click="coverUpload(index+'')">
-                  上传
-                </el-button>
-              </div>
-            </li>
-          </ul>
-        </m-dialog>
-        <imgUploads
-          :open="imgUploadConfig.open"
-          :update-type="imgUploadConfig.type"
-          :view-width="imgUploadConfig.viewWidth"
-          :view-height="imgUploadConfig.viewHeight"
-          :aspect-ratio="imgUploadConfig.aspectRatio"
-          @done="done"
-        />
-      </div>
+      <h2 class="token-title">
+        Project Images
+      </h2>
       <viewer :images="projectImageList" class="gallery-m">
         <div v-for="(item, index) in projectImageList" :key="index" class="gallery-m-b">
           <img v-if="item" :src="item" alt="image">
@@ -126,17 +91,9 @@
 
         <div class="token-block mt20">
           <div class="token-list">
-            <div class="fl ac">
-              <h2 class="token-title">
-                Milestone
-              </h2><el-tooltip
-                effect="dark"
-                content="Manage"
-                placement="top"
-              >
-                <svg-icon icon-class="setting" class="gallery-setting" @click="milestoneDialog = true" />
-              </el-tooltip>
-            </div>
+            <h2 class="token-title">
+              Milestone
+            </h2>
             <div class="milestone">
               <el-checkbox
                 v-for="(item, index) in milestoneList"
@@ -147,24 +104,6 @@
                 disabled
               />
             </div>
-            <m-dialog
-              v-model="milestoneDialog"
-              title="Setting Milestone"
-              width="600px"
-            >
-              <div>
-                <div v-for="(item, index) in milestoneList" :key="index">
-                  <el-input v-model="item.label" />
-                  <el-checkbox v-model="item.status" />
-                </div>
-                <el-button @click="milestoneList.push({label: '', status: false})">
-                  添加
-                </el-button>
-                <el-button @click="postMinetokenMilestones">
-                  保存
-                </el-button>
-              </div>
-            </m-dialog>
           </div>
         </div>
 
@@ -452,13 +391,10 @@ import achievement3 from '@/assets/img/achievement3.png'
 import achievement4 from '@/assets/img/achievement4.png'
 import userPagination from '@/components/user/user_pagination.vue'
 import moment from 'moment'
-// import { isNDaysAgo } from '@/utils/momentFun'
-import imgUploads from '@/components/img_upload'
 
 export default {
   components: {
     userPagination,
-    imgUploads
   },
   data() {
     this.chartSettings = {
@@ -469,19 +405,8 @@ export default {
       }
     }
     return {
-      imgUploadConfig: { // 图片上传配置
-        open: 0,
-        type: '',
-        viewWidth: '240px',
-        viewHeight: '240px',
-        aspectRatio: 1 / 1
-      },
       milestoneList: [],
-      milestoneDialog: false,
-      galleryDialog: false,
-      projectImageList: [
-      ],
-      projectImageListUpload: [],
+      projectImageList: [],
       minetokenToken: Object.create(null),
       resourcesSocialss: [],
       resourcesWebsites: [],
@@ -839,50 +764,13 @@ export default {
         //
       }
     },
-    coverUpload(type) {
-      this.imgUploadConfig.viewWidth =  200 + 'px'
-      this.imgUploadConfig.viewHeight = 124 + 'px'
-      this.imgUploadConfig.type = type
-      this.imgUploadConfig.aspectRatio = 200 / 124
-      this.imgUploadConfig.open++
-    },
-    // 图片上传完成
-    done(data) {
-      if (data.type) {
-        this.projectImageListUpload[Number(data.type)] = data.data.cover
-        this.postMinetokenImages()
-      }
-    },
     // 项目图片
     async getMinetokenImages(id) {
       await this.$API.getMinetokenImages(id).then(res => {
         const list = res.data.map(item => this.projectImage(item.url))
         this.projectImageList = list
-
-        this.projectImageListUpload = res.data.map(item => item.url)
-
-        if (this.projectImageListUpload.length < 5) {
-          for (let i = 0; i <= 6 - this.projectImageListUpload.length; i++) {
-            this.projectImageListUpload.push({})
-          }
-        }
       }).catch(err => {
         console.log(err)
-      })
-    },
-    async postMinetokenImages() {
-      const data = this.projectImageListUpload.filter(item => !this.$utils.isNull(item))
-      await this.$API.postMinetokenImages(this.$route.params.id, {
-        images: data
-      }).then(res => {
-        if (res.code === 0) {
-          this.$message.success(res.message)
-          this.getMinetokenImages(this.$route.params.id)
-        } else {
-          this.$message.error(res.message)
-        }
-      }).catch(e => {
-        console.log(e)
       })
     },
     async getMinetokenMilestones(id) {
@@ -895,22 +783,6 @@ export default {
         console.log(e)
       })
     },
-    async postMinetokenMilestones() {
-      this.milestoneList.map(item => {
-        item.status = item.status ? 1 : 0
-      })
-      await this.$API.postMinetokenMilestones(this.$route.params.id, {
-        milestones: this.milestoneList
-      }).then(res => {
-        if (res.code === 0) {
-          this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-    }
   }
 }
 </script>
