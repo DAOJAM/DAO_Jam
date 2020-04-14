@@ -52,7 +52,7 @@
         </div>
 
         <div class="dao-cow">
-          <div class="dao-col new-project-col">
+          <div class="dao-col new-project-col" v-if="!hadProject">
             <n-link
               :to="{ name: 'daos-create' }"
             >
@@ -203,7 +203,8 @@ export default {
       }],
       filterValue: 'rank',
       sortRadio: this.$route.query.filter || 'all',
-      reload: 0
+      reload: 0,
+      hadProject: true
     }
   },
   computed: {
@@ -224,7 +225,15 @@ export default {
       this.reload = Date.now()
     }
   },
+  mounted() {
+    this.tokenDetail()
+  },
   methods: {
+    async tokenDetail() {
+      const res = await this.$API.tokenDetail()
+      if (res.code === 0 && res.data.token) this.hadProject = true
+      else this.hadProject = false
+    },
     // 创建dao
     async createDao() {
       // Detect if you have NEAR bind
