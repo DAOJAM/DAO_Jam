@@ -5,107 +5,226 @@
     <div
       class="daos"
     >
-      <svg-icon
-        class="icon"
-        icon-class="daot"
-      />
-      {{ daot }}
+      <span :class="{ badge: true }">
+        <svg-icon
+          class="icon"
+          icon-class="daot"
+        />
+      </span>
+      {{ power }}
     </div>
     <el-dropdown-menu
       slot="dropdown"
       class="user-dorpdown"
     >
-      <div class="fl tickets">
-        <p class="main-text f1">
-          I have {{ daot }} DaoT
-        </p>
-        <div>
+      <el-row>
+        <el-col :span="16">
+          <span class="header">Vote Power</span>
+          <el-tooltip
+            class="pentagram"
+            effect="dark"
+            content="You can voted projects by Vote Power."
+            placement="bottom"
+          >
+            <svg-icon
+              class="help-icon"
+              icon-class="help"
+            />
+          </el-tooltip>
+        </el-col>
+        <el-col class="second-column" :span="8">
+          <span class="what" @click="showVotePowerIntroduction">What is it?</span>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col class="data-column" :span="16">
+          <span class="amount">{{ power }}</span>
+          <svg-icon
+            class="get-button-icon"
+            icon-class="daot"
+          />
+        </el-col>
+        <el-col class="second-column" :span="8">
           <el-button
             size="mini"
             class="details-button"
             @click="$router.push({ name: 'account' })"
           >
-            DETAILS
+            Detail
           </el-button>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
       <el-divider />
-      <div v-if="isNewbie" class="bonus-get">
-        <p class="main-text">
-          {{ $t('voteDropdown.rewardTitle') }}
-        </p>
-        <p class="annotate">
-          {{ $t('voteDropdown.rewardText') }}
-        </p>
-        <el-button
-          class="get-button"
-          type="primary"
-          round
-          @click="getNewbieBonus"
-        >
-          {{ $t('voteDropdown.gainDaoT') }}
+      <el-row>
+        <el-col>
+          <span class="header">Vote Record</span>
+          <el-tooltip
+            class="pentagram"
+            effect="dark"
+            content="You can voted at most 10 tickets & 3 times perday per project."
+            placement="bottom"
+          >
+            <svg-icon
+              class="help-icon"
+              icon-class="help"
+            />
+          </el-tooltip>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col class="data-column" :span="16">
+          <span class="amount">{{ today.count }}</span>
           <svg-icon
             class="get-button-icon"
-            icon-class="daot"
+            icon-class="tickets"
           />
-        </el-button>
-      </div>
-      <div v-else class="bonus-get">
-        <p class="main-text">
-          Today you can get 120 DaoT
-        </p>
-        <p class="annotate">
-          Come to get it today!
-        </p>
-        <el-button
-          class="get-button"
-          type="primary"
-          round
+          <span style="font-size: 12px">
+            (
+            <span>{{ today.power }}</span>
+            <svg-icon
+              class="get-button-icon"
+              icon-class="daot"
+            />
+            ) Today
+          </span>
+        </el-col>
+        <el-col class="second-column" :span="8">
+          <el-button
+            size="mini"
+            class="details-button"
+            @click="$router.push({ name: 'tokens' })"
+          >
+            Detail
+          </el-button>
+        </el-col>
+      </el-row>
+      <div class="dao-list">
+        <div
+          v-for="(dao, item) in daoList"
+          :key="item"
+          class="dao fl"
         >
-          GET 120
+          <p class="dao-title">
+            {{ dao.title }}
+          </p>
+          <p class="dao-num">
+            {{ dao.num }}
+          </p>
           <svg-icon
             class="get-button-icon"
-            icon-class="daot"
+            icon-class="tickets"
           />
-        </el-button>
-      </div>
-      <div>
-        <p class="main-text">
-          {{ $t('voteDropdown.voteTodayTitle', [600, 46]) }}
-        </p>
-        <p class="annotate">
-          {{ $t('voteDropdown.voteTodayText') }}
-          <router-link :to="{ name: 'account' }">
-            {{ $t('voteDropdown.voteTodayHelp') }}
+        </div>
+        <p class="more">
+          <router-link :to="{ name: 'tokens' }">
+            View more
           </router-link>
         </p>
-        <div class="dao-list">
-          <div
-            v-for="(dao, item) in daoList"
-            :key="item"
-            class="dao fl"
-          >
-            <p class="dao-title">
-              {{ dao.title }}
-            </p>
-            <p class="dao-num">
-              {{ dao.num }}
-            </p>
-          </div>
-          <p class="more">
-            <router-link :to="{ name: 'tokens' }">
-              more details
-              <i class="el-icon-d-arrow-right" />
-            </router-link>
-          </p>
-        </div>
-        <p class="main-text">
-          {{ $t('voteDropdown.tomorrowGainTitle') }}
-        </p>
-        <p class="annotate">
-          {{ $t('voteDropdown.tomorrowGainText') }}
-        </p>
       </div>
+      <el-row>
+        <span class="header">Get Rewards</span>
+        <el-tooltip
+          class="pentagram"
+          effect="dark"
+          placement="bottom"
+        >
+          <svg-icon
+            class="help-icon"
+            icon-class="help"
+          />
+          <div slot="content">
+            Gain 100 DaoT after binding NEAR wallet.
+            <a style="color: white; text-decoration: underline;" href="https://wallet.nearprotocol.com/">https://wallet.nearprotocol.com/</a>
+          </div>
+        </el-tooltip>
+      </el-row>
+      <el-row>
+        <span>
+          {{ $t('voteDropdown.tomorrowGainTitle') }}
+        </span>
+        <el-tooltip
+          class="pentagram"
+          effect="dark"
+          content="You can gain 1/3 VP of your costed yesterday + 20 a day."
+          placement="bottom"
+        >
+          <svg-icon
+            class="help-icon"
+            icon-class="help"
+          />
+        </el-tooltip>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <div class="reward-text">
+            <span>Everyday Reward</span>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-button
+            class="get-button badge"
+            type="primary"
+            size="mini"
+          >
+            Gain 20vp
+            <svg-icon
+              class="get-button-icon"
+              icon-class="daot"
+            />
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <div class="reward-text">
+            <span>Link to NEAR</span>
+            <el-tooltip
+              class="pentagram"
+              effect="dark"
+              content="Gain 100 VP after binding NEAR wallet"
+              placement="bottom"
+            >
+              <svg-icon
+                class="help-icon"
+                icon-class="help"
+              />
+            </el-tooltip>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-button
+            class="get-button badge"
+            type="primary"
+            size="mini"
+          >
+            Gain 100vp
+            <svg-icon
+              class="get-button-icon"
+              icon-class="daot"
+            />
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <div class="reward-text">
+            <span>Voted 5 projects</span>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-button
+            class="get-button badge"
+            type="primary"
+            size="mini"
+          >
+            Gain 60vp
+            <svg-icon
+              class="get-button-icon"
+              icon-class="daot"
+            />
+          </el-button>
+        </el-col>
+      </el-row>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -123,39 +242,42 @@ export default {
       daoList: [
         {
           title: 'MTF DAO',
-          num: '- 15'
+          num: 15
         },
         {
           title: 'MTF DAO',
-          num: '- 15'
+          num: 15
         },
         {
           title: 'MTF DAO',
-          num: '- 15'
+          num: 15
         },
         {
           title: 'MTF DAO',
-          num: '- 15'
+          num: 15
         }
       ],
-      daot: 0
+      power: 0,
+      today: {
+        count: 0,
+        power: 0
+      }
     }
   },
   // props: {},
   computed: {
     ...mapGetters(['isLogined']),
   },
-  beforeMount() {
-    this.balanceOfDaot()
+  watch: {
+    isLogined(val) {
+      if (val) this.balanceOfDaot()
+    }
   },
-  /* mounted() {
-    this.balanceOfDaot()
-  }, */
   methods: {
     async balanceOfDaot() {
       try {
         const result = await this.$API.balanceOf()
-        this.daot = result.data
+        this.power = result.data
       } catch (error) {
         console.log(error)
       }
@@ -168,7 +290,7 @@ export default {
           type: 'error',
           // callback: (action) => {
           //   if (action === 'confirm') this.$router.push('/setting/account')
-          //   else 
+          //   else
           // }
         }).then(() => {
           this.$router.push('/setting/account')
@@ -195,6 +317,22 @@ export default {
           })
         }
       }
+    },
+    showVotePowerIntroduction() {
+      const h = this.$createElement
+      this.$msgbox({
+        title: '介绍',
+        message: h('div', null, [
+          h('h2', null, 'VotePower是什么？'),
+          h('p', null, 'VotePower是DAOJAM中用来支持项目的一种资源，每一个VotePower都是 ERC-20 的Token。在DAOJAM中采用了二次方投票法：当您希望给一个项目支持5票时，就需要付出 5^2 = 25 个VotePower。最终得票最高的项目会赢得DAOJAM的项目大奖，而在得奖项目中投VotePower最多的用户会获得伯乐奖励。您的每一次投票都会被记录在区块链上，保障DAOJAM比赛过程中的公开透明性。'),
+          h('h2', null, '如何获得票？'),
+          h('p', null, '绑定Github和Email可自动领取 100 VotePower'),
+          h('p', null, '每天可在导航栏中手动领取昨日投DaoT总量的1/3 + 20 VotePower'),
+          h('p', null, '邀请一名新用户领取奖励，自己可自动领取 50 VotePower'),
+          h('h2', null, '如何投票？'),
+          h('p', null, '前往PROJECTS页面查看感兴趣的项目，点击项目可以进入详情页中查看。对于支持的项目可以在详情页中直接投票。相信您的眼光，一定可以为我们找到最优质的的好项目！不过还请注意：单个项目单日最多可投票3次 且 投票总量不超过 10 票。')
+        ])
+      })
     }
   }
 }
@@ -223,11 +361,36 @@ export default {
   padding: 20px;
   width: 300px;
   box-shadow: 1px 3px 15px rgba(0,0,0,0.9);
+
+  .el-row {
+    margin-bottom: 8px;
+  }
+  .second-column {
+    text-align: right;
+  }
+
+  .header {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .amount {
+    font-size: 18px;
+  }
+  .what {
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .help-icon {
+    width: 12px;
+    height: 12px;
+  }
+
   .main-text {
     font-size:16px;
     font-weight:500;
     line-height:22px;
-    margin: 0 0 5px;
+    margin: 5px 0;
     &.f1 {
       flex: 1;
       margin: 0;
@@ -246,14 +409,15 @@ export default {
   .tickets {
     align-items: center;
   }
+  .data-column, .reward-text {
+    padding: 7px 0;
+    line-height: 22px;
+  }
   .get-button {
     width: 100%;
     font-size:16px;
     font-weight:500;
     line-height:22px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    margin: 20px 0;
     &-icon {
       color: #fff;
       font-size: 22px;
@@ -269,9 +433,12 @@ export default {
     padding: 4px 12px;
   }
   .dao-list {
-    margin: 20px 0;
+    background: rgb(32, 32, 32);
+    margin: 16px 0;
+    padding: 4px 12px;
     .more{
       text-align:center;
+      margin: 2px 0;
       a {
         color: white;
         font-size:12px;
@@ -291,11 +458,29 @@ export default {
       .dao-num {
         font-size:14px;
         font-weight:500;
-        color:#FB6877;
         line-height:20px;
-        margin:0;
+        margin: 0 4px 0 0;
       }
     }
+  }
+}
+</style>
+
+<style lang="less">
+.badge {
+  position: relative;
+  &::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: rgba(251,104,119,1);
+    position: absolute;
+    z-index: 1000;
+    right: 0%;
+    margin-right: -3px;
+    margin-top: -3px;
+    top: 0;
   }
 }
 </style>

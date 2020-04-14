@@ -1,6 +1,6 @@
 <template>
   <div class="tg-container">
-    <!-- <div v-loading='loading' style='height: 100%;' element-loading-text='登录中...' /> -->
+    <!-- <div v-loading='loading' style='height: 100%;' element-loading-text=' login...' /> -->
     <p class="tips">
       loading...
     </p>

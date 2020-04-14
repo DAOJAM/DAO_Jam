@@ -1156,4 +1156,10 @@ export default {
 .dao-link-vote {
   margin-top: 20px;
 }
+
+.supporter-count {
+  font-size: 14px;
+  color: #542de0;
+  vertical-align: super;
+}
 </style>

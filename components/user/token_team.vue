@@ -2,7 +2,7 @@
   <div>
     <div class="project-people">
       <h3 class="project-title">
-        邀请列表({{ teamInviteData.count }})
+        Invitation List({{ teamInviteData.count }})
       </h3>
       <div
         v-for="(item, index) in teamInviteData.list"
@@ -15,18 +15,18 @@
             <p>{{ item.nickname || item.username }}</p>
           </router-link>
           <div>
-            <span>还在等待对方确定...</span>
+            <span>Still waiting for the other party to confirm...</span>
             <el-button type="primary" @click="copyInviteLink(index)">
-              复制邀请链接
+              Copy invitation link
             </el-button>
             <el-button type="primary" @click="removeTeamMember(index, 'invite')">
-              取消邀请
+              Cancel invitation
             </el-button>
           </div>
         </div>
       </div>
       <h3 class="project-title">
-        申请列表({{ teamApplyData.count }})
+        Application List({{ teamApplyData.count }})
       </h3>
       <div
         v-for="(item, index) in teamApplyData.list"
@@ -40,18 +40,18 @@
           </router-link>
           <div>
             <el-button type="primary" @click="agreeApply(index)">
-              同意
+              Agree
             </el-button>
             <el-button type="primary" @click="removeTeamMember(index, 'apply')">
-              忽略
+              Ignore
             </el-button>
           </div>
         </div>
-        <p v-if="item.contact" class="apply-list__text">联系方式: {{ item.contact }}</p>
-        <p v-if="item.content" class="apply-list__text content">申请理由: {{ item.content }}</p>
+        <p v-if="item.contact" class="apply-list__text">Contact: {{ item.contact }}</p>
+        <p v-if="item.content" class="apply-list__text content">Reason: {{ item.content }}</p>
       </div>
       <h3 class="project-title">
-        队员列表({{ teamData.count }})
+        Team Members({{ teamData.count }})
       </h3>
       <div
         v-for="(item, index) in teamData.list"
@@ -76,7 +76,7 @@
       size="small"
       @click="searchUserDialog = true"
     >
-      邀请队员
+      Invite team members
     </el-button>
     <!-- <p class="project-text">
       队员加入48h后不能变动
@@ -87,12 +87,12 @@
     />
     <m-dialog 
       v-model="inviteSuccess"
-      title="邀请提示"
+      title="Invitation tips"
       width="600px"
     >
       <div class="invite">
         <div>
-          <p>邀请信息已经发送成功, 您还可以复制链接发送给好友!</p>
+          <p>The invitation message has been sent successfully, you can also copy the link and send it to your friends!</p>
           <a
             :href="inviteAddress"
             target="_blank"
@@ -102,11 +102,11 @@
             @click="copyText(inviteAddress)"
           >
             <svg-icon icon-class="copy" />
-            复制
+            Copy
           </el-button>
         </div>
         <el-button @click="inviteSuccess = false">
-          确定
+          Confirm
         </el-button>
       </div>
     </m-dialog>
@@ -227,13 +227,13 @@ export default {
     // 移除项目成员
     async removeTeamPeople(i) {
       if (this.teamData.list[i].uid === this.currentUserInfo.id) {
-        this.$message.error('不能删除自己')
+        this.$message.error('Can\'t delete yourself')
         return
       }
 
-      this.$confirm('是否删除该队员?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm('Are you sure you want to delete this member?', 'Tips', {
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(() => {
         this.removeTeamMember(i)
@@ -242,7 +242,7 @@ export default {
     },
     // 复制邀请链接
     copyText(val) {
-      const text = `点击链接加入我的团队 ${val} 快来祝我一臂之力吧!`
+      const text = `Click the link to join my team ${val} !`
       this.$copyText(text).then(
         () => this.$message.success(this.$t('success.copy')),
         () => this.$message.error(this.$t('error.copy'))
@@ -252,7 +252,7 @@ export default {
     async inviteTeam(data) {
       if (data) {
         if (data.id === this.currentUserInfo.id) {
-          this.$message.error('不能邀请自己')
+          this.$message.error('Can\'t invite yourself')
           return
         }
         // 发送邀请
@@ -284,7 +284,7 @@ export default {
         })
 
       } else {
-        this.$message.error('没有搜索到用户')
+        this.$message.error('No users found!')
       }
     },
     // 搜索结果
