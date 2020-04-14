@@ -30,11 +30,6 @@
         <div class="header-right">
           <ul class="header-tag">
             <li>
-              <n-link :to="{name: 'index'}">
-                HOME
-              </n-link>
-            </li>
-            <li>
               <n-link :to="{name: 'daos'}">
                 PROJECTS
               </n-link>
@@ -46,27 +41,10 @@
             </li>
             <li>
               <n-link :to="{name: 'tasks'}">
-                TASKS
+                PRIZES
               </n-link>
             </li>
           </ul>
-          <div
-            class="notification"
-            @click="viewNotification"
-          >
-            <el-tooltip
-              effect="dark"
-              content="通知中心"
-              placement="bottom"
-            >
-              <n-link :class="{ badge: hasNewNotification }" to="/notification">
-                <svg-icon
-                  class="icon"
-                  icon-class="bell"
-                />
-              </n-link>
-            </el-tooltip>
-          </div>
           <!-- <div
             v-if="isLogined"
             class="daos"
@@ -117,6 +95,24 @@
                     :src="logoSrc"
                   />
                   {{ token.name }}
+                </el-dropdown-item>
+              </n-link>
+
+              <!-- 通知中心 -->
+              <n-link
+                to="/notification"
+                class="link">
+                <el-dropdown-item>
+                  <div
+                    class="icon-container"
+                    :class="{ badge: hasNewNotification }"
+                  >
+                    <svg-icon
+                      class="icon"
+                      icon-class="bell"
+                    />
+                  </div>
+                  Notification
                 </el-dropdown-item>
               </n-link>
 
@@ -299,7 +295,7 @@ export default {
           domHeader.style.backgroundColor = '#372BA1'
         }
       } catch (error) {
-        console.log(error) 
+        console.log(error)
       }
     },
     async refreshUser() {
@@ -395,9 +391,9 @@ export default {
           dangerouslyUseHTMLString: true,
           message: h('p', null, [
             h('p',  null, this.$t('kyc.notificationPop.message')),
-            h('el-button', { 
+            h('el-button', {
               props: {size: 'small', type: 'primary'},
-              on: { click: () => { this.$router.push('/setting/account') }} 
+              on: { click: () => { this.$router.push('/setting/account') }}
             }, this.$t('kyc.notificationPop.buttonText')),
           ]),
           duration: 0
@@ -503,6 +499,7 @@ export default {
         right: 0%;
         margin-right: -3px;
         margin-top: -3px;
+        top: 0;
       }
     }
 
@@ -521,6 +518,7 @@ export default {
   }
 
   .sign-btn {
+    margin: 0 0 0 40px;
     padding: 0 20px;
     height:36px;
     background:rgba(98,54,255,1);
@@ -637,7 +635,7 @@ export default {
   }
 }
 .daos-margin {
-  margin: 0 40px 0 0;
+  margin: 0 40px;
 }
 .project-logo {
   width: 23px;
@@ -653,7 +651,7 @@ export default {
   background-color: #979797;
 }
 
-@media screen and (max-width: 830px) {  
+@media screen and (max-width: 830px) {
   .header-bg {
     height: 50px;
   }
@@ -730,6 +728,25 @@ export default {
     &:active {
       background-color: #3f3f3f !important;
       color: #fff !important;
+    }
+
+    .icon-container {
+      &.badge{
+        position: relative;
+        &::after{
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          background: rgba(251,104,119,1);
+          position: absolute;
+          z-index: 1000;
+          right: 0%;
+          margin-right: 2px;
+          margin-top: 2px;
+          top: 0;
+        }
+      }
     }
   }
 }
