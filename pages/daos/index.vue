@@ -64,7 +64,7 @@
                   class="icon-add"
                 />
                 <p class="dao-add__text">
-                  Create New Project（Need 100 DaoT
+                  Create New Project（Need 100 Vote Power
                   <svg-icon
                     icon-class="daot"
                     class="icon-dao"
@@ -88,10 +88,10 @@
           width="400px"
           title="Create Your Project"
         >
-          <el-form  
+          <el-form
             ref="form"
             :model="form"
-            label-position="top" 
+            label-position="top"
             label-width="80px"
           >
             <el-form-item>
@@ -364,7 +364,7 @@ export default {
       margin-right: 20px;
     }
   }
-  
+
 }
 
 .dao-cow {
