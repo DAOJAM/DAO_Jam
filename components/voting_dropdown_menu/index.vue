@@ -5,10 +5,12 @@
     <div
       class="daos"
     >
-      <svg-icon
-        class="icon"
-        icon-class="daot"
-      />
+      <span :class="{ badge: true }">
+        <svg-icon
+          class="icon"
+          icon-class="daot"
+        />
+      </span>
       {{ power }}
     </div>
     <el-dropdown-menu
@@ -156,7 +158,7 @@
         </el-col>
         <el-col :span="12">
           <el-button
-            class="get-button"
+            class="get-button badge"
             type="primary"
             size="mini"
           >
@@ -187,7 +189,7 @@
         </el-col>
         <el-col :span="12">
           <el-button
-            class="get-button"
+            class="get-button badge"
             type="primary"
             size="mini"
           >
@@ -207,7 +209,7 @@
         </el-col>
         <el-col :span="12">
           <el-button
-            class="get-button"
+            class="get-button badge"
             type="primary"
             size="mini"
           >
@@ -285,7 +287,7 @@ export default {
           type: 'error',
           // callback: (action) => {
           //   if (action === 'confirm') this.$router.push('/setting/account')
-          //   else 
+          //   else
           // }
         }).then(() => {
           this.$router.push('/setting/account')
@@ -442,6 +444,25 @@ export default {
         margin:0;
       }
     }
+  }
+}
+</style>
+
+<style lang="less">
+.badge {
+  position: relative;
+  &::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: rgba(251,104,119,1);
+    position: absolute;
+    z-index: 1000;
+    right: 0%;
+    margin-right: -3px;
+    margin-top: -3px;
+    top: 0;
   }
 }
 </style>
