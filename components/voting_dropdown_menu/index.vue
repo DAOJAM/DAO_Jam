@@ -76,7 +76,7 @@
           <span class="amount">{{ today.count }}</span>
           <svg-icon
             class="get-button-icon"
-            icon-class="daot"
+            icon-class="tickets"
           />
           <span style="font-size: 12px">
             (
@@ -110,6 +110,10 @@
           <p class="dao-num">
             {{ dao.num }}
           </p>
+          <svg-icon
+            class="get-button-icon"
+            icon-class="tickets"
+          />
         </div>
         <p class="more">
           <router-link :to="{ name: 'tokens' }">
@@ -238,19 +242,19 @@ export default {
       daoList: [
         {
           title: 'MTF DAO',
-          num: '- 15'
+          num: 15
         },
         {
           title: 'MTF DAO',
-          num: '- 15'
+          num: 15
         },
         {
           title: 'MTF DAO',
-          num: '- 15'
+          num: 15
         },
         {
           title: 'MTF DAO',
-          num: '- 15'
+          num: 15
         }
       ],
       power: 0,
@@ -439,9 +443,8 @@ export default {
       .dao-num {
         font-size:14px;
         font-weight:500;
-        color:#FB6877;
         line-height:20px;
-        margin:0;
+        margin: 0 4px 0 0;
       }
     }
   }
