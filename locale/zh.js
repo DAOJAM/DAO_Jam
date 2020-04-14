@@ -690,5 +690,9 @@ export default {
     voteTodayHelp: 'DaoT 和 票 是什么？',
     tomorrowGainTitle: '你明日可领取 600 DaoT',
     tomorrowGainText: '每天可在导航栏中手动领取昨日投DaoT总量的1/3 + 20 DaoT'
+  },
+  accountManagement: {
+    unbind: '取消绑定',
+    mainAccount: '主账号',
   }
 }

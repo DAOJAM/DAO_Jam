@@ -690,5 +690,9 @@ export default {
     voteTodayHelp: 'What is DaoT and ticket?',
     tomorrowGainTitle: 'You can gain 600 DaoT tommorrow',
     tomorrowGainText: 'You can gain 1/3 DaoT of your voted yesterday + 20 a day.'
+  },
+  accountManagement: {
+    unbind: 'Unbind',
+    mainAccount: 'Main account',
   }
 }
