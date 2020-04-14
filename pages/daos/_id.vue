@@ -140,33 +140,10 @@
               </p>
               <p class="dao-data__number">
                 <svg-icon
-                  icon-class="members"
-                  class="icon"
+                  icon-class="rank"
+                  class="icon rank"
                 />
                 {{ rank }}
-              </p>
-            </div>
-            <div class="dao-data">
-              <p class="dao-data__help">
-                Supporters
-                <el-tooltip
-                  effect="dark"
-                  content="Supporters"
-                  placement="top"
-                >
-                  <svg-icon
-                    icon-class="dao_help"
-                    class="icon"
-                  />
-                </el-tooltip>
-              </p>
-              <p class="dao-data__number">
-                <svg-icon
-                  icon-class="members"
-                  class="icon"
-                />
-                
-                2300
               </p>
             </div>
             <div class="dao-data">
@@ -1122,6 +1099,9 @@ export default {
     margin: 5px 0 0 0;
     .icon {
       font-size: 22px;
+      &.rank {
+        color: #6BD701;
+      }
     }
   }
 }
