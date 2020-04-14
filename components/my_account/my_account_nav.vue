@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="info">
-      <h3>
+      <!-- <h3>
         <svg-icon
           icon-class="voted_users"
         />
         PERSONAL SETTING
-      </h3>
+      </h3> -->
       <router-link
         v-for="(tag, index) in tagsList"
         :key="index"
@@ -16,7 +16,7 @@
         {{ tag.title }}
       </router-link>
     </div>
-    <div
+    <!-- <div
       v-loading="holdLoading"
       element-loading-background="#132D5E"
       class="info"
@@ -36,7 +36,7 @@
       >
         {{ tag.title }}
       </router-link>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -51,6 +51,13 @@ export default {
     return {
       holdLoading: true,
       tagsList: [
+        { title: 'My Detail', url: 'setting' },
+        { title: 'Vote Power', url: 'account' },
+        { title: 'Vote Record', url: 'tokens' },
+        { title: 'Invitation', url: 'invite' },
+        { title: 'Project Setting', url: 'editminetoken' },
+      ],
+      /* tagsList: [
         { title: this.$t('user.userInformation'), url: 'setting' },
         { title: this.$t('user.accountSetting'), url: 'setting-account' },
         { title: this.$t('user.wallet'), url: 'account' },
@@ -59,7 +66,7 @@ export default {
         // { title: this.$t('user.buyHistory'), url: 'buy' },
         { title: this.$t('user.invite'), url: 'invite' },
         // { title: this.$t('user.systemSetting'), url: 'setting-system' }
-      ],
+      ], */
       projectTagsList: [
         { title: 'Task', url: 'project-task' },
         { title: this.$t('user.applycoins'), url: 'tokens-apply' },
@@ -74,7 +81,7 @@ export default {
   watch: {
   },
   created() {
-    this.tokenDetail()
+    // this.tokenDetail()
   },
   mounted() {
   },

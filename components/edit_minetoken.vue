@@ -497,7 +497,8 @@ export default {
             this.tokenDetailData = res.data
 
             this.minetokenGetResources(token.id)
-          } else this.$router.push({ name: 'tokens-apply' })
+          }
+          //else this.$router.push({ name: 'tokens-apply' })
         } else {
           this.isPost = true
           // this.$message.error(res.message)

@@ -1,7 +1,7 @@
 <template>
-  <userLayout :need-frame="false">
+  <userLayout>
     <template slot="main">
-      <div class="cny-main">
+      <!-- <div class="cny-main">
         <h2>
           Vote Power是什么？
         </h2>
@@ -24,7 +24,7 @@
         <p class="no-bottom">
           前往PROJECTS页面查看感兴趣的项目，点击项目可以进入详情页中查看。对于支持的项目可以在详情页中直接投票。相信您的眼光，一定可以为我们找到最优质的的好项目！不过还请注意：单个项目单日最多可投票3次 且 投票总量不超过 10 票。
         </p>
-      </div>
+      </div> -->
       <points />
     </template>
     <template slot="nav">
