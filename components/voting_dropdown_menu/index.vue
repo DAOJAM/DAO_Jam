@@ -146,7 +146,7 @@ export default {
     ...mapGetters(['isLogined']),
   },
   beforeMount() {
-    this.balanceOfDaot()
+    if (this.isLogined) this.balanceOfDaot()
   },
   /* mounted() {
     this.balanceOfDaot()
