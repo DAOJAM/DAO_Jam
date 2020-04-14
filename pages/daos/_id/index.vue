@@ -137,15 +137,16 @@
                 <svg-icon icon-class="setting" class="gallery-setting" @click="milestoneDialog = true" />
               </el-tooltip>
             </div>
-            <el-checkbox-group v-model="milestoneCheckList" class="milestone">
+            <div class="milestone">
               <el-checkbox
                 v-for="(item, index) in milestoneList"
                 :key="index"
+                v-model="item.status"
                 class="milestone-list"
                 :label="item.label"
                 disabled
               />
-            </el-checkbox-group>
+            </div>
             <m-dialog
               v-model="milestoneDialog"
               title="Setting Milestone"
@@ -576,7 +577,6 @@ export default {
         columns: ['create_time', 'weight'],
         rows: []
       },
-      milestoneCheckList: ['MindStorm','PrototypeDesign']
     }
   },
   asyncData() {
@@ -887,6 +887,9 @@ export default {
     },
     async getMinetokenMilestones(id) {
       await this.$API.gettMinetokenMilestones(id).then(res => {
+        res.data.map(item => {
+          item.status = !!item.status
+        })
         this.milestoneList = res.data
       }).catch(e => {
         console.log(e)
