@@ -13,7 +13,7 @@ export default {
   notFollowContent: 'No connect from follow',
   notBuyHistory: 'No history',
   setting: 'Settings',
-  login: 'Sign In',
+  login: 'LOGIN WITH',
   logout: 'Log out',
   registered: 'Sign Up',
   edit: 'Edit',
