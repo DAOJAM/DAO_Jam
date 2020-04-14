@@ -100,14 +100,18 @@
 
               <!-- 通知中心 -->
               <n-link
-                :class="{ badge: hasNewNotification }"
                 to="/notification"
                 class="link">
                 <el-dropdown-item>
-                  <svg-icon
-                    class="icon"
-                    icon-class="bell"
-                  />
+                  <div
+                    class="icon-container"
+                    :class="{ badge: hasNewNotification }"
+                  >
+                    <svg-icon
+                      class="icon"
+                      icon-class="bell"
+                    />
+                  </div>
                   Notification
                 </el-dropdown-item>
               </n-link>
@@ -495,6 +499,7 @@ export default {
         right: 0%;
         margin-right: -3px;
         margin-top: -3px;
+        top: 0;
       }
     }
 
@@ -723,6 +728,25 @@ export default {
     &:active {
       background-color: #3f3f3f !important;
       color: #fff !important;
+    }
+
+    .icon-container {
+      &.badge{
+        position: relative;
+        &::after{
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          background: rgba(251,104,119,1);
+          position: absolute;
+          z-index: 1000;
+          right: 0%;
+          margin-right: 2px;
+          margin-top: 2px;
+          top: 0;
+        }
+      }
     }
   }
 }
