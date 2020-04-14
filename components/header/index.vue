@@ -513,6 +513,7 @@ export default {
   }
 
   .sign-btn {
+    margin: 0 0 0 40px;
     padding: 0 20px;
     height:36px;
     background:rgba(98,54,255,1);
