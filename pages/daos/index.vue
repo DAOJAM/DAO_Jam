@@ -52,27 +52,25 @@
         </div>
 
         <div class="dao-cow">
-          <div v-if="!hadProject" class="dao-col new-project-col">
-            <n-link
-              :to="{ name: 'daos-create' }"
+          <div
+            v-if="!hadProject"
+            class="dao-col new-project-col"
+          >
+            <div
+              class="dao-block new-project"
+              @click="newProject"
             >
-              <div
-                class="dao-block new-project"
-              >
+              <h3>
+                CREATE PROJECT
+              </h3>
+              <p>
+                need 100
                 <svg-icon
-                  icon-class="add"
-                  class="icon-add"
+                  icon-class="daot"
+                  class="icon-dao"
                 />
-                <p class="dao-add__text">
-                  Create New Project（Need 100 Vote Power
-                  <svg-icon
-                    icon-class="daot"
-                    class="icon-dao"
-                  />
-                  )
-                </p>
-              </div>
-            </n-link>
+              </p>
+            </div>
           </div>
           <daoCard
             v-for="(item, index) in pull[sortRadio].list"
@@ -82,41 +80,6 @@
             @switchStar="switchStar"
           />
         </div>
-
-        <m-dialog
-          v-model="createDaoDialog"
-          width="400px"
-          title="Create Your Project"
-        >
-          <el-form
-            ref="form"
-            :model="form"
-            label-position="top"
-            label-width="80px"
-          >
-            <el-form-item>
-              <p class="dao-add__text">
-                Apply for project creation (need 100
-                <svg-icon
-                  icon-class="daos"
-                  class="icon-dao"
-                />
-                )
-              </p>
-            </el-form-item>
-            <el-form-item label="NAME THE Project">
-              <el-input v-model="form.name" />
-            </el-form-item>
-            <el-form-item label="DESCRIBE THE Project">
-              <el-input v-model="form.description" type="textarea" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="createDao">
-                SUBMIT
-              </el-button>
-            </el-form-item>
-          </el-form>
-        </m-dialog>
         <div class="load-more">
           <buttonLoadMore
             v-show="!loading"
@@ -168,28 +131,26 @@ export default {
           apiUrl: 'projectAll',
           list: []
         },
-        hold: {
-          params: {
-            pagesize: 9
-          },
-          apiUrl: 'projectAll',
-          list: []
-        },
         bookmark: {
           params: {
             pagesize: 9
           },
           apiUrl: 'tokenBookmarks',
           list: []
+        },
+        hold: {
+          params: {
+            pagesize: 9
+          },
+          apiUrl: 'projectAll',
+          list: []
         }
       },
       remainderDate: null,
-      currentPage: Number(this.$route.query.page) || 1,
       loading: false, // 加载数据
       assets: {
       },
       viewStatus: 0, // 0 1
-      count: 0,
 
       filterOptions: [{
         value: 'rank',
@@ -204,7 +165,9 @@ export default {
       filterValue: 'rank',
       sortRadio: this.$route.query.filter || 'all',
       reload: 0,
-      hadProject: true
+      hadProject: false,
+      pages: 0,
+      temporaryPagesize: null
     }
   },
   computed: {
@@ -215,18 +178,22 @@ export default {
       this.loading = true
       this.pull[newVal].list = []
       this.remainderDate = null
-      this.currentPage = 1
-      this.$router.push({
-        query: {
-          filter: newVal,
-          page: 1
-        }
-      })
+      this.pages = 0
       this.reload = Date.now()
+    },
+    isLogined(newVal) {
+      if(newVal) this.tokenDetail()
+    },
+    hadProject(newVal) {
+      if(newVal) {
+        // 如果上次有剩余未显示的，则在这次显示出来
+        if(this.remainderDate) this.pull[this.sortRadio].list.push(this.remainderDate)
+        this.remainderDate = null
+      }
     }
   },
   mounted() {
-    this.tokenDetail()
+    if(this.isLogined) this.tokenDetail()
   },
   methods: {
     async tokenDetail() {
@@ -234,93 +201,52 @@ export default {
       if (res.code === 0 && res.data.token) this.hadProject = true
       else this.hadProject = false
     },
-    // 创建dao
-    async createDao() {
-      // Detect if you have NEAR bind
-      const { data } = await this.$API.getKycStatus()
-      if (!data.verified) {
-        // 提示用户去绑定 Near 钱包，这样才有 account 可以操作
-        this.$alert('DAOJam was built on NEAR protocol, you will need to bind your NEAR wallet with us',
-          'Almost there, just missing NEAR wallet binding', {
-            confirmButtonText: 'Go to bind my NEAR Wallet',
-            callback: () => {
-              this.$router.push('/setting')
-            }
-          })
-        return // End of exec
+    newProject() {
+      if(this.isLogined)
+        this.$router.push({ name: 'daos-create' })
+      else {
+        this.$store.commit('setLoginModal', true)
+        this.$message.warning('Operate after logging in')
       }
-      console.log('-----------createProposal start-------------')
-      const loading = this.$loading({
-        text: '创建中'
-      })
-      try {
-        const expireTime = 30 * 24 * 60 * 60
-        const result = await window.unpackContract.create_proposal({
-          name: this.form.name, description: this.form.description, expiration_time: expireTime
-        })
-        console.log('create_proposal', result)
-        const value = Buffer.from(result.status.SuccessValue, 'base64').toString()
-        const id = JSON.parse(value)
-        const txHash = result.transaction.hash
-        const blockHash = result.transaction_outcome.block_hash
-        const res = await this.$API.createProposal({
-          id,
-          txHash,
-          blockHash
-        })
-        console.log('createProposal', res)
-        loading.close()
-        this.$notify.success({
-          title: '成功',
-          message: '创建成功'
-        })
-        this.$router.push({ name: 'editminetoken' })
-      } catch (error) {
-        console.error(error)
-        loading.close()
-        if (error.type === 'ActionError::FunctionCallError') {
-          this.$notify.error({
-            title: 'Error happened in the transaction',
-            message: error.message
-          })
-        } else {
-          this.$notify.error({
-            title: 'Error happened - ' + error.type,
-            message: error.message
-          })
-        }
-      }
-      console.log('-----------createProposal end-------------')
     },
     paginationData(res) {
-      this.count = res.data.count
+      // if(this.temporaryPagesize) {
+      //   this.pull[this.sortRadio].params.pagesize = this.temporaryPagesize
+      //   this.temporaryPagesize = null
+      // }
+
       // 如果上次有剩余未显示的，则在这次显示出来
       if(this.remainderDate) this.pull[this.sortRadio].list.push(this.remainderDate)
+      this.remainderDate = null
 
       if (res.data && res.data.list && res.data.list.length !== 0){
         // 因为第一个是New Project，导致第一次能显示的数据少1条，所以要在最后余出一条数据，并在下次加入。
-        if(res.data.list.length >= this.pull[this.sortRadio].params.pagesize)
+        if(!this.hadProject && res.data.list.length >= this.pull[this.sortRadio].params.pagesize)
           this.remainderDate = res.data.list.splice(res.data.list.length - 1, 1)[0]
 
         // 将新的项目列表加入队尾
         this.pull[this.sortRadio].list = this.pull[this.sortRadio].list.concat(res.data.list)
       }
+      // this.pages++
       this.loading = false
-      if(this.isLogined) this.getBookmarkByTokenIds()
+      if(this.isLogined) this.getBookmarkByTokenIds(res.data.list)
     },
-    async getBookmarkByTokenIds() {
-      await this.$API.getBookmarkByTokenIds(this.pull[this.sortRadio].list.map(row => row.id)).then(res => {
+    async getBookmarkByTokenIds(list) {
+      await this.$API.getBookmarkByTokenIds(list.map(row => row.id)).then(res => {
         if (res.code === 0) {
-          res.data.forEach(item => this.$set(this.pull[this.sortRadio].list.find(token => token.id === item.token_id), 'pentagram', true))
+          res.data.forEach(item => this.$set(list.find(token => token.id === item.token_id), 'pentagram', true))
         } else console.error(res.message)
       })
     },
     switchStar() {
       if(this.sortRadio === 'bookmark') {
-        if(this.pull[this.sortRadio].list.length < 2 && this.currentPage > 1) {
-          this.togglePage(this.currentPage - 1)
-        }
-        else this.reload = Date.now()
+        // this.temporaryPagesize = this.pull[this.sortRadio].params.pagesize
+        // this.pull[this.sortRadio].params.pagesize = this.pages * this.pull[this.sortRadio].params.pagesize
+
+        this.loading = true
+        this.pull[this.sortRadio].list = []
+        this.remainderDate = null
+        this.reload = Date.now()
       }
     }
   }
@@ -428,21 +354,28 @@ export default {
     font-size: 80px;
   }
   .icon-dao {
-    font-size: 22px;
-  }
-
-  .dao-add__text {
-    font-size: 14px;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 1);
-    line-height: 20px;
-    font-weight: bold;
-    padding: 0;
-    margin: 20px 0 0 0;
+    font-size: 24px;
+    margin-left: 5px;
   }
   &.new-project {
     min-height: 0;
     height: 358px;
+    color: white;
+
+    h3 {
+      font-size:20px;
+      font-weight:500;
+      line-height:28px;
+      margin: 0 0 20px;
+    }
+    p {
+      font-size:14px;
+      font-weight:500;
+      line-height:20px;
+      display: flex;
+      align-items: center;
+      margin: 0;
+    }
   }
 
   &:hover {
