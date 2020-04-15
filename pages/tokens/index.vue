@@ -3,7 +3,7 @@
     <template slot="main">
       <div class="tokens-main">
         <h2 class="tag-title">
-          {{ $t('user.buycoins') }}
+          My Vote Record
         </h2>
 
         <div
@@ -22,22 +22,22 @@
           >
             <el-table-column
               prop="total_supply"
-              label="Project Symbol"
+              label="Project"
             >
               <template slot-scope="scope">
                 <router-link
-                  :to="{name: 'daos-id', params: {id: scope.row.token_id}}"
+                  :to="{name: 'daos-id', params: {id: scope.row.id}}"
                   class="fl ac"
                 >
                   <avatar
                     :src="cover(scope.row.logo)"
                     style="margin-right: 10px; min-width: 30px;"
                   />
-                  <span class="scope">{{ scope.row.symbol }}</span>
+                  <span class="scope">{{ scope.row.name }}</span>
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               prop="total_supply"
               label="Project Name"
             >
@@ -46,9 +46,9 @@
                   <span class="scope">{{ scope.row.name }}</span>
                 </router-link>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
-              prop="name"
+              prop="owner"
               label="Creator"
             >
               <template slot-scope="scope">
@@ -57,68 +57,32 @@
                   class="invite-block author"
                 >
                   <!-- <avatar :src="cover(scope.row.avatar)" /> -->
-                  <span class="username">{{ scope.row.nickname || scope.row.username }}</span>
+                  <span class="username">{{ scope.row.owner }}</span>
                 </n-link>
               </template>
             </el-table-column>
 
             <el-table-column
-              :label="$t('user.positionCoins')"
-              prop="total_supply"
+              label="Weight"
+              prop="weight"
               sortable="custom"
-              width="160px"
+              width="100px"
             >
               <template slot-scope="scope">
-                <span class="scope">{{ tokenAmount(scope.row.amount, scope.row.decimals) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column type="expand">
-              <template slot-scope="scope">
-                <tokensDetail
-                  v-if="expands[0] === scope.row.token_id"
-                  :id="scope.row.token_id"
-                />
+                <span class="scope">{{ scope.row.weight }}</span>
               </template>
             </el-table-column>
             <el-table-column
               prop="create_time"
               label=""
-              width="220"
+              width="200"
             >
               <template slot-scope="scope">
                 <div class="invite-block btn">
-                  <!-- <router-link :to="{name: 'tokens-id', params: {id: scope.row.token_id}}"> -->
-                  <el-button
-                    type="text"
-                    class="info-button"
-                    size="small"
-                    @click="foldingClick(scope.row.token_id)"
+                  <a
+                    :href="'https://explorer.nearprotocol.com/transactions/' + scope.row.trx"
+                    target="_blank"
                   >
-                    <span
-                      v-if="expands[0] !== scope.row.token_id"
-                      class="expand-button"
-                    >
-                      展开明细
-                      <i class="el-icon-d-arrow-right i-spin-z90" />
-                    </span>
-                    <span
-                      v-else
-                      class="expand-button"
-                    >
-                      收起明细
-                      <i class="el-icon-d-arrow-right i-spin-f90" />
-                    </span>
-                  </el-button>
-                  <!-- </router-link> -->
-                  <el-button
-                    class="info-button"
-                    style="margin: 0 10px;"
-                    size="small"
-                    @click="showGift(scope.row.symbol, scope.row.token_id, tokenAmount(scope.row.amount, scope.row.decimals), scope.row.decimals )"
-                  >
-                    {{ $t('gift') }}
-                  </el-button>
-                  <router-link :to="{name: 'exchange', hash: '#swap', query: { output: scope.row.symbol }}">
                     <el-button
                       type="primary"
                       class="info-button"
@@ -126,7 +90,7 @@
                     >
                       {{ $t('transaction') }}
                     </el-button>
-                  </router-link>
+                  </a>
                 </div>
               </template>
             </el-table-column>
@@ -291,14 +255,12 @@ import avatar from '@/common/components/avatar'
 import userLayout from '@/components/user/user_layout.vue'
 import myAccountNav from '@/components/my_account/my_account_nav.vue'
 import { precision, toPrecision } from '@/utils/precisionConversion'
-import tokensDetail from '@/components/tokens_detail/index.vue'
 
 export default {
   components: {
     userLayout,
     myAccountNav,
     userPagination,
-    tokensDetail,
     avatar
   },
   data() {
@@ -322,7 +284,7 @@ export default {
           pagesize: 10,
           order: 0
         },
-        apiUrl: 'tokenTokenList',
+        apiUrl: 'votingRecord',
         list: []
       },
       currentPage: Number(this.$route.query.tokensPage) || 1,
