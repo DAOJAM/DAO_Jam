@@ -35,9 +35,8 @@ export default {
     return {
       navItems: [
         { name: 'follow', route: 'notification-index', text: 'Follower', icon: 'follow' },
-        { name: 'recommend', route: 'notification-index-application', text: 'Application', icon: 'follow' },
-        { name: 'recommend', route: 'notification-index-achievement', text: 'Achievement', icon: 'follow' },
-        { name: 'recommend', route: 'notification-index-invitation', text: 'Invitation', icon: 'follow' },
+        { name: 'application', route: 'notification-index-application', text: 'Application', icon: 'application' },
+        { name: 'invitation', route: 'notification-index-invitation', text: 'Invitation', icon: 'invite' },
       ],
       notifications: []
     }
