@@ -164,9 +164,9 @@
           <el-button type="primary" size="small" @click="milestoneList.push({label: '', status: false})">
             Add
           </el-button>
-          <el-button type="primary" size="small" @click="postMinetokenMilestones">
+          <!-- <el-button type="primary" size="small" @click="postMinetokenMilestones">
             Save
-          </el-button>
+          </el-button> -->
         </div>
       </el-form-item>
 
@@ -516,6 +516,7 @@ export default {
           socials
         }
         const res = await this.$API.createProposal(data)
+        await this.saveMileStone(res.data)
         console.log('createProposal', res)
         loading.close()
         this.$notify.success({
@@ -538,6 +539,19 @@ export default {
           })
         }
       }
+    },
+    async saveMileStone(id) {
+      const milestoneList = this.milestoneList
+      let list = []
+      for (let i = 0; i < milestoneList.length; i++) {
+        let item = { ...milestoneList[i] }
+        item.status = item.status ? 1 : 0
+        list.push(item)
+      }
+      const tokenId = this.tokenId === -1 ? id : this.tokenId
+      return this.$API.postMinetokenMilestones(tokenId, {
+        milestones: list
+      })
     },
     async tokenDetail() {
       await this.$API.tokenDetail().then(res => {
