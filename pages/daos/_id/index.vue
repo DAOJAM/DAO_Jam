@@ -2,9 +2,13 @@
   <div>
     <div class="gallery">
       <h2 class="token-title">
-        Project Images
+        Gallery
       </h2>
-      <viewer :images="projectImageList" class="gallery-m">
+      <viewer
+        ref="viewer"
+        :images="projectImageList"
+        class="gallery-m"
+      >
         <div v-for="(item, index) in projectImageList" :key="index" class="gallery-m-b">
           <img v-if="item" :src="item" alt="image">
         </div>
@@ -22,7 +26,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Team Member
@@ -48,7 +52,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Tasks
@@ -65,7 +69,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Website
@@ -89,7 +93,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Milestone
@@ -107,7 +111,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Live of development
@@ -165,7 +169,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Progress of development
@@ -252,7 +256,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="table">
             <h2 class="token-title">
               Vote Record
@@ -512,7 +516,7 @@ export default {
       const id = this.$route.params.id
       this.minetokenId(id)
       this.minetokenGetResources(id)
-      this.teamMember()
+      this.teamMember(id)
 
       this.task()
 
@@ -524,7 +528,7 @@ export default {
   },
   methods: {
     projectImage(src) {
-      return src ? this.$ossProcess(src, { h: 200 }) : ''
+      return src ? this.$ossProcess(src, { h: 500, limit: 0 }) : ''
     },
     async minetokenId(id) {
       await this.$API.minetokenId(id).then(res => {
@@ -562,9 +566,9 @@ export default {
       return url
     },
     // 获取所有队员
-    async teamMember() {
+    async teamMember(id) {
       if (this.tokenId === -1) return
-      await this.$API.teamMember(Number(this.$route.params.id))
+      await this.$API.teamMember(Number(id))
         .then(res => {
           if (res.code === 0) {
             this.teamData = res.data

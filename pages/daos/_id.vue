@@ -81,47 +81,33 @@
         </div>
         <div class="head-info">
           <div>
-            <el-tooltip
-              class="pentagram"
-              effect="dark"
-              content="Join Team"
-              placement="top"
+            <router-link
+              v-if="showTokenSetting"
+              class="dao-btn"
+              :to="{ name: 'editminetoken' }"
             >
+              <svg-icon
+                icon-class="dao_setting"
+                class="dao-icon setting"
+              />
+              Manage
+            </router-link>
+
+            <div class="dao-btn" @click="teamApply">
               <svg-icon
                 icon-class="dao_join"
                 class="dao-icon join"
-                @click="teamApply"
               />
-            </el-tooltip>
-            <!-- v-if="showTokenSetting" -->
-            <el-tooltip
-              class="pentagram"
-              effect="dark"
-              content="Setting"
-              placement="top"
-            >
-              <router-link
-                :to="{ name: 'editminetoken' }"
-              >
-                <svg-icon
-                  icon-class="dao_setting"
-                  class="dao-icon setting"
-                />
-              </router-link>
-            </el-tooltip>
+              Join
+            </div>
 
-            <el-tooltip
-              class="pentagram"
-              effect="dark"
-              content="Share"
-              placement="top"
-            >
+            <div class="dao-btn" @click="shareModalShow = true">
               <svg-icon
                 icon-class="dao_share"
                 class="dao-icon share"
-                @click="shareModalShow = true"
               />
-            </el-tooltip>
+              Share
+            </div>
           </div>
           <div class="dao-data__content">
             <div class="dao-data">
@@ -148,10 +134,10 @@
             </div>
             <div class="dao-data">
               <p class="dao-data__help">
-                Tickets
+                Vote
                 <el-tooltip
                   effect="dark"
-                  content="Tickets"
+                  content="Vote"
                   placement="top"
                 >
                   <svg-icon
@@ -197,7 +183,8 @@
           </a>
           
           <a
-            :href="minetokenToken.repo || 'https://github.com/DAOJAM'"
+            v-if="minetokenToken.repo"
+            :href="minetokenToken.repo"
             target="_blank"
           >
             <el-tooltip
@@ -500,6 +487,11 @@ export default {
       if (newVal) {
         this.getBookmarkStatus()
         this.getUserBalance()
+      }
+    },
+    currentUserInfo() {
+      if (this.currentUserInfo.id) {
+        this.tokenUserId(this.currentUserInfo.id)
       }
     }
   },
@@ -1056,16 +1048,18 @@ export default {
   user-select: none;
   color: #fce812;
 }
-
-.dao-icon {
+.dao-btn {
   color: #fff;
   cursor: pointer;
+  margin-left: 20px;
+}
+.dao-icon {
+  color: #fff;
   &.join {
     font-size: 22px;
   }
   &.setting,
   &.share {
-    margin-left: 20px;
     font-size: 20px;
   }
 }
