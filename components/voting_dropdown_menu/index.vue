@@ -254,15 +254,14 @@ export default {
       if (val) this.fetchDatas()
     }
   },
-  async mounted() {
-    // 切换页面的时候，this.isLogined 已经是 true，不会触发它的 watch 
-    if (this.isLogined) await this.fetchDatas()
+  mounted() {
+    // 切换页面的时候，this.isLogined 已经是 true，不会触发它的 watch
+    if (this.isLogined) this.fetchDatas()
   },
   methods: {
-    async fetchDatas() {
-      // This API is intended for verification only
-      // we will need to record isNewBie or not on the server
-      this.isNewbie = (await this.$API.getKycStatus()).data.verified
+    fetchDatas() {
+      this.checkIsNewbie()
+      this.loadTodayTop5Votes()
       this.balanceOfDaot()
     },
     async balanceOfDaot() {
