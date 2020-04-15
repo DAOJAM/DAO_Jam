@@ -11,14 +11,6 @@
 
     <div class="user-list">
       <h2 class="user-title">
-        Abillities and Skills
-      </h2>
-      <!-- todo -->
-      <div style="height: 400px;background-color: #132D5E;margin-top: 20px;" />
-    </div>
-
-    <div class="user-list">
-      <h2 class="user-title">
         Tags
       </h2>
       <div class="user-tags">
@@ -284,6 +276,7 @@ export default {
   margin: 20px 0 0 0;
   .tag {
     margin-right: 10px;
+    margin-bottom: 10px;
     background-color: #1C4085;
     border-color: #1C4085;
     color: #fff;

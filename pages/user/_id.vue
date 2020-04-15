@@ -6,7 +6,7 @@
         <div class="user-avatar">
           <avatar :src="userAvatar" />
           <h1>{{ userInfo.nickname || userInfo.username || '&nbsp;' }}</h1>
-          <el-tooltip
+          <!-- <el-tooltip
             effect="dark"
             content="专业评委"
             placement="bottom"
@@ -17,7 +17,7 @@
                 class="icon-judge"
               />
             </div>
-          </el-tooltip>
+          </el-tooltip> -->
         </div>
         <div class="user-edit">
           <el-button
