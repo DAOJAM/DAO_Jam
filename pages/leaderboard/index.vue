@@ -3,7 +3,9 @@
     <g-header />
     <ul class="list">
       <li v-for="(item, index) in leaderboardList" :key="index">
-        <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.pid }}">
+        <!-- 按照 181 工单的要求，屏蔽，现在点击不会跳项目页 -->
+        <!-- <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.pid }}"> -->
+        <div class="fl ac">
           <div class="index-content">
             <span v-if="index >= 3" class="index">{{ index + 1 }}</span>
             <svg-icon v-if="index === 0" class="index-icon" icon-class="leaderboard_one" />
@@ -12,7 +14,8 @@
           </div>
           <c-avatar :src="cover(item.logo)" />
           <span class="name">{{ item.name }}</span>
-        </router-link>
+        </div>
+        <!-- </router-link> -->
         <div class="fl ac">
           <div class="number">
             <svg-icon class="icon" icon-class="tickets" />{{ item.weight }}

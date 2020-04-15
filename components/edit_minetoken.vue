@@ -4,6 +4,16 @@
       <h2 class="tag-title">
         {{ isPost ? $t('user.issuecoins') : $t('user.editcoins') }}
       </h2>
+      <div
+        v-if="!isPost"
+        class="click-box"
+      >
+        <router-link :to="{name: 'daos-id', params: { id: tokenId || 0}}">
+          <el-button size="small">
+            {{ $t('user.goToDetails') }}
+          </el-button>
+        </router-link>
+      </div>
     </div>
 
     <el-form
@@ -448,8 +458,6 @@ export default {
   mounted() {
     if (!getCookie('ACCESS_TOKEN')) return this.$router.go(-1)
     this.tokenDetail()
-
-    if (!this.isPost) this.form.agree = true
   },
   methods: {
     getWebsitesAndSocials() {
@@ -477,7 +485,7 @@ export default {
           'Almost there, just missing NEAR wallet binding', {
             confirmButtonText: 'Go to bind my NEAR Wallet',
             callback: () => {
-              this.$router.push('/setting/account')
+              this.$router.push('/setting')
             }
           })
         return // End of exec
@@ -559,6 +567,7 @@ export default {
           this.isPost = true
           // this.$message.error(res.message)
         }
+        this.form.agree = !this.isPost
       })
     },
     async minetokenTokenId(id) {
