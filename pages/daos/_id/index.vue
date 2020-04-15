@@ -290,7 +290,7 @@
                   <div class="table-body-tr">
                     <div class="table-body-td">
                       <router-link class="fl ac" :to="{name: 'user-id', params: { id: item.uid }}">
-                        <span class="index">{{ indexFuncTag(index, pullVotes) }}</span>
+                        <span class="index">{{ rowFunc(index, pullVotes) }}</span>
                         <c-avatar :src="avatar(item.avatar)" />
                         <span class="username">{{ item.nickname || item.username }}</span>
                       </router-link>
@@ -788,14 +788,22 @@ export default {
         console.log(e)
       })
     },
+    
     // 获取索引方法
-    indexFunc(index, page, pagesize) {
-      let limit = (page - 1) * pagesize
-      return (index + limit) + 1
-    },
-    // 包装索引方法
     indexFuncTag(index, obj) {
-      return this.indexFunc(index, obj.currentPage, obj.params.pagesize)
+      const indexFunc = (index, page, pagesize) => {
+        let limit = (page - 1) * pagesize
+        return (index + limit) + 1
+      }
+      return indexFunc(index, obj.currentPage, obj.params.pagesize)
+    },
+    // vote 次数计算
+    rowFunc(index, obj) {
+      const row = (index, count, page, pagesize) => {
+        let offset = (page - 1) * pagesize
+        return count - offset - index
+      }
+      return row(index, obj.total, obj.currentPage, obj.params.pagesize)
     }
   }
 }
