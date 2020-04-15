@@ -1108,4 +1108,7 @@ export default {
   postMinetokenMilestones(id, data) { return request.post(`/minetoken/${id}/milestones`, data) },
   // 排行版
   leaderboard() { return request.get(`/leaderboard`) },
+  todayVotes(userId) {
+    return request.get(`/user/${userId}/votes/today`)
+  }
 }

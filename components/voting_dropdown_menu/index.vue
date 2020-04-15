@@ -5,7 +5,7 @@
     <div
       class="daos"
     >
-      <span :class="{ badge: true }">
+      <span :class="{ badge: isNewbie }">
         <svg-icon
           class="icon"
           icon-class="daot"
@@ -73,14 +73,14 @@
       </el-row>
       <el-row>
         <el-col class="data-column" :span="16">
-          <span class="amount">{{ today.count }}</span>
+          <span class="amount">{{ todayVoteNum }}</span>
           <svg-icon
             class="get-button-icon"
             icon-class="tickets"
           />
           <span style="font-size: 12px">
             (
-            <span>{{ today.power }}</span>
+            <span>{{ todayVoteNum ** 2 }}</span>
             <svg-icon
               class="get-button-icon"
               icon-class="daot"
@@ -105,10 +105,10 @@
           class="dao fl"
         >
           <p class="dao-title">
-            {{ dao.title }}
+            {{ dao.name }}
           </p>
           <p class="dao-num">
-            {{ dao.num }}
+            {{ dao.weight }}
           </p>
           <svg-icon
             class="get-button-icon"
@@ -240,29 +240,9 @@ export default {
   data() {
     return {
       isNewbie: true, // 是不是新人
-      daoList: [
-        {
-          title: 'MTF DAO',
-          num: 15
-        },
-        {
-          title: 'MTF DAO',
-          num: 15
-        },
-        {
-          title: 'MTF DAO',
-          num: 15
-        },
-        {
-          title: 'MTF DAO',
-          num: 15
-        }
-      ],
+      daoList: [],
       power: 0,
-      today: {
-        count: 0,
-        power: 0
-      }
+      todayVoteNum: 0
     }
   },
   // props: {},
@@ -274,10 +254,9 @@ export default {
       if (val) this.balanceOfDaot()
     }
   },
-  async mounted() {
-    // This API is intended for verification only
-    // we will need to record isNewBie or not on the server
-    this.isNewbie = (await this.$API.getKycStatus()).data.verified
+  mounted() {
+    checkIsNewbie()
+    loadTodayTop5Votes()
   },
   methods: {
     async balanceOfDaot() {
@@ -287,6 +266,16 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    async checkIsNewbie() {
+      // This API is intended for verification only
+      // we will need to record isNewBie or not on the server
+      this.isNewbie = (await this.$API.getKycStatus()).data.verified
+    },
+    async loadTodayTop5Votes() {
+      const { data: { top5, totalVoteNum } } = await this.$API.todayVotes()
+      this.daoList = top5
+      this.todayVoteNum = totalVoteNum
     },
     async getNewbieBonus() {
       const { data } = await this.$API.getKycStatus()
