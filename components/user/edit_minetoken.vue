@@ -500,7 +500,7 @@ export default {
           }
           else this.$router.push({ name: 'tokens-apply' })
         } else {
-          this.$message.error(res.message)
+          // this.$message.error(res.message)
         }
       })
     },
