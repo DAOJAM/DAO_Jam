@@ -4,18 +4,18 @@
     <ul class="list">
       <li v-for="(item, index) in leaderboardList" :key="index">
         <!-- 按照 181 工单的要求，屏蔽，现在点击不会跳项目页 -->
-        <!-- <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.pid }}"> -->
-        <div class="fl ac">
-          <div class="index-content">
-            <span v-if="index >= 3" class="index">{{ index + 1 }}</span>
-            <svg-icon v-if="index === 0" class="index-icon" icon-class="leaderboard_one" />
-            <svg-icon v-if="index === 1" class="index-icon" icon-class="leaderboard_two" />
-            <svg-icon v-if="index === 2" class="index-icon" icon-class="leaderboard_three" />
+        <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.id }}">
+          <div class="fl ac">
+            <div class="index-content">
+              <span v-if="index >= 3" class="index">{{ index + 1 }}</span>
+              <svg-icon v-if="index === 0" class="index-icon" icon-class="leaderboard_one" />
+              <svg-icon v-if="index === 1" class="index-icon" icon-class="leaderboard_two" />
+              <svg-icon v-if="index === 2" class="index-icon" icon-class="leaderboard_three" />
+            </div>
+            <c-avatar :src="cover(item.logo)" />
+            <span class="name">{{ item.name }}</span>
           </div>
-          <c-avatar :src="cover(item.logo)" />
-          <span class="name">{{ item.name }}</span>
-        </div>
-        <!-- </router-link> -->
+        </router-link>
         <div class="fl ac">
           <div class="number">
             <svg-icon class="icon" icon-class="tickets" />{{ item.weight }}
@@ -82,10 +82,10 @@ export default {
 
 <style lang="less" scoped>
 .stat {
-  padding: 60px 0 0 0;
+  padding: 100px 0;
   background-color: #0e2144;
   align-content: center;
-  min-height: calc(100% - 60px - 120px);
+  min-height: calc(100% - 60px - 100px);
 }
 .list {
   max-width: 800px;
@@ -96,7 +96,7 @@ export default {
 
   li {
     background-color: rgba(255, 255, 255, 0.37);
-    margin: 20px 0;
+    margin-top: 20px;
     padding: 20px;
     border-radius: 3px;
     display: flex;
