@@ -16,7 +16,7 @@ import utils from './utils'
 
 const _axios = axios.create({
   baseURL: process.env.VUE_APP_API,
-  timeout: 20000,
+  timeout: 30000,
   headers: {},
 });
 
@@ -45,7 +45,7 @@ _axios.interceptors.response.use(
       if(response.status === 429) {
         Message.closeAll()
         Message({
-          message: '发文频繁，请稍后重试',
+          message: 'Post frequently, please try again later',
           type: 'error'
         })
       }
@@ -58,7 +58,7 @@ _axios.interceptors.response.use(
       if (error.message.includes('status code 401')) {
         Message.closeAll()
         Message({
-          message: '登录状态异常,请重新登录',
+          message: 'The login status is abnormal, please log in again',
           type: 'error'
         })
         if (process.browser && window && window.$nuxt) window.$nuxt.$store.commit('setLoginModal', true)
@@ -68,16 +68,12 @@ _axios.interceptors.response.use(
       if (error.message.includes('timeout')) {
         Message.closeAll()
         Message({
-          message: '请求超时',
+          message: 'Request timed out',
           type: 'error'
         })
       }
       if (error.message.includes('Network Error')) {
-        Message.closeAll()
-        Message({
-          message: '网络错误',
-          type: 'error'
-        })
+        console.log('Network Error')
       }
       // loadingInstance.close()
       return Promise.reject(error);

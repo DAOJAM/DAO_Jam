@@ -3,7 +3,7 @@
     <div>
       <div class="table-head">
         <div class="table-head-th">
-          Username
+          Projects
         </div>
         <div class="table-head-th" style="flex: 0 0 140px;">
           Vote
@@ -19,7 +19,7 @@
         <div v-for="(item, index) in pullVote.list" :key="index">
           <div class="table-body-tr">
             <div class="table-body-td">
-              <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.pid }}">
+              <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.id }}">
                 <c-avatar :src="avatar(item.logo)" />
                 <span class="username">{{ item.name }}</span>
               </router-link>
@@ -42,7 +42,7 @@
                   {{ item.status ? 'fold' : 'unfold' }}
                   <svg-icon icon-class="arrow_down" class="toggle-icon" :class="item.status && 'open'" />
                 </span>
-                <router-link :to="{name: 'daos-id', params: { id: item.pid }}">
+                <router-link :to="{name: 'daos-id', params: { id: item.id }}">
                   <el-button type="primary" size="small" class="vote-btn">
                     VOTE
                   </el-button>
