@@ -5,7 +5,7 @@
     <div
       class="daos"
     >
-      <span :class="{ badge: true }">
+      <span :class="{ badge: isNewbie }">
         <svg-icon
           class="icon"
           icon-class="daot"
@@ -33,7 +33,7 @@
           </el-tooltip>
         </el-col>
         <el-col class="second-column" :span="8">
-          <span class="what" @click="showVotePowerIntroduction">What is it?</span>
+          <span class="what" @click="showVotingPowerIntroduction">What is it?</span>
         </el-col>
       </el-row>
       <el-row>
@@ -73,14 +73,14 @@
       </el-row>
       <el-row>
         <el-col class="data-column" :span="16">
-          <span class="amount">{{ today.count }}</span>
+          <span class="amount">{{ todayVoteNum }}</span>
           <svg-icon
             class="get-button-icon"
             icon-class="tickets"
           />
           <span style="font-size: 12px">
             (
-            <span>{{ today.power }}</span>
+            <span>{{ todayVoteNum ** 2 }}</span>
             <svg-icon
               class="get-button-icon"
               icon-class="daot"
@@ -105,10 +105,10 @@
           class="dao fl"
         >
           <p class="dao-title">
-            {{ dao.title }}
+            {{ dao.name }}
           </p>
           <p class="dao-num">
-            {{ dao.num }}
+            {{ dao.weight }}
           </p>
           <svg-icon
             class="get-button-icon"
@@ -240,29 +240,9 @@ export default {
   data() {
     return {
       isNewbie: true, // 是不是新人
-      daoList: [
-        {
-          title: 'MTF DAO',
-          num: 15
-        },
-        {
-          title: 'MTF DAO',
-          num: 15
-        },
-        {
-          title: 'MTF DAO',
-          num: 15
-        },
-        {
-          title: 'MTF DAO',
-          num: 15
-        }
-      ],
+      daoList: [],
       power: 0,
-      today: {
-        count: 0,
-        power: 0
-      }
+      todayVoteNum: 0
     }
   },
   // props: {},
@@ -274,15 +254,14 @@ export default {
       if (val) this.fetchDatas()
     }
   },
-  async mounted() {
-    // 切换页面的时候，this.isLogined 已经是 true，不会触发它的 watch 
-    if (this.isLogined) await this.fetchDatas()
+  mounted() {
+    // 切换页面的时候，this.isLogined 已经是 true，不会触发它的 watch
+    if (this.isLogined) this.fetchDatas()
   },
   methods: {
-    async fetchDatas() {
-      // This API is intended for verification only
-      // we will need to record isNewBie or not on the server
-      this.isNewbie = (await this.$API.getKycStatus()).data.verified
+    fetchDatas() {
+      this.checkIsNewbie()
+      this.loadTodayTop5Votes()
       this.balanceOfDaot()
     },
     async balanceOfDaot() {
@@ -292,6 +271,16 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    async checkIsNewbie() {
+      // This API is intended for verification only
+      // we will need to record isNewBie or not on the server
+      this.isNewbie = (await this.$API.getKycStatus()).data.verified
+    },
+    async loadTodayTop5Votes() {
+      const { data: { top5, totalVoteNum } } = await this.$API.todayVotes()
+      this.daoList = top5
+      this.todayVoteNum = totalVoteNum
     },
     async getNewbieBonus() {
       const { data } = await this.$API.getKycStatus()
@@ -325,17 +314,17 @@ export default {
         }
       }
     },
-    showVotePowerIntroduction() {
+    showVotingPowerIntroduction() {
       const h = this.$createElement
       this.$msgbox({
         title: '介绍',
         message: h('div', null, [
-          h('h2', null, 'VotePower是什么？'),
-          h('p', null, 'VotePower是DAOJAM中用来支持项目的一种资源，每一个VotePower都是 ERC-20 的Token。在DAOJAM中采用了二次方投票法：当您希望给一个项目支持5票时，就需要付出 5^2 = 25 个VotePower。最终得票最高的项目会赢得DAOJAM的项目大奖，而在得奖项目中投VotePower最多的用户会获得伯乐奖励。您的每一次投票都会被记录在区块链上，保障DAOJAM比赛过程中的公开透明性。'),
+          h('h2', null, 'Voting Power是什么？'),
+          h('p', null, 'Voting Power是DAOJAM中用来支持项目的一种资源，每一个Voting Power都是 ERC-20 的Token。在DAOJAM中采用了二次方投票法：当您希望给一个项目支持5票时，就需要付出 5^2 = 25 个Voting Power。最终得票最高的项目会赢得DAOJAM的项目大奖，而在得奖项目中投Voting Power最多的用户会获得伯乐奖励。您的每一次投票都会被记录在区块链上，保障DAOJAM比赛过程中的公开透明性。'),
           h('h2', null, '如何获得票？'),
-          h('p', null, '绑定Github和Email可自动领取 100 VotePower'),
-          h('p', null, '每天可在导航栏中手动领取昨日投Voting Power总量的1/3 + 20 VotePower'),
-          h('p', null, '邀请一名新用户领取奖励，自己可自动领取 50 VotePower'),
+          h('p', null, '绑定Github和Email可自动领取 100 Voting Power'),
+          h('p', null, '每天可在导航栏中手动领取昨日投Voting Power总量的1/3 + 20 Voting Power'),
+          h('p', null, '邀请一名新用户领取奖励，自己可自动领取 50 Voting Power'),
           h('h2', null, '如何投票？'),
           h('p', null, '前往PROJECTS页面查看感兴趣的项目，点击项目可以进入详情页中查看。对于支持的项目可以在详情页中直接投票。相信您的眼光，一定可以为我们找到最优质的的好项目！不过还请注意：单个项目单日最多可投票3次 且 投票总量不超过 10 票。')
         ])
