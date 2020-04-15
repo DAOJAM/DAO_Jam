@@ -196,6 +196,7 @@
             class="get-button badge"
             type="primary"
             size="mini"
+            @click="getNewbieBonus"
           >
             Gain 100vp
             <svg-icon
