@@ -4,8 +4,8 @@
       <span class="card-type">
         {{ assetType }}
         <txHash
-          :hash="'0x0454176b4f5c1bbd209dd44ae8f444ea69f16c4b20e93e1b0687077c88fdee1a'"
-          size="16px"
+          :hash="asset.trx"
+          size="24px"
         />
       </span>
       <span class="card-date">{{ friendlyDate }}</span>
@@ -46,15 +46,15 @@ export default {
       return moment(this.asset.create_time).format('MMMDo HH:mm')
     },
     assetAmount() {
-      return this.asset.amount > 0 ? '+' + this.asset.amount : this.asset.amount
+      return this.asset.type + this.asset.vp
     },
     assetColor() {
-      if (this.asset.amount < 0) {
+      if (this.asset.type === '-') {
         return '#d74e5a'
-      } else if (this.asset.amount) {
+      } else if (this.asset.type === '+') {
         return '#41b37d'
       } else {
-        return '#fff'
+        return '#ffffff'
       }
     },
     assetType() {

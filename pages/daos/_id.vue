@@ -215,7 +215,7 @@
           <div class="vote-container">
             <el-tooltip
               effect="dark"
-              content="Vote Power"
+              content="Voting Power"
               placement="top"
             >
               <div class="vote-cost">
@@ -543,7 +543,7 @@ export default {
           })
         return // End of exec
       }
-      this.$alert(`Do you confirm cost ${this.voteCost} daots to vote this project?`, {
+      this.$alert(`Do you confirm cost ${this.voteCost} VP${this.voteCost > 1 ? 's' : ''} to vote this project?`, {
         confirmButtonText: 'Confirm',
         callback: async action => {
           if (action === 'confirm' && this.isLogined) {

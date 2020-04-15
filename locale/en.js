@@ -581,7 +581,7 @@ export default {
     unitPrice: 'unit price',
     totalPrice: 'total price',
     // account
-    remainingPoints: 'Remaining Vote Power:',
+    remainingPoints: 'Remaining Voting Power:',
     inviteUser: 'Users I invited',
     registeredDate: 'Registration time',
     inviteRule: 'Note: Those who are not activated can complete activation after reading 5 articles and making an evaluation. After activation, you can receive extra {0} points.',
@@ -603,7 +603,7 @@ export default {
     infoSetting: 'settings',
     accountSetting: 'account management',
     systemSetting: 'other settings',
-    wallet: 'My Vote Power',
+    wallet: 'My Voting Power',
     point: 'point detail',
     invite: 'Invitation Records',
     buycoins: 'Items I voted for',
@@ -612,7 +612,7 @@ export default {
     editcoins: 'Project Information',
     applycoins: 'Apply project',
     issuecoins: 'issue Fan tickets',
-    editProfile: 'edit profile',
+    editProfile: 'Setting',
     information: 'information',
     userInformation: 'Personal Information',
     bookmark: 'bookmark',
@@ -677,19 +677,19 @@ export default {
   kyc: {
     notificationPop: {
       title: 'Special offer',
-      message: 'You can get 100 Vote Power bonus after you bind NEAR Wallet!',
+      message: 'You can get 100 Voting Power bonus after you bind NEAR Wallet!',
       buttonText: 'Go'
     }
   },
   voteDropdown: {
     rewardTitle: 'Reward',
-    rewardText: 'Gain 100 Vote Power after binding NEAR wallet',
-    gainVotePower: 'Gain 100 Vote Power',
-    voteTodayTitle: 'You have cost {0} Vote Power，voted {1} ticket today',
+    rewardText: 'Gain 100 Voting Power after binding NEAR wallet',
+    gainVotingPower: 'Gain 100 Voting Power',
+    voteTodayTitle: 'You have cost {0} Voting Power，voted {1} ticket today',
     voteTodayText: 'You can voted at most 10 tickets & 3 times perday per project.',
-    voteTodayHelp: 'What is Vote Power and ticket?',
-    tomorrowGainTitle: 'You can gain 600 Vote Power tommorrow',
-    tomorrowGainText: 'You can gain 1/3 Vote Power of your voted yesterday + 20 a day.'
+    voteTodayHelp: 'What is Voting Power and ticket?',
+    tomorrowGainTitle: 'You can gain 600 Voting Power tommorrow',
+    tomorrowGainText: 'You can gain 1/3 Voting Power of your voted yesterday + 20 a day.'
   },
   accountManagement: {
     unbind: 'Unbind',
