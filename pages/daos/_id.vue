@@ -543,7 +543,7 @@ export default {
           })
         return // End of exec
       }
-      this.$alert(`Do you confirm cost ${this.voteCost} daots to vote this project?`, {
+      this.$alert(`Do you confirm cost ${this.voteCost} Voting Power(s) to vote this project?`, {
         confirmButtonText: 'Confirm',
         callback: async action => {
           if (action === 'confirm' && this.isLogined) {
