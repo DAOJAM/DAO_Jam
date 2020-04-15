@@ -95,4 +95,5 @@ export const paginationUrl = {
   // 获取用户加入的项目列表
   joinedTeamList: '/user/:id/teams',
   votingRecord: '/daojam/voting/record',
+  mintLog: '/daojam/voting/mint/log',
 }

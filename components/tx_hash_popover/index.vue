@@ -7,7 +7,7 @@
   >
     <div class="components-ipfs_all">
       <p class="tx_hash__title">
-        链上查看
+        View On Near
       </p>
       <div
         v-if="hash"
@@ -29,7 +29,7 @@
     <svg-icon
       slot="reference"
       :style="{ 'font-size': size }"
-      icon-class="eth_mini2"
+      icon-class="near_icon_wht"
       class="eth_mini_icon"
     />
   </el-popover>
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      link: 'https://rinkeby.etherscan.io/tx/'
+      link: 'https://explorer.nearprotocol.com/transactions/'
     }
   },
   computed: {

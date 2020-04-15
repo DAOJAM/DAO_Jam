@@ -8,7 +8,7 @@
         <div class="point-card">
           <span class="title">{{ $t('user.remainingPoints') }}</span>
           <h1 class="point-pricing">
-            {{ amount }}
+            {{ balance }}
           </h1>
         </div>
         <pointCard
@@ -46,9 +46,9 @@ export default {
     return {
       pointLog: {
         params: {
-          pagesize: 6
+          pagesize: 10
         },
-        apiUrl: 'userPoint',
+        apiUrl: 'mintLog',
         list: []
       },
       currentPage: Number(this.$route.query.pointsPage) || 1,
@@ -57,16 +57,15 @@ export default {
       assets: {
       },
       viewStatus: 0, // 0 1
-      amount: 0
+      balance: 0
     }
   },
   methods: {
     paginationData(res) {
-      // console.log(res)
-      this.pointLog.list = res.data.logs
+      this.pointLog.list = res.data.list || []
       this.assets = res.data
       this.total = res.data.count || 0
-      this.amount = res.data.amount || 0
+      this.balance = res.data.balance || 0
       this.loading = false
     },
     togglePage(i) {
