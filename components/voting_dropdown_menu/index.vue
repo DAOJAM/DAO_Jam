@@ -247,7 +247,7 @@ export default {
   },
   // props: {},
   computed: {
-    ...mapGetters(['isLogined']),
+    ...mapGetters(['currentUserInfo', 'isLogined']),
   },
   watch: {
     isLogined(val) {
@@ -278,7 +278,7 @@ export default {
       this.isNewbie = (await this.$API.getKycStatus()).data.verified
     },
     async loadTodayTop5Votes() {
-      const { data: { top5, totalVoteNum } } = await this.$API.todayVotes()
+      const { data: { top5, totalVoteNum } } = await this.$API.todayVotes(this.currentUserInfo.id)
       this.daoList = top5
       this.todayVoteNum = totalVoteNum
     },
