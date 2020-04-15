@@ -73,14 +73,14 @@
       </el-row>
       <el-row>
         <el-col class="data-column" :span="16">
-          <span class="amount">{{ todayVoteNum }}</span>
+          <span class="amount">{{ todayVote }}</span>
           <svg-icon
             class="get-button-icon"
             icon-class="tickets"
           />
           <span style="font-size: 12px">
             (
-            <span>{{ todayVoteNum ** 2 }}</span>
+            <span>{{ todayVP }}</span>
             <svg-icon
               class="get-button-icon"
               icon-class="daot"
@@ -242,7 +242,8 @@ export default {
       isNewbie: true, // 是不是新人
       daoList: [],
       power: 0,
-      todayVoteNum: 0
+      todayVote: 0,
+      todayVP: 0
     }
   },
   // props: {},
@@ -278,9 +279,10 @@ export default {
       this.isNewbie = (await this.$API.getKycStatus()).data.verified
     },
     async loadTodayTop5Votes() {
-      const { data: { top5, totalVoteNum } } = await this.$API.todayVotes(this.currentUserInfo.id)
+      const { data: { top5, total } } = await this.$API.todayVotes(this.currentUserInfo.id)
       this.daoList = top5
-      this.todayVoteNum = totalVoteNum
+      this.todayVote = total.vote
+      this.todayVP = total.vp
     },
     async getNewbieBonus() {
       const { data } = await this.$API.getKycStatus()
