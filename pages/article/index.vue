@@ -18,7 +18,7 @@
         class="home-head__sign animated fadeInUp"
         @click="newProject"
       >
-        CREATE PROJECT
+        {{ hadProject ? 'MY PROJECT' : 'CREATE PROJECT' }}
       </a>
     </div>
     <div class="judges">
@@ -206,11 +206,18 @@ export default {
         {},{},{},{},{},{},{},{},{},{},{},{},{},{}
       ],
       inEmail: '',
-      setEmailLoading: false
+      setEmailLoading: false,
+      hadProject: false,
+      projectId: 0
     }
   },
   computed: {
     ...mapGetters(['isLogined']),
+  },
+  watch: {
+    isLogined(newVal) {
+      if(newVal) this.tokenDetail()
+    }
   },
   created() {
     if (process.browser) {
@@ -237,7 +244,7 @@ export default {
     }
   },
   mounted() {
-
+    if(this.isLogined) this.tokenDetail()
   },
   methods: {
     initScrollAnimation() {
@@ -282,10 +289,19 @@ export default {
           this.daoLoading = false
         })
     },
+    async tokenDetail() {
+      const res = await this.$API.tokenDetail()
+      if (res.code === 0 && res.data.token) {
+        this.hadProject = true
+        this.projectId = res.data.token.id
+      }
+      else this.hadProject = false
+    },
     newProject() {
-      if(this.isLogined)
-        this.$router.push({ name: 'daos-create' })
-      else {
+      if(this.isLogined) {
+        const routerData = this.hadProject ? {name: 'daos-id', params: {id: this.projectId}} : { name: 'daos-create' }
+        this.$router.push(routerData)
+      } else {
         this.$store.commit('setLoginModal', true)
         this.$message.warning('Operate after logging in')
       }
