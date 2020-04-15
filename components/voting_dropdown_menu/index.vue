@@ -162,8 +162,9 @@
         </el-col>
         <el-col :span="12">
           <el-button
-            class="get-button badge"
-            type="primary"
+            class="get-button"
+            type="info"
+            disabled="true"
             size="mini"
           >
             Gain 20vp
@@ -214,8 +215,9 @@
         </el-col>
         <el-col :span="12">
           <el-button
-            class="get-button badge"
-            type="primary"
+            class="get-button"
+            type="info"
+            disabled="true"
             size="mini"
           >
             Gain 60vp

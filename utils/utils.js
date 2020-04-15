@@ -23,6 +23,7 @@ export default {
     }
   },
   isNDaysAgo(n, time) {
+    moment.locale('en')
     const nowTime = moment()
       .subtract(n, 'days')
       .format('YYYY-MM-DD')

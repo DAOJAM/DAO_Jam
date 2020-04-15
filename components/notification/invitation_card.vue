@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 
 export default {
   props: {
@@ -47,7 +46,7 @@ export default {
   },
   computed: {
     time() {
-      return moment(this.card.create_time).format('YYYY-MM-DD HH:mm:ss')
+      return this.$moment(this.card.create_time).format('YYYY-MM-DD HH:mm:ss')
     }
   },
   methods: {

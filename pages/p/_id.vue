@@ -788,7 +788,6 @@
 
 <script>
 import throttle from 'lodash/throttle'
-import moment from 'moment'
 import 'moment/locale/zh-cn'
 import { mapGetters } from 'vuex'
 import { xssFilter, xssImageProcess } from '@/utils/xss'
@@ -974,12 +973,12 @@ export default {
     ...mapGetters(['currentUserInfo', 'isLogined', 'isMe']),
     articleTimeISO() {
       const { create_time: createTime } = this.article
-      const time = moment(createTime)
-      return moment(time).toISOString()
+      const time = this.$moment(createTime)
+      return this.$moment(time).toISOString()
     },
     articleCreateTimeComputed() {
       const { create_time: createTime } = this.article
-      const time = moment(createTime)
+      const time = this.$moment(createTime)
       return this.$utils.isNDaysAgo(2, time) ? time.format('MMMDo HH:mm') : time.fromNow()
     },
     compiledMarkdown() {
