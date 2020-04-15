@@ -13,6 +13,12 @@
           <img v-if="item" :src="item" alt="image">
         </div>
       </viewer>
+      <p
+        v-if="projectImageList.length === 0"
+        class="token-not"
+      >
+        Nothing
+      </p>
     </div>
 
     <div class="token-row">
