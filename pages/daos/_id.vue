@@ -546,7 +546,7 @@ export default {
           'Almost there, just missing NEAR wallet binding', {
             confirmButtonText: 'Go to bind my NEAR Wallet',
             callback: () => {
-              this.$router.push('/setting/account')
+              this.$router.push('/setting')
             }
           })
         return // End of exec
