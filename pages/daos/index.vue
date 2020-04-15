@@ -64,7 +64,7 @@
                   class="icon-add"
                 />
                 <p class="dao-add__text">
-                  Create New Project（Need 100 Vote Power
+                  Create New Project（Need 100 Voting Power
                   <svg-icon
                     icon-class="daot"
                     class="icon-dao"

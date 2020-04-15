@@ -9,7 +9,7 @@
           Vote
         </div>
         <div class="table-head-th" style="flex: 0 0 140px;">
-          Vote Power
+          Voting Power
         </div>
         <div class="table-head-th" style="flex: 0 0 200px;">
           &nbsp;

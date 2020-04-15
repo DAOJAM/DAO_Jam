@@ -228,7 +228,7 @@
           <div class="vote-container">
             <el-tooltip
               effect="dark"
-              content="Vote Power"
+              content="Voting Power"
               placement="top"
             >
               <div class="vote-cost">
