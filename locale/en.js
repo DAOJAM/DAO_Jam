@@ -612,7 +612,7 @@ export default {
     editcoins: 'Project Information',
     applycoins: 'Apply project',
     issuecoins: 'issue Fan tickets',
-    editProfile: 'edit profile',
+    editProfile: 'Setting',
     information: 'information',
     userInformation: 'Personal Information',
     bookmark: 'bookmark',
