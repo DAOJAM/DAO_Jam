@@ -275,7 +275,9 @@ export default {
     }
   },
   async mounted() {
-    this.isNewbie = (await this.$API.getKycStatus).verified
+    // This API is intended for verification only
+    // we will need to record isNewBie or not on the server
+    this.isNewbie = (await this.$API.getKycStatus()).data.verified
   },
   methods: {
     async balanceOfDaot() {
