@@ -82,10 +82,29 @@ export default {
   },
   created() {
     // this.tokenDetail()
+    this.setTagList()
   },
   mounted() {
   },
   methods: {
+    setTagList() {
+      this.$API.tokenDetail().then(res => {
+        if (res.code === 0) {
+          this.tagsList = [
+            { title: 'My Detail', url: 'setting' },
+            { title: 'Vote Power', url: 'account' },
+            { title: 'Vote Record', url: 'tokens' },
+            { title: 'Project Setting', url: 'editminetoken' },
+          ]
+        } else {
+          this.tagsList = [
+            { title: 'My Detail', url: 'setting' },
+            { title: 'Vote Power', url: 'account' },
+            { title: 'Vote Record', url: 'tokens' },
+          ]
+        }
+      })
+    },
     // 项目菜单中是显示“新建项目”还是“项目信息”
     tokenDetail() {
       const tokenTag = this.projectTagsList.findIndex(tag => tag.url === 'tokens-apply')
@@ -98,6 +117,7 @@ export default {
       // 获取用户是否有项目
       this.$API.tokenDetail().then(res => {
         if (res.code === 0) {
+          // 有项目
           this.holdLoading = false
           if (res.data.token) {
             if (tokenTag !== -1) {
@@ -108,6 +128,7 @@ export default {
           }
           else this.hold = 1
         } else {
+          // 没项目
           // this.$message.error(res.message)
         }
         const query = { ...this.$route.query }
