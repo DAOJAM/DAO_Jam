@@ -65,6 +65,7 @@
           <el-dropdown
             v-else
             class="user-menu"
+            :class="{ badge: hasNewNotification }"
           >
             <avatar :src="avatarSrc" />
             <el-dropdown-menu
@@ -101,7 +102,8 @@
               <!-- 通知中心 -->
               <n-link
                 to="/notification"
-                class="link">
+                class="link"
+              >
                 <el-dropdown-item>
                   <div
                     class="icon-container"
@@ -393,7 +395,7 @@ export default {
             h('p',  null, this.$t('kyc.notificationPop.message')),
             h('el-button', {
               props: {size: 'small', type: 'primary'},
-              on: { click: () => { this.$router.push('/setting/account') }}
+              on: { click: () => { this.$router.push('/setting') }}
             }, this.$t('kyc.notificationPop.buttonText')),
           ]),
           duration: 0

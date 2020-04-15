@@ -3,44 +3,22 @@
     <g-header />
     <div class="home-head">
       <h1 class="home-head__title animated fadeInUp">
-        <img
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcwAAAApCAMAAACP++kxAAAApVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////+4/eNVAAAANnRSTlMAwXf789wPCxMhBTj4Se0sJuWHGNdMoQIczdJc6UU9MwiTmXNh4PBWvLexfGqsgm9RjmXKpcX3mSu1AAALaElEQVR42u2b53riOhCGDXYAF1wwYAwYF6opoQS4/0s7gQTNSCMRb3L6s9+vXcuovdIUydH+1Wo2td/6X8ialcNhObO03/rPq7G+3rVuaL/1X9fx+qljpP3WX61stH1o+efbQt94wHR87bf+arWC60PDPz9QOVyZlto/LMv0Utsz/43RmNVo4v+d6kxbKPDgaQIvL/HTxgub7vjPH+cWYO4ru9l9ndP+tJz4xGhIh35QvpRO18Ng4TjGuLt6nagG6telMoXofC9MK8isg3qiDdxC2SmDNmfFZfjSHZad3iOuWF9BKfJYTLWITdYcns5+DLM5CD81yGhpD5rqaRVl6ldR+niY9xS9S64gN5Qvj9nF4aob1geaTKOrVD31W92mMF5QEBIrBWWtB8rcRZVNP2pbXkEn7VPRBf2cdd92UHs/hrkMmA4SMKyrC7MyTOMq1XDa0iQ643e2Ulsf08rm+0w2GHnLbX6Xr3AZP+g2LqrzP6uhopfWJ/w531LtPkthAE/6bFrGXI+o6TtrP4Z5gtpGGtXmUbjRvg0TcEqWi7/Ab7xRRK2+vLKV/02YNmc51hQmEOOKdFp0cMSm4vt27qMxN2HTgzqSpXz4OczZc5hZfh+Dk2ffhwnSX0k1r/wLCantoqrsZfI9mAVXZngEpjRMsErK2QtoW7lgkZ1H/R14Bk6z2QVbE/7pMKmSoiwLMsfVYFIVAk3oPlglrEGsriuwfxUmmDtQRw2z24CSiU5gRjv8CLujFhfW3BWBlUZOM3XQyP8GmKAfwAQd5c0rXHO2elbX3KwMkzoO4EJgkugFwOEfpdKBTgU725eu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"
-          alt="what is a dao jam?"
-        >
+        <svg-icon
+          icon-class="ready_layer_one_hackathon"
+          alt="Ready Layer One HACKATHON"
+        />
       </h1>
       <p class="home-head__des animated fadeInUp">
-        The DAO Jam combines the concepts of Hackathon and DAO, offering an unprecedented way for developers to unite with each other based on a common goal, in a structured yet autonomous way. By utilizing blockchain technology, the DAO Jam ensures a transparent, fair voting and ranking process for the projects.
+        Hack, Submit, Vote, Win!
         <br>
-        <br>
-        The event is 100% virtual so everyone from all over the world can participate online at no charge.
+        All running on the blockchain
       </p>
-      <div class="email-subscribe">
-        <!-- <el-input v-model="inEmail" placeholder="请输入内容"/> -->
-        <span class="span1">
-          <input
-            v-model="inEmail"
-            type="text"
-            autocomplete="off"
-            placeholder="Input your mail address"
-          >
-        </span>
-        <span class="span2">
-          <el-button
-            slot="append"
-            :loading="setEmailLoading"
-            @click="uploadEmail"
-          >
-            {{ setEmailLoading ? 'LOADING' : 'SUBSCRIBE' }}
-          </el-button>
-        </span>
-      </div>
       <a
-        href="https://discord.gg/tj6aJNG"
         target="_blank"
         class="home-head__sign animated fadeInUp"
+        @click="newProject"
       >
-        <svg-icon icon-class="discord" />
-        JOIN OUR DISCORD
+        {{ hadProject ? 'MY PROJECT' : 'CREATE PROJECT' }}
       </a>
     </div>
     <div class="judges">
@@ -176,6 +154,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 // import peopleList from '@/components/people_list/index.vue'
 import dao from '@/components/dao/index.vue'
 import loadScript from '@/utils/load_script'
@@ -227,7 +206,17 @@ export default {
         {},{},{},{},{},{},{},{},{},{},{},{},{},{}
       ],
       inEmail: '',
-      setEmailLoading: false
+      setEmailLoading: false,
+      hadProject: false,
+      projectId: 0
+    }
+  },
+  computed: {
+    ...mapGetters(['isLogined']),
+  },
+  watch: {
+    isLogined(newVal) {
+      if(newVal) this.tokenDetail()
     }
   },
   created() {
@@ -255,7 +244,7 @@ export default {
     }
   },
   mounted() {
-
+    if(this.isLogined) this.tokenDetail()
   },
   methods: {
     initScrollAnimation() {
@@ -300,21 +289,22 @@ export default {
           this.daoLoading = false
         })
     },
-    async uploadEmail() {
-      const pattern = /^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/
-      if(!pattern.test(this.inEmail)) return this.$message.warning('请输入正确的邮箱地址')
-
-      try {
-        this.setEmailLoading = true
-        const res = await this.$API.setEmailSubscriber(this.inEmail)
-        if(res.code === 0) this.$message.success('订阅成功')
-        else this.$message.error(res.message)
+    async tokenDetail() {
+      const res = await this.$API.tokenDetail()
+      if (res.code === 0 && res.data.token) {
+        this.hadProject = true
+        this.projectId = res.data.token.id
       }
-      catch(e) {
-        this.$message.error('订阅失败')
-        console.error(e)
+      else this.hadProject = false
+    },
+    newProject() {
+      if(this.isLogined) {
+        const routerData = this.hadProject ? {name: 'daos-id', params: {id: this.projectId}} : { name: 'daos-create' }
+        this.$router.push(routerData)
+      } else {
+        this.$store.commit('setLoginModal', true)
+        this.$message.warning('Operate after logging in')
       }
-      this.setEmailLoading = false
     }
   }
 }
@@ -336,25 +326,30 @@ export default {
   text-align: center;
   &__title {
     padding: 0;
-    margin: 288px 0 0 0;
+    margin: 382px 0 0 0;
     color: #fff;
     font-size: 50px;
     font-weight: bolder;
     text-align: center;
-    img {
-      height: 41px;
+    display: flex;
+    justify-content: center;
+    svg {
+      max-width: 743px;
+      flex: 1;
+      margin: 0 20px;
     }
   }
   &__des {
-    max-width: 620px;
     color: #fff;
     text-align: left;
-    margin: 34px auto 0;
+    margin: 45px auto 0;
     font-size: 20px;
     font-weight: 500;
     line-height: 30px;
+    text-align: center;
   }
   &__sign {
+    margin: 313px 0 0;
     white-space: nowrap;
     display: inline-block;
     padding: 5px 87px;
@@ -365,10 +360,10 @@ export default {
     font-weight: 500;
     color: #ffffff;
     line-height: 40px;
-    margin: 20px 0 0;
     text-align: center;
     transition: all 0.3s;
     animation-delay: 0.2s;
+    cursor: pointer;
     &:hover {
       background: mix(#6236ff, #fff, 90%);
     }
@@ -531,45 +526,9 @@ export default {
   background-color: #372ba1;
   padding: 80px 0;
 }
-.email-subscribe {
-  margin: 160px 0 0;
-  white-space: nowrap;
-  span {
-    display: inline-block;
-    height: 50px;
-    transition: all 0.3s;
-    animation-delay: 0.2s;
-  }
-  input {
-    border: 0 none;
-    width: 239px;
-    height: 50px;
-    border-radius: 100px 0 0 100px;
-    padding-left: 20px;
-    background: #1C4085;
-    color: #B2B2B2;
-    font-size:16px;
-    transition: all 0.3s;
-    animation-delay: 0.2s;
-  }
-  .span1 {
-    width: 254px;
-    position: relative;
-  }
-  button {
-    height: 52px;
-    border-radius: 0 100px 100px 0;
-    color: #6236FF;
-    font-size: 16px;
-    width: 135px;
-    transition: all 0.3s;
-    animation-delay: 0.2s;
-  }
-}
 
 @media screen and (max-width: 520px) {
   .home-head__des {
-    max-width: 90%;
     font-size: 14px;
   }
   .home-head__title img {
@@ -608,10 +567,6 @@ export default {
   .home-head__des {
     max-width: 70%;
     font-size: 16px;
-  }
-  .home-head__title img {
-    width: 70%;
-    height: auto;
   }
 
   .dao-title {
@@ -652,10 +607,6 @@ export default {
     max-width: 620px;
     font-size: 20px;
   }
-  .home-head__title img {
-    width: auto;
-    height: 41px;
-  }
 
   .judges .judges-content,
   .sponsors .sponsors-content {
@@ -680,21 +631,14 @@ export default {
   .home-head__sign {
     padding: 5px 50px;
     font-size: 16px;
+    margin: 185px 0 0;
   }
-  .email-subscribe {
-    .span1 {
-      width: 174px;
-    }
-    input {
-    width: 159px;
-    font-size: 14px;
-    }
-    button {
-      height: 50px;
-      font-size: 12px;
-      width: 95px;
-      padding: 8px 10px;
-    }
+  .home-head__des {
+    font-size: 16px;
+    margin: 40px 0 0;
+  }
+  .home-head__title {
+    margin: 210px 0 0 0;
   }
 }
 </style>

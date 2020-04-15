@@ -9,7 +9,7 @@
           Vote
         </div>
         <div class="table-head-th" style="flex: 0 0 140px;">
-          Vote Power
+          Voting Power
         </div>
         <div class="table-head-th" style="flex: 0 0 200px;">
           &nbsp;
@@ -40,7 +40,7 @@
               <div class="fl ac jfe"> 
                 <span class="toggle" @click="item.status = !item.status">
                   {{ item.status ? 'fold' : 'unfold' }}
-                  <svg-icon icon-class="arrow_down" class="toggle-icon" />
+                  <svg-icon icon-class="arrow_down" class="toggle-icon" :class="item.status && 'open'" />
                 </span>
                 <router-link :to="{name: 'daos-id', params: { id: item.pid }}">
                   <el-button type="primary" size="small" class="vote-btn">
@@ -218,6 +218,9 @@ export default {
       font-size: 12px;
       color: rgba(255, 255, 255, 1);
       margin-left: 4px;
+      &.open {
+        transform: rotate(180deg);
+      }
     }
     .vote-btn {
       min-width: 90px;
@@ -251,7 +254,7 @@ export default {
     line-height: 22px;
     height: 30px;
     &.near {
-          display: flex;
+      display: flex;
       justify-content: flex-end;
     }
     .near-btn {

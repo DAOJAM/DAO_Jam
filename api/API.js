@@ -1110,4 +1110,7 @@ export default {
   leaderboard() { return request.get(`/leaderboard`) },
   votingRecord() { return request.get('/daojam/voting/record') },
   mintLog() { return request.get('/daojam/voting/mint/log') },
+  todayVotes(userId) {
+    return request.get(`/user/${userId}/votes/today`)
+  }
 }

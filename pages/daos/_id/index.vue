@@ -2,9 +2,13 @@
   <div>
     <div class="gallery">
       <h2 class="token-title">
-        Project Images
+        Gallery
       </h2>
-      <viewer :images="projectImageList" class="gallery-m">
+      <viewer
+        ref="viewer"
+        :images="projectImageList"
+        class="gallery-m"
+      >
         <div v-for="(item, index) in projectImageList" :key="index" class="gallery-m-b">
           <img v-if="item" :src="item" alt="image">
         </div>
@@ -12,7 +16,7 @@
     </div>
 
     <div class="token-row">
-      <div class="token-col-7">
+      <div class="token-col-6">
         <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
@@ -22,7 +26,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Team Member
@@ -48,7 +52,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Tasks
@@ -65,7 +69,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Website
@@ -89,7 +93,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Milestone
@@ -107,7 +111,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Live of development
@@ -165,7 +169,7 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="token-list">
             <h2 class="token-title">
               Progress of development
@@ -203,36 +207,52 @@
           </div>
         </div>
       </div>
-      <div class="token-col-3">
+      <div class="token-col-4">
         <div class="token-block">
           <div class="table">
             <h2 class="token-title">
               Supporters
             </h2>
             <div class="table-content">
-              <div>
-                <div class="table-head">
-                  <div class="table-head-th">
-                    Username
-                  </div>
-                  <div class="table-head-th">
-                    Vote Amount
-                  </div>
-                </div>
-                <div class="table-body">
-                  <div v-for="(item, index) in pullSupporters.list" :key="index" class="table-body-tr">
+              <div class="table-body">
+                <div v-for="(item, index) in pullSupporters.list" :key="index" class="supporters-border">
+                  <div class="table-body-tr">
                     <div class="table-body-td">
                       <router-link class="fl ac" :to="{name: 'user-id', params: { id: item.uid }}">
-                        <span class="index">{{ (index+1) * pullSupporters.currentPage }}</span>
+                        <span v-if="indexFuncTag(index, pullSupporters) === 1" class="index index-w st">{{ indexFuncTag(index, pullSupporters) }}st</span>
+                        <span v-else-if="indexFuncTag(index, pullSupporters) === 2" class="index index-w nd">{{ indexFuncTag(index, pullSupporters) }}nd</span>
+                        <span v-else-if="indexFuncTag(index, pullSupporters) === 3" class="index index-w rd">{{ indexFuncTag(index, pullSupporters) }}rd</span>
+                        <span v-else class="index index-w">{{ indexFuncTag(index, pullSupporters) }}</span>
                         <c-avatar :src="avatar(item.avatar)" />
-                        <span class="username">{{ item.nickname || item.username }}</span>
+                        <span v-if="indexFuncTag(index, pullSupporters) === 1" class="username st">{{ item.nickname || item.username }}</span>
+                        <span v-else-if="indexFuncTag(index, pullSupporters) === 2" class="username nd">{{ item.nickname || item.username }}</span>
+                        <span v-else-if="indexFuncTag(index, pullSupporters) === 3" class="username rd">{{ item.nickname || item.username }}</span>
+                        <span v-else class="username">{{ item.nickname || item.username }}</span>
                       </router-link>
                     </div>
-                    <div class="table-body-td ticket-container">
-                      <svg-icon icon-class="tickets" class="ticket-icon" />  
+                    <div class="table-body-td fl ac" style="flex: 0 0 100px;justify-content: flex-end;">
                       {{ item.weight }}
+                      <svg-icon icon-class="tickets" class="ticket-icon" />  
+                      <span class="toggle" @click="item.status = !item.status">
+                        <!-- {{ item.status ? 'fold' : 'unfold' }} -->
+                        <svg-icon icon-class="arrow_down" class="toggle-icon" :class="item.status && 'open'" />
+                      </span>
                     </div>
                   </div>
+                  <transition name="fade">
+                    <div v-show="item.status" class="supporters-list">
+                      <div v-for="(itemChild, indexChild) in item.data" :key="indexChild" class="supporters-list-tr">
+                        <div class="time">
+                          {{ time(itemChild.create_time) }}
+                        </div>
+                        <div class="weight">
+                          {{ itemChild.weight }}
+                          <svg-icon icon-class="tickets" class="ticket-icon" /> 
+                          <div class="toggle-empty" /> 
+                        </div>
+                      </div>  
+                    </div>
+                  </transition>
                 </div>
               </div>
               <user-pagination
@@ -252,57 +272,38 @@
           </div>
         </div>
 
-        <div class="token-block mt20">
+        <div class="token-block">
           <div class="table">
             <h2 class="token-title">
               Vote Record
             </h2>
             <div class="table-content">
-              <div>
-                <div class="table-head">
-                  <div class="table-head-th">
-                    Username
-                  </div>
-                  <div class="table-head-th">
-                    Vote Amount
-                  </div>
-                  <div class="table-head-th" style="flex: 0 0 70px" />
-                </div>
-                <div class="table-body">
-                  <el-tooltip
-                    v-for="(item, index) in pullVotes.list"
-                    :key="index"
-                    effect="dark"
-                    :content="time(item.create_time)"
-                    placement="top"
-                  >
-                    <div class="table-body-tr">
-                      <div class="table-body-td">
-                        <router-link class="fl ac" :to="{name: 'user-id', params: { id: item.uid }}">
-                          <c-avatar :src="avatar(item.avatar)" />
-                          <span class="username">{{ item.nickname || item.username }}</span>
-                        </router-link>
-                      <!-- <div>
-                        {{ time(item.create_time) }}
-                      </div> -->
-                      </div>
-                      <div class="table-body-td ticket-container">
-                        <svg-icon icon-class="tickets" class="ticket-icon" />  
-                        {{ item.weight }}
-                      </div>
-                      <div class="table-body-td" style="flex: 0 0 70px">
-                        <a 
-                          title="view on near explorer"
-                          class="near-trx-box" 
-                          :href="'https://explorer.nearprotocol.com/transactions/' + item.trx"
-                          target="_blank"
-                        >
-                          <svg-icon icon-class="near_logo_1" class="near-logo" />
-                        </a>
-                      </div>
+              <div class="table-body">
+                <a 
+                  v-for="(item, index) in pullVotes.list"
+                  :key="index"
+                  title="view on near explorer"
+                  :href="'https://explorer.nearprotocol.com/transactions/' + item.trx"
+                  target="_blank"
+                  class="vote"
+                >
+                  <div class="table-body-tr">
+                    <div class="table-body-td">
+                      <router-link class="fl ac" :to="{name: 'user-id', params: { id: item.uid }}">
+                        <span class="index">{{ rowFunc(index, pullVotes) }}</span>
+                        <c-avatar :src="avatar(item.avatar)" />
+                        <span class="username">{{ item.nickname || item.username }}</span>
+                      </router-link>
                     </div>
-                  </el-tooltip>
-                </div>
+                    <div class="table-body-td" style="flex: 0 0 180px;">
+                      {{ time(item.create_time) }}
+                    </div>
+                    <div class="table-body-td fl ac" style="flex: 0 0 60px;justify-content: flex-end;">
+                      {{ item.weight }}
+                      <svg-icon icon-class="tickets" class="ticket-icon" />  
+                    </div>
+                  </div>
+                </a>
               </div>
               <user-pagination
                 v-show="!pullVotes.loading"
@@ -442,7 +443,7 @@ export default {
         },
         apiUrl: 'minetokenLives',
         list: [],
-        currentPage: Number(this.$route.query.page) || 1,
+        currentPage: Number(this.$route.query.pageLives) || 1,
         size: 5,
         total: 0,
       },
@@ -454,7 +455,7 @@ export default {
         },
         apiUrl: 'minetokenNews',
         list: [],
-        currentPage: Number(this.$route.query.pages) || 1,
+        currentPage: Number(this.$route.query.pageNews) || 1,
         size: 5,
         total: 0,
       },
@@ -466,7 +467,7 @@ export default {
         },
         apiUrl: 'supporters',
         list: [],
-        currentPage: Number(this.$route.query.page) || 1,
+        currentPage: Number(this.$route.query.pageSupporters) || 1,
         size: 10,
         total: 0,
       },
@@ -511,7 +512,7 @@ export default {
       const id = this.$route.params.id
       this.minetokenId(id)
       this.minetokenGetResources(id)
-      this.teamMember()
+      this.teamMember(id)
 
       this.task()
 
@@ -523,7 +524,7 @@ export default {
   },
   methods: {
     projectImage(src) {
-      return src ? this.$ossProcess(src, { h: 200 }) : ''
+      return src ? this.$ossProcess(src, { h: 500, limit: 0 }) : ''
     },
     async minetokenId(id) {
       await this.$API.minetokenId(id).then(res => {
@@ -561,9 +562,9 @@ export default {
       return url
     },
     // 获取所有队员
-    async teamMember() {
+    async teamMember(id) {
       if (this.tokenId === -1) return
-      await this.$API.teamMember(Number(this.$route.params.id))
+      await this.$API.teamMember(Number(id))
         .then(res => {
           if (res.code === 0) {
             this.teamData = res.data
@@ -656,7 +657,7 @@ export default {
       this.pullLives.currentPage = i
 
       const query = Object.assign({}, this.$route.query)
-      const pageQuery = Object.assign(query, { page: i })
+      const pageQuery = Object.assign(query, { pageLives: i })
       
       this.$router.push({
         query: pageQuery
@@ -673,7 +674,7 @@ export default {
       this.pullNews.currentPage = i
 
       const query = Object.assign({}, this.$route.query)
-      const pageQuery = Object.assign(query, { pages: i })
+      const pageQuery = Object.assign(query, { pageNews: i })
       
       this.$router.push({
         query: pageQuery
@@ -697,7 +698,11 @@ export default {
       return time ? this.$moment(time).format('YYYY-MM-DD HH:mm:ss') : ''
     },
     paginationDataSupporters(res) {
-      this.pullSupporters.list = res.data.list
+      const list = res.data.list.map(item => ({
+        ...item,
+        status: false,
+      }))
+      this.pullSupporters.list = list
       this.pullSupporters.total = res.data.count || 0
       this.pullSupporters.loading = false
     },
@@ -707,7 +712,7 @@ export default {
       this.pullSupporters.currentPage = i
 
       const query = Object.assign({}, this.$route.query)
-      const pageQuery = Object.assign(query, { page: i })
+      const pageQuery = Object.assign(query, { pageSupporters: i })
       
       this.$router.push({
         query: pageQuery
@@ -782,6 +787,23 @@ export default {
         console.log(e)
       })
     },
+    
+    // 获取索引方法
+    indexFuncTag(index, obj) {
+      const indexFunc = (index, page, pagesize) => {
+        let limit = (page - 1) * pagesize
+        return (index + limit) + 1
+      }
+      return indexFunc(index, obj.currentPage, obj.params.pagesize)
+    },
+    // vote 次数计算
+    rowFunc(index, obj) {
+      const row = (index, count, page, pagesize) => {
+        let offset = (page - 1) * pagesize
+        return count - offset - index
+      }
+      return row(index, obj.total, obj.currentPage, obj.params.pagesize)
+    }
   }
 }
 </script>
@@ -966,14 +988,14 @@ export default {
     height: 0;
     clear: both;
   }
-  .token-col-7 {
-    width: calc(70% - 20px);
+  .token-col-6 {
+    width: calc(60% - 20px);
     min-height: 300px;
     float: left;
     margin-right: 20px;
   }
-  .token-col-3 {
-    width: 30%;
+  .token-col-4 {
+    width: 40%;
     min-height: 300px;
     float: left;
   }
@@ -1074,33 +1096,9 @@ export default {
   }
 }
 
-.ticket-container {
-  flex: 0 0 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .ticket-icon {
-    font-size: 24px;
-    margin-right: 10px;
-  }
-}
-.near-trx-box {
-  font-size: 36px;
-  color: #542de0;
-  width: 60px;
-  height: 30px;
-  border-radius: 2px;
-  padding: 6px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-
-  .near-logo {
-    font-size: 50px;
-    color: #542de0;
-  }
+.ticket-icon {
+  font-size: 24px;
+  margin-left: 10px;
 }
 
 .table {
@@ -1108,7 +1106,7 @@ export default {
     min-height: 400px;
     background-color: #132d5e;
     border-radius: 8px;
-    overflow: hidden;
+    // overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1127,6 +1125,23 @@ export default {
   }
 }
 .table-body {
+  .supporters-border {
+    .table-body-tr {
+      border-bottom: 1px solid #fff;
+    }
+    &:nth-last-child(1) {
+      .table-body-tr {
+        border-bottom: 0;
+      }
+    }
+  }
+  .vote {
+    display: block;
+    border-bottom: 1px solid #fff;
+    &:nth-last-child(1) {
+      border-bottom: 0;
+    }
+  }
   &-tr {
     flex: 1;
     display: flex;
@@ -1140,17 +1155,61 @@ export default {
     color: rgba(255, 255, 255, 1);
     line-height: 22px;
     .index {
-      font-size: 24px;
-      font-weight: bold;
       margin-right: 10px;
-      color: rgba(255, 255, 255, 1);
       text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 1);
+      line-height: 19px;
+      &.index-w {
+        width: 30px;
+      }
+      &.st {
+        color: #f7b500;
+      }
+      &.nd {
+        color: #b2b2b2;
+      }
+      &.rd {
+        color: #c66523;
+      }
     }
     .username {
       margin-left: 10px;
       color: rgba(255, 255, 255, 1);
       text-decoration: none;
+      &.st {
+        color: #f7b500;
+      }
+      &.nd {
+        color: #b2b2b2;
+      }
+      &.rd {
+        color: #c66523;
+      }
     }
+  }
+}
+.toggle-empty {
+  width: 22px;
+  margin-left: 10px;
+}
+.toggle {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 20px;
+  text-align: right;
+  cursor: pointer;
+  margin-left: 10px;
+
+  width: 22px;
+}
+.toggle-icon {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 1);
+  &.open {
+    transform: rotate(180deg);
   }
 }
 .chart {
@@ -1203,6 +1262,34 @@ export default {
     float: left;
     width: 100px;
     margin-right: 10px;
+  }
+}
+
+.supporters-list {
+  background-color: #1b4186;
+  margin: 0 -20px;
+  padding: 0 20px;
+  &-tr {
+    border-bottom: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 22px;
+    padding: 10px 0;
+    &:nth-last-child(1) {
+      border-bottom: 0;
+    }
+    .time {
+      flex: 1;
+    }
+    .weight {
+      flex: 0 0 60px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
   }
 }
 </style>

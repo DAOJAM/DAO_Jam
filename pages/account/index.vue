@@ -3,20 +3,20 @@
     <template slot="main">
       <!-- <div class="cny-main">
         <h2>
-          Vote Power是什么？
+          Voting Power是什么？
         </h2>
         <p>
-          Vote Power是DAOJAM中用来支持项目的一种资源，每一个Vote Power都是 ERC-20 的Token。在DAOJAM中采用了二次方投票法：当您希望给一个项目支持5票时，就需要付出 5^2 = 25 个 Vote Power。最终得票最高的项目会赢得DAOJAM的项目大奖，而在得奖项目中投Vote Power最多的用户会获得伯乐奖励。您的每一次投票都会被记录在区块链上，保障DAOJAM比赛过程中的公开透明性。
+          Voting Power是DAOJAM中用来支持项目的一种资源，每一个Voting Power都是 ERC-20 的Token。在DAOJAM中采用了二次方投票法：当您希望给一个项目支持5票时，就需要付出 5^2 = 25 个 Voting Power。最终得票最高的项目会赢得DAOJAM的项目大奖，而在得奖项目中投Voting Power最多的用户会获得伯乐奖励。您的每一次投票都会被记录在区块链上，保障DAOJAM比赛过程中的公开透明性。
         </p>
         <h2>
           如何获得票？
         </h2>
         <p>
-          绑定Github和Email可自动领取 100 Vote Power
+          绑定Github和Email可自动领取 100 Voting Power
           <br>
-          每天可在导航栏中手动领取昨日投Vote Power总量的1/3 + 20 Vote Power
+          每天可在导航栏中手动领取昨日投Voting Power总量的1/3 + 20 Voting Power
           <br>
-          邀请一名新用户领取奖励，自己可自动领取 50 Vote Power
+          邀请一名新用户领取奖励，自己可自动领取 50 Voting Power
         </p>
         <h2>
           如何投票？
