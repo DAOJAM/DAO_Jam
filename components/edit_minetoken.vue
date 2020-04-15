@@ -1,9 +1,6 @@
 <template>
   <div class="minetoken-page">
     <div class="fl ac coins-head">
-      <h2 class="tag-title">
-        {{ isPost ? $t('user.issuecoins') : $t('user.editcoins') }}
-      </h2>
       <div
         v-if="!isPost"
         class="click-box"
@@ -32,7 +29,7 @@
           v-if="isPost"
           v-model="form.name"
           class="input"
-          placeholder="Please input project Name"
+          placeholder="Please input project Name(can not be modified)"
         />
         <span v-else style="color: #fff;">{{ form.name }}</span>
       </el-form-item>
@@ -48,7 +45,7 @@
           v-model="form.brief"
           class="input"
           maxlength="50"
-          placeholder="Please input one Sentence Pitch"
+          placeholder="Please input one Sentence Pitch(can not be modified)"
         />
         <span v-else style="color: #fff;">{{ form.brief }}</span>
       </el-form-item>
@@ -246,7 +243,7 @@
       </el-form-item>
 
       <el-form-item
-        label="Project Images"
+        label="Gallary"
         prop=""
         class="customize"
       >
