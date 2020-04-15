@@ -1109,4 +1109,5 @@ export default {
   // 排行版
   leaderboard() { return request.get(`/leaderboard`) },
   votingRecord() { return request.get('/daojam/voting/record') },
+  mintLog() { return request.get('/daojam/voting/mint/log') },
 }
