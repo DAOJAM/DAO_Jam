@@ -1,9 +1,8 @@
 <template>
   <el-button
     v-if="!isMe(id)"
-    :class="!userInfo.followed ? 'black' : 'unsubscribe'"
-    size="small"
-    class="btn"
+    type="primary"
+    round
     @click.stop="followOrUnFollow"
   >
     <i
@@ -63,18 +62,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="less">
-  .btn {
-    &.black {
-      background: #333;
-      color: #fff;
-      border: 1px solid #333;
-    }
-
-    &.unsubscribe {
-      padding-left: 17px;
-      padding-right: 17px;
-    }
-  }
-</style>

@@ -20,34 +20,25 @@
           </el-tooltip>
         </div>
         <div class="user-edit">
-          <a
-            v-if="userAddress"
-            :href="'http://rinkeby.etherscan.io/address/' + userAddress"
-            target="_blank"
+          <el-button
+            icon="el-icon-share"
+            round
+            @click="shareModalShow = true"
           >
-            <el-button size="small">
-              <svg-icon icon-class="eth_mini" />
-              链上查看
-            </el-button>
-          </a>
+            {{ $t('share') }}
+          </el-button>
           <followBtn
             v-if="!isMe(Number($route.params.id))"
             :id="Number($route.params.id)"
           />
-          <router-link
-            v-else
-            :to="{name: 'setting'}"
-          >
-            <el-button size="small">
-              {{ $t('user.editProfile') }}
-            </el-button>
-          </router-link>
           <el-button
-            size="small"
-            @click="shareModalShow = true"
+            v-else
+            type="primary"
+            icon="el-icon-s-tools"
+            round
+            @click="$router.push({name: 'setting'})"
           >
-            <svg-icon icon-class="share_new" />
-            {{ $t('share') }}
+            {{ $t('user.editProfile') }}
           </el-button>
         </div>
       </div>
@@ -76,17 +67,10 @@
           Projects
         </n-link>
         <n-link
-          :to="{name: 'user-id-capital', params: { id: $route.params.id }}"
-          :class="$route.name === 'user-id-capital' && 'active'"
-          replace
-        >
-          CAPITAL
-        </n-link>
-        <n-link
           :to="{name: 'user-id-vote', params: { id: $route.params.id }}"
           :class="$route.name === 'user-id-vote' && 'active'"
         >
-          VOTED
+          Voted
         </n-link>
       </nav>
       <router-view />
@@ -118,7 +102,6 @@ export default {
   data() {
     return {
       shareModalShow: false, // share dialog
-      userAddress: '', // user address
       userInfo: Object.create(null) // 用户信息
     }
   },
@@ -159,11 +142,6 @@ export default {
       // get user info
       const userInfo = await factory(this.$API.getUser(this.$route.params.id))
       this.userInfo = userInfo || Object.create(null)
-
-      // 获取自己的address
-      this.userAddress = await factory(this.$API.userAddress({
-        uid: this.currentUserInfo.id
-      }))
     },
   }
 }
