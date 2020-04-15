@@ -28,7 +28,7 @@
             <h2 class="token-title">
               Brief Introduction
             </h2>
-            <p class="token-brief">{{ minetokenToken.introduction || '暂无' }}</p>
+            <p class="token-brief">{{ minetokenToken.introduction || 'Nothing' }}</p>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
                 v-if="achievementList.length === 0"
                 class="token-not"
               >
-                暂无
+                Nothing
               </p>
             </div>
           </div>
@@ -69,7 +69,7 @@
                 <p v-for="(item, index) in tasksList.sideTasks" :key="item.id + '-' + index" class="project-text">{{ item.title }}</p>
               </router-link>
               <p v-if="tasksList.mainTasks.length === 0 && tasksList.sideTasks.length === 0" class="token-not">
-                暂无
+                Nothing
               </p>
             </div>
           </div>
@@ -93,7 +93,7 @@
                 v-if="resourcesWebsites.length === 0"
                 class="token-not"
               >
-                暂无
+                Nothing
               </p>
             </div>
           </div>
@@ -156,7 +156,7 @@
                 v-if="pullLives.list.length === 0"
                 class="token-not"
               >
-                暂无
+                Nothing
               </p>
               <user-pagination
                 v-show="!pullLives.loading"
@@ -194,7 +194,7 @@
                 v-if="pullNews.list.length === 0" 
                 class="token-not"
               >
-                暂无
+                Nothing
               </p>
               <user-pagination
                 v-show="!pullNews.loading"
@@ -383,7 +383,7 @@
           v-if="achievementList.length === 0"
           class="token-not"
         >
-          暂无
+          Nothing
         </p>
       </div>
     </div> -->
