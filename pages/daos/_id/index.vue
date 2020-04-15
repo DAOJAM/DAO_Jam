@@ -219,14 +219,14 @@
                   <div class="table-body-tr">
                     <div class="table-body-td">
                       <router-link class="fl ac" :to="{name: 'user-id', params: { id: item.uid }}">
-                        <span v-if="indexFunc(index, pullSupporters.currentPage) === 1" class="index index-w st">{{ indexFunc(index, pullSupporters.currentPage) }}st</span>
-                        <span v-else-if="indexFunc(index, pullSupporters.currentPage) === 2" class="index index-w nd">{{ indexFunc(index, pullSupporters.currentPage) }}nd</span>
-                        <span v-else-if="indexFunc(index, pullSupporters.currentPage) === 3" class="index index-w rd">{{ indexFunc(index, pullSupporters.currentPage) }}rd</span>
-                        <span v-else class="index index-w">{{ indexFunc(index, pullSupporters.currentPage) }}</span>
+                        <span v-if="indexFuncTag(index, pullSupporters) === 1" class="index index-w st">{{ indexFuncTag(index, pullSupporters) }}st</span>
+                        <span v-else-if="indexFuncTag(index, pullSupporters) === 2" class="index index-w nd">{{ indexFuncTag(index, pullSupporters) }}nd</span>
+                        <span v-else-if="indexFuncTag(index, pullSupporters) === 3" class="index index-w rd">{{ indexFuncTag(index, pullSupporters) }}rd</span>
+                        <span v-else class="index index-w">{{ indexFuncTag(index, pullSupporters) }}</span>
                         <c-avatar :src="avatar(item.avatar)" />
-                        <span v-if="indexFunc(index, pullSupporters.currentPage) === 1" class="username st">{{ item.nickname || item.username }}</span>
-                        <span v-else-if="indexFunc(index, pullSupporters.currentPage) === 2" class="username nd">{{ item.nickname || item.username }}</span>
-                        <span v-else-if="indexFunc(index, pullSupporters.currentPage) === 3" class="username rd">{{ item.nickname || item.username }}</span>
+                        <span v-if="indexFuncTag(index, pullSupporters) === 1" class="username st">{{ item.nickname || item.username }}</span>
+                        <span v-else-if="indexFuncTag(index, pullSupporters) === 2" class="username nd">{{ item.nickname || item.username }}</span>
+                        <span v-else-if="indexFuncTag(index, pullSupporters) === 3" class="username rd">{{ item.nickname || item.username }}</span>
                         <span v-else class="username">{{ item.nickname || item.username }}</span>
                       </router-link>
                     </div>
@@ -290,12 +290,12 @@
                   <div class="table-body-tr">
                     <div class="table-body-td">
                       <router-link class="fl ac" :to="{name: 'user-id', params: { id: item.uid }}">
-                        <span class="index">{{ indexFunc(index, pullVotes.currentPage) }}</span>
+                        <span class="index">{{ indexFuncTag(index, pullVotes) }}</span>
                         <c-avatar :src="avatar(item.avatar)" />
                         <span class="username">{{ item.nickname || item.username }}</span>
                       </router-link>
                     </div>
-                    <div class="table-body-td" style="flex: 0 0 200px;">
+                    <div class="table-body-td" style="flex: 0 0 180px;">
                       {{ time(item.create_time) }}
                     </div>
                     <div class="table-body-td fl ac" style="flex: 0 0 60px;justify-content: flex-end;">
@@ -444,7 +444,7 @@ export default {
         },
         apiUrl: 'minetokenLives',
         list: [],
-        currentPage: Number(this.$route.query.page) || 1,
+        currentPage: Number(this.$route.query.pageLives) || 1,
         size: 5,
         total: 0,
       },
@@ -456,7 +456,7 @@ export default {
         },
         apiUrl: 'minetokenNews',
         list: [],
-        currentPage: Number(this.$route.query.pages) || 1,
+        currentPage: Number(this.$route.query.pageNews) || 1,
         size: 5,
         total: 0,
       },
@@ -468,7 +468,7 @@ export default {
         },
         apiUrl: 'supporters',
         list: [],
-        currentPage: Number(this.$route.query.page) || 1,
+        currentPage: Number(this.$route.query.pageSupporters) || 1,
         size: 10,
         total: 0,
       },
@@ -658,7 +658,7 @@ export default {
       this.pullLives.currentPage = i
 
       const query = Object.assign({}, this.$route.query)
-      const pageQuery = Object.assign(query, { page: i })
+      const pageQuery = Object.assign(query, { pageLives: i })
       
       this.$router.push({
         query: pageQuery
@@ -675,7 +675,7 @@ export default {
       this.pullNews.currentPage = i
 
       const query = Object.assign({}, this.$route.query)
-      const pageQuery = Object.assign(query, { pages: i })
+      const pageQuery = Object.assign(query, { pageNews: i })
       
       this.$router.push({
         query: pageQuery
@@ -713,7 +713,7 @@ export default {
       this.pullSupporters.currentPage = i
 
       const query = Object.assign({}, this.$route.query)
-      const pageQuery = Object.assign(query, { page: i })
+      const pageQuery = Object.assign(query, { pageSupporters: i })
       
       this.$router.push({
         query: pageQuery
@@ -788,8 +788,14 @@ export default {
         console.log(e)
       })
     },
-    indexFunc(index, page) {
-      return (index+1) * page
+    // 获取索引方法
+    indexFunc(index, page, pagesize) {
+      let limit = (page - 1) * pagesize
+      return (index + limit) + 1
+    },
+    // 包装索引方法
+    indexFuncTag(index, obj) {
+      return this.indexFunc(index, obj.currentPage, obj.params.pagesize)
     }
   }
 }
