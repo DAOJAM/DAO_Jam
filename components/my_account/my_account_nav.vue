@@ -108,7 +108,7 @@ export default {
           }
           else this.hold = 1
         } else {
-          this.$message.error(res.message)
+          // this.$message.error(res.message)
         }
         const query = { ...this.$route.query }
         query.hold = this.hold
