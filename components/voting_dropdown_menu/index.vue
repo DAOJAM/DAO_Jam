@@ -271,15 +271,20 @@ export default {
   },
   watch: {
     isLogined(val) {
-      if (val) this.balanceOfDaot()
+      if (val) this.fetchDatas()
     }
   },
   async mounted() {
-    // This API is intended for verification only
-    // we will need to record isNewBie or not on the server
-    this.isNewbie = (await this.$API.getKycStatus()).data.verified
+    // 切换页面的时候，this.isLogined 已经是 true，不会触发它的 watch 
+    if (this.isLogined) await this.fetchDatas()
   },
   methods: {
+    async fetchDatas() {
+      // This API is intended for verification only
+      // we will need to record isNewBie or not on the server
+      this.isNewbie = (await this.$API.getKycStatus()).data.verified
+      this.balanceOfDaot()
+    },
     async balanceOfDaot() {
       try {
         const result = await this.$API.balanceOf()
@@ -300,22 +305,22 @@ export default {
         return
       } else {
         const loading = this.$loading({
-          text: '领取中...'
+          text: 'Redeeming...'
         })
         try {
           await this.$API.mintVotes()
           loading.close()
           this.$notify.success({
-            title: '成功',
-            message: '领取成功'
+            title: 'You have the Newbie bonus',
+            message: 'You just get your newbie bonus. Hooray!'
           })
           window.location.reload()
         } catch (error) {
           console.log(error)
           loading.close()
           this.$notify.error({
-            title: '失败',
-            message: '领取失败'
+            title: 'Failed',
+            message: 'Somewhere just failed, please try again.'
           })
         }
       }
