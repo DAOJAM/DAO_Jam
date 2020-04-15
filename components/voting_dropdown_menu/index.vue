@@ -174,7 +174,7 @@
           </el-button>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="isNewbie">
         <el-col :span="12">
           <div class="reward-text">
             <span>Link to NEAR</span>
@@ -273,6 +273,9 @@ export default {
     isLogined(val) {
       if (val) this.balanceOfDaot()
     }
+  },
+  async mounted() {
+    this.isNewbie = (await this.$API.getKycStatus).verified
   },
   methods: {
     async balanceOfDaot() {
