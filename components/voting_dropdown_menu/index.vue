@@ -255,8 +255,8 @@ export default {
     }
   },
   mounted() {
-    checkIsNewbie()
-    loadTodayTop5Votes()
+    this.checkIsNewbie()
+    this.loadTodayTop5Votes()
   },
   methods: {
     async balanceOfDaot() {
