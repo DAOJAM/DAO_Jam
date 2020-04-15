@@ -684,7 +684,7 @@ export default {
   voteDropdown: {
     rewardTitle: 'Reward',
     rewardText: 'Gain 100 Voting Power after binding NEAR wallet',
-    gainVotePower: 'Gain 100 Voting Power',
+    gainVotingPower: 'Gain 100 Voting Power',
     voteTodayTitle: 'You have cost {0} Voting Power，voted {1} ticket today',
     voteTodayText: 'You can voted at most 10 tickets & 3 times perday per project.',
     voteTodayHelp: 'What is Voting Power and ticket?',

@@ -684,7 +684,7 @@ export default {
   voteDropdown: {
     rewardTitle: '奖励',
     rewardText: '绑定NEAR钱包后即可领取 100 Voting Power',
-    gainVotePower: '立刻领取 100 Voting Power',
+    gainVotingPower: '立刻领取 100 Voting Power',
     voteTodayTitle: '你今日已花费 {0} Voting Power,投出了 {1}票',
     voteTodayText: '你每日可在同个项目上投票3次，最多不超过10票',
     voteTodayHelp: 'Voting Power 和 票 是什么？',
