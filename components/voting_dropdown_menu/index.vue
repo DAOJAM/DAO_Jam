@@ -285,15 +285,11 @@ export default {
     async getNewbieBonus() {
       const { data } = await this.$API.getKycStatus()
       if (!data.verified) {
-        this.$alert('请先绑定GitHub账号、邮箱账号和以太坊钱包', '领取失败', {
-          confirmButtonText: '立刻绑定',
+        this.$alert('You can only have newbie bonus if you bind Near account with us.', 'Failed to get', {
+          confirmButtonText: this.$t('kyc.notificationPop.buttonText'),
           type: 'error',
-          // callback: (action) => {
-          //   if (action === 'confirm') this.$router.push('/setting/account')
-          //   else
-          // }
         }).then(() => {
-          this.$router.push('/setting/account')
+          this.$router.push('/setting')
         })
         return
       } else {
