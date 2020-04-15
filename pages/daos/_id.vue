@@ -50,7 +50,7 @@
                 <span>{{ minetokenUser.nickname || minetokenUser.username || pj.owner }}</span>
               </router-link>
             </div>
-            <p>Creation Time: 2020.3.24</p>
+            <p>Creation Time: {{ time(minetokenToken.create_time) }}</p>
             <p>
               {{ minetokenToken.brief || '暂无' }}
             </p>
@@ -512,6 +512,9 @@ export default {
     }
   },
   methods: {
+    time(time) {
+      return time ? this.$moment(time).format('YYYY-MM-DD HH:mm:ss') : ''
+    },
     async rankFunc() {
       await this.$API.rank(this.$route.params.id).then(res=> {
         if (res.code === 0) {
