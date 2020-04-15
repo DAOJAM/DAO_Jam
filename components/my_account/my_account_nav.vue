@@ -54,7 +54,7 @@ export default {
         { title: 'My Detail', url: 'setting' },
         { title: 'Vote Power', url: 'account' },
         { title: 'Vote Record', url: 'tokens' },
-        { title: 'Invitation', url: 'invite' },
+        // { title: 'Invitation', url: 'invite' },
         { title: 'Project Setting', url: 'editminetoken' },
       ],
       /* tagsList: [

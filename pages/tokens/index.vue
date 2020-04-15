@@ -63,7 +63,7 @@
             </el-table-column>
 
             <el-table-column
-              label="Weight"
+              label="Votes"
               prop="weight"
               sortable="custom"
               width="100px"

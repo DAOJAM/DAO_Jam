@@ -43,6 +43,7 @@ export default {
   },
   computed: {
     friendlyDate() {
+      moment.locale('en')
       return moment(this.asset.create_time).format('MMMDo HH:mm')
     },
     assetAmount() {
