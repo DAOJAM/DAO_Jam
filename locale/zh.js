@@ -581,7 +581,7 @@ export default {
     unitPrice: '单价',
     totalPrice: '总价',
     // account
-    remainingPoints: '剩余Vote Power:',
+    remainingPoints: '剩余Voting Power:',
     inviteUser: '我邀请的用户',
     registeredDate: '注册时间',
     inviteRule: '注：未激活者阅读5篇文章并作出评价后即可完成激活，激活后您即可领取额外{0}积分。',
@@ -603,7 +603,7 @@ export default {
     infoSetting: '资料设置',
     accountSetting: '账号管理',
     systemSetting: '其他操作',
-    wallet: '我的Vote Power',
+    wallet: '我的Voting Power',
     point: '积分详情',
     invite: '邀请记录',
     buycoins: '我投票的项目',
@@ -677,19 +677,19 @@ export default {
   kyc: {
     notificationPop: {
       title: '温馨提示',
-      message: '绑定 Near 钱包后，即刻获得 100 Vote Power 奖励！',
+      message: '绑定 Near 钱包后，即刻获得 100 Voting Power 奖励！',
       buttonText: '去绑定'
     }
   },
   voteDropdown: {
     rewardTitle: '奖励',
-    rewardText: '绑定NEAR钱包后即可领取 100 Vote Power',
-    gainVotePower: '立刻领取 100 Vote Power',
-    voteTodayTitle: '你今日已花费 {0} Vote Power,投出了 {1}票',
+    rewardText: '绑定NEAR钱包后即可领取 100 Voting Power',
+    gainVotePower: '立刻领取 100 Voting Power',
+    voteTodayTitle: '你今日已花费 {0} Voting Power,投出了 {1}票',
     voteTodayText: '你每日可在同个项目上投票3次，最多不超过10票',
-    voteTodayHelp: 'Vote Power 和 票 是什么？',
-    tomorrowGainTitle: '你明日可领取 600 Vote Power',
-    tomorrowGainText: '每天可在导航栏中手动领取昨日投Vote Power总量的1/3 + 20 Vote Power'
+    voteTodayHelp: 'Voting Power 和 票 是什么？',
+    tomorrowGainTitle: '你明日可领取 600 Voting Power',
+    tomorrowGainText: '每天可在导航栏中手动领取昨日投Voting Power总量的1/3 + 20 Voting Power'
   },
   accountManagement: {
     unbind: '取消绑定',

@@ -64,7 +64,7 @@
                 CREATE PROJECT
               </h3>
               <p>
-                need 100
+                Need 100 Voting Power
                 <svg-icon
                   icon-class="daot"
                   class="icon-dao"
