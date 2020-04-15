@@ -65,6 +65,7 @@
           <el-dropdown
             v-else
             class="user-menu"
+            :class="{ badge: hasNewNotification }"
           >
             <avatar :src="avatarSrc" />
             <el-dropdown-menu
