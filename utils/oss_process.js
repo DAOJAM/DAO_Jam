@@ -9,7 +9,7 @@ console.log(isSupportWebp)
 */
 
 // interlaceOrWebp 是否开启webp和interlace (这个还没想好要不要)
-export default (src, { w, h, interlace } = {}) => {
+export default (src, { w, h, interlace, limit } = {}) => {
   let ossprocess = '?x-oss-process=image'
 
   // 对宽高的处理
@@ -17,6 +17,8 @@ export default (src, { w, h, interlace } = {}) => {
   whStatus && (ossprocess += '/resize') // 如果有w or h 添加 resize
   w && (ossprocess += `,w_${w}`)
   h && (ossprocess += `,h_${h}`)
+
+  limit !== undefined && (ossprocess += `,limit_${limit}`)
 
   // 渐进显示处理
   const interlaceStatus = (interlace && interlace === 1)
