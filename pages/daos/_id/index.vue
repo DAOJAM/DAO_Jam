@@ -391,7 +391,6 @@ import achievement2 from '@/assets/img/achievement2.png'
 import achievement3 from '@/assets/img/achievement3.png'
 import achievement4 from '@/assets/img/achievement4.png'
 import userPagination from '@/components/user/user_pagination.vue'
-import moment from 'moment'
 
 export default {
   components: {
@@ -696,7 +695,7 @@ export default {
       return src ? this.$ossProcess(src, { h: 90 }) : ''
     },
     time(time) {
-      return time ? moment(time).format('YYYY-MM-DD HH:mm:ss') : ''
+      return time ? this.$moment(time).format('YYYY-MM-DD HH:mm:ss') : ''
     },
     paginationDataSupporters(res) {
       const list = res.data.list.map(item => ({

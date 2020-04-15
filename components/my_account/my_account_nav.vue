@@ -52,8 +52,9 @@ export default {
       holdLoading: true,
       tagsList: [
         { title: 'My Detail', url: 'setting' },
-        { title: 'Voting Power', url: 'account' },
-        { title: 'Invitation', url: 'invite' },
+        { title: 'Vote Power', url: 'account' },
+        { title: 'Vote Record', url: 'tokens' },
+        // { title: 'Invitation', url: 'invite' },
         { title: 'Project Setting', url: 'editminetoken' },
       ],
       /* tagsList: [
