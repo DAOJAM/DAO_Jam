@@ -95,7 +95,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import userPagination from '@/components/user/user_pagination.vue'
 
 export default {
@@ -123,7 +122,7 @@ export default {
       return src ? this.$ossProcess(src, { h: 90 }) : ''
     },
     time(time) {
-      return moment(time).format('YYYY-MM-DD HH:mm:ss')
+      return this.$moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     paginationData(res) {
       const list = res.data.list.map(item => ({

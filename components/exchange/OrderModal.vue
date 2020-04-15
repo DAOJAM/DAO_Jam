@@ -160,7 +160,7 @@ export default {
   computed: {
     ...mapGetters(['currentUserInfo']),
     friendlyTime() {
-      return this.moment(parseInt(this.order.timeStamp) * 1000).format('YYYY-MM-DD HH:mm:ss')
+      return this.$moment(parseInt(this.order.timeStamp) * 1000).format('YYYY-MM-DD HH:mm:ss')
     },
     input() {
       if (this.form.input) {

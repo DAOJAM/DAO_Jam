@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { mapGetters } from 'vuex'
 import avatar from '@/components/avatar/index.vue'
 import ipfsAll from '@/common/components/ipfs_all/index.vue'
@@ -94,7 +93,7 @@ export default {
     },
     time() {
       const { create_time: createTime } = this.article
-      const time = moment(createTime)
+      const time = this.$moment(createTime)
       return this.$utils.isNDaysAgo(2, time) ? time.format('MMMDo HH:mm') : time.fromNow()
     }
   },

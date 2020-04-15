@@ -294,7 +294,6 @@
   </div>
 </template>
 <script>
-import moment from 'moment'
 import { mapGetters } from 'vuex'
 import TokenJoinFandom from './token_join_fandom'
 import avatar from '@/components/avatar/index.vue'
@@ -411,7 +410,7 @@ export default {
       else return 'rgb(153, 153, 153)'
     },
     friendlyDate() {
-      return moment(this.minetokenToken.create_time).format('lll')
+      return this.$moment(this.minetokenToken.create_time).format('lll')
     }
   },
   watch: {

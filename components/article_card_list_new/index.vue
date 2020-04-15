@@ -97,7 +97,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import moment from 'moment'
 import avatar from '@/common/components/avatar/index.vue'
 import { precision } from '@/utils/precisionConversion'
 import { isNDaysAgo } from '@/utils/momentFun'
@@ -180,7 +179,7 @@ export default {
     },
     dateCard() {
       if (!this.card) return ''
-      const time = moment(this.card.create_time)
+      const time = this.$moment(this.card.create_time)
       return isNDaysAgo(2, time) ? time.format('MMMDo HH:mm') : time.fromNow()
     },
     likes() {

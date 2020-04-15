@@ -53,7 +53,7 @@ export default {
     },
     time() {
       if (!this.card) return ''
-      const time = this.moment(this.card.create_time)
+      const time = this.$moment(this.card.create_time)
       return isNDaysAgo(2, time) ? time.format('MMMDo HH:mm') : time.fromNow()
     }
   }
