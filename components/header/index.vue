@@ -311,7 +311,7 @@ export default {
         if (res.code === 0) {
           if(res.data.token) this.token = res.data.token
         } else {
-          this.$message.error(res.message)
+          // this.$message.error(res.message)
         }
       })
     },

@@ -1108,4 +1108,5 @@ export default {
   postMinetokenMilestones(id, data) { return request.post(`/minetoken/${id}/milestones`, data) },
   // 排行版
   leaderboard() { return request.get(`/leaderboard`) },
+  votingRecord() { return request.get('/daojam/voting/record') },
 }
