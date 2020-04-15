@@ -56,26 +56,21 @@
             v-if="!hadProject"
             class="dao-col new-project-col"
           >
-            <n-link
-              :to="{ name: 'daos-create' }"
+            <div
+              class="dao-block new-project"
+              @click="newProject"
             >
-              <div
-                class="dao-block new-project"
-              >
+              <h3>
+                CREATE PROJECT
+              </h3>
+              <p>
+                need 100
                 <svg-icon
-                  icon-class="add"
-                  class="icon-add"
+                  icon-class="daot"
+                  class="icon-dao"
                 />
-                <p class="dao-add__text">
-                  Create New Project（Need 100 Vote Power
-                  <svg-icon
-                    icon-class="daot"
-                    class="icon-dao"
-                  />
-                  )
-                </p>
-              </div>
-            </n-link>
+              </p>
+            </div>
           </div>
           <daoCard
             v-for="(item, index) in pull[sortRadio].list"
@@ -85,41 +80,6 @@
             @switchStar="switchStar"
           />
         </div>
-
-        <m-dialog
-          v-model="createDaoDialog"
-          width="400px"
-          title="Create Your Project"
-        >
-          <el-form
-            ref="form"
-            :model="form"
-            label-position="top"
-            label-width="80px"
-          >
-            <el-form-item>
-              <p class="dao-add__text">
-                Apply for project creation (need 100
-                <svg-icon
-                  icon-class="daos"
-                  class="icon-dao"
-                />
-                )
-              </p>
-            </el-form-item>
-            <el-form-item label="NAME THE Project">
-              <el-input v-model="form.name" />
-            </el-form-item>
-            <el-form-item label="DESCRIBE THE Project">
-              <el-input v-model="form.description" type="textarea" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="createDao">
-                SUBMIT
-              </el-button>
-            </el-form-item>
-          </el-form>
-        </m-dialog>
         <div class="load-more">
           <buttonLoadMore
             v-show="!loading"
@@ -241,63 +201,13 @@ export default {
       if (res.code === 0 && res.data.token) this.hadProject = true
       else this.hadProject = false
     },
-    // 创建dao
-    async createDao() {
-      // Detect if you have NEAR bind
-      const { data } = await this.$API.getKycStatus()
-      if (!data.verified) {
-        // 提示用户去绑定 Near 钱包，这样才有 account 可以操作
-        this.$alert('DAOJam was built on NEAR protocol, you will need to bind your NEAR wallet with us',
-          'Almost there, just missing NEAR wallet binding', {
-            confirmButtonText: 'Go to bind my NEAR Wallet',
-            callback: () => {
-              this.$router.push('/setting/account')
-            }
-          })
-        return // End of exec
+    newProject() {
+      if(this.isLogined)
+        this.$router.push({ name: 'daos-create' })
+      else {
+        this.$store.commit('setLoginModal', true)
+        this.$message.warning('Operate after logging in')
       }
-      console.log('-----------createProposal start-------------')
-      const loading = this.$loading({
-        text: '创建中'
-      })
-      try {
-        const expireTime = 30 * 24 * 60 * 60
-        const result = await window.unpackContract.create_proposal({
-          name: this.form.name, description: this.form.description, expiration_time: expireTime
-        })
-        console.log('create_proposal', result)
-        const value = Buffer.from(result.status.SuccessValue, 'base64').toString()
-        const id = JSON.parse(value)
-        const txHash = result.transaction.hash
-        const blockHash = result.transaction_outcome.block_hash
-        const res = await this.$API.createProposal({
-          id,
-          txHash,
-          blockHash
-        })
-        console.log('createProposal', res)
-        loading.close()
-        this.$notify.success({
-          title: '成功',
-          message: '创建成功'
-        })
-        this.$router.push({ name: 'editminetoken' })
-      } catch (error) {
-        console.error(error)
-        loading.close()
-        if (error.type === 'ActionError::FunctionCallError') {
-          this.$notify.error({
-            title: 'Error happened in the transaction',
-            message: error.message
-          })
-        } else {
-          this.$notify.error({
-            title: 'Error happened - ' + error.type,
-            message: error.message
-          })
-        }
-      }
-      console.log('-----------createProposal end-------------')
     },
     paginationData(res) {
       // if(this.temporaryPagesize) {
@@ -444,21 +354,28 @@ export default {
     font-size: 80px;
   }
   .icon-dao {
-    font-size: 22px;
-  }
-
-  .dao-add__text {
-    font-size: 14px;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 1);
-    line-height: 20px;
-    font-weight: bold;
-    padding: 0;
-    margin: 20px 0 0 0;
+    font-size: 24px;
+    margin-left: 5px;
   }
   &.new-project {
     min-height: 0;
     height: 358px;
+    color: white;
+
+    h3 {
+      font-size:20px;
+      font-weight:500;
+      line-height:28px;
+      margin: 0 0 20px;
+    }
+    p {
+      font-size:14px;
+      font-weight:500;
+      line-height:20px;
+      display: flex;
+      align-items: center;
+      margin: 0;
+    }
   }
 
   &:hover {
