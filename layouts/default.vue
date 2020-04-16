@@ -67,7 +67,7 @@ export default {
       return this.$route.name === 'publish-type-id'
     },
     hideFooter() {
-      const hide = ['publish-type-id', 'login-github', 'index']
+      const hide = ['publish-type-id', 'login-github']
       return !hide.includes(this.$route.name)
     },
     hideFeedback() {
