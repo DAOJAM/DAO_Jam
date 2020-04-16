@@ -175,7 +175,7 @@
           </el-button>
         </el-col>
       </el-row>
-      <el-row v-if="isNewbie">
+      <el-row>
         <el-col :span="12">
           <div class="reward-text">
             <span>Link to NEAR</span>
