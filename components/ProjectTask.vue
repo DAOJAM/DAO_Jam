@@ -1,7 +1,7 @@
 <template>      
   <div>
     <h2 class="task-title">
-      Main Prize（Single Choose）
+      Main Prize
     </h2>
     <el-radio-group v-model="mainRadio">
       <el-radio
@@ -14,7 +14,7 @@
       </el-radio>
     </el-radio-group>
     <h2 class="task-title">
-      Extension Prize（Mutile Choose）
+      Extension Prize
     </h2>
     <el-checkbox-group v-model="sideCheckList">
       <el-checkbox
