@@ -177,7 +177,7 @@ export default {
 
         // 获取自己的job
         const daoUserJob = await factory(this.$API.getDaoUserJob({
-          uid: this.currentUserInfo.id
+          uid: this.$route.params.id
         }))
 
         let job = daoUserJob.map(i => i.text_english)
@@ -187,7 +187,7 @@ export default {
 
         // 获取自己的skill
         const daoUserSkill = await factory(this.$API.getDaoUserSkill({
-          uid: this.currentUserInfo.id
+          uid: this.$route.params.id
         }))
         
         let skill = daoUserSkill.map(i => i.text_english)
