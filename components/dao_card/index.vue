@@ -20,7 +20,7 @@
                 <el-tooltip
                   class="pentagram"
                   effect="dark"
-                  :content="card.pentagram ? '取消收藏该项目' : '收藏该项目'"
+                  :content="card.pentagram ? 'Unstar' : 'Star'"
                   placement="top"
                 >
                   <a href="javascript:;">
