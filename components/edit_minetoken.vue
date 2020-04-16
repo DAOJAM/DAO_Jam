@@ -348,7 +348,7 @@ export default {
       rules: {
         name: [
           { required: true, message: 'Please input project name', trigger: 'blur' },
-          { min: 1, max: 10, message: 'Name Length: 1 ~ 10 characters', trigger: ['blur', 'change'] }
+          { min: 1, max: 100, message: 'Name Length: 1 ~ 100 characters', trigger: ['blur', 'change'] }
         ],
         logo: [
           { required: true, message: 'Please upload logo' }
