@@ -354,11 +354,11 @@ export default {
             store.clear()
             sessionStorage.clear()
 
-            if (this.$route.name === 'article') {
+            if (this.$route.name === 'index') {
               this.$router.go(0)
             } else {
               this.$router.replace({
-                name: 'article'
+                name: 'index'
               })
             }
 
