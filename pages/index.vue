@@ -161,9 +161,9 @@ import loadScript from '@/utils/load_script'
 import homeBase64 from '@/assets/img/home_base64'
 import peopleCard from '@/components/people_card'
 
-import daftPunkImg1 from '@/assets/img/avatar/daft_punk_weeknd.png'
-import daftPunkImg2 from '@/assets/img/avatar/daft_punk_weeknd2.png'
-import daftPunkImg3 from '@/assets/img/avatar/daft_punk_weeknd3.png'
+import daftPunkImg1 from '@/assets/img/avatar/daft_punk_weeknd.jpg'
+import daftPunkImg2 from '@/assets/img/avatar/daft_punk_weeknd2.jpg'
+import daftPunkImg3 from '@/assets/img/avatar/daft_punk_weeknd3.jpg'
 
 export default {
   transition: 'page',
