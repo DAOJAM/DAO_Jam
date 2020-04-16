@@ -111,9 +111,9 @@ export default {
     ...mapGetters(['isMe', 'currentUserInfo']),
     socialTitle() {
       if (process.browser) {
-        return `${this.userInfo && (this.userInfo.nickname || this.userInfo.username) }的个人主页 \n${window.location.href}`
+        return `${this.userInfo && (this.userInfo.nickname || this.userInfo.username) }'s personal homepage \n${window.location.href}`
       }
-      return `${this.userInfo && (this.userInfo.nickname || this.userInfo.username) }的个人主页`
+      return `${this.userInfo && (this.userInfo.nickname || this.userInfo.username) }'s personal homepage`
     },
     socialLink() {
       if (process.browser) {
