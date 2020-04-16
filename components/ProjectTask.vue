@@ -14,7 +14,7 @@
       </el-radio>
     </el-radio-group>
     <h2 class="task-title">
-      Extension Prize（Mutile Choose）
+      Extension Prize（Multiple choice）
     </h2>
     <el-checkbox-group v-model="sideCheckList">
       <el-checkbox
