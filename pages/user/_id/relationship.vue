@@ -2,24 +2,24 @@
   <div>
     <div class="user-list">
       <h2 class="user-title">
-        Following<span>{{ totalFollows }}</span>
+        Following(<span>{{ totalFollows }}</span>)
       </h2>
       <div class="follow">
         <div class="user-block">
           <router-link
             v-for="(item, index) in pullFollowing.list"
             :key="index"
-            :to="{name: 'user-id', params: { id: item.fuid }}"
+            :to="{name: 'user-id', params: { id: item.id }}"
             class="user-info"
           >
             <avatar :src="cover(item.avatar)" />
-            <p>{{ item.nickname || '暂无昵称' }}</p>
+            <p>{{ item.nickname || 'null' }}</p>
           </router-link>
           <div
             v-if="pullFollowing.list.length === 0"
             class="user-not"
           >
-            暂无
+            No Content~
           </div>
         </div>
 
@@ -40,24 +40,24 @@
 
     <div class="user-list">
       <h2 class="user-title">
-        Followers<span>{{ totalFans }}</span>
+        Followers(<span>{{ totalFans }}</span>)
       </h2>
       <div class="follow">
         <div class="user-block">
           <router-link
             v-for="(item, index) in pullFollowers.list"
             :key="index"
-            :to="{name: 'user-id', params: { id: item.uid }}"
+            :to="{name: 'user-id', params: { id: item.id }}"
             class="user-info"
           >
             <avatar :src="cover(item.avatar)" />
-            <p>{{ item.nickname || '暂无昵称' }}</p>
+            <p>{{ item.nickname || 'null' }}</p>
           </router-link>
           <div
             v-if="pullFollowers.list.length === 0"
             class="user-not"
           >
-            暂无
+            No Content~
           </div>
         </div>
 
