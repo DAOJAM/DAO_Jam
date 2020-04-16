@@ -1,8 +1,8 @@
 <template>
   <div class="progress">
-    <h3 class="progress-title">
+    <h2 class="progress-title">
       Live
-    </h3>
+    </h2>
     <ul class="live-list">
       <li
         v-for="(item, index) in lives"
@@ -30,7 +30,7 @@
           type="primary"
           @click="searchUserDialog = true"
         >
-          选择用户
+          Select User
         </el-button>
         <div
           v-else
@@ -48,13 +48,13 @@
       <el-input
         v-model="liveTitle"
         size="small"
-        placeholder="请输入直播标题"
+        placeholder="Please input live address"
         class="progress-address"
       />
       <el-input
         v-model="liveContent"
         size="small"
-        placeholder="请输入直播地址"
+        placeholder="Please input live address"
         class="progress-address"
       />
       <div style="margin-top: 10px;">
@@ -67,7 +67,7 @@
             icon-class="close"
             class="icon"
           />
-          取消修改
+          Cancel
         </el-button>
         <el-button
           v-if="editIndex !== -1"
@@ -78,7 +78,7 @@
             icon-class="edit"
             class="icon"
           />
-          保存修改
+          Save
         </el-button>
         <el-button
           v-if="editIndex === -1"
@@ -86,7 +86,7 @@
           :disabled="loading"
           @click="createLive"
         >
-          保存
+          Save
         </el-button>
       </div>
     </div>
@@ -167,9 +167,9 @@ export default {
     },
     // 删除数据
     removeLive(i) {
-      this.$confirm('是否删除?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm('confirm to delete?', 'Tips', {
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(() => {
         this.$API.minetokenDeleteLives(this.tokenId, {
@@ -241,7 +241,7 @@ export default {
             console.log(err)
           })
       } else {
-        this.$message.warning('用户、标题或内容不能为空')
+        this.$message.warning('username title and content cannot be null')
       }
     },
     // 创建数据
@@ -281,7 +281,7 @@ export default {
             console.log(err)
           })
       } else {
-        this.$message.warning('用户、标题或内容不能为空')
+        this.$message.warning('username title and content cannot be null')
       }
     },
     // 搜索结果
@@ -297,7 +297,7 @@ export default {
 
 <style lang="less" scoped>
 .progress {
-  margin-top: 40px;
+  // margin-top: 40px;
   padding: 0 10px;
 }
 .progress-title {

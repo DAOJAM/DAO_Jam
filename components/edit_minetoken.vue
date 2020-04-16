@@ -267,7 +267,6 @@
           </li>
         </ul>
       </el-form-item>
-
       <el-form-item
         style="margin:40px 0 0 0;"
         class="customize"
@@ -517,6 +516,7 @@ export default {
         }
         const res = await this.$API.createProposal(data)
         await this.saveMileStone(res.data)
+        await this.postMinetokenImages(res.data)
         console.log('createProposal', res)
         loading.close()
         this.$notify.success({
@@ -707,11 +707,10 @@ export default {
       } else {
         // project image data type是数字索引
         this.projectImageListUpload[Number(data.type)].url = data.data.cover
-        this.postMinetokenImages()
       }
     },
     // 项目图片上传
-    async postMinetokenImages() {
+    async postMinetokenImages(tokenId) {
       let list = []
       for (let i = 0; i < this.projectImageListUpload.length; i++) {
         try {
@@ -722,7 +721,7 @@ export default {
           console.log(e)
         }
       }
-      await this.$API.postMinetokenImages(this.tokenId, {
+      await this.$API.postMinetokenImages(tokenId, {
         images: list
       }).then(res => {
         if (res.code === 0) {
@@ -751,7 +750,7 @@ export default {
     // 删除图片
     delProjectImage(i) {
       this.projectImageListUpload[i].url = ''
-      this.postMinetokenImages()
+      // this.postMinetokenImages()
     },
     projectImage(src) {
       return src ? this.$ossProcess(src, { h: 200 }) : ''
