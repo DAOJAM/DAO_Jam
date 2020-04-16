@@ -55,8 +55,6 @@ export const paginationUrl = {
   tokenTokenLogs: '/token/tokenlogs',
   // 所有的token 分页
   tokenAll: 'token/all',
-  // 筛选星标token
-  tokenBookmarks: '/token/all/bookmarks',
   // 我持有的流动金
   liquidityLogs: 'token/holdLiquidity',
   // 我持有的流动金详情
@@ -85,7 +83,10 @@ export const paginationUrl = {
   'minetokenLives': '/minetoken/:id/lives',
   // token news
   'minetokenNews': '/minetoken/:id/news',
+  // 项目列表
   projectAll: '/daojam/project',
+  // 星标项目列表
+  projectStars: '/daojam/project/stars',
   // 支持者
   supporters: '/minetoken/:id/supporters',
   // 投票记录

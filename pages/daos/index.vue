@@ -14,7 +14,8 @@
               style="width: 192px;"
               size="medium"
               placeholder="search projects"
-              suffix-icon="el-icon-search"
+              :suffix-icon="searchVal ? '' : 'el-icon-search'"
+              clearable
             />
           </div>
           <!-- <h2>DAOs ({{ count }})</h2> -->
@@ -79,12 +80,20 @@
             :card="item"
             @switchStar="switchStar"
           />
+          <div
+            v-if="searchVal.trim() && pull[sortRadio].list.length === 0"
+            class="no-search-results"
+          >
+            <div>
+              No matching results
+            </div>
+          </div>
         </div>
         <div class="load-more">
           <buttonLoadMore
             v-show="!loading"
             :type-index="0"
-            :params="pull[sortRadio].params"
+            :params="params"
             :api-url="pull[sortRadio].apiUrl"
             :is-atuo-request="true"
             :auto-request-time="reload"
@@ -135,7 +144,7 @@ export default {
           params: {
             pagesize: 9
           },
-          apiUrl: 'tokenBookmarks',
+          apiUrl: 'projectStars',
           list: []
         },
         hold: {
@@ -153,33 +162,38 @@ export default {
       viewStatus: 0, // 0 1
 
       filterOptions: [{
-        value: 'rank',
+        value: 'votes',
         label: 'Rank'
       }, {
-        value: 'recent',
+        value: 'createTime',
         label: 'Recent'
       }, {
         value: 'name',
         label: 'Name'
       }],
-      filterValue: 'rank',
+      filterValue: 'votes',
       sortRadio: this.$route.query.filter || 'all',
       reload: 0,
       hadProject: false,
       pages: 0,
-      temporaryPagesize: null
+      temporaryPagesize: null,
+      timeout: null
     }
   },
   computed: {
     ...mapGetters(['isLogined']),
+    params() {
+      let params = {
+        ...this.pull[this.sortRadio].params,
+        sort: this.filterValue,
+      }
+      if(this.searchVal.trim()) params.search = this.searchVal.trim()
+      return params
+    }
   },
   watch: {
     sortRadio(newVal) {
-      this.loading = true
-      this.pull[newVal].list = []
-      this.remainderDate = null
-      this.pages = 0
-      this.reload = Date.now()
+      this.refresh(newVal)
     },
     isLogined(newVal) {
       if(newVal) this.tokenDetail()
@@ -190,6 +204,15 @@ export default {
         if(this.remainderDate) this.pull[this.sortRadio].list.push(this.remainderDate)
         this.remainderDate = null
       }
+    },
+    searchVal() {
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        this.refresh()
+      }, 500)
+    },
+    filterValue() {
+      this.refresh()
     }
   },
   mounted() {
@@ -230,6 +253,14 @@ export default {
       // this.pages++
       this.loading = false
       if(this.isLogined) this.getBookmarkByTokenIds(res.data.list)
+    },
+    refresh(sortRadio) {
+      const newVal = sortRadio || this.sortRadio
+      this.loading = true
+      this.pull[newVal].list = []
+      this.remainderDate = null
+      this.pages = 0
+      this.reload = Date.now()
     },
     async getBookmarkByTokenIds(list) {
       await this.$API.getBookmarkByTokenIds(list.map(row => row.id)).then(res => {
@@ -436,6 +467,22 @@ export default {
 // 避免显示更多按钮隐藏后出现塌陷
 .load-more {
   height: 160px;
+}
+
+.no-search-results {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  width: 100%;
+  div {
+    background: rgba(98, 54, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 25px;
+  }
 }
 
 
