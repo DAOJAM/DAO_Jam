@@ -260,11 +260,11 @@ export default {
           this.$message.success(this.$t('p.articleTransferSuccess'))
 
           if (this.from === 'article' || this.from === 'draft') {
-            this.$router.push({ name: 'article' })
+            this.$router.push('/')
           } else if (this.from === 'share') {
             this.$router.push({ name: 'sharehall' })
           } else {
-            this.$router.push({ name: 'article' })
+            this.$router.push('/')
           }
 
         } else {
