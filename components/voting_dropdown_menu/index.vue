@@ -5,7 +5,7 @@
     <div
       class="daos"
     >
-      <span :class="{ badge: isNewbie }">
+      <span :class="{ badge: true }">
         <svg-icon
           class="icon"
           icon-class="daot"
