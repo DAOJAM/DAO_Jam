@@ -1,8 +1,8 @@
 <template>
   <div class="progress customize">
-    <h3 class="progress-title">
+    <h2 class="progress-title">
       Progress
-    </h3>
+    </h2>
     <ul class="progress-list">
       <li
         v-for="(item, index) in news"
@@ -24,7 +24,7 @@
       <el-input
         v-model="newTitle"
         size="small"
-        placeholder="请输入动态标题"
+        placeholder="Please input progress title"
         class="progress-name"
       />
       <div>
@@ -34,7 +34,7 @@
           size="small"
           type="textarea"
           :rows="4"
-          placeholder="请输入动态内容"
+          placeholder="Please input progress content"
         />
         
         <div style="margin-top: 10px;">
@@ -47,7 +47,7 @@
               icon-class="close"
               class="icon"
             />
-            取消修改
+            Cancel
           </el-button>
           <el-button
             v-if="editIndex !== -1"
@@ -58,7 +58,7 @@
               icon-class="edit"
               class="icon"
             />
-            保存修改
+            Save
           </el-button>
           <el-button
             v-if="editIndex === -1"
@@ -69,7 +69,7 @@
               icon-class="add"
               class="icon"
             />
-            保存
+            Save
           </el-button>
         </div>
       </div>
@@ -134,9 +134,9 @@ export default {
     },
     // 删除数据
     removeNew(i) {
-      this.$confirm('是否删除?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm('confirm to delete?', 'Tips', {
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Concel',
         type: 'warning'
       }).then(() => {
         this.$API.minetokenDeleteNews(this.tokenId, {
@@ -196,7 +196,7 @@ export default {
             console.log(err)
           })
       } else {
-        this.$message.warning('标题或内容不能为空')
+        this.$message.warning('Title or content cannot be null')
       }
     },
     // 保存数据
@@ -228,7 +228,7 @@ export default {
             console.log(err)
           })
       } else {
-        this.$message.warning('标题或内容不能为空')
+        this.$message.warning('Title or content cannot be null')
       }
     }
   }
@@ -237,7 +237,7 @@ export default {
 
 <style lang="less" scoped>
 .progress {
-  margin-top: 40px;
+  // margin-top: 40px;
   padding: 0 10px;
 }
 .progress-title {

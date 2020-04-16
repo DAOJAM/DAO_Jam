@@ -1,19 +1,19 @@
 <template>
   <m-dialog
     v-model="showModal"
-    title="搜索用户"
+    title="Search User"
     width="600px"
     class="transfer-dialog"
   >
     <el-form
       ref="form"
-      label-width="70px"
+      label-width="100px"
       @submit.native.prevent
     >
-      <el-form-item label="用户">
+      <el-form-item label="username">
         <el-input
           v-model="transferUsername"
-          placeholder="请输入用户名"
+          placeholder="Please input username"
           size="small"
           style="z-index: 2;"
         />
@@ -93,7 +93,7 @@
             size="small"
             @click="submitForm('form')"
           >
-            确定
+            Confirm
           </el-button>
         </div>
       </el-form-item>
