@@ -21,7 +21,7 @@
               <el-tooltip
                 class="pentagram"
                 effect="dark"
-                :content="pentagram ? '取消收藏该项目' : '收藏该项目'"
+                :content="pentagram ? 'Unstar' : 'Star'"
                 placement="top"
               >
                 <div @click="setBookmark">
