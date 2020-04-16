@@ -20,7 +20,7 @@
                 <el-tooltip
                   class="pentagram"
                   effect="dark"
-                  :content="card.pentagram ? '取消收藏该项目' : '收藏该项目'"
+                  :content="card.pentagram ? 'Unstar' : 'Star'"
                   placement="top"
                 >
                   <a href="javascript:;">
@@ -78,7 +78,7 @@
                 icon-class="members"
                 class="icon"
               />
-              {{ card.supporter || 0 }}
+              {{ card.members || 0 }}
             </div>
             <div class="dao__info__number__block">
               <svg-icon

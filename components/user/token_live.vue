@@ -48,13 +48,13 @@
       <el-input
         v-model="liveTitle"
         size="small"
-        placeholder="Please input live address"
+        placeholder="Live title"
         class="progress-address"
       />
       <el-input
         v-model="liveContent"
         size="small"
-        placeholder="Please input live address"
+        placeholder="Live address"
         class="progress-address"
       />
       <div style="margin-top: 10px;">
