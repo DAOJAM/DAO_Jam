@@ -51,9 +51,9 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: '/html2canvas.min.js' },
-      { src: '/qrcode.min.js' },
-      { src: '/gt.js' }
+      { src: '/html2canvas.min.js', defer: true },
+      { src: '/qrcode.min.js', defer: true },
+      { src: '/gt.js', defer: true }
     ]
   },
   /*
