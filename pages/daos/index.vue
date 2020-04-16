@@ -263,7 +263,7 @@ export default {
 .dao-main {
   min-height: 1120px;
   background-color: #0e2144;
-  background-image: url(../../assets/img/index_head_bg.png);
+  background-image: url(../../assets/img/index_head_bg.jpg);
   background-size: contain;
   background-position: top;
   background-repeat: no-repeat;

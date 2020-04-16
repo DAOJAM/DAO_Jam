@@ -318,7 +318,7 @@ export default {
 .home-head {
   height: 1120px;
   background-color: #0e2144;
-  background-image: url(../assets/img/index_head_bg.png);
+  background-image: url(../assets/img/index_head_bg.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
