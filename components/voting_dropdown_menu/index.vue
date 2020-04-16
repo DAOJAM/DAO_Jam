@@ -164,7 +164,7 @@
           <el-button
             class="get-button"
             type="info"
-            disabled="true"
+            :disabled="true"
             size="mini"
           >
             Gain 20vp
@@ -217,7 +217,7 @@
           <el-button
             class="get-button"
             type="info"
-            disabled="true"
+            :disabled="true"
             size="mini"
           >
             Gain 60vp
