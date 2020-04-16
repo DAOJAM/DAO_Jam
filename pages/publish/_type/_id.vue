@@ -1160,12 +1160,12 @@ export default {
           this.setTag(res.data)
         } else {
           this.$message.success(res.message)
-          this.$router.push({ path: '/article' })
+          this.$router.push({ path: '/' })
         }
       }).catch(err => {
         console.error(err)
         this.$message.error(this.$t('error.getArticleInfoError'))
-        this.$router.push({ path: '/article' })
+        this.$router.push({ path: '/' })
       })
     },
     // 得到草稿箱内容 by id

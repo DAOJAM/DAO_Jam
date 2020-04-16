@@ -1396,7 +1396,7 @@ export default {
     del() {
       const delSuccess = () => {
         this.$message({ duration: 2000, message: this.$t('p.deleteArticle') })
-        this.$router.push('/article')
+        this.$router.push('/')
       }
       const fail = (err) => {
         this.$message.error(this.$t('p.deleteFail'))

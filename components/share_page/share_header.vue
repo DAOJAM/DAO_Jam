@@ -102,7 +102,7 @@ export default {
           const res = await this.$backendAPI.delArticle({ id })
           if (res.status === 200 && res.data.code === 0) {
             this.$message({ duration: 2000, message: '删除成功' })
-            this.$router.push('/article')
+            this.$router.push('/')
           }
           else this.$message.error(res.data.message)
         } catch (error) {

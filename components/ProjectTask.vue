@@ -61,7 +61,7 @@ export default {
           this.task()
           this.taskTeam(res.data.token.id)
         } else {
-          this.$router.push({name: 'article'})
+          this.$router.push('/')
         }
       }).catch(e => {
         console.log(e)
