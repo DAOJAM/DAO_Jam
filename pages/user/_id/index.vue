@@ -5,7 +5,7 @@
         Brief Introduction
       </h2>
       <p class="user-brief">
-        {{ userInfo.introduction || '暂无' }}
+        {{ userInfo.introduction || 'Nothing' }}
       </p>
     </div>
 
@@ -26,7 +26,7 @@
           v-if="tags.length === 0"
           class="user-not"
         >
-          暂无
+          Nothing
         </p>
       </div>
     </div>
@@ -46,19 +46,7 @@
           v-if="urls.length === 0"
           class="user-not"
         >
-          暂无
-        </p>
-      </div>
-    </div>
-
-    <div class="user-list">
-      <h2 class="user-title">
-        Award Records
-      </h2>
-      <!-- todo -->
-      <div class="award">
-        <p class="user-not">
-          暂无
+          Nothing
         </p>
       </div>
     </div>
@@ -79,7 +67,7 @@
           v-if="social.length === 0"
           class="user-not"
         >
-          暂无
+          Nothing
         </p>
       </div>
     </div>
