@@ -12,7 +12,7 @@
         :avatar="notification.avatar"
         :source="notification.source"
         :timestamp="notification.timestamp"
-        :message="notification.message"
+        :message="notification.message || ''"
         :actions="notification.actions"
       />
     </div>
