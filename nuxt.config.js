@@ -51,9 +51,9 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: '/html2canvas.min.js', defer: true },
+      // { src: '/html2canvas.min.js', defer: true },
       { src: '/qrcode.min.js', defer: true },
-      { src: '/gt.js', defer: true }
+      // { src: '/gt.js', defer: true }
     ]
   },
   /*
@@ -90,7 +90,7 @@ export default {
     { src: '~/plugins/router.js', mode: 'client', ssr: false },
     { src: '@/plugins/element-ui', ssr: true },
     { src: '~/plugins/vue_scroll_reveal.js', ssr: false },
-    { src: '~/plugins/vue_v-charts.js', ssr: false },
+    // { src: '~/plugins/vue_v-charts.js', ssr: false }, // 暂时没有用到图表的功能了
     // { src: '~/plugins/fundebug.js', ssr: false },
     { src: '~/plugins/sentry.js', ssr: false }
   ],
