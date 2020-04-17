@@ -87,7 +87,8 @@ export default {
     // 上传类型
     updateType: {
       type: String,
-      required: false
+      required: false,
+      default: ''
     },
     // 打开窗口
     open: {

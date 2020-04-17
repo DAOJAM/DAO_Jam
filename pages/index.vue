@@ -181,7 +181,12 @@ export default {
         {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
         {'name': 'Chris Brown', 'photoUrl': daftPunkImg2},
         {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
-        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1}
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
+        {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
         // {'name': 'Near', 'photoUrl': 'https://nearprotocol.com/wp-content/themes/near-19/assets/downloads/near_logo_stack_wht.png?t=1567197567'},
         // {
         //   'name': 'DAO Square',
@@ -197,7 +202,14 @@ export default {
       judges: [
         {'name': 'Daft Punk', 'photoUrl': daftPunkImg1},
         {'name': 'Chris Brown', 'photoUrl': daftPunkImg2},
-        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3}
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
+        {'name': 'Smart Punk', 'photoUrl': daftPunkImg3},
         // {'name': 'Illia Polosukhin', 'photoUrl': 'https://www.ethdenver.com/wp-content/uploads/2020/01/illia-250x250.jpg'},
         // {'name': 'Vincent Niu', 'photoUrl': 'https://www.nft.nyc/hubfs/Vincent-photo.jpg'},
         // {'name': 'Tina Zhen', 'photoUrl': 'https://pbs.twimg.com/profile_images/1177965467572428800/mWBN6yqP_400x400.jpg'}
