@@ -13,7 +13,7 @@
               v-model="searchVal"
               style="width: 192px;"
               size="medium"
-              placeholder="search projects"
+              placeholder="Search Projects"
               :suffix-icon="searchVal ? '' : 'el-icon-search'"
               clearable
             />
@@ -31,9 +31,9 @@
                 >
                   Star
                 </el-radio-button>
-                <el-radio-button label="hold">
+                <!-- <el-radio-button label="hold">
                   Support
-                </el-radio-button>
+                </el-radio-button> -->
               </el-radio-group>
             </div>
             <div class="dao-head__block">
@@ -65,7 +65,7 @@
                 CREATE PROJECT
               </h3>
               <p>
-                Need 100 Voting Power
+                Need 10 Voting Power
                 <svg-icon
                   icon-class="daot"
                   class="icon-dao"

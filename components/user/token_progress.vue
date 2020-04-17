@@ -24,7 +24,7 @@
       <el-input
         v-model="newTitle"
         size="small"
-        placeholder="Please input progress title"
+        placeholder="Progress title"
         class="progress-name"
       />
       <div>
@@ -34,7 +34,7 @@
           size="small"
           type="textarea"
           :rows="4"
-          placeholder="Please input progress content"
+          placeholder="Progress content"
         />
         
         <div style="margin-top: 10px;">
@@ -213,6 +213,7 @@ export default {
               this.$message.success(res.message)
 
               this.news.push({
+                id: res.data.id,
                 title: this.newTitle,
                 content: this.newContent
               })
