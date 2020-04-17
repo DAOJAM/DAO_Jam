@@ -3,20 +3,51 @@
     <g-header />
     <div class="tasks-head">
       <div class="tasks-content">
-        <img
+        <h1>Friends & Family of NEAR Hackathon</h1>
+        <!-- <img
           src="@/assets/img/mission_select.png"
           alt="DAO JAM DATA STATISTICS"
           class="head-figure"
-        >
+        > -->
         <div>
           <h3>
-            What’s The Mission?
+            When is it happening?
           </h3>
           <p class="summary">
-            In project management, a task is an activity that needs to be accomplished within a defined period of time or by a deadline to work towards work-related goals. It is a small essential piece of a job that serves as a means to differentiate various components of a project. A task can be broken down into assignments which should also have a defined start and end date or a deadline for completion. One or more assignments on a task puts the task under execution. Completion of all assignments on a specific task normally renders the task completed. Tasks can be linked together to create dependencies.
+            Starts on Thursday the 16th at 9pm PST, and submissions are due on Friday the 17th at 4PM PST, judging will take place at 4:30 PM PST and Winners announced at 5 pm PST.
+          </p>
+          <h3>
+            What’s the deal?
+          </h3>
+          <p class="summary">
+            This is the Friends & Family of NEAR hackathon. The goal is to test, use, break, and provide feedback on NEAR.
+          </p>
+          <h3>
+            Who is invited?
+          </h3>
+          <p class="summary">
+            You may invite a friend, contributor, project building on NEAR, ect to help your team hack your way to the finish line!
+          </p>
+          <h3>
+            How can you manage the team?
+          </h3>
+          <p class="summary">
+            That’s up to you! We advise a group discord, or shared slack channel. 
+          </p>
+          <h3>
+            Who are the judges?
+          </h3>
+          <p class="summary">
+            Peter Depaulo, Ashley Crawford….and a mystery Judge!
+          </p>
+          <h3>
+            What do you win?
+          </h3>
+          <p class="summary">
+            Bragging rights and a not broken blockchain.
           </p>
         </div>
-        <div class="mission">
+        <!-- <div class="mission">
           <h3>
             Mission Selection
           </h3>
@@ -55,7 +86,7 @@
               </dl>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
