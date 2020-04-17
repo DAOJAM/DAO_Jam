@@ -4,11 +4,11 @@
     <div class="tasks-head">
       <div class="tasks-content">
         <h1>Friends & Family of NEAR Hackathon</h1>
-        <!-- <img
-          src="@/assets/img/mission_select.png"
+        <img
+          src="@/assets/img/task-banner.jpg"
           alt="DAO JAM DATA STATISTICS"
           class="head-figure"
-        > -->
+        >
         <div>
           <h3>
             When is it happening?
