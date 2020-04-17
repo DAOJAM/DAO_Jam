@@ -12,8 +12,8 @@
           {{ $t('user.userInformation') }}
         </h2>
         <div class="set-main setting-page">
-          <div class="list center">
-            <span class="title">{{ $t('avatar') }}</span>
+          <div class="item list center">
+            <span class="item-label title">{{ $t('avatar') }}</span>
             <img-upload
               :img-upload-done="imgUploadDone"
               :update-type="'avatar'"
@@ -37,8 +37,8 @@
               </div>
             </img-upload>
           </div>
-          <div class="list center">
-            <span class="title">
+          <div class="item list center">
+            <span class="item-label title">
               {{ $t('nickname') }}
             </span>
             <div class="input customize">
@@ -62,8 +62,8 @@
               />
             </div>
           </div> -->
-          <div class="list">
-            <span class="title">{{ $t('profile') }}</span>
+          <div class="item list">
+            <span class="item-label title">{{ $t('profile') }}</span>
             <div class="input customize">
               <el-input
                 v-model="introduction"
@@ -76,8 +76,8 @@
             </div>
           </div>
           <!-- 身份 -->
-          <div class="list">
-            <span class="title">Position</span>
+          <div class="item list">
+            <span class="item-label title">Position</span>
             <div class="job">
               <div
                 v-for="(item, index) in job"
@@ -92,8 +92,8 @@
             </div>
           </div>
           <!-- 技能 -->
-          <div class="list ">
-            <span class="title">Skill</span>
+          <div class="item list">
+            <span class="item-label title">Skill</span>
             <div class="skill">
               <div
                 v-for="(item, index) in skill"
@@ -119,68 +119,70 @@
               </div>
             </div>
           </div>
-          <div class="line" />
           <!-- 相关网站 -->
-          <div class="social-div">
-            <span class="title">
+          <div class="item social-div">
+            <span class="item-label title">
               Website
             </span>
-            <div
-              v-for="(item, index) in about"
-              :key="index"
-              class="fl ac about-input social-list customize"
-            >
-              <el-input
-                v-model="about[index]"
-                class="input"
-                placeholder="Please fill in the website link, including http(s)://"
-              />
+            <div>
               <div
-                v-if="about.length > 1"
-                class="about-input-btn"
-                @click="abountLess(index)"
+                v-for="(item, index) in about"
+                :key="index"
+                class="fl ac about-input social-list customize"
               >
-                <i class="el-icon-minus" />
+                <el-input
+                  v-model="about[index]"
+                  class="input"
+                  placeholder="Please fill in the website link, including http(s)://"
+                />
+                <div
+                  v-if="about.length > 1"
+                  class="about-input-btn"
+                  @click="abountLess(index)"
+                >
+                  <i class="el-icon-minus" />
+                </div>
               </div>
-            </div>
-            <div
-              v-if="about.length < 5"
-              class="about-input-btn add"
-              @click="aboutAdd"
-            >
-              <i class="el-icon-plus" />
+              <div
+                v-if="about.length < 5"
+                class="about-input-btn add"
+                @click="aboutAdd"
+              >
+                <i class="el-icon-plus" />
+              </div>
             </div>
           </div>
           <!-- 社交账号 -->
-          <div class="social-div">
-            <span class="title right0">
+          <div class="item social-div">
+            <span class="item-label title right0">
               Socials
             </span>
-            <span class="title-note">
-              (information display only)
-            </span>
-            <div
-              v-for="(item, index) in social"
-              :key="index"
-              class="social-list"
-            >
-              <p class="social-title">
-                {{ item.name }}
-                <span v-html="item.tooltip" />
-              </p>
-              <div class="fl customize">
-                <div class="social-icons">
-                  <socialIcon :icon="item.symbol" />
+            <div>
+              <span class="title-note">
+                (information display only)
+              </span>
+              <div
+                v-for="(item, index) in social"
+                :key="index"
+                class="social-list"
+              >
+                <p class="social-title">
+                  {{ item.name }}
+                  <span v-html="item.tooltip" />
+                </p>
+                <div class="fl customize">
+                  <div class="social-icons">
+                    <socialIcon :icon="item.symbol" />
+                  </div>
+                  <el-input
+                    v-model="item.value"
+                    :placeholder="item.placeholder"
+                    class="social-input"
+                  />
                 </div>
-                <el-input
-                  v-model="item.value"
-                  :placeholder="item.placeholder"
-                  class="social-input"
-                />
               </div>
             </div>
           </div>
-          <div class="line" />
           <!-- 保存 -->
           <el-button
             :loading="loading"
@@ -728,7 +730,6 @@ export default {
   font-weight: 400;
   color: #fff;
   line-height: 28px;
-  margin-right: 10px;
   min-width: 50px;
   &.right0 {
     margin-right: 0;
@@ -823,11 +824,7 @@ export default {
   width: 340px;
 }
 .social-div {
-  padding-top: 24px;
-  padding-bottom: 34px;
-  .social-list {
-    margin-left: 56px;
-  }
+  margin: 20px 0;
 }
 .about-input {
   margin: 0 0 10px;
@@ -844,11 +841,7 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  margin: 0 0 0 10px;
   cursor: pointer;
-  &.add {
-    margin-left: 56px;
-  }
 }
 .set-main {
   padding-left: 10px;
@@ -950,6 +943,16 @@ export default {
         color: #b2b2b2;
       }
     }
+  }
+}
+
+.item {
+  display: flex;
+  &-label {
+    display: block;
+    width: 100px;
+    flex: 0 0 100px;
+    margin-right: 10px;
   }
 }
 </style>
