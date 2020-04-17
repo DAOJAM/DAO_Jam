@@ -45,7 +45,7 @@
               </div>
               
               <div class="dao-block__brief">
-                {{ card.brief || '暂无' }}
+                {{ card.brief || 'Nothing' }}
               </div>
               <!-- <div class="dao-block__info__number dao-number__one">
                 <div class="dao__info__number__block">

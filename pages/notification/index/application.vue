@@ -14,7 +14,7 @@
         @deny="deny"
       />
     </template>
-    <p v-else class="not">暂无</p>
+    <p v-else class="not">Nothing</p>
   </div>
 </template>
 <script>
