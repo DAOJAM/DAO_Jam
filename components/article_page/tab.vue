@@ -31,7 +31,7 @@ export default {
         {
           url: 'article',
           lab: '综合创作',
-          href: '/article'
+          href: '/'
         },
         {
           url: 'article-token',

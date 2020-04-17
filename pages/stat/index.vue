@@ -125,8 +125,8 @@
 </template>
 
 <script>
-import daftPunkWeeknd from '@/assets/img/avatar/daft_punk_weeknd.png'
-import daftPunkWeeknd3 from '@/assets/img/avatar/daft_punk_weeknd3.png'
+import daftPunkWeeknd from '@/assets/img/avatar/daft_punk_weeknd.jpg'
+import daftPunkWeeknd3 from '@/assets/img/avatar/daft_punk_weeknd3.jpg'
 import avatar from '@/components/avatar/index.vue'
 
 export default {

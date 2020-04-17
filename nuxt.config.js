@@ -51,12 +51,9 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: '/html2canvas.min.js' },
-      { src: '/qrcode.min.js' },
-      { src: '/gt.js' }
-      // { src: '/gsap.min.js' },
-      // { src: '/ScrollMagic.min.js' },
-      // { src: '/animation.gsap.min.js' }
+      { src: '/html2canvas.min.js', defer: true },
+      { src: '/qrcode.min.js', defer: true },
+      { src: '/gt.js', defer: true }
     ]
   },
   /*
@@ -92,7 +89,6 @@ export default {
     { src: '~/plugins/broadcastchannel.js', mode: 'client' },
     { src: '~/plugins/router.js', mode: 'client', ssr: false },
     { src: '@/plugins/element-ui', ssr: true },
-    { src: '@/plugins/vue-mavon-editor', ssr: false },
     { src: '~/plugins/vue_scroll_reveal.js', ssr: false },
     { src: '~/plugins/vue_v-charts.js', ssr: false },
     // { src: '~/plugins/fundebug.js', ssr: false },

@@ -48,6 +48,7 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.list = res.data.list
+            this.read()
           } else {
             this.$message.error(res.message)
           }
@@ -55,6 +56,9 @@ export default {
         .catch(e => {
           console.log(e)
         })
+    },
+    read() {
+      this.$API.readNotifications('teamInviteRequest')
     },
     async teamMemberInviteUser(i, from) {
       await this.$API.teamMemberInviteUser({

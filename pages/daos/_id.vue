@@ -21,7 +21,7 @@
               <el-tooltip
                 class="pentagram"
                 effect="dark"
-                :content="pentagram ? '取消收藏该项目' : '收藏该项目'"
+                :content="pentagram ? 'Unstar' : 'Star'"
                 placement="top"
               >
                 <div @click="setBookmark">
@@ -256,12 +256,14 @@
       <router-view />
     </div>
 
-    <Share
-      :share-modal-show="shareModalShow"
-      :img="logo"
-      :minetoken-token="minetokenToken"
-      :minetoken-user="minetokenUser"
-      @input="val => shareModalShow = val"
+    <share
+      v-model="shareModalShow"
+      :social-img="logo"
+      :social-title="socialTitle"
+      :social-link="socialLink"
+      social-summary="Support quality projects"
+      :copy-link="socialTitle"
+      :social-wechat="socialLink"
     />
     <m-dialog
       v-model="buyDialog"
@@ -321,7 +323,7 @@ import { mapGetters } from 'vuex'
 import { extractChar } from '@/utils/reg'
 import utils from '@/utils/utils'
 import { precision } from '@/utils/precisionConversion'
-import Share from '@/components/token/token_share.vue'
+import share from '@/components/share'
 import tokenBuyCard from '@/components/token/token_buy_card.vue'
 // import qv from '@/api/voting/qvvoting.js'
 import socialTypes from '@/config/social_types'
@@ -330,7 +332,7 @@ import socialIconDao from '@/components/social_icon_dao'
 export default {
   components: {
     avatar,
-    Share,
+    share,
     tokenBuyCard,
     socialIconDao
   },
@@ -433,6 +435,18 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined']),
+    socialTitle() {
+      if (process.browser) {
+        return `I found good projects in DAO Jam 「${(this.minetokenToken && this.minetokenToken.symbol) || ''}」 \n${window.location.href}`
+      }
+      return 'I found good projects in DAO Jam'
+    },
+    socialLink() {
+      if (process.browser) {
+        return window.location.href
+      }
+      return process.env.VUE_APP_URL
+    },
     voteCost() {
       return this.voteNum ** 2
     },

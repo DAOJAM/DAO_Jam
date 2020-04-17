@@ -75,12 +75,14 @@
       </nav>
       <router-view />
 
-      <Share
-        :share-modal-show="shareModalShow"
-        :minetoken-user="{nickname: userInfo.name}"
-        :page-type="1"
-        :img="userInfo.avatar"
-        @input="val => shareModalShow = val"
+      <share
+        v-model="shareModalShow"
+        :social-img="userInfo.avata"
+        :social-title="socialTitle"
+        :social-link="socialLink"
+        social-summary="Support quality projects"
+        :copy-link="socialTitle"
+        :social-wechat="socialLink"
       />
     </main>
   </div>
@@ -91,13 +93,13 @@
 import { mapGetters } from 'vuex'
 import avatar from '@/common/components/avatar/index.vue'
 import followBtn from '@/components/follow_btn'
-import Share from '@/components/token/token_share.vue'
+import share from '@/components/share'
 
 export default {
   components: {
     avatar,
     followBtn,
-    Share
+    share
   },
   data() {
     return {
@@ -107,6 +109,18 @@ export default {
   },
   computed: {
     ...mapGetters(['isMe', 'currentUserInfo']),
+    socialTitle() {
+      if (process.browser) {
+        return `${this.userInfo && (this.userInfo.nickname || this.userInfo.username) }'s personal homepage \n${window.location.href}`
+      }
+      return `${this.userInfo && (this.userInfo.nickname || this.userInfo.username) }'s personal homepage`
+    },
+    socialLink() {
+      if (process.browser) {
+        return window.location.href
+      }
+      return process.env.VUE_APP_URL
+    },
     userAvatar() {
       if (this.userInfo.avatar) {
         return this.$ossProcess(this.userInfo.avatar, { h: 200 })

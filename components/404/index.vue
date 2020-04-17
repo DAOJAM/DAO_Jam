@@ -10,6 +10,7 @@
     </div>
     <div class="info">
       <p>{{ $t('notPage') }}</p>
+      <p>Automatically return to the homepage after three seconds</p>
       <a
         href="/"
         class="btn"
@@ -22,6 +23,24 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      timer: null
+    }
+  },
+  mounted() {
+    this.timer = setTimeout(() => {
+      this.$router.push('/')
+    }, 3000)
+  },
+  destroyed() {
+    clearTimeout(this.timer)
+  }
+}
+</script>
 
 <style scoped>
 .btn{

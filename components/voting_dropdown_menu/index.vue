@@ -5,7 +5,7 @@
     <div
       class="daos"
     >
-      <span :class="{ badge: isNewbie }">
+      <span :class="{ badge: true }">
         <svg-icon
           class="icon"
           icon-class="daot"
@@ -164,7 +164,7 @@
           <el-button
             class="get-button"
             type="info"
-            disabled="true"
+            :disabled="true"
             size="mini"
           >
             Gain 20vp
@@ -175,7 +175,7 @@
           </el-button>
         </el-col>
       </el-row>
-      <el-row v-if="isNewbie">
+      <el-row>
         <el-col :span="12">
           <div class="reward-text">
             <span>Link to NEAR</span>
@@ -217,7 +217,7 @@
           <el-button
             class="get-button"
             type="info"
-            disabled="true"
+            :disabled="true"
             size="mini"
           >
             Gain 60vp
