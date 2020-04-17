@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import zh from '../locale/zh'
+// import zh from '../locale/zh'
 import en from '../locale/en'
 
 

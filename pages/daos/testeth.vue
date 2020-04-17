@@ -31,7 +31,7 @@
     </el-button>
     <div>
       <h1>领取dot</h1>
-      <el-input v-model="userAddress" placeholder="用户address"></el-input>
+      <el-input v-model="userAddress" placeholder="用户address" />
       <el-button
         type="primary"
         size="small"
@@ -42,8 +42,8 @@
     </div>
     <div>
       <h1>创建项目</h1>
-      <el-input v-model="pjName" placeholder="项目名"></el-input>
-      <el-input v-model="pjDescription" type="textarea" placeholder="项目秒速"></el-input>
+      <el-input v-model="pjName" placeholder="项目名" />
+      <el-input v-model="pjDescription" type="textarea" placeholder="项目秒速" />
       <el-button
         type="primary"
         size="small"
@@ -54,7 +54,7 @@
     </div>
     <div>
       <h1>查询用户能量点</h1>
-      <el-input v-model="userAddress" placeholder="用户address"></el-input>
+      <el-input v-model="userAddress" placeholder="用户address" />
       <el-button
         type="primary"
         size="small"

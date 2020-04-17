@@ -29,8 +29,8 @@
     </button>
     <div>
       <h1>create_proposal</h1>
-      <input type="text" v-model="pjName">
-      <input type="text" v-model="pjDescription">
+      <input v-model="pjName" type="text">
+      <input v-model="pjDescription" type="text">
       <button @click="createProposal">
         create_proposal
       </button>

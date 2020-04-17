@@ -5,7 +5,7 @@
       :title="name"
       target="_blank"
     >
-      <avatar
+      <Cavatar
         :src="avatarUrl"
         class="avatar"
         size="40px"
@@ -14,12 +14,12 @@
   </div>
 </template>
 <script>
-import avatar from '@/components/avatar/index.vue'
+import Cavatar from '@/components/avatar/index.vue'
 export default {
   name: 'NotificationSource',
-  components: { avatar },
+  components: { Cavatar },
   props: {
-    avatar: { type: String },
+    avatar: { type: String, default: '' },
     name: { type: String, required: true },
     route: { type: String, required: true },
     id: { type: Number, required: true }

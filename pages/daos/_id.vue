@@ -390,49 +390,6 @@ export default {
       rank: 0, // 排名
     }
   },
-  async asyncData({ $axios, route, req }) {
-    // 获取cookie token
-    let accessToekn = ''
-    // 请检查您是否在服务器端
-    if (process.server) {
-      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
-      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
-      accessToekn = token ? token[0] : ''
-    }
-    let projectResult = {}
-    try {
-      projectResult = await $axios({
-        url: `/daojam/project/${route.params.id}`,
-        methods: 'get',
-        headers: { 'x-access-token': accessToekn }
-      })
-    } catch (e) {
-      console.log(e)
-    }
-
-    let minetokenResult = {}
-    try {
-      minetokenResult = await $axios({
-        url: `/minetoken/${route.params.id}`,
-        methods: 'get',
-        headers: { 'x-access-token': accessToekn }
-      })
-    } catch (e) {
-      console.log(e)
-    }
-
-    let result = {}
-    if (projectResult.code === 0) {
-      result.pj = projectResult.data || Object.create(null)
-    }
-    if (minetokenResult.code === 0) {
-      result.minetokenToken = minetokenResult.data.token || Object.create(null),
-      result.minetokenUser= minetokenResult.data.user || Object.create(null),
-      result.minetokenExchange= minetokenResult.data.exchange || Object.create(null)
-    }
-
-    return result
-  },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined']),
     socialTitle() {
@@ -509,6 +466,51 @@ export default {
       }
     }
   },
+
+  async asyncData({ $axios, route, req }) {
+    // 获取cookie token
+    let accessToekn = ''
+    // 请检查您是否在服务器端
+    if (process.server) {
+      const cookie = req && req.headers.cookie ? req.headers.cookie : ''
+      const token = extractChar(cookie, 'ACCESS_TOKEN=', ';')
+      accessToekn = token ? token[0] : ''
+    }
+    let projectResult = {}
+    try {
+      projectResult = await $axios({
+        url: `/daojam/project/${route.params.id}`,
+        methods: 'get',
+        headers: { 'x-access-token': accessToekn }
+      })
+    } catch (e) {
+      console.log(e)
+    }
+
+    let minetokenResult = {}
+    try {
+      minetokenResult = await $axios({
+        url: `/minetoken/${route.params.id}`,
+        methods: 'get',
+        headers: { 'x-access-token': accessToekn }
+      })
+    } catch (e) {
+      console.log(e)
+    }
+
+    let result = {}
+    if (projectResult.code === 0) {
+      result.pj = projectResult.data || Object.create(null)
+    }
+    if (minetokenResult.code === 0) {
+      result.minetokenToken = minetokenResult.data.token || Object.create(null),
+      result.minetokenUser= minetokenResult.data.user || Object.create(null),
+      result.minetokenExchange= minetokenResult.data.exchange || Object.create(null)
+    }
+
+    return result
+  },
+
   mounted() {
     this.balanceOfDaot()
     if (process.browser) {
