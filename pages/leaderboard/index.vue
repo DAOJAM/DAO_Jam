@@ -2,8 +2,11 @@
   <div class="stat">
     <g-header />
     <ul class="list">
+      <li v-if="leaderboardList.length === 0">
+        There are no projects yet!
+        Come in and publish your project.
+      </li>
       <li v-for="(item, index) in leaderboardList" :key="index">
-        <!-- 按照 181 工单的要求，屏蔽，现在点击不会跳项目页 -->
         <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.id }}">
           <div class="fl ac">
             <div class="index-content">
