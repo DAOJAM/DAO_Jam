@@ -1,7 +1,7 @@
 export default {
   readMore: 'Read More',
   viewMore: 'View More',
-  not: '暂无',
+  not: 'Nothing',
   notContent: 'No content',
   notProfile: 'No profile',
   notComment: 'No comment',

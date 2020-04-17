@@ -73,7 +73,7 @@
       简介
     </h2>
     <p class="token-sub">
-      {{ tokenDetailData.token.brief || '暂无' }}
+      {{ tokenDetailData.token.brief || 'Nothing' }}
     </p>
 
     <h2 class="token-title">
@@ -81,7 +81,7 @@
     </h2>
     <p class="token-sub">
       <!-- 开了wrap 这个span不能换行！ -->
-      <span class="wrap-open">{{ tokenDetailData.token.introduction || '暂无' }}</span>
+      <span class="wrap-open">{{ tokenDetailData.token.introduction || 'Nothing' }}</span>
     </p>
 
     <h2 class="token-title">
@@ -104,7 +104,7 @@
     <span
       v-else
       class="not"
-    >暂无</span>
+    >Nothing</span>
 
     <h2 class="token-title">
       社交账号
@@ -127,7 +127,7 @@
     <span
       v-else
       class="not"
-    >暂无</span>
+    >Nothing</span>
 
     <h2 class="token-title">
       分享挂件

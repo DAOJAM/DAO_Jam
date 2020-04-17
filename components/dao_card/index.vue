@@ -88,7 +88,7 @@
             </div>
           </div>
           <div class="dao-block__brief">
-            {{ card.brief || '暂无' }}
+            {{ card.brief || 'Nothing' }}
           </div>
         </div>
       </div>

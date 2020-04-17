@@ -30,7 +30,7 @@
           v-else
           class="user-not"
         >
-          暂无
+          Nothing
         </p>
       </div>
     </div>
@@ -66,7 +66,7 @@
           v-if="pull.list.length === 0"
           class="user-not"
         >
-          暂无
+          Nothing
         </p>
         <user-pagination
           v-show="!pull.loading"

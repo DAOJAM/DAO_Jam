@@ -57,7 +57,7 @@
               </div>
               <div>
                 <p class="token-info-sub">
-                  {{ minetokenToken.brief || '暂无' }}
+                  {{ minetokenToken.brief || 'Nothing' }}
                 </p>
               </div>
             </div>
@@ -123,7 +123,7 @@
           </h2>
           <p class="token-introduction">
             <!-- 开了wrap 这个span不能换行！ -->
-            <span class="wrap-open">{{ minetokenToken.introduction || '暂无' }}</span>
+            <span class="wrap-open">{{ minetokenToken.introduction || 'Nothing' }}</span>
           </p>
         </div>
 
@@ -240,7 +240,7 @@
           <span
             v-else
             class="not"
-          >暂无</span>
+          >Nothing</span>
         </div>
 
         <div class="social">
@@ -267,7 +267,7 @@
           <span
             v-else
             class="not"
-          >暂无</span>
+          >Nothing</span>
         </div>
 
         <div class="share">

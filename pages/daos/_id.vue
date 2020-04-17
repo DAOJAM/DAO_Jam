@@ -52,7 +52,7 @@
             </div>
             <p>Creation Time: {{ time(minetokenToken.create_time) }}</p>
             <p>
-              {{ minetokenToken.brief || '暂无' }}
+              {{ minetokenToken.brief || 'Nothing' }}
             </p>
             <!-- <div class="dao__info__number">
               <div class="dao__info__number__block">
