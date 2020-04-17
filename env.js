@@ -2,7 +2,9 @@ module.exports = {
   development: {
     NODE: 'development',
     VUE_APP_API: 'https://backend.testing.daojam.io',
-    VUE_APP_URL: 'https://testing.daojam.io',
+    // VUE_APP_URL: 'https://testing.daojam.io',
+    // For 17 Apr Demo only
+    VUE_APP_URL: 'https://daojam.io',
     VUE_APP_SIGNATURE_CONTRACT: 'dragonquest2',
     VUE_APP_SCRIPT_HASH: '36df9722fc0ff5fa3979f2a844a012cabe1d4c56',
     VUE_APP_GITHUB_CLIENT_ID: '5f4d960d6c52e7b75a0b',
