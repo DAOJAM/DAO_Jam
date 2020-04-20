@@ -37,6 +37,9 @@
                     v-else
                     icon-class="pentagram"
                   />
+                  <span class="stars">
+                    {{ stars }}
+                  </span>
                 </div>
               </el-tooltip>
             </div>
@@ -451,6 +454,16 @@ export default {
       return this.minetokenUser.avatar
         ? this.$ossProcess(this.minetokenUser.avatar, { h: 60 })
         : ''
+    },
+    stars() {
+      // 对数据进行格式化
+      const threshold = 1000
+      if(!this.pj.stars || this.pj.stars < 1)
+        return ''
+      else if(this.pj.stars < threshold)
+        return this.pj.stars
+      else
+        return (this.pj.stars / threshold).toFixed(1) + 'K'
     }
   },
   watch: {
@@ -661,15 +674,19 @@ export default {
         this.loading = true
         if (!this.pentagram) {
           const res = await this.$API.addTokenBookmark(this.$route.params.id)
-          if (res.code === 0) {
+          // 10118：如果出现已添加星标的情况，也显示成功
+          if (res.code === 0 || res.code === 10118) {
             this.$message.success('添加星标')
+            this.pj.stars++
             this.pentagram = true
           }
           else this.$message.error(res.message)
         } else {
           const res2 = await this.$API.unTokenbookmark(this.$route.params.id)
-          if (res2.code === 0) {
+          // 10117：如果出现已取消星标的情况，也显示成功
+          if (res2.code === 0 || res2.code === 10117) {
             this.pentagram = false
+            this.pj.stars--
             this.$message.success('取消星标')
           }
           else this.$message.error(res2.message)
@@ -1066,6 +1083,14 @@ export default {
   cursor: pointer;
   user-select: none;
   color: #fce812;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  .stars {
+    color: white;
+    font-size: 24px;
+    margin-left: 5px;
+  }
 }
 .dao-btn {
   color: #fff;
