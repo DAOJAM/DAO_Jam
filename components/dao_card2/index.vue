@@ -78,7 +78,7 @@
                 icon-class="members"
                 class="icon"
               />
-              {{ card.members || 0 }}
+              {{ card.supporter || 0 }}
             </div>
             <div class="dao__info__number__block">
               <svg-icon
