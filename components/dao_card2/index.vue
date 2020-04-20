@@ -147,7 +147,8 @@ export default {
         this.loading = true
         if (!this.card.pentagram) {
           const res = await this.$API.addTokenBookmark(this.card.id)
-          if (res.code === 0) {
+          // 10118：如果出现已添加星标的情况，也显示成功
+          if (res.code === 0 || res.code === 10118) {
             this.$message.success('添加星标')
             this.$set(this.card, 'pentagram', true)
             this.$emit('switchStar', true)
@@ -155,7 +156,8 @@ export default {
           else this.$message.error(res.message)
         } else {
           const res2 = await this.$API.unTokenbookmark(this.card.id)
-          if (res2.code === 0) {
+          // 10117：如果出现已取消星标的情况，也显示成功
+          if (res2.code === 0 || res2.code === 10117) {
             this.$set(this.card, 'pentagram', false)
             this.$message.success('取消星标')
             this.$emit('switchStar', false)
@@ -321,6 +323,7 @@ export default {
 }
 
 .icon-pentagram {
+  font-size: 20px;
   margin-left: 10px;
   color: #fce812;
 }
@@ -367,6 +370,9 @@ export default {
     line-height: 22px;
     font-weight: 400;
   }
+  .icon-pentagram {
+    font-size: 16px;
+  }
 
   .dao-block__brief {
     font-size: 14px;
@@ -390,6 +396,9 @@ export default {
   .dao-block__head__info h3 {
     font-size: 16px;
     line-height: 22px;
+  }
+  .icon-pentagram {
+    font-size: 16px;
   }
 
   .dao-block__brief {
@@ -415,6 +424,9 @@ export default {
   .dao-block__head__info h3 {
     font-size: 16px;
     line-height: 22px;
+  }
+  .icon-pentagram {
+    font-size: 16px;
   }
   .dao-block__cover {
     height: 158px;
@@ -471,6 +483,9 @@ export default {
   .dao-block__head__info h3 {
     font-size: 18px;
     line-height: 24px;
+  }
+  .icon-pentagram {
+    font-size: 18px;
   }
   .dao-block__cover {
     height: 160px;
