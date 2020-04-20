@@ -31,9 +31,12 @@
                 >
                   Star
                 </el-radio-button>
-                <!-- <el-radio-button label="hold">
+                <el-radio-button 
+                  :disabled="!isLogined"
+                  label="support"
+                >
                   Support
-                </el-radio-button> -->
+                </el-radio-button>
               </el-radio-group>
             </div>
             <div class="dao-head__block">
@@ -81,7 +84,7 @@
             @switchStar="switchStar"
           />
           <div
-            v-if="searchVal.trim() && pull[sortRadio].list.length === 0"
+            v-if="needToDisplayNoResults"
             class="no-search-results"
           >
             <div>
@@ -130,7 +133,7 @@ export default {
       },
       createDaoDialog: false,
       tokenList: [],
-      searchVal: '',
+      searchVal: this.$route.query.search || '',
 
       pull: {
         all: {
@@ -147,11 +150,11 @@ export default {
           apiUrl: 'projectStars',
           list: []
         },
-        hold: {
+        support: {
           params: {
             pagesize: 9
           },
-          apiUrl: 'projectAll',
+          apiUrl: 'projectSupport',
           list: []
         }
       },
@@ -171,7 +174,7 @@ export default {
         value: 'name',
         label: 'Name'
       }],
-      filterValue: 'votes',
+      filterValue: this.$route.query.sort || 'votes',
       sortRadio: this.$route.query.filter || 'all',
       reload: 0,
       hadProject: false,
@@ -189,6 +192,9 @@ export default {
       }
       if(this.searchVal.trim()) params.search = this.searchVal.trim()
       return params
+    },
+    needToDisplayNoResults () {
+      return (this.searchVal.trim() || this.sortRadio !== 'all' ) && this.pull[this.sortRadio].list.length === 0 && !this.loading
     }
   },
   watch: {
@@ -261,6 +267,12 @@ export default {
       this.remainderDate = null
       this.pages = 0
       this.reload = Date.now()
+      const query = {
+        filter: this.sortRadio,
+        sort: this.filterValue
+      }
+      if(this.searchVal.trim()) query.search = this.searchVal.trim()
+      this.$router.replace({ query })
     },
     async getBookmarkByTokenIds(list) {
       await this.$API.getBookmarkByTokenIds(list.map(row => row.id)).then(res => {
