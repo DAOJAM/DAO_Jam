@@ -87,6 +87,8 @@ export const paginationUrl = {
   projectAll: '/daojam/project',
   // 星标项目列表
   projectStars: '/daojam/project/stars',
+  // 支持项目列表
+  projectSupport: '/daojam/project/support',
   // 支持者
   supporters: '/minetoken/:id/supporters',
   // 投票记录
