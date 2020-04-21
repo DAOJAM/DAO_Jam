@@ -89,10 +89,10 @@
             </div>
             <div class="dao__info__number__block">
               <svg-icon
-                icon-class="daot"
-                class="icon"
+                icon-class="rank"
+                class="icon rank"
               />
-              {{ card.daot || 0 }}
+              {{ card.rank_num || 0 }}
             </div>
           </div>
         </div>
@@ -275,6 +275,9 @@ export default {
   }
   .icon {
     font-size: 22px;
+    &.rank {
+      color: #6BD701;
+    }
   }
 }
 
