@@ -589,6 +589,7 @@ export default {
           type: 'success'
         })
         this.comments = [data.result, ...this.comments]
+        this.commentToBePublish = ''
         this.getComments()
       } catch (error) {
         this.$notify.error({
