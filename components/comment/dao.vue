@@ -17,7 +17,7 @@
           class="comment-author"
           target="_blank"
         >
-          {{ comment.nickname || comment.username }}
+          {{ friendlyDisplayName }}
         </router-link>
         
         <!-- <p class="comment-timestamp"> -->
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { precision } from '@/utils/precisionConversion'
 import avatar from '@/components/avatar/index'
 
@@ -51,6 +52,14 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['currentUserInfo']),
+    isMine() {
+      return this.comment.uid === this.currentUserInfo.id
+    },
+    friendlyDisplayName() {
+      if (this.isMine) return 'Me'
+      return this.comment.nickname || this.comment.username
+    },
     displayMessage() {
       return this.comment.content !== '' ? this.comment.content : this.$t('p.commentNotContent')
     },
