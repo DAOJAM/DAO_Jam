@@ -218,6 +218,15 @@
               Comments
             </h2>
             <div class="comments">
+              <el-input
+                v-model="commentToBePublish"
+                type="textarea"
+                :rows="2"
+                placeholder="Share your thoughts~"
+              />
+              <el-button type="primary" @click="publishComment">
+                Send
+              </el-button>
               <DaoComment
                 v-for="comment in comments"
                 :key="comment.id" 
@@ -406,6 +415,7 @@
 
 
 <script>
+import { mapGetters } from 'vuex'
 import achievement1 from '@/assets/img/achievement1.png'
 import achievement2 from '@/assets/img/achievement2.png'
 import achievement3 from '@/assets/img/achievement3.png'
@@ -432,6 +442,7 @@ export default {
       minetokenToken: Object.create(null),
       resourcesSocialss: [],
       resourcesWebsites: [],
+      commentToBePublish: '',
       achievementList: [
         {
           img: achievement1,
@@ -545,6 +556,9 @@ export default {
       this.getComments(this.$route.params.id)
     }
   },
+  computed: {
+    ...mapGetters(['isLogined'])
+  },
   methods: {
     projectImage(src) {
       return src ? this.$ossProcess(src, { h: 500, limit: 0 }) : ''
@@ -562,6 +576,26 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    async publishComment() {
+      try {
+        if (!this.isLogined) throw new Error('You didn\'t login to DAOJam yet.')
+        const { data } = await this.$API.addComment(
+          this.$route.params.id, this.commentToBePublish
+        )
+        this.$notify({
+          title: 'Success',
+          message: 'You just send your comment successfully.',
+          type: 'success'
+        })
+        this.comments = [data.result, ...this.comments]
+        this.getComments(this.$route.params.id)
+      } catch (error) {
+        this.$notify.error({
+          title: 'Error happened',
+          message: 'Something is right here, error message: ' + error.message
+        })
+      }
     },
     async getComments(pid) {
       // 获取这个项目的评论
