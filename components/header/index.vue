@@ -235,9 +235,9 @@ export default {
       toggle: false,
       scrollEvent: null,
       levelOnePage: [
-        'article',
+        'index',
         'daos',
-        'stat',
+        'leaderboard',
         'tasks',
       ],
       token: {
