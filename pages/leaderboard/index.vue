@@ -1,84 +1,63 @@
 <template>
   <div class="stat">
     <g-header />
-    <ul class="list">
-      <li v-if="leaderboardList.length === 0">
-        There are no projects yet!
-        Come in and publish your project.
-      </li>
-      <li v-for="(item, index) in leaderboardList" :key="index">
-        <router-link class="fl ac" :to="{name: 'daos-id', params: { id: item.id }}">
-          <div class="fl ac">
-            <div class="index-content">
-              <span v-if="index >= 3" class="index">{{ index + 1 }}</span>
-              <svg-icon v-if="index === 0" class="index-icon" icon-class="leaderboard_one" />
-              <svg-icon v-if="index === 1" class="index-icon" icon-class="leaderboard_two" />
-              <svg-icon v-if="index === 2" class="index-icon" icon-class="leaderboard_three" />
-            </div>
-            <c-avatar :src="cover(item.logo)" />
-            <span class="name">{{ item.name }}</span>
-          </div>
-        </router-link>
-        <div class="fl ac">
-          <div class="number">
-            <svg-icon class="icon" icon-class="tickets" />{{ item.weight }}
-          </div>
-          <div class="number">
-            <svg-icon class="icon" icon-class="daot" />{{ item.daot }}
-          </div>
-        </div>
-      </li>
-    </ul>
+    <div class="ranking">
+      <div class="fl nav">
+        <h1
+          :class="navTag === 'projects' && 'active'"
+          @click="navTag = 'projects'"
+        >
+          Projects ranking
+        </h1>
+        <h1
+          :class="navTag === 'users' && 'active'"
+          @click="navTag = 'users'"
+        >
+          User ranking
+        </h1>
+      </div>
+      <leaderboardList
+        v-for="(item, index) in pull"
+        v-show="navTag === item.mode"
+        :key="index"
+        :pull="item"
+        :mode="item.mode"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import daftPunkWeeknd from '@/assets/img/avatar/daft_punk_weeknd.jpg'
-import daftPunkWeeknd3 from '@/assets/img/avatar/daft_punk_weeknd3.jpg'
+import leaderboardList from '@/components/leaderboard/index.vue'
 
 export default {
   components: {
+    leaderboardList
   },
   data() {
     return {
-      usersRankFilter: 'All',
-      usersRankList: [],
-      ticketsRankFilter: 'All',
-      ticketsRankList: [],
-      leaderboardList: []
+      navTag: 'projects',
+      pull: [
+        {
+          mode: 'projects',
+          params: {
+            pagesize: 10
+          },
+          apiUrl: 'leaderboard',
+        },
+        {
+          mode: 'users',
+          params: {
+            pagesize: 10
+          },
+          apiUrl: 'leaderboardUserVotes',
+        },
+      ]
     }
   },
-  // async asyncData({ $axios }) {},
   created() {
-    this.leaderboard()
-    for(let i = 0; i < 20; i++) {
-      this.usersRankList.push({
-        name: 'Daft Punk',
-        avatar: daftPunkWeeknd,
-        amount: 1200
-      })
-    }
-    
-    for(let i = 0; i < 13; i++) {
-      this.ticketsRankList.push({
-        name: 'MTF',
-        avatar: daftPunkWeeknd3,
-        amount: 1200
-      })
-    }
   },
   methods: {
-    cover(src) {
-      return src ? this.$ossProcess(src, { h: 120 }) : ''
-    },
-    async leaderboard() {
-      await this.$API.leaderboard().then(res => {
-        console.log(res)
-        this.leaderboardList = res.data
-      }).catch(e => {
-        console.log(e)
-      })
-    }
   }
 }
 </script>
@@ -88,57 +67,34 @@ export default {
   padding: 100px 0;
   background-color: #0e2144;
   align-content: center;
-  min-height: calc(100% - 60px - 100px);
+  min-height: calc(100% - 60px - 260px);
 }
-.list {
+.ranking {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 20px;
-  list-style: none;
-  box-sizing: border-box;
-
-  li {
-    background-color: rgba(255, 255, 255, 0.37);
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 3px;
-    display: flex;
+  .nav {
     align-items: center;
-    justify-content: space-between;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    .components-avatar {
-      width: 60px;
-      height: 60px;
-    }
-    .index-content {
-      width: 90px;
-      text-align: center;
-    }
-    .index {
-      font-size: 30px;
-      font-weight: bold;
-      margin-right: 20px;
-      color: #fff;
-    }
-    .index-icon {
-      font-size: 60px;
-    margin: 0 40px 0 0;
-    }
-    .name {
-      margin-left: 10px;
-      color: #fff;
-    }
-    .number {
-      &:nth-last-child(1) {
-        margin-left: 20px;
+    h1 {
+      cursor: pointer;
+      color: rgba(178, 178, 178, 1);
+      padding: 0 0 5px 0;
+      margin: 0 0 0 68px;
+      display: block;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: 500;
+      box-sizing: border-box;
+      border-bottom: 3px solid transparent;
+      &:hover {
+        color: white;
       }
-      font-size: 30px;
-      font-weight: 400;
-      .icon {
-        font-size: 30px;
-        margin-right: 6px;
+      &.active {
+        color: white;
+        border-bottom-color: #6236ff;
+      }
+      &:nth-child(1) {
+        margin-left: 0;
       }
     }
   }

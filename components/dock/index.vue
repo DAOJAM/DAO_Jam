@@ -25,7 +25,7 @@ export default {
     return {
       pageList: [
         {
-          name: 'article',
+          name: 'index',
           label: 'HOME',
           icon: 'el-icon-s-home'
         },
@@ -35,7 +35,7 @@ export default {
           icon: 'el-icon-menu'
         },
         {
-          name: 'stat',
+          name: 'leaderboard',
           label: 'LEADERBOARD',
           icon: 'el-icon-s-marketing'
         },

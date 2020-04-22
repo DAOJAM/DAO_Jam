@@ -99,4 +99,7 @@ export const paginationUrl = {
   joinedTeamList: '/user/:id/teams',
   votingRecord: '/daojam/voting/record',
   mintLog: '/daojam/voting/mint/log',
+  // 排行榜
+  leaderboard: '/leaderboard',
+  leaderboardUserVotes: '/leaderboard/userVotes',
 }
