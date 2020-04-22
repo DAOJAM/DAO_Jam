@@ -1046,6 +1046,19 @@ export default {
       }
     })
   },
+  getCommentsOfProject(pid) {
+    return request({
+      method: 'GET',
+      url: `/minetoken/${pid}/comments`
+    })
+  },
+  addComment(pid, content) {
+    return request({
+      method: 'POST',
+      url: `/minetoken/${pid}/comment`,
+      data: { content }
+    })
+  },
   balanceOf() {
     return request({
       method: 'GET',

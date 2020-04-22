@@ -212,6 +212,20 @@
             </div>
           </div>
         </div>
+        <div class="token-block">
+          <div class="token-list">
+            <h2 class="token-title">
+              Comments
+            </h2>
+            <div class="comments">
+              <DaoComment
+                v-for="comment in comments"
+                :key="comment.id" 
+                :comment="comment"
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <div class="token-col-4">
         <div class="token-block">
@@ -397,10 +411,12 @@ import achievement2 from '@/assets/img/achievement2.png'
 import achievement3 from '@/assets/img/achievement3.png'
 import achievement4 from '@/assets/img/achievement4.png'
 import userPagination from '@/components/user/user_pagination.vue'
+import DaoComment from '@/components/comment/dao.vue'
 
 export default {
   components: {
     userPagination,
+    DaoComment
   },
   data() {
     this.chartSettings = {
@@ -434,6 +450,7 @@ export default {
           text: 'Get 1000000 goidcoin from other users.'
         }
       ],
+      comments: [],
       teamData: [], // team Member
       tasksList: {
         mainTasks: [],
@@ -525,7 +542,7 @@ export default {
       this.chartsVote(this.$route.params.id)
       this.getMinetokenImages(this.$route.params.id)
       this.getMinetokenMilestones(this.$route.params.id)
-
+      this.getComments(this.$route.params.id)
     }
   },
   methods: {
@@ -545,6 +562,11 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    async getComments(pid) {
+      // 获取这个项目的评论
+      const result = await this.$API.getCommentsOfProject(pid)
+      this.comments = result.data.comments
     },
     // 得到token的相关资源
     async minetokenGetResources(id) {
