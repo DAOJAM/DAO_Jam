@@ -212,6 +212,29 @@
             </div>
           </div>
         </div>
+        <div class="token-block">
+          <div class="token-list">
+            <h2 class="token-title">
+              Comments
+            </h2>
+            <div class="comments">
+              <el-input
+                v-model="commentToBePublish"
+                type="textarea"
+                :rows="2"
+                placeholder="Share your thoughts~"
+              />
+              <el-button type="primary" @click="publishComment">
+                Send
+              </el-button>
+              <DaoComment
+                v-for="comment in comments"
+                :key="comment.id" 
+                :comment="comment"
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <div class="token-col-4">
         <div class="token-block">
@@ -392,15 +415,18 @@
 
 
 <script>
+import { mapGetters } from 'vuex'
 import achievement1 from '@/assets/img/achievement1.png'
 import achievement2 from '@/assets/img/achievement2.png'
 import achievement3 from '@/assets/img/achievement3.png'
 import achievement4 from '@/assets/img/achievement4.png'
 import userPagination from '@/components/user/user_pagination.vue'
+import DaoComment from '@/components/comment/dao.vue'
 
 export default {
   components: {
     userPagination,
+    DaoComment
   },
   data() {
     this.chartSettings = {
@@ -416,6 +442,7 @@ export default {
       minetokenToken: Object.create(null),
       resourcesSocialss: [],
       resourcesWebsites: [],
+      commentToBePublish: '',
       achievementList: [
         {
           img: achievement1,
@@ -434,6 +461,7 @@ export default {
           text: 'Get 1000000 goidcoin from other users.'
         }
       ],
+      comments: [],
       teamData: [], // team Member
       tasksList: {
         mainTasks: [],
@@ -510,6 +538,9 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters(['isLogined'])
+  },
   asyncData() {
     console.log('id index')
   },
@@ -525,7 +556,7 @@ export default {
       this.chartsVote(this.$route.params.id)
       this.getMinetokenImages(this.$route.params.id)
       this.getMinetokenMilestones(this.$route.params.id)
-
+      this.getComments()
     }
   },
   methods: {
@@ -545,6 +576,31 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    async publishComment() {
+      try {
+        if (!this.isLogined) throw new Error('You didn\'t login to DAOJam yet.')
+        const { data } = await this.$API.addComment(
+          this.$route.params.id, this.commentToBePublish
+        )
+        this.$notify({
+          title: 'Success',
+          message: 'You just send your comment successfully.',
+          type: 'success'
+        })
+        this.comments = [data.result, ...this.comments]
+        this.getComments()
+      } catch (error) {
+        this.$notify.error({
+          title: 'Error happened',
+          message: 'Something is right here, error message: ' + error.message
+        })
+      }
+    },
+    async getComments() {
+      // 获取这个项目的评论
+      const result = await this.$API.getCommentsOfProject(this.$route.params.id)
+      this.comments = result.data.comments
     },
     // 得到token的相关资源
     async minetokenGetResources(id) {
