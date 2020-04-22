@@ -538,6 +538,9 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters(['isLogined'])
+  },
   asyncData() {
     console.log('id index')
   },
@@ -553,11 +556,8 @@ export default {
       this.chartsVote(this.$route.params.id)
       this.getMinetokenImages(this.$route.params.id)
       this.getMinetokenMilestones(this.$route.params.id)
-      this.getComments(this.$route.params.id)
+      this.getComments()
     }
-  },
-  computed: {
-    ...mapGetters(['isLogined'])
   },
   methods: {
     projectImage(src) {
@@ -589,7 +589,7 @@ export default {
           type: 'success'
         })
         this.comments = [data.result, ...this.comments]
-        this.getComments(this.$route.params.id)
+        this.getComments()
       } catch (error) {
         this.$notify.error({
           title: 'Error happened',
@@ -597,9 +597,9 @@ export default {
         })
       }
     },
-    async getComments(pid) {
+    async getComments() {
       // 获取这个项目的评论
-      const result = await this.$API.getCommentsOfProject(pid)
+      const result = await this.$API.getCommentsOfProject(this.$route.params.id)
       this.comments = result.data.comments
     },
     // 得到token的相关资源

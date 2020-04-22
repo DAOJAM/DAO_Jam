@@ -23,6 +23,10 @@
         <!-- <p class="comment-timestamp"> -->
         <span class="comment-timestamp">commented {{ friendlyDate }}</span>
         <!-- </p> -->
+        <span v-if="isMine" class="delete">
+          <el-button class="delete-button" type="text" @click="deleteMyComment">
+            Delete</el-button>
+        </span>
       </div>
     </div>
     <p class="comment-message">
@@ -33,7 +37,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { precision } from '@/utils/precisionConversion'
 import avatar from '@/components/avatar/index'
 
 export default {
@@ -67,23 +70,31 @@ export default {
       const time = this.$moment(this.comment.createdAt)
       return this.$utils.isNDaysAgo(2, time) ? time.format('MMMDo HH:mm') : time.fromNow()
     },
-    amount() {
-      if (this.comment.action === 1) {
-        return (
-          precision(this.comment.amount, this.comment.platform) +
-          this.comment.platform.toUpperCase()
-        )
-      } else if (this.comment.action === 2) {
-        return this.$t('p.shopAmounts', [this.comment.num])
-      } else {
-        return ''
-      }
-    },
     avatar() {
       if (this.comment.avatar) return this.$ossProcess(this.comment.avatar)
       return ''
     }
-  }
+  },
+  methods: {
+    async deleteMyComment() {
+      try {
+        await this.$API.deleteComment(this.comment.id)
+        this.$notify({
+          title: 'Comment Deleted',
+          message: 'You just delete your comment.',
+          type: 'success'
+        })
+        this.$parent.getComments()
+      } catch (error) {
+        this.$notify({
+          title: 'Comment Deletion Failed',
+          message: 'Something bad just happened: ' + error.message,
+          type: 'error'
+        })
+      }
+
+    }
+  },
 }
 </script>
 
@@ -159,5 +170,9 @@ export default {
 }
 .wrap-open {
   white-space: pre-wrap;
+}
+.delete-button {
+  color: #ff4d4f;
+  font-size: 12px;
 }
 </style>

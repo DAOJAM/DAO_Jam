@@ -1059,6 +1059,12 @@ export default {
       data: { content }
     })
   },
+  deleteComment(cid) {
+    return request({
+      method: 'DELETE',
+      url: `/minetoken/comment/${cid}`,
+    })
+  },
   balanceOf() {
     return request({
       method: 'GET',
