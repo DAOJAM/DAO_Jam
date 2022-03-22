@@ -17,21 +17,17 @@
 
 如果对 Repo 感兴趣，欢迎`star`和`clone`
 
-## Build Setup
 
-``` bash
-# install dependencies
-$ yarn install
+## Development
 
-# serve with hot reload at localhost:3000
-$ yarn dev
-
-# build for production and launch server
-$ yarn build
-$ yarn start
-
-# generate static project
-$ yarn generate
+```bash
+yarn
+yarn dev
 ```
 
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+## Deploy
+
+```bash
+yarn build-dev
+yarn start
+```
