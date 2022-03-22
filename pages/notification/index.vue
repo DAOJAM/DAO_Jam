@@ -2,7 +2,7 @@
   <div class="notification">
     <g-header />
     <el-row class="notification-container">
-      <el-col :span="5">
+      <el-col :span="7">
         <nav>
           <ul>
             <li
@@ -10,19 +10,18 @@
               :key="index"
               :class="{ active: $route.name === nav.route }"
             >
-              <router-link :to="{name: nav.route}">
+              <router-link :class="{badge: newNotificationsMap[nav.text]}" :to="{name: nav.route}">
                 <svg-icon
                   :icon-class="nav.icon"
                   class="icon"
                 />
                 {{ nav.text }}
-                <span class="count">+{{ notificationCounters[nav.name] || 0 }}</span>
               </router-link>
             </li>
           </ul>
         </nav>
       </el-col>
-      <el-col :span="19">
+      <el-col :span="17">
         <router-view />
       </el-col>
     </el-row>
@@ -35,15 +34,30 @@ export default {
   data() {
     return {
       navItems: [
-        { name: 'follow', route: 'notification-index', text: '粉丝', icon: 'follow' },
-        { name: 'recommend', route: 'notification-index-application', text: '申请', icon: 'follow' },
-        { name: 'recommend', route: 'notification-index-achievement', text: '成就', icon: 'follow' },
+        { name: 'follow', route: 'notification-index', text: 'Follower', icon: 'follow' },
+        { name: 'application', route: 'notification-index-application', text: 'Application', icon: 'application' },
+        { name: 'invitation', route: 'notification-index-invitation', text: 'Invitation', icon: 'invite' },
       ],
       notifications: []
     }
   },
   computed: {
     ...mapState('notification', ['notificationCounters']),
+    newNotificationsMap() {
+      // Number() is becuz cached data is string, not number
+      const isNew = (num) => Boolean(Number(num))
+      const Follower = isNew(this.notificationCounters.follow)
+      const Application = isNew(this.notificationCounters.teamApplyRequest)
+      const Invitation = isNew(this.notificationCounters.teamInviteRequest)
+      // @todo, no actual Achievement, so no real Achievement notify
+      const Achievement = Boolean(false)
+      return {
+        Follower,
+        Application,
+        Invitation,
+        Achievement
+      }
+    }
   },
   created() {
     this.getNotificationCounters()
@@ -56,3 +70,20 @@ export default {
 }
 </script>
 <style lang="less" scoped src="./index.less"></style>
+<style lang="less" scoped>
+.badge{
+      position: relative;
+      &::after{
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
+        background: rgba(251,104,119,1);
+        position: absolute;
+        z-index: 1000;
+        right: 0%;
+        margin-right: -3px;
+        margin-top: -3px;
+      }
+}
+</style>

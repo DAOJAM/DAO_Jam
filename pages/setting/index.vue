@@ -1,188 +1,198 @@
 <template>
-  <userLayout>
+  <userLayout :need-frame="false">
     <template slot="main">
-      <h2 class="tag-title">
-        {{ $t('user.userInformation') }}
-      </h2>
-      <div class="set-main setting-page">
-        <div class="list center">
-          <span class="title">{{ $t('avatar') }}</span>
-          <img-upload
-            :img-upload-done="imgUploadDone"
-            :update-type="'avatar'"
-            class="avatar"
-            @doneImageUpload="doneImageUpload"
-          >
-            <div
-              slot="uploadButton"
-              class="user-avatar"
+      <div class="account-main">
+        <h2 class="tag-title">
+          {{ $t('user.accountSetting') }}
+        </h2>
+        <AccountBinding />
+      </div>
+      <div class="info-main">
+        <h2 class="tag-title">
+          {{ $t('user.userInformation') }}
+        </h2>
+        <div class="set-main setting-page">
+          <div class="item list center">
+            <span class="item-label title">{{ $t('avatar') }}</span>
+            <img-upload
+              :img-upload-done="imgUploadDone"
+              :update-type="'avatar'"
+              class="avatar"
+              @doneImageUpload="doneImageUpload"
             >
-              <div class="edit">
-                <i class="el-icon-camera" />
-                {{ $t('avatar') }}
-              </div>
-              <img
-                v-if="avatar"
-                slot="description"
-                :src="avatar"
-                alt="avatar"
+              <div
+                slot="uploadButton"
+                class="user-avatar"
               >
-            </div>
-          </img-upload>
-        </div>
-        <div class="list center">
-          <span class="title">
-            {{ $t('nickname') }}
-          </span>
-          <div class="input customize">
-            <el-input
-              v-model="username"
-              :placeholder="$t('rule.username')"
-              maxlength="50"
-              show-word-limit
-              clearable
-            />
-          </div>
-        </div>
-        <!-- <div class="list center">
-          <span class="title"> {{ $t('email') }}</span>
-          <div class="input">
-            <el-input
-              v-model="email"
-              :placeholder="$t('rule.loginEmailMessage')"
-              show-word-limit
-              clearable
-            />
-          </div>
-        </div> -->
-        <div class="list">
-          <span class="title">{{ $t('profile') }}</span>
-          <div class="input customize">
-            <el-input
-              v-model="introduction"
-              :rows="6"
-              :placeholder="$t('rule.content')"
-              type="textarea"
-              maxlength="200"
-              show-word-limit
-            />
-          </div>
-        </div>
-        <!-- 身份 -->
-        <div class="list">
-          <span class="title">身份</span>
-          <div class="job">
-            <div
-              v-for="(item, index) in job"
-              :key="index"
-              class="job-checkbox customize"
-            >
-              <el-checkbox
-                v-model="item.checked"
-                :label="item.text_english"
-              />
-            </div>
-          </div>
-        </div>
-        <!-- 技能 -->
-        <div class="list ">
-          <span class="title">技能</span>
-          <div class="skill">
-            <div
-              v-for="(item, index) in skill"
-              :key="index"
-              class="skill-checkbox customize"
-            >
-              <el-checkbox
-                v-model="item.checked"
-                :label="item.text_english"
-              />
-              <el-input
-                v-if="item.checked"
-                v-model="item.value"
-                class="skill-number"
-                style="width:50px;"
-                minlength="1"
-                maxlength="3"
-                placeholder="1-100"
-                :min="1"
-                :max="100"
-                @change="skillChange(index)"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="line" />
-        <!-- 相关网站 -->
-        <div class="social-div">
-          <span class="title">
-            相关网站
-          </span>
-          <div
-            v-for="(item, index) in about"
-            :key="index"
-            class="fl ac about-input social-list customize"
-          >
-            <el-input
-              v-model="about[index]"
-              class="input"
-              placeholder="请填写网站链接，包含http(s)://"
-            />
-            <div
-              v-if="about.length > 1"
-              class="about-input-btn"
-              @click="abountLess(index)"
-            >
-              <i class="el-icon-minus" />
-            </div>
-          </div>
-          <div
-            v-if="about.length < 5"
-            class="about-input-btn add"
-            @click="aboutAdd"
-          >
-            <i class="el-icon-plus" />
-          </div>
-        </div>
-        <!-- 社交账号 -->
-        <div class="social-div">
-          <span class="title right0">
-            社交账号
-          </span>
-          <span class="title-note">
-            仅用于信息展示
-          </span>
-          <div
-            v-for="(item, index) in social"
-            :key="index"
-            class="social-list"
-          >
-            <p class="social-title">
-              {{ item.name }}
-              <span v-html="item.tooltip" />
-            </p>
-            <div class="fl customize">
-              <div class="social-icons">
-                <socialIcon :icon="item.symbol" />
+                <div class="edit">
+                  <i class="el-icon-camera" />
+                  {{ $t('avatar') }}
+                </div>
+                <img
+                  v-if="avatar"
+                  slot="description"
+                  :src="avatar"
+                  alt="avatar"
+                >
               </div>
+            </img-upload>
+          </div>
+          <div class="item list center">
+            <span class="item-label title">
+              {{ $t('nickname') }}
+            </span>
+            <div class="input customize">
               <el-input
-                v-model="item.value"
-                :placeholder="item.placeholder"
-                class="social-input"
+                v-model="username"
+                :placeholder="$t('rule.username')"
+                maxlength="50"
+                show-word-limit
+                clearable
               />
             </div>
           </div>
+          <!-- <div class="list center">
+            <span class="title"> {{ $t('email') }}</span>
+            <div class="input">
+              <el-input
+                v-model="email"
+                :placeholder="$t('rule.loginEmailMessage')"
+                show-word-limit
+                clearable
+              />
+            </div>
+          </div> -->
+          <div class="item list">
+            <span class="item-label title">{{ $t('profile') }}</span>
+            <div class="input customize">
+              <el-input
+                v-model="introduction"
+                :rows="6"
+                :placeholder="$t('rule.content')"
+                type="textarea"
+                maxlength="200"
+                show-word-limit
+              />
+            </div>
+          </div>
+          <!-- 身份 -->
+          <div class="item list">
+            <span class="item-label title">Position</span>
+            <div class="job">
+              <div
+                v-for="(item, index) in job"
+                :key="index"
+                class="job-checkbox customize"
+              >
+                <el-checkbox
+                  v-model="item.checked"
+                  :label="item.text_english"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- 技能 -->
+          <div class="item list">
+            <span class="item-label title">Skill</span>
+            <div class="skill">
+              <div
+                v-for="(item, index) in skill"
+                :key="index"
+                class="skill-checkbox customize"
+              >
+                <el-checkbox
+                  v-model="item.checked"
+                  :label="item.text_english"
+                />
+                <el-input
+                  v-if="item.checked"
+                  v-model="item.value"
+                  class="skill-number"
+                  style="width:50px;"
+                  minlength="1"
+                  maxlength="3"
+                  placeholder="1-100"
+                  :min="1"
+                  :max="100"
+                  @change="skillChange(index)"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- 相关网站 -->
+          <div class="item social-div">
+            <span class="item-label title">
+              Website
+            </span>
+            <div>
+              <div
+                v-for="(item, index) in about"
+                :key="index"
+                class="fl ac about-input social-list customize"
+              >
+                <el-input
+                  v-model="about[index]"
+                  class="input"
+                  placeholder="Please fill in the website link, including http(s)://"
+                />
+                <div
+                  v-if="about.length > 1"
+                  class="about-input-btn"
+                  @click="abountLess(index)"
+                >
+                  <i class="el-icon-minus" />
+                </div>
+              </div>
+              <div
+                v-if="about.length < 5"
+                class="about-input-btn add"
+                @click="aboutAdd"
+              >
+                <i class="el-icon-plus" />
+              </div>
+            </div>
+          </div>
+          <!-- 社交账号 -->
+          <div class="item social-div">
+            <span class="item-label title right0">
+              Socials
+            </span>
+            <div>
+              <span class="title-note">
+                (information display only)
+              </span>
+              <div
+                v-for="(item, index) in social"
+                :key="index"
+                class="social-list"
+              >
+                <p class="social-title">
+                  {{ item.name }}
+                  <span v-html="item.tooltip" />
+                </p>
+                <div class="fl customize">
+                  <div class="social-icons">
+                    <socialIcon :icon="item.symbol" />
+                  </div>
+                  <el-input
+                    v-model="item.value"
+                    :placeholder="item.placeholder"
+                    class="social-input"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 保存 -->
+          <el-button
+            :loading="loading"
+            :class="(setProfile || aboutModify || socialModify || jobModify || skillModify) && 'active'"
+            class="save"
+            @click="save"
+          >
+            {{ $t('save') }}
+          </el-button>
         </div>
-        <!-- 保存 -->
-        <div class="line" />
-        <el-button
-          :loading="loading"
-          :class="(setProfile || aboutModify || socialModify || jobModify || skillModify) && 'active'"
-          class="save "
-          @click="save"
-        >
-          {{ $t('save') }}
-        </el-button>
       </div>
     </template>
     <template slot="nav">
@@ -194,6 +204,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import userLayout from '@/components/user/user_layout.vue'
+import AccountBinding from '@/components/AccountBinding.vue'
 import myAccountNav from '@/components/my_account/my_account_nav.vue'
 import socialIcon from '@/components/social_icon/index.vue'
 
@@ -204,7 +215,8 @@ export default {
     userLayout,
     imgUpload,
     socialIcon,
-    myAccountNav
+    myAccountNav,
+    AccountBinding
   },
   data() {
     return {
@@ -226,36 +238,36 @@ export default {
         {
           symbol: 'Email',
           type: 'email',
-          name: 'Email：',
+          name: 'Email: ',
           tooltip: '',
-          placeholder: '邮箱',
+          placeholder: 'Email',
           url: '',
           value: ''
         },
         {
           symbol: 'QQ',
           type: 'qq',
-          name: 'QQ：',
+          name: 'QQ: ',
           tooltip: '',
-          placeholder: 'QQ帐号',
+          placeholder: 'QQ Account',
           url: '',
           value: ''
         },
         {
           symbol: 'Wechat',
           type: 'wechat',
-          name: '微信：',
+          name: 'Wechat: ',
           tooltip: '',
-          placeholder: '微信号',
+          placeholder: 'Wechat account',
           url: '',
           value: ''
         },
         {
           symbol: 'Weibo',
           type: 'weibo',
-          name: '微博：',
-          tooltip: '(https://www.weibo.com/<span>帐号</span>)',
-          placeholder: '微博用户名(不需要完整URL)',
+          name: 'Weibo: ',
+          tooltip: '(https://www.weibo.com/<span>account</span>)',
+          placeholder: 'Weibo username (no full URL required)',
           url: 'https://www.weibo.com',
           value: ''
         },
@@ -264,7 +276,7 @@ export default {
           type: 'telegram',
           name: 'Telegram：',
           tooltip: '',
-          placeholder: 'Telegram用户名',
+          placeholder: 'Telegram username',
           url: '',
           value: ''
         },
@@ -272,8 +284,8 @@ export default {
           symbol: 'Twitter',
           type: 'twitter',
           name: 'Twitter：',
-          tooltip: '(https://twitter.com/<span>帐号</span>)',
-          placeholder: 'Twitter用户名(不需要完整URL)',
+          tooltip: '(https://twitter.com/<span>account</span>)',
+          placeholder: 'Twitter username (no full URL required)',
           url: 'https://twitter.com',
           value: ''
         },
@@ -281,8 +293,8 @@ export default {
           symbol: 'Facebook',
           type: 'facebook',
           name: 'Facebook：',
-          tooltip: '(https://facebook.com/<span>帐号</span>)',
-          placeholder: 'Facebook用户名(不需要完整URL)',
+          tooltip: '(https://facebook.com/<span>account</span>)',
+          placeholder: 'Facebook username (no full URL required)',
           url: 'https://facebook.com',
           value: ''
         },
@@ -290,8 +302,8 @@ export default {
           symbol: 'Github',
           type: 'github',
           name: 'Github：',
-          tooltip: '(https://github.com/<span>帐号</span>)',
-          placeholder: 'Github用户名(不需要完整URL)',
+          tooltip: '(https://github.com/<span>account</span>)',
+          placeholder: 'Github username (no full URL required)',
           url: 'https://github.com',
           value: ''
           // resourcesSocialss: [],
@@ -646,7 +658,7 @@ export default {
         } else if (error.response && error.response.data) {
           this.$message.error(error.response.data.message)
         } else {
-          console.error(`修改信息失败 catch error ${error}`)
+          console.error(`change user info failed, catch error ${error}`)
           this.$message.error(this.$t('error.fail'))
         }
       } finally {
@@ -682,6 +694,24 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.info-main {
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-bottom: 120px;
+  background-color: #122d5e;
+}
+.account-main {
+  background-color: #122d5e;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  color: white;
+}
+.margin100 {
+  margin: 100px 0;
+}
 .line {
   width: 100%;
   height: 1px;
@@ -700,7 +730,6 @@ export default {
   font-weight: 400;
   color: #fff;
   line-height: 28px;
-  margin-right: 10px;
   min-width: 50px;
   &.right0 {
     margin-right: 0;
@@ -772,7 +801,7 @@ export default {
   border: none;
   outline: none;
   color: #fff;
-  margin: 100px auto 0;
+  margin: 20px auto 0;
   background-color: #bfbfbf;
   cursor: pointer;
   &.active {
@@ -795,11 +824,7 @@ export default {
   width: 340px;
 }
 .social-div {
-  padding-top: 24px;
-  padding-bottom: 34px;
-  .social-list {
-    margin-left: 56px;
-  }
+  margin: 20px 0;
 }
 .about-input {
   margin: 0 0 10px;
@@ -816,11 +841,7 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  margin: 0 0 0 10px;
   cursor: pointer;
-  &.add {
-    margin-left: 56px;
-  }
 }
 .set-main {
   padding-left: 10px;
@@ -922,6 +943,16 @@ export default {
         color: #b2b2b2;
       }
     }
+  }
+}
+
+.item {
+  display: flex;
+  &-label {
+    display: block;
+    width: 100px;
+    flex: 0 0 100px;
+    margin-right: 10px;
   }
 }
 </style>

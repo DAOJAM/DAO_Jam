@@ -28,7 +28,7 @@
         v-if="pull.list.length === 0 && !loading"
         class="no-data"
       >
-        暂无数据
+        Nothing
       </div>
     </div>
     <user-pagination

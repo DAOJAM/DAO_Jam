@@ -4,18 +4,45 @@
     <div class="dao-main">
       <div
         v-loading="loading"
+        element-loading-background="#0e2144cc"
         class="dao-content"
       >
         <div class="dao-head">
+          <div class="dao-head__block">
+            <el-input
+              v-model="searchVal"
+              style="width: 192px;"
+              size="medium"
+              placeholder="Search Projects"
+              :suffix-icon="searchVal ? '' : 'el-icon-search'"
+              clearable
+            />
+          </div>
           <!-- <h2>DAOs ({{ count }})</h2> -->
           <div class="dao-head__filter">
             <div class="dao-head__block">
-              <p class="dao-head__title">
-                排序
-              </p>
+              <el-radio-group v-model="sortRadio">
+                <el-radio-button label="all">
+                  All
+                </el-radio-button>
+                <el-radio-button
+                  :disabled="!isLogined"
+                  label="bookmark"
+                >
+                  Star
+                </el-radio-button>
+                <el-radio-button 
+                  :disabled="!isLogined"
+                  label="support"
+                >
+                  Support
+                </el-radio-button>
+              </el-radio-group>
+            </div>
+            <div class="dao-head__block">
               <el-select
                 v-model="filterValue"
-                placeholder="请选择"
+                placeholder="please choose"
               >
                 <el-option
                   v-for="item in filterOptions"
@@ -25,116 +52,57 @@
                 />
               </el-select>
             </div>
-            <div class="dao-head__block">
-              <p class="dao-head__title">
-                筛选
-              </p>
-              <el-radio-group v-model="sortRadio">
-                <el-radio-button label="全部" />
-                <el-radio-button label="持有" />
-                <el-radio-button label="星标" />
-              </el-radio-group>
-            </div>
-          </div>
-
-          <div class="dao-head__block">
-            <p class="dao-head__title">
-              排序
-            </p>
-
-            <el-input
-              v-model="searchVal"
-              style="width: 192px;"
-              size="medium"
-              placeholder="Search DAO"
-              suffix-icon="el-icon-search"
-            />
           </div>
         </div>
 
         <div class="dao-cow">
-          <div class="dao-col">
+          <div
+            v-if="!hadProject"
+            class="dao-col new-project-col"
+          >
             <div
-              class="dao-block"
-              @click="createDaoDialog = true"
+              class="dao-block new-project"
+              @click="newProject"
             >
-              <svg-icon
-                icon-class="add"
-                class="icon-add"
-              />
-              <p class="dao-add__text">
-                Apply for DAO creation (need 1000
+              <h3>
+                CREATE PROJECT
+              </h3>
+              <p>
+                Need 10 Voting Power
                 <svg-icon
-                  icon-class="daos"
+                  icon-class="daot"
                   class="icon-dao"
                 />
-                )
               </p>
             </div>
           </div>
           <daoCard
-            v-for="(item, index) in pull.list"
+            v-for="(item, index) in pull[sortRadio].list"
             :key="index"
             class="dao-col"
             :card="item"
+            @switchStar="switchStar"
           />
-        </div>
-
-        <m-dialog
-          v-model="createDaoDialog"
-          width="400px"
-          title="开通项目功能"
-        >
-          <div class="create-dao">
-            <div class="create-dao__cover">
-              <img
-                src="https://blog.ulifestyle.com.hk/blogger/s030186/wp-content/blogs.dir/0/12177/files/2018/02/10.jpg"
-                alt="cover"
-              >
-            </div>
-            <div class="line" />
-            <div class="create-dao__footer">
-              <div>
-                <p>
-                  需要支付1000金币
-                  <svg-icon
-                    icon-class="daos"
-                    class="icon-dao"
-                  />
-                </p>
-                <a href="#">如果获得金币?</a>
-              </div>
-
-              <div>
-                <el-button
-                  type="small"
-                  @click="createDao(true)"
-                >
-                  足够支付
-                </el-button>
-                <el-button
-                  type="small" 
-                  @click="createDao(false)"
-                >
-                  不够支付
-                </el-button>
-              </div>
+          <div
+            v-if="needToDisplayNoResults"
+            class="no-search-results"
+          >
+            <div>
+              No matching results
             </div>
           </div>
-        </m-dialog>
-
-        <user-pagination
-          v-show="!loading"
-          :current-page="currentPage"
-          :params="pull.params"
-          :api-url="pull.apiUrl"
-          :page-size="9"
-          :total="total"
-          :need-access-token="true"
-          class="dao-pagination"
-          @paginationData="paginationData"
-          @togglePage="togglePage"
-        />
+        </div>
+        <div class="load-more">
+          <buttonLoadMore
+            v-show="!loading"
+            :type-index="0"
+            :params="params"
+            :api-url="pull[sortRadio].apiUrl"
+            :is-atuo-request="true"
+            :auto-request-time="reload"
+            @buttonLoadMore="paginationData"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -143,92 +111,186 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import userPagination from '@/components/user/user_pagination.vue'
-import daoCard from '@/components/dao_card'
+// import userPagination from '@/components/user/user_pagination.vue'
+import daoCard from '@/components/dao_card2'
+import buttonLoadMore from '@/components/button_load_more/index.vue'
+// import qv from '@/api/voting/qvvoting.js'
+
 export default {
   components: {
-    userPagination,
+    // userPagination,
+    buttonLoadMore,
     daoCard
   },
   data() {
     return {
+      contract: null,
+      nearConfig: null,
+      walletConnection: null,
+      form: {
+        name: '',
+        description: ''
+      },
       createDaoDialog: false,
       tokenList: [],
-      searchVal: '',
+      searchVal: this.$route.query.search || '',
 
       pull: {
-        params: {
-          pagesize: 8
+        all: {
+          params: {
+            pagesize: 9
+          },
+          apiUrl: 'projectAll',
+          list: []
         },
-        apiUrl: 'tokenAll',
-        list: [
-          {},{},{},{},{},{},{},{},{}
-        ]
+        bookmark: {
+          params: {
+            pagesize: 9
+          },
+          apiUrl: 'projectStars',
+          list: []
+        },
+        support: {
+          params: {
+            pagesize: 9
+          },
+          apiUrl: 'projectSupport',
+          list: []
+        }
       },
-      currentPage: Number(this.$route.query.page) || 1,
+      remainderDate: null,
       loading: false, // 加载数据
-      total: 0,
       assets: {
       },
       viewStatus: 0, // 0 1
-      count: 0,
 
       filterOptions: [{
-        value: 'liquidity',
-        label: '流动金总量'
+        value: 'votes',
+        label: 'Rank'
       }, {
-        value: 'supporter',
-        label: '支持者人数'
+        value: 'createTime',
+        label: 'Recent'
       }, {
-        value: 'developer',
-        label: '开发者数量'
+        value: 'name',
+        label: 'Name'
       }],
-      filterValue: 'liquidity',
-      sortRadio: '全部',
+      filterValue: this.$route.query.sort || 'votes',
+      sortRadio: this.$route.query.filter || 'all',
+      reload: 0,
+      hadProject: false,
+      pages: 0,
+      temporaryPagesize: null,
+      timeout: null
     }
   },
   computed: {
     ...mapGetters(['isLogined']),
+    params() {
+      let params = {
+        ...this.pull[this.sortRadio].params,
+        sort: this.filterValue,
+      }
+      if(this.searchVal.trim()) params.search = this.searchVal.trim()
+      return params
+    },
+    needToDisplayNoResults () {
+      return (this.searchVal.trim() || this.sortRadio !== 'all' ) && this.pull[this.sortRadio].list.length === 0 && !this.loading
+    }
+  },
+  watch: {
+    sortRadio(newVal) {
+      this.refresh(newVal)
+    },
+    isLogined(newVal) {
+      if(newVal) this.tokenDetail()
+    },
+    hadProject(newVal) {
+      if(newVal) {
+        // 如果上次有剩余未显示的，则在这次显示出来
+        if(this.remainderDate) this.pull[this.sortRadio].list.push(this.remainderDate)
+        this.remainderDate = null
+      }
+    },
+    searchVal() {
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        this.refresh()
+      }, 500)
+    },
+    filterValue() {
+      this.refresh()
+    }
+  },
+  mounted() {
+    if(this.isLogined) this.tokenDetail()
   },
   methods: {
-    // 创建dao
-    createDao(val) {
-      if (val) {
-        this.$alert('请在 设置-项目管理 中进行进一步设置', '项目开通成功', {
-          confirmButtonText: '立即设置',
-          callback: action => {
-            if (action === 'confirm' && this.isLogined) {
-              this.$router.push('/setting')
-            }
-          }
-        })
-      } else {
-        this.$message.warning('对不起, 您的金币不够!')
+    async tokenDetail() {
+      const res = await this.$API.tokenDetail()
+      if (res.code === 0 && res.data.token) this.hadProject = true
+      else this.hadProject = false
+    },
+    newProject() {
+      if(this.isLogined)
+        this.$router.push({ name: 'daos-create' })
+      else {
+        this.$store.commit('setLoginModal', true)
+        this.$message.warning('Operate after logging in')
       }
     },
     paginationData(res) {
-      this.count = res.data.count
-      this.pull.list = res.data.list
-      this.total = res.data.count || 0
+      // if(this.temporaryPagesize) {
+      //   this.pull[this.sortRadio].params.pagesize = this.temporaryPagesize
+      //   this.temporaryPagesize = null
+      // }
+
+      // 如果上次有剩余未显示的，则在这次显示出来
+      if(this.remainderDate) this.pull[this.sortRadio].list.push(this.remainderDate)
+      this.remainderDate = null
+
+      if (res.data && res.data.list && res.data.list.length !== 0){
+        // 因为第一个是New Project，导致第一次能显示的数据少1条，所以要在最后余出一条数据，并在下次加入。
+        if(!this.hadProject && res.data.list.length >= this.pull[this.sortRadio].params.pagesize)
+          this.remainderDate = res.data.list.splice(res.data.list.length - 1, 1)[0]
+
+        // 将新的项目列表加入队尾
+        this.pull[this.sortRadio].list = this.pull[this.sortRadio].list.concat(res.data.list)
+      }
+      // this.pages++
       this.loading = false
-      if(this.isLogined) this.getBookmarkByTokenIds()
+      if(this.isLogined) this.getBookmarkByTokenIds(res.data.list)
     },
-    togglePage(i) {
+    refresh(sortRadio) {
+      const newVal = sortRadio || this.sortRadio
       this.loading = true
-      this.pull.list = []
-      this.currentPage = i
-      this.$router.push({
-        query: {
-          page: i
-        }
-      })
+      this.pull[newVal].list = []
+      this.remainderDate = null
+      this.pages = 0
+      this.reload = Date.now()
+      const query = {
+        filter: this.sortRadio,
+        sort: this.filterValue
+      }
+      if(this.searchVal.trim()) query.search = this.searchVal.trim()
+      this.$router.replace({ query })
     },
-    async getBookmarkByTokenIds() {
-      await this.$API.getBookmarkByTokenIds(this.pull.list.map(row => row.id)).then(res => {
+    async getBookmarkByTokenIds(list) {
+      await this.$API.getBookmarkByTokenIds(list.map(row => row.id)).then(res => {
         if (res.code === 0) {
-          res.data.forEach(item => this.$set(this.pull.list.find(token => token.id === item.token_id), 'pentagram', true))
+          res.data.forEach(item => this.$set(list.find(token => token.id === item.token_id), 'pentagram', true))
         } else console.error(res.message)
       })
+    },
+    switchStar() {
+      if(this.sortRadio === 'bookmark') {
+        // this.temporaryPagesize = this.pull[this.sortRadio].params.pagesize
+        // this.pull[this.sortRadio].params.pagesize = this.pages * this.pull[this.sortRadio].params.pagesize
+
+        this.loading = true
+        this.pull[this.sortRadio].list = []
+        this.remainderDate = null
+        this.reload = Date.now()
+      }
     }
   }
 }
@@ -236,15 +298,15 @@ export default {
 
 <style lang="less" scoped>
 .dao {
-  padding: 60px 0 0 0;
-  min-height: calc(100% - (60px + 200px));
+  padding: 50px 0 0 0;
+  min-height: calc(100% - (50px + 120px));
   background: #0c2143;
 }
 
 .dao-main {
   min-height: 1120px;
   background-color: #0e2144;
-  background-image: url(../../assets/img/index_head_bg.png);
+  background-image: url(../../assets/img/index_head_bg.jpg);
   background-size: contain;
   background-position: top;
   background-repeat: no-repeat;
@@ -260,9 +322,9 @@ export default {
 
 .dao-head {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   margin-top: 60px;
+  align-items: baseline;
   &__filter {
     display: flex;
   }
@@ -280,7 +342,7 @@ export default {
       margin-right: 20px;
     }
   }
-  
+
 }
 
 .dao-cow {
@@ -301,6 +363,9 @@ export default {
     margin-left: 40px;
     margin-right: 40px;
   }
+  &.new-project-col {
+    max-height: 280px;
+  }
 }
 
 .dao-pagination {
@@ -315,7 +380,6 @@ export default {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  transition: all 0.2s;
   cursor: pointer;
   // background: rgba(98,54,255,0.3);
 
@@ -333,17 +397,28 @@ export default {
     font-size: 80px;
   }
   .icon-dao {
-    font-size: 14px;
+    font-size: 24px;
+    margin-left: 5px;
   }
+  &.new-project {
+    min-height: 0;
+    height: 358px;
+    color: white;
 
-  .dao-add__text {
-    font-size: 14px;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 1);
-    line-height: 20px;
-    font-weight: bold;
-    padding: 0;
-    margin: 20px 0 0 0;
+    h3 {
+      font-size:20px;
+      font-weight:500;
+      line-height:28px;
+      margin: 0 0 20px;
+    }
+    p {
+      font-size:14px;
+      font-weight:500;
+      line-height:20px;
+      display: flex;
+      align-items: center;
+      margin: 0;
+    }
   }
 
   &:hover {
@@ -401,6 +476,26 @@ export default {
     }
   }
 }
+// 避免显示更多按钮隐藏后出现塌陷
+.load-more {
+  height: 160px;
+}
+
+.no-search-results {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  width: 100%;
+  div {
+    background: rgba(98, 54, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 25px;
+  }
+}
 
 
 
@@ -410,6 +505,24 @@ export default {
     margin-top: 20px;
     margin-left: 0 !important;
     margin-right: 0 !important;
+  }
+  .dao-head {
+    display: block;
+    &__filter {
+      display: block;
+      margin-bottom: 20px;
+    }
+    &__block {
+      &:nth-child(1) {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .dao-block {
+    &.new-project {
+    height: 200px;
+    }
   }
 }
 
@@ -426,9 +539,26 @@ export default {
       margin-right: 0;
     }
   }
+
+  .dao-head {
+    &__filter {
+      display: block;
+    }
+    &__block {
+      &:nth-child(1) {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .dao-block {
+    &.new-project {
+    height: 347px;
+    }
+  }
 }
 
-@media screen and (min-width: 768px) and (max-width: 992px) {
+@media screen and (min-width: 769px) and (max-width: 992px) {
   .dao-content {
     max-width: 85%;
   }
@@ -440,11 +570,33 @@ export default {
       margin-right: 20px;
     }
   }
+
+  .dao-head {
+    &__filter {
+      display: block;
+    }
+    &__block {
+      &:nth-child(1) {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .dao-block {
+    &.new-project {
+    height: 315px;
+    }
+  }
 }
 
 @media screen and (min-width: 992px) and (max-width: 1200px) {
   .dao-content {
     max-width: 80%;
+  }
+  .dao-block {
+    &.new-project {
+      height: 319px;
+    }
   }
 }
 </style>

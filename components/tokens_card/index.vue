@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { precision } from '@/utils/precisionConversion'
 import txHash from '@/components/tx_hash_popover/index'
@@ -62,7 +61,7 @@ export default {
   computed: {
     ...mapGetters(['isMe']),
     time() {
-      return moment(this.card.create_time).format('MMMDo HH:mm')
+      return this.$moment(this.card.create_time).format('MMMDo HH:mm')
     },
     id() {
       if (this.isMe(this.card.from_uid)) {
@@ -147,7 +146,7 @@ export default {
 .username {
   font-size:16px;
   font-weight:400;
-  color:rgba(0,0,0,1);
+  color: white;
   line-height:28px;
   margin-right: 4px;
 }

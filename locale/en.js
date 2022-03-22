@@ -1,7 +1,7 @@
 export default {
   readMore: 'Read More',
   viewMore: 'View More',
-  not: '暂无',
+  not: 'Nothing',
   notContent: 'No content',
   notProfile: 'No profile',
   notComment: 'No comment',
@@ -13,7 +13,7 @@ export default {
   notFollowContent: 'No connect from follow',
   notBuyHistory: 'No history',
   setting: 'Settings',
-  login: 'Sign In',
+  login: 'LOGIN WITH',
   logout: 'Log out',
   registered: 'Sign Up',
   edit: 'Edit',
@@ -581,7 +581,7 @@ export default {
     unitPrice: 'unit price',
     totalPrice: 'total price',
     // account
-    remainingPoints: 'Remaining points',
+    remainingPoints: 'Remaining Voting Power:',
     inviteUser: 'Users I invited',
     registeredDate: 'Registration time',
     inviteRule: 'Note: Those who are not activated can complete activation after reading 5 articles and making an evaluation. After activation, you can receive extra {0} points.',
@@ -603,21 +603,24 @@ export default {
     infoSetting: 'settings',
     accountSetting: 'account management',
     systemSetting: 'other settings',
-    wallet: 'wallet detail',
+    wallet: 'My Voting Power',
     point: 'point detail',
-    invite: 'invite history',
-    buycoins: 'Fan tickets held',
+    invite: 'Invitation Records',
+    buycoins: 'Items I voted for',
     selfcoins: 'Fan tickets issued',
-    fanWallet: 'Fan ticket holder',
-    editcoins: 'manage Fan ticket',
-    applycoins: 'Apply for Fan Ticket',
+    fanWallet: 'My Vote',
+    editcoins: 'Project Information',
+    applycoins: 'Apply project',
     issuecoins: 'issue Fan tickets',
-    editProfile: 'edit profile',
+    editProfile: 'Setting',
     information: 'information',
-    userInformation: 'user information',
+    userInformation: 'Personal Information',
     bookmark: 'bookmark',
     myBookmark: 'myBookmark',
-    message: 'message'
+    mission: 'Mission Selection',
+    projectProgress: 'Project Progress',
+    message: 'message',
+    goToDetails: 'Go to details page'
   },
   withdraw: {
     title: 'withdraw',
@@ -670,5 +673,26 @@ export default {
     orange: 'Orange Book',
     scanCode: 'Remark "into the group" after scanning the code',
     follow: 'Follow the public number'
+  },
+  kyc: {
+    notificationPop: {
+      title: 'Special offer',
+      message: 'You can get 100 Voting Power bonus after you bind NEAR Wallet!',
+      buttonText: 'Go'
+    }
+  },
+  voteDropdown: {
+    rewardTitle: 'Reward',
+    rewardText: 'Gain 100 Voting Power after binding NEAR wallet',
+    gainVotingPower: 'Gain 100 Voting Power',
+    voteTodayTitle: 'You have cost {0} Voting Power，voted {1} ticket today',
+    voteTodayText: 'You can voted at most 10 tickets & 3 times perday per project.',
+    voteTodayHelp: 'What is Voting Power and ticket?',
+    tomorrowGainTitle: 'You can gain 600 Voting Power tommorrow',
+    tomorrowGainText: 'You can gain 1/3 Voting Power of your voted yesterday + 20 a day.'
+  },
+  accountManagement: {
+    unbind: 'Unbind',
+    mainAccount: 'Main account',
   }
 }

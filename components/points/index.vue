@@ -1,9 +1,5 @@
 <template>
-  <div class="points-main">
-    <h2 class="tag-title">
-      {{ $t('user.point') }}
-    </h2>
-    <div class="line" />
+  <div>
     <div
       v-loading="loading"
       class="card-container"
@@ -12,7 +8,7 @@
         <div class="point-card">
           <span class="title">{{ $t('user.remainingPoints') }}</span>
           <h1 class="point-pricing">
-            {{ amount }}
+            {{ balance }}
           </h1>
         </div>
         <pointCard
@@ -50,9 +46,9 @@ export default {
     return {
       pointLog: {
         params: {
-          pagesize: 5
+          pagesize: 10
         },
-        apiUrl: 'userPoint',
+        apiUrl: 'mintLog',
         list: []
       },
       currentPage: Number(this.$route.query.pointsPage) || 1,
@@ -61,16 +57,15 @@ export default {
       assets: {
       },
       viewStatus: 0, // 0 1
-      amount: 0
+      balance: 0
     }
   },
   methods: {
     paginationData(res) {
-      // console.log(res)
-      this.pointLog.list = res.data.logs
+      this.pointLog.list = res.data.list || []
       this.assets = res.data
       this.total = res.data.count || 0
-      this.amount = res.data.amount || 0
+      this.balance = res.data.balance || 0
       this.loading = false
     },
     togglePage(i) {
@@ -88,18 +83,21 @@ export default {
 </script>
 
 <style lang="less">
+.card-container {
+  margin-bottom: 20px;
+}
 .point-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
-  padding: 20px 20px 20px 10px;
+  padding: 0 20px 20px 10px;
   border-bottom: 1px solid #DBDBDB;
   .title {
-    font-size: 16px;
-    font-weight: 400;
+    font-weight: bold;
+    font-size: 20px;
+    line-height:28px;
     color: #fff;
-    line-height: 28px;
   }
   .point-pricing {
     padding: 0;

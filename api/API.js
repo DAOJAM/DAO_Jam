@@ -463,19 +463,76 @@ export default {
   * @param {Object} data token资源
   * @param {Number} tokenId token id
   */
-minetokenResources(data, tokenId) {
+  minetokenResources(data, tokenId) {
     return request({
       method: 'PUT',
       url: `/minetoken/${tokenId}/resources`,
       data: data
     })
   },
-minetokenGetResources(tokenId) {
+  minetokenGetResources(tokenId) {
     return request({
       method: 'GET',
       url: `/minetoken/${tokenId}/resources`,
     })
   },
+  // 获取项目的live
+  minetokenGetLives(id, params) {
+    return request.get(`/minetoken/${id}/lives`, { params })
+  },
+  // 添加 live
+  minetokenCreateLives(id, data) {
+    return request.post(`/minetoken/${id}/lives`, data)
+  },
+  // 更新 live
+  minetokenUpdateLives(id, data) {
+    return request.put(`/minetoken/${id}/lives`, data)
+  },
+  // 删除
+  minetokenDeleteLives(id, data) {
+    return request.delete(`/minetoken/${id}/lives`, { data })
+  },
+  // 获取项目的new
+  minetokenGetNews(id, params) {
+    return request.get(`/minetoken/${id}/news`, { params })
+  },
+  // 添加 new
+  minetokenCreateNews(id, data) {
+    return request.post(`/minetoken/${id}/news`, data)
+  },
+  // 更新 new
+  minetokenUpdateNews(id, data) {
+    return request.put(`/minetoken/${id}/news`, data)
+  },
+  // 删除 new
+  minetokenDeleteNews(id, data) {
+    return request.delete(`/minetoken/${id}/news`, { data })
+  },
+  // ---------------------- 团队管理 start ----------------------
+  // 邀请队员
+  teamMemberInvite(id, data) { return request.post(`/minetoken/${id}/teamMemberInvite`, data) },
+  // 申请加入
+  teamMemberApply(id, data) { return request.post(`/minetoken/${id}/teamMemberApply`, data) },
+  // 同意加入 申请同意
+  teamMemberApplySuccess(id, data) { return request.post(`/minetoken/${id}/teamMemberApplySuccess`, data) },
+  // 同意邀请 邀请同意
+  teamMemberInviteSuccess(id, data) { return request.post(`/minetoken/${id}/teamMemberInviteSuccess`, data) },
+  // 删除队员
+  teamMemberRemove(id, data) { return request.delete(`/minetoken/${id}/teamMemberRemove`, { data }) },
+  // 获取所有队员
+  teamMember(id, params) { return request.get(`/minetoken/${id}/teamMember`, { params }) },
+  // 邀请列表（被邀请人的列表）
+  teamMemberInviteList() { return request.get(`/teamMemberInviteList`) },
+  // 邀请同意或删除（被邀请人的操作）
+  teamMemberInviteUser(data) { return request.post(`/teamMemberInviteUser`, data) },
+  // ---------------------- 团队管理 end ----------------------
+
+  // ---------------------- 任务 ----------------------
+  task(){ return request.get('/task') },
+  updateTask(data){ return request.post('/task', data) },
+  taskTeam(id){ return request.get(`/taskTeam/${id}`) },
+  // ---------------------- 团队管理 end ----------------------
+
   /**
    * 转移token
    * @param {*} data tokenId to amount
@@ -904,6 +961,9 @@ minetokenGetResources(tokenId) {
   accountChange(params) { return request.post('/account/changeMainAccount', params) },
   // 账号列表
   accountList() { return request.get('/account/list') },
+  getKycStatus(params) {
+    return request.get('/account/isVerified', params)
+  },
   // -------------------------------- 分享 --------------------------------
   // 创建分享
   createShare(data) { return request.post('/share', data) },
@@ -976,5 +1036,100 @@ minetokenGetResources(tokenId) {
         ids: JSON.stringify(ids)
       }
     })
+  },
+  mintVotes(address) {
+    return request({
+      method: 'POST',
+      url: '/daojam/voting/mint',
+      data: {
+        address
+      }
+    })
+  },
+  getCommentsOfProject(pid) {
+    return request({
+      method: 'GET',
+      url: `/minetoken/${pid}/comments`
+    })
+  },
+  addComment(pid, content) {
+    return request({
+      method: 'POST',
+      url: `/minetoken/${pid}/comment`,
+      data: { content }
+    })
+  },
+  deleteComment(cid) {
+    return request({
+      method: 'DELETE',
+      url: `/minetoken/comment/${cid}`,
+    })
+  },
+  balanceOf() {
+    return request({
+      method: 'GET',
+      url: '/daojam/voting/balance'
+    })
+  },
+  nearMint(name) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/mint',
+      data: {
+        name
+      }
+    })
+  },
+  createProposal(data) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/createProposal',
+      data
+    })
+  },
+  getVotingLog({ pid, pageindex = 1, pagesize = 10 }) {
+    return request({
+      method: 'GET',
+      url: '/daojam/near/votinglog',
+      params: {
+        pid,
+        pageindex,
+        pagesize
+      }
+    })
+  },
+  voteProposal({
+    id,
+    txHash,
+    blockHash
+  }) {
+    return request({
+      method: 'POST',
+      url: '/daojam/near/vote',
+      data: {
+        id,
+        txHash,
+        blockHash
+      }
+    })
+  },
+  // 订阅邮件
+  setEmailSubscriber(email) { return request.post('/email/subscriber/' + email) },
+  // 投票图表数据
+  chartsVote(id) { return request.get(`/minetoken/${id}/charts`) },
+  // 项目排行
+  rank(id) { return request.get(`/minetoken/${id}/rank`) },
+  // 项目图片
+  getMinetokenImages(id) { return request.get(`/minetoken/${id}/images`) },
+  postMinetokenImages(id, data) { return request.post(`/minetoken/${id}/images`, data) },
+  // 项目里程碑
+  gettMinetokenMilestones(id) { return request.get(`/minetoken/${id}/milestones`) },
+  postMinetokenMilestones(id, data) { return request.post(`/minetoken/${id}/milestones`, data) },
+  // 排行版
+  leaderboard() { return request.get(`/leaderboard`) },
+  votingRecord() { return request.get('/daojam/voting/record') },
+  mintLog() { return request.get('/daojam/voting/mint/log') },
+  todayVotes(userId) {
+    return request.get(`/user/${userId}/votes/today`)
   }
 }

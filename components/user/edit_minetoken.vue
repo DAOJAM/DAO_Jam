@@ -4,47 +4,14 @@
       <h2 class="tag-title">
         {{ isPost ? $t('user.issuecoins') : $t('user.editcoins') }}
       </h2>
-      <!-- <el-tooltip v-if="isPost" effect="dark" content="如何发行Fan票?" placement="top-start">
-        <svg-icon
-          class="help-icon"
-          icon-class="help"
-        />
-      </el-tooltip> -->
-
-      <a
-        class="help-link"
-        target="_blank"
-        href="https://www.matataki.io/p/977"
-      >什么是Fan票?</a>
-      &nbsp;
-      <a
-        class="help-link"
-        target="_blank"
-        href="https://www.matataki.io/p/980"
-      >如何发行Fan票?</a>
 
       <div
         v-if="!isPost"
         class="click-box"
       >
-        <router-link :to="{name: 'token-id', params: { id: tokenId || 0}}">
+        <router-link :to="{name: 'daos-id', params: { id: tokenId || 0}}">
           <el-button size="small">
-            详情
-          </el-button>
-        </router-link>
-        <el-button
-          :loading="addToLoading"
-          size="small"
-          @click="addCoins"
-        >
-          增发
-        </el-button>
-        <router-link :to="{name: 'exchange', hash: '#swap', query: { output: form.symbol }}">
-          <el-button
-            size="small"
-            type="primary"
-          >
-            交易
+            {{ $t('user.goToDetails') }}
           </el-button>
         </router-link>
       </div>
@@ -54,12 +21,14 @@
       ref="form"
       :rules="rules"
       :model="form"
-      class="input-form customize"
+      class="input-form"
       label-width="80px"
     >
       <el-form-item
+        v-if="isPost"
         label="名称"
         prop="name"
+        class="customize"
       >
         <el-input
           v-model="form.name"
@@ -69,8 +38,10 @@
       </el-form-item>
 
       <el-form-item
+        v-if="isPost"
         label="缩写"
         prop="symbol"
+        class="customize"
       >
         <el-input
           v-model="form.symbol"
@@ -82,6 +53,7 @@
       <el-form-item
         label="图标"
         prop="logo"
+        class="customize"
       >
         <el-input
           v-model="form.logo"
@@ -124,6 +96,7 @@
         v-if="isPost"
         label="发行数量"
         prop="number"
+        class="customize"
       >
         <el-input
           v-model="form.number"
@@ -133,8 +106,10 @@
       </el-form-item>
 
       <el-form-item
+        v-if="isPost"
         label="简介"
         prop="brief"
+        class="customize"
       >
         <el-input
           v-model="form.brief"
@@ -146,6 +121,7 @@
       <el-form-item
         label="介绍"
         prop=""
+        class="customize"
       >
         <el-input
           v-model="form.introduction"
@@ -161,6 +137,7 @@
       <el-form-item
         label="封面"
         prop=""
+        class="customize"
       >
         <div class="cover">
           <div
@@ -191,51 +168,28 @@
 
       <el-form-item
         label="项目REPO"
-        prop=""
+        prop="repo"
+        class="customize"
       >
         <el-input
-          v-model="repo"
+          v-model="form.repo"
           placeholder="项目REPO地址(Github)"
         />
       </el-form-item>
 
       <el-form-item
+        v-if="!isPost"
         label="项目成员"
         prop=""
+        class="project"
       >
-        <div>
-          <div class="project-people">
-            <div
-              v-for="item in 10"
-              :key="item"
-              class="project-people__block"
-            >
-              <cAvatar />
-              <p>xiaotianxiaotian</p>
-              <svg-icon
-                icon-class="close"
-                class="icon-close"
-                @click="removeProjectPeople(item)"
-              />
-            </div>
-          </div>
-          <el-button
-            class="project-btn"
-            type="primary"
-            size="small"
-            @click="addProjectPeopleDialog = true"
-          >
-            邀请队员
-          </el-button>
-          <p class="project-text">
-            队员加入48h后不能变动
-          </p>
-        </div>
+        <tokenTeam :token-id="tokenId" />
       </el-form-item>
 
       <el-form-item
         label="相关网站"
         prop=""
+        class="customize"
       >
         <div
           v-for="(item, index) in about"
@@ -272,6 +226,7 @@
       <el-form-item
         label="社交帐号"
         prop=""
+        class="customize"
       >
         <div
           v-for="(item, index) in social"
@@ -322,81 +277,12 @@
     </el-form>
 
     <template v-if="!isPost">
-      <div class="progress customize">
+      <div class="progress">
         <h2 class="progress-title">
           Project progress
         </h2>
-
-        <h3 class="progress-title">
-          Live
-        </h3>
-        <ul class="live-list">
-          <li
-            v-for="item in 10"
-            :key="item"
-          >
-            <a
-              href="https://www.douyu.com/room/share/288016"
-              target="_blank"
-            >LPL春季赛OMGvsRW - https://www.douyu.com/room/share/288016</a>
-            <svg-icon icon-class="close" />
-          </li>
-        </ul>
-
-        <div class="progress-input">
-          <el-input
-            v-model="liveName"
-            size="small"
-            placeholder="请输入直播昵称"
-            class="progress-name"
-          />
-          <el-input
-            v-model="liveAddress"
-            size="small"
-            placeholder="请输入直播地址"
-            class="progress-address"
-          />
-          <svg-icon
-            icon-class="add"
-            class="icon"
-          />
-        </div>
-
-        <h3 class="progress-title">
-          Progress
-        </h3>
-        <ul class="progress-list">
-          <li
-            v-for="item in 10"
-            :key="item"
-          >
-            LPL春季赛OMGvsRW
-            <svg-icon icon-class="close" />
-          </li>
-        </ul>
-
-        <div class="progress-input">
-          <el-input
-            v-model="dynamicTitle"
-            size="small"
-            placeholder="请输入动态标题"
-            class="progress-name"
-          />
-          <div>
-            <el-input
-              v-model="dynamicContent"
-              class="progress-address"
-              size="small"
-              type="textarea"
-              :rows="4"
-              placeholder="请输入动态内容"
-            />
-            <svg-icon
-              icon-class="add"
-              class="icon"
-            />
-          </div>
-        </div>
+        <userLive :token-id="tokenId" />
+        <userProgress :token-id="tokenId" />
       </div>
     </template>
     <imgUploads
@@ -406,12 +292,6 @@
       :view-height="imgUploadConfig.viewHeight"
       :aspect-ratio="imgUploadConfig.aspectRatio"
       @done="done"
-    />
-
-    <addProjectPeople 
-      v-model="addProjectPeopleDialog"
-      :article-id="Number(1)"
-      from="share"
     />
   </div>
 </template>
@@ -424,16 +304,17 @@ import { precision, toPrecision } from '@/utils/precisionConversion'
 import { getCookie } from '@/utils/cookie'
 import socialIcon from '@/components/social_icon/index.vue'
 import socialTypes from '@/config/social_types'
-import cAvatar from '@/common/components/avatar'
-import addProjectPeople from '@/components/add_project_people/index.vue'
-
+import userLive from '@/components/user/token_live.vue'
+import userProgress from '@/components/user/token_progress.vue'
+import tokenTeam from '@/components/user/token_team'
 export default {
   components: {
     imgUpload,
     imgUploads,
     socialIcon,
-    cAvatar,
-    addProjectPeople
+    userLive,
+    userProgress,
+    tokenTeam
   },
   data() {
     const checkSymbol = (rule, value, callback) => {
@@ -446,7 +327,7 @@ export default {
       }
     }
     return {
-      tokenId: null,
+      tokenId: -1,
       form: {
         name: '',
         symbol: '',
@@ -455,6 +336,7 @@ export default {
         brief: '',
         introduction: '',
         cover: '',
+        repo: '',
         agree: false
       },
       rules: {
@@ -479,6 +361,9 @@ export default {
         brief: [
           { required: true, message: '请输入简介', trigger: 'blur' },
           { min: 1, max: 100, message: '简介最多100字', trigger: ['blur', 'change'] }
+        ],
+        repo: [
+          { type: 'url', message: '请输入正确的地址', trigger: ['blur', 'change'] }
         ]
       },
       imgUploadDone: 0, // 图片是否上传完成
@@ -552,10 +437,6 @@ export default {
       ],
       tokenDetailData: {},
       addToLoading: false,
-      liveName: '', // live
-      liveAddress: '', // live
-      dynamicTitle: '', // 动态
-      dynamicContent: '', // 动态
       cover: '', // 封面
       imgUploadConfig: { // 图片上传配置
         open: 0,
@@ -564,8 +445,7 @@ export default {
         viewHeight: '240px',
         aspectRatio: 1 / 1
       },
-      repo: '',
-      addProjectPeopleDialog: false, // 添加队员
+      searchUserDialog: false, // 添加队员
     }
   },
   computed: {
@@ -611,25 +491,28 @@ export default {
               this.form.brief = token.brief
               this.form.introduction = token.introduction
               this.form.cover = token.cover
+              this.form.repo = token.repo
               this.tokenId = token.id
               this.tokenDetailData = res.data
 
               this.minetokenGetResources(token.id)
             }
           }
+          else this.$router.push({ name: 'tokens-apply' })
         } else {
-          this.$message.error(res.message)
+          // this.$message.error(res.message)
         }
       })
     },
     async minetokenTokenId(id) {
-      const { name, logo, brief, introduction, cover } = this.form
+      const { name, logo, brief, introduction, cover, repo } = this.form
       const data = {
         name: name,
         brief: brief,
         introduction,
         logo: logo,
         cover: cover,
+        repo: repo,
       }
       const res = await this.$API.minetokenTokenId(data, id)
       if (res.code === 0) return res.message
@@ -671,7 +554,7 @@ export default {
       else throw res.message
     },
     async minetokenCreate() {
-      const { name, symbol, logo, brief, introduction, number, cover } = this.form
+      const { name, symbol, logo, brief, introduction, number, cover, repo } = this.form
       const data = {
         name: name,
         symbol: symbol,
@@ -680,6 +563,7 @@ export default {
         introduction,
         logo: logo,
         cover: cover,
+        repo: repo,
         initialSupply: toPrecision(number, 'CNY') + '' // to string type
       }
       await this.$API.minetokenCreate(data)
@@ -801,7 +685,7 @@ export default {
           message: '已取消删除'
         })          
       })
-    }
+    },
   }
 }
 </script>
@@ -951,97 +835,6 @@ export default {
   font-size: 14px;
 }
 
-.progress {
-  margin-top: 40px;
-  padding: 0 10px;
-}
-.progress-title {
-  padding: 0;
-  margin: 0;
-  font-weight: bold;
-  color: #fff;
-  margin-top: 10px;
-}
-h2.progress.title {
-  font-size: 20px;
-}
-h3.progress.title {
-  font-size: 18px;
-}
-.live-list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  li {
-    margin: 10px 0 0 0;
-    color: #ffff;
-    a {
-      color: #fff;
-      text-decoration: underline;
-      font-size: 16px;
-      padding: 0;
-      margin: 0;
-      line-height: 22px;
-    }
-  }
-}
-// .live-input {
-//   display: flex;
-//   align-items: center;
-//   margin-top: 10px;
-//   .live-name {
-//     max-width: 200px;
-//   }
-//   .live-address {
-//     margin: 0 10px;
-//   }
-//   .icon {
-//     background: #542de0;
-//     color: #fff;
-//     font-size: 14px;
-//     padding: 5px 18px;
-//     border-radius: 0px;
-//     font-size: 22px;
-//     display: block;
-//     cursor: pointer;
-//   }
-// }
-
-.progress-list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  li {
-    margin: 10px 0 0 0;
-    color: #ffff;
-    font-size: 16px;
-    padding: 0;
-    line-height: 22px;
-  }
-}
-
-.progress-input {
-  margin-top: 10px;
-  .progress-name {
-    max-width: 500px;
-  }
-  .progress-address {
-    max-width: 500px;
-    margin-top: 10px;
-  }
-  .icon {
-    margin-top: 10px;
-    background: #542de0;
-    color: #fff;
-    font-size: 14px;
-    padding: 5px 18px;
-    border-radius: 0px;
-    font-size: 22px;
-    display: block;
-    cursor: pointer;
-  }
-}
-
 .cover {
   width: 440px;
   height: 124px;
@@ -1092,55 +885,15 @@ h3.progress.title {
     }
   }
 }
-
-.project-people {
-  &::after {
-    display: block;
-    content: "";
-    width: 0;
-    height: 0;
-    clear: both;
-  }
-  .project-people__block {
-    float: left;
-    margin: 0 20px 20px 0;
-    position: relative;
-    &:nth-last-child(1) {
-      margin-right: 0;
-    }
-
-    .components-avatar {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto;
-    }
-    p {
-      padding: 0;
-      margin: 10px 0 0 0;
-      color: #fff;
-      font-size: 16px;
-      text-align: center;
-      line-height: 22px;
-    }
-    .icon-close{
-      position: absolute;
-      right: 0;
-      top: 0;
-            color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  }
-}
-.project-btn {
-  margin: 20px 0;
-}
-.project-text {
+.progress-title {
   padding: 0;
   margin: 0;
+  font-weight: bold;
   color: #fff;
-  font-size: 14px;
-  line-height: 22px;
+  margin-top: 10px;
+}
+h2.progress.title {
+  font-size: 20px;
 }
 </style>
 
@@ -1182,6 +935,11 @@ h3.progress.title {
     }
 
     .el-checkbox {
+      color: #fff;
+    }
+  }
+  .project {
+    & > .el-form-item__label {
       color: #fff;
     }
   }

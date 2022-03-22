@@ -29,7 +29,7 @@
           <span class="title">{{ type === 'purchase' ? '交易记录' : '流动金记录' }}</span>
           <n-link
             v-if="currentId"
-            :to="{name: 'token-id', params: {id: currentId}}"
+            :to="{name: 'daos-id', params: {id: currentId}}"
             target="_blank"
             class="gray-btn btn"
           >
@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import TradeTable from './TradeTable'
 import LiquidityTable from './LiquidityTable'
 import avatar from '@/components/avatar/index.vue'
@@ -225,7 +224,7 @@ export default {
           ele.token_amount = this.$utils.fromDecimal(ele.token_amount)
         }
         if (!isNullExcept0(ele.create_time)) {
-          ele.create_time = moment(ele.create_time).utcOffset(480).format('YYYY.MM.DD HH:mm')
+          ele.create_time = this.$moment(ele.create_time).utcOffset(480).format('YYYY.MM.DD HH:mm')
         }
         if (!isNullExcept0(ele.liquidity)) {
           ele.liquidity = this.$utils.fromDecimal(ele.liquidity)

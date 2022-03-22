@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import zh from '../locale/zh'
+// import zh from '../locale/zh'
 import en from '../locale/en'
 
 
@@ -8,13 +8,14 @@ export default {
   //   { name: '中文简体', code: 'zh', file: zh },
   //   { name: 'English', code: 'en', file: en },
   // ],
-  locales: ['zh', 'en'],
+  locales: ['en'],
+  // locales: ['zh', 'en'],
   strategy: 'no_prefix',
-  defaultLocale: Cookies.get('language') || 'zh',
+  defaultLocale: Cookies.get('language') || 'en',
   vueI18n: {
-    fallbackLocale: 'zh',
+    fallbackLocale: 'en',
     messages: {
-      zh: zh,
+      // zh: zh,
       en: en
     }
   },
@@ -30,6 +31,6 @@ export default {
     // Set to always redirect to value stored in the cookie, not just once
     alwaysRedirect: false,
     // If no locale for the browsers locale is a match, use this one as a fallback
-    fallbackLocale: 'zh'
+    fallbackLocale: 'en'
   },
 }

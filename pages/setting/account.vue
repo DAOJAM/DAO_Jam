@@ -23,7 +23,7 @@
             />
             <span class="typename">{{ item.typename }}</span>
             <span class="username">{{ item.username }}</span>
-            <span class="close">取消绑定</span>
+            <span class="close">{{ $t('accountManagement.unbind') }}</span>
             <svg-icon
               icon-class="correct"
               class="correct"
@@ -43,7 +43,7 @@
             <span
               v-if="accountRadio === item.type"
               style="color: #fff;"
-            >主账号</span>
+            >{{ $t('accountManagement.mainAccount') }}</span>
             <span v-else>&nbsp;</span>
           </el-radio>
         </div>
@@ -79,66 +79,76 @@ export default {
     return {
       accountRadio: '',
       accountList: [
+        // {
+        //   type: 'email',
+        //   icon: 'email', // 随时可换 防止影响
+        //   typename: '邮箱',
+        //   username: '', // 最好后端混淆后返回
+        //   loading: false,
+        //   status: false,
+        //   is_main: 0,
+        //   disabled: false
+        // },
         {
-          type: 'email',
-          icon: 'email', // 随时可换 防止影响
-          typename: '邮箱',
+          type: 'near',
+          icon: 'near_icon_wht', // 随时可换 防止影响
+          typename: 'Near',
           username: '', // 最好后端混淆后返回
           loading: false,
           status: false,
           is_main: 0,
           disabled: false
         },
-        {
-          type: 'weixin',
-          icon: 'wechat', // 随时可换 防止影响
-          typename: '微信',
-          username: '', // 最好后端混淆后返回
-          loading: false,
-          status: false,
-          is_main: 0,
-          disabled: true
-        },
-        {
-          type: 'eth',
-          icon: 'eth', // 随时可换 防止影响
-          typename: 'ETH',
-          username: '', // 最好后端混淆后返回
-          loading: false,
-          status: false,
-          is_main: 0,
-          disabled: false
-        },
-        {
-          type: 'eos',
-          icon: 'eos', // 随时可换 防止影响
-          typename: 'EOS',
-          username: '', // 最好后端混淆后返回
-          loading: false,
-          status: false,
-          is_main: 0,
-          disabled: false
-        },
-        {
-          type: 'ont',
-          icon: 'ont', // 随时可换 防止影响
-          typename: 'ONT',
-          username: '', // 最好后端混淆后返回
-          loading: false,
-          status: false,
-          is_main: 0,
-          disabled: false
-        },
-        {
-          type: 'vnt',
-          icon: 'vnt', // 随时可换 防止影响
-          typename: 'VNT',
-          username: '', // 最好后端混淆后返回
-          loading: false,
-          status: false,
-          is_main: 0,
-          disabled: false
-        },
+        // {
+        //   type: 'weixin',
+        //   icon: 'wechat', // 随时可换 防止影响
+        //   typename: '微信',
+        //   username: '', // 最好后端混淆后返回
+        //   loading: false,
+        //   status: false,
+        //   is_main: 0,
+        //   disabled: true
+        // },
+        // {
+        //   type: 'eth',
+        //   icon: 'eth', // 随时可换 防止影响
+        //   typename: 'ETH',
+        //   username: '', // 最好后端混淆后返回
+        //   loading: false,
+        //   status: false,
+        //   is_main: 0,
+        //   disabled: false
+        // },
+        // {
+        //   type: 'eos',
+        //   icon: 'eos', // 随时可换 防止影响
+        //   typename: 'EOS',
+        //   username: '', // 最好后端混淆后返回
+        //   loading: false,
+        //   status: false,
+        //   is_main: 0,
+        //   disabled: false
+        // },
+        // {
+        //   type: 'ont',
+        //   icon: 'ont', // 随时可换 防止影响
+        //   typename: 'ONT',
+        //   username: '', // 最好后端混淆后返回
+        //   loading: false,
+        //   status: false,
+        //   is_main: 0,
+        //   disabled: false
+        // },
+        // {
+        //   type: 'vnt',
+        //   icon: 'vnt', // 随时可换 防止影响
+        //   typename: 'VNT',
+        //   username: '', // 最好后端混淆后返回
+        //   loading: false,
+        //   status: false,
+        //   is_main: 0,
+        //   disabled: false
+        // },
         {
           type: 'github',
           icon: 'github', // 随时可换 防止影响
@@ -149,16 +159,16 @@ export default {
           is_main: 0,
           disabled: false
         },
-        {
-          type: 'telegram',
-          icon: 'telegram', // 随时可换 防止影响
-          typename: 'Telegram',
-          username: '', // 最好后端混淆后返回
-          loading: false,
-          status: false,
-          is_main: 0,
-          disabled: false
-        },
+        // {
+        //   type: 'telegram',
+        //   icon: 'telegram', // 随时可换 防止影响
+        //   typename: 'Telegram',
+        //   username: '', // 最好后端混淆后返回
+        //   loading: false,
+        //   status: false,
+        //   is_main: 0,
+        //   disabled: false
+        // },
         // {
         //   type: 'twitter',
         //   icon: 'twitter', // 随时可换 防止影响
@@ -402,6 +412,8 @@ export default {
         })
       } else if (type === 'telegram') {
         this.$router.push({ name: 'login-telegram' })
+      } else if (type === 'near') {
+        this.$router.push({ name: 'login-near', query: { from: 'binding' } })
       } else this.$message.warning('PC端暂不支持绑定')
     },
     unbindFunc(type, typename, idx) {
@@ -555,6 +567,15 @@ export default {
     }
     .icon {
       font-size: 20px;
+    }
+  }
+  &.near {
+    background-color: #333333;
+    &:hover {
+      background-color: mix(#000, #333, 20%);
+    }
+    .icon {
+      font-size: 24px;
     }
   }
   &.eos {

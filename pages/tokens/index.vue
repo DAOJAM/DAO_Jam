@@ -3,53 +3,53 @@
     <template slot="main">
       <div class="tokens-main">
         <h2 class="tag-title">
-          {{ $t('user.buycoins') }}
+          My Vote Record
         </h2>
 
         <div
           v-loading="loading"
           class="card-container buycoins"
         >
-          <div class="line" />
-
           <el-table
             :data="pointLog.list"
             :expand-row-keys="expands"
             class="hide-expand-button"
             style="width: 100%"
             row-key="token_id"
+            :row-style="tableRowStyle"
+            :header-cell-style="tableHeaderColor"
             @sort-change="sortChange"
           >
             <el-table-column
               prop="total_supply"
-              label="Fan票"
+              label="Project"
             >
               <template slot-scope="scope">
                 <router-link
-                  :to="{name: 'token-id', params: {id: scope.row.token_id}}"
+                  :to="{name: 'daos-id', params: {id: scope.row.id}}"
                   class="fl ac"
                 >
                   <avatar
                     :src="cover(scope.row.logo)"
                     style="margin-right: 10px; min-width: 30px;"
                   />
-                  <span class="scope">{{ scope.row.symbol }}</span>
-                </router-link>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="total_supply"
-              label="名称"
-            >
-              <template slot-scope="scope">
-                <router-link :to="{name: 'token-id', params: {id: scope.row.token_id}}">
                   <span class="scope">{{ scope.row.name }}</span>
                 </router-link>
               </template>
             </el-table-column>
+            <!-- <el-table-column
+              prop="total_supply"
+              label="Project Name"
+            >
+              <template slot-scope="scope">
+                <router-link :to="{name: 'daos-id', params: {id: scope.row.token_id}}">
+                  <span class="scope">{{ scope.row.name }}</span>
+                </router-link>
+              </template>
+            </el-table-column> -->
             <el-table-column
-              prop="name"
-              label="创始人"
+              prop="owner"
+              label="Creator"
             >
               <template slot-scope="scope">
                 <n-link
@@ -57,67 +57,32 @@
                   class="invite-block author"
                 >
                   <!-- <avatar :src="cover(scope.row.avatar)" /> -->
-                  <span class="username">{{ scope.row.nickname || scope.row.username }}</span>
+                  <span class="username">{{ scope.row.owner }}</span>
                 </n-link>
               </template>
             </el-table-column>
 
             <el-table-column
-              :label="$t('user.positionCoins')"
-              prop="total_supply"
+              label="Votes"
+              prop="weight"
               sortable="custom"
+              width="100px"
             >
               <template slot-scope="scope">
-                <span class="scope">{{ tokenAmount(scope.row.amount, scope.row.decimals) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column type="expand">
-              <template slot-scope="scope">
-                <tokensDetail
-                  v-if="expands[0] === scope.row.token_id"
-                  :id="scope.row.token_id"
-                />
+                <span class="scope">{{ scope.row.weight }}</span>
               </template>
             </el-table-column>
             <el-table-column
               prop="create_time"
               label=""
-              width="220"
+              width="200"
             >
               <template slot-scope="scope">
                 <div class="invite-block btn">
-                  <!-- <router-link :to="{name: 'tokens-id', params: {id: scope.row.token_id}}"> -->
-                  <el-button
-                    type="text"
-                    class="info-button"
-                    size="small"
-                    @click="foldingClick(scope.row.token_id)"
+                  <a
+                    :href="'https://explorer.nearprotocol.com/transactions/' + scope.row.trx"
+                    target="_blank"
                   >
-                    <span
-                      v-if="expands[0] !== scope.row.token_id"
-                      class="expand-button"
-                    >
-                      展开明细
-                      <i class="el-icon-d-arrow-right i-spin-z90" />
-                    </span>
-                    <span
-                      v-else
-                      class="expand-button"
-                    >
-                      收起明细
-                      <i class="el-icon-d-arrow-right i-spin-f90" />
-                    </span>
-                  </el-button>
-                  <!-- </router-link> -->
-                  <el-button
-                    class="info-button"
-                    style="margin: 0 10px;"
-                    size="small"
-                    @click="showGift(scope.row.symbol, scope.row.token_id, tokenAmount(scope.row.amount, scope.row.decimals), scope.row.decimals )"
-                  >
-                    {{ $t('gift') }}
-                  </el-button>
-                  <router-link :to="{name: 'exchange', hash: '#swap', query: { output: scope.row.symbol }}">
                     <el-button
                       type="primary"
                       class="info-button"
@@ -125,7 +90,7 @@
                     >
                       {{ $t('transaction') }}
                     </el-button>
-                  </router-link>
+                  </a>
                 </div>
               </template>
             </el-table-column>
@@ -274,8 +239,6 @@
           </el-form>
         </m-dialog>
       </div>
-      <!-- 流动金 -->
-      <holdliquidity />
     </template>
     <template slot="nav">
       <myAccountNav />
@@ -284,7 +247,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import debounce from 'lodash/debounce'
 import userPagination from '@/components/user/user_pagination.vue'
 import { xssFilter } from '@/utils/xss'
@@ -292,16 +254,12 @@ import avatar from '@/common/components/avatar'
 import userLayout from '@/components/user/user_layout.vue'
 import myAccountNav from '@/components/my_account/my_account_nav.vue'
 import { precision, toPrecision } from '@/utils/precisionConversion'
-import holdliquidity from '@/components/holdliquidity/index.vue'
-import tokensDetail from '@/components/tokens_detail/index.vue'
 
 export default {
   components: {
     userLayout,
     myAccountNav,
     userPagination,
-    holdliquidity,
-    tokensDetail,
     avatar
   },
   data() {
@@ -325,7 +283,7 @@ export default {
           pagesize: 10,
           order: 0
         },
-        apiUrl: 'tokenTokenList',
+        apiUrl: 'votingRecord',
         list: []
       },
       currentPage: Number(this.$route.query.tokensPage) || 1,
@@ -357,7 +315,10 @@ export default {
       expands: [],
       searchUserList: [], // 搜索结果
       toUserInfo: null, // 转让的对象
-      historyUser: [] // 历史转让用户
+      historyUser: [], // 历史转让用户
+      // 表的背景色
+      tableRowStyle: 'background-color: #132D5E',
+      tableHeaderColor: 'background-color: #132D5E; color: #fff; font-weight: 500;'
     }
   },
   computed: {
@@ -379,7 +340,7 @@ export default {
   },
   methods: {
     createTime(time) {
-      return moment(time).format('MMMDo HH:mm')
+      return this.$moment(time).format('MMMDo HH:mm')
     },
     cover(cover) {
       return cover ? this.$ossProcess(cover) : ''
@@ -579,7 +540,7 @@ export default {
 .username {
   // margin-left: 10px;
   font-size: 16px;
-  color:#333;
+  color: white;
   flex: 1;
   overflow: hidden;
   text-overflow:ellipsis;
@@ -587,7 +548,7 @@ export default {
 }
 .scope {
   font-size: 16px;
-  color:#333;
+  color: white;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -632,6 +593,7 @@ export default {
 }
 .expand-button {
   font-size: 14px;
+  color: white;
   .i-spin {
     &-z90 {
           transform: rotate(90deg)
@@ -769,9 +731,17 @@ export default {
   }
   .el-table__expanded-cell {
     padding: 0;
-    background-color: #F1F1F1;
+    background-color: #1C4085;
     &:hover {
-      background-color: #F1F1F1!important;
+      background-color: #1C4085!important;
+    }
+  }
+  .el-table__row {
+    background-color: #132D5E!important;
+  }
+  .el-table__row:hover {
+    td {
+      background-color: #1c448f !important;
     }
   }
 }

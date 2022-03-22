@@ -1,172 +1,219 @@
 <template>
-  <header class="header">
-    <div class="header-content">
-      <a
-        href="/"
-        class="logo-link"
-      >
-        <img
-          class="logo"
-          src="@/assets/img/daojam_logo.png"
-          alt="logo"
+  <div>
+    <header class="header">
+      <div class="header-content">
+        <a
+          href="/"
+          class="logo-link"
         >
-      </a>
+          <img
+            class="logo"
+            src="@/assets/img/daojam_logo.png"
+            alt="logo"
+          >
+        </a>
 
-      <svg-icon
-        icon-class="menu"
-        class="menu-icon"
-        @click.stop="showSidebar"
-      />
-
-      <div class="header-right">
-        <ul>
-          <li>
-            <n-link :to="{name: 'index'}">
-              HOME
-            </n-link>
-          </li>
-          <li>
-            <n-link :to="{name: 'daos'}">
-              DAOs
-            </n-link>
-          </li>
-          <li>
-            <n-link :to="{name: 'article'}">
-              STAT
-            </n-link>
-          </li>          
-        </ul>
+        <svg-icon
+          v-if="isLevelOnePage"
+          icon-class="menu"
+          class="menu-icon"
+          @click.stop="showSidebar"
+        />
         <div
-          class="notification"
-          @click="viewNotification"
+          v-else
+          class="menu-icon"
+          @click.stop="$router.go(-1)"
         >
-          <el-tooltip
-            effect="dark"
-            content="通知中心"
-            placement="bottom"
+          <i class="el-icon-arrow-left" />
+        </div>
+
+        <div class="header-right">
+          <ul class="header-tag">
+            <li>
+              <n-link :to="{name: 'daos'}">
+                PROJECTS
+              </n-link>
+            </li>
+            <li>
+              <n-link :to="{name: 'leaderboard'}">
+                LEADERBOARD
+              </n-link>
+            </li>
+            <li>
+              <n-link :to="{name: 'tasks'}">
+                PRIZES
+              </n-link>
+            </li>
+          </ul>
+          <!-- <div
+            v-if="isLogined"
+            class="daos"
           >
             <svg-icon
-              :class="{ badge: hasNewNotification }"
               class="icon"
-              icon-class="bell"
+              icon-class="daos"
             />
-          </el-tooltip>
-        </div>
-        <div
-          v-if="isLogined"
-          class="daos"
-        >
-          <svg-icon
-            class="icon"
-            icon-class="daos"
-          />
-          0
-        </div>
-        <a
-          v-if="!isLogined"
-          href="javascript:;"
-          class="sign-btn"
-          @click="login"
-        >{{ $t('home.signIn') }}</a>
-        <el-dropdown
-          v-else
-          class="user-menu"
-        >
-          <avatar :src="avatarSrc" />
-          <el-dropdown-menu
-            slot="dropdown"
-            class="user-dorpdown"
+            0
+          </div> -->
+          <votingDropdownMenu class="daos-margin" />
+          <a
+            v-if="!isLogined"
+            href="javascript:;"
+            class="sign-btn"
+            @click="login"
+          >{{ $t('home.signIn') }}</a>
+          <el-dropdown
+            v-else
+            class="user-menu"
+            :class="{ badge: hasNewNotification }"
           >
-            <n-link
-              :to="{name: 'user-id', params:{id: currentUserInfo.id}}"
-              class="link"
+            <avatar :src="avatarSrc" />
+            <el-dropdown-menu
+              slot="dropdown"
+              class="user-dorpdown"
             >
-              <el-dropdown-item>
-                {{ currentUserInfo.nickname || currentUserInfo.name }}
-              </el-dropdown-item>
-            </n-link>
-            <n-link
-              :to="{name: 'setting', params:{id: currentUserInfo.id}}"
-              class="link"
-            >
-              <el-dropdown-item>
-                <svg-icon
-                  class="icon"
-                  icon-class="setting"
-                />
-                Setting
-              </el-dropdown-item>
-            </n-link>
+              <!-- 个人主页 -->
+              <n-link
+                :to="{name: 'user-id', params:{id: currentUserInfo.id}}"
+                class="link"
+              >
+                <el-dropdown-item>
+                  {{ currentUserInfo.nickname || currentUserInfo.name }}
+                </el-dropdown-item>
+              </n-link>
+
+              <el-divider class="divider" />
+
+              <!-- 我的项目 -->
+              <n-link
+                v-if="token.id"
+                :to="{name: 'daos-id', params:{ id: token.id }}"
+                class="link"
+              >
+                <el-dropdown-item>
+                  <avatar
+                    class="project-logo"
+                    :src="logoSrc"
+                  />
+                  {{ token.name }}
+                </el-dropdown-item>
+              </n-link>
+
+              <!-- 通知中心 -->
+              <n-link
+                to="/notification"
+                class="link"
+              >
+                <el-dropdown-item>
+                  <div
+                    class="icon-container"
+                    :class="{ badge: hasNewNotification }"
+                  >
+                    <svg-icon
+                      class="icon"
+                      icon-class="bell"
+                    />
+                  </div>
+                  Notification
+                </el-dropdown-item>
+              </n-link>
+
+              <!-- 设置 -->
+              <n-link
+                :to="{name: 'setting', params:{id: currentUserInfo.id}}"
+                class="link"
+              >
+                <el-dropdown-item>
+                  <svg-icon
+                    class="icon"
+                    icon-class="setting"
+                  />
+                  Setting
+                </el-dropdown-item>
+              </n-link>
+
+              <!-- 退出登录 -->
+              <div
+                class="link"
+                @click="signOut"
+              >
+                <el-dropdown-item>
+                  <svg-icon
+                    class="icon"
+                    icon-class="signout"
+                  />
+                  {{ $t('home.signOut') }}
+                </el-dropdown-item>
+              </div>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </div>
+
+      <div
+        class="header-sidebar"
+        :class="toggle && 'open'"
+      >
+        <div
+          class="header-sidebar__full"
+          @click.stop="toggle = false"
+        />
+        <div class="header-sidebar__content">
+          <avatar
+            class="user-avatar"
+            :src="avatarSrc"
+          />
+          <p class="user-name">
+            {{ currentUserInfo.nickname || currentUserInfo.name }}
+          </p>
+
+          <ul>
+            <li>
+              <svg-icon
+                icon-class="user"
+                class="icon"
+              />
+              <n-link :to="{name: 'user-id', params:{id: currentUserInfo.id}}">
+                我的主页
+              </n-link>
+            </li>
+            <!-- 我的项目 -->
+            <li v-if="token.id">
+              <avatar
+                class="project-logo"
+                :src="logoSrc"
+              />
+              <n-link :to="{name: 'daos-id', params:{ id: token.id }}">
+                {{ token.name }}
+              </n-link>
+            </li>
+            <li>
+              <svg-icon
+                icon-class="home"
+                class="icon"
+              />
+              <n-link :to="{name: 'setting', params:{id: currentUserInfo.id}}">
+                {{ $t('home.account') }}
+              </n-link>
+            </li>
+          </ul>
+
+          <div class="user-footer">
             <div
-              class="link"
+              class="user-footer__block"
               @click="signOut"
             >
-              <el-dropdown-item>
-                <svg-icon
-                  class="icon"
-                  icon-class="signout"
-                />
-                {{ $t('home.signOut') }}
-              </el-dropdown-item>
+              <svg-icon
+                icon-class="logout"
+                class="logout-icon"
+              />
+              {{ isLogined ? $t('home.signOut') : $t('home.signIn') }}
             </div>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-    </div>
-
-    <div
-      class="header-sidebar"
-      :class="toggle && 'open'"
-    >
-      <div
-        class="header-sidebar__full"
-        @click.stop="toggle = false"
-      />
-      <div class="header-sidebar__content">
-        <avatar
-          class="user-avatar"
-          :src="avatarSrc"
-        />
-        <p class="user-name">
-          {{ currentUserInfo.nickname || currentUserInfo.name }}
-        </p>
-
-        <ul>
-          <li>
-            <svg-icon
-              icon-class="user"
-              class="icon"
-            />
-            <n-link :to="{name: 'user-id', params:{id: currentUserInfo.id}}">
-              我的主页
-            </n-link>
-          </li>
-          <li>
-            <svg-icon
-              icon-class="home"
-              class="icon"
-            />
-            <n-link :to="{name: 'setting', params:{id: currentUserInfo.id}}">
-              {{ $t('home.account') }}
-            </n-link>
-          </li>
-        </ul>
-
-        <div class="user-footer">
-          <div
-            class="user-footer__block"
-            @click="signOut"
-          >
-            <svg-icon
-              icon-class="logout"
-              class="logout-icon"
-            />
-            {{ isLogined ? $t('home.signOut') : $t('home.signIn') }}
           </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
+  </div>
 </template>
 
 <script>
@@ -176,29 +223,55 @@ import throttle from 'lodash/throttle'
 import { removeCookie } from '@/utils/cookie'
 import store from '@/utils/store.js'
 import avatar from '@/common/components/avatar/index.vue'
+import votingDropdownMenu from '@/components/voting_dropdown_menu/index.vue'
 export default {
   components: {
-    avatar
+    avatar,
+    votingDropdownMenu
   },
   data() {
     return {
       avatarSrc: '',
       toggle: false,
-      scrollEvent: null
+      scrollEvent: null,
+      levelOnePage: [
+        'index',
+        'daos',
+        'leaderboard',
+        'tasks',
+      ],
+      token: {
+        id: null,
+        name: null,
+        logo: null
+      }
     }
   },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined', 'isMe']),
     ...mapGetters('notification', ['hasNewNotification']),
+
+    isLevelOnePage() {
+      return  this.levelOnePage.includes(this.$route.name)
+    },
+    logoSrc() {
+      return this.token.logo ? this.$ossProcess(this.token.logo) : ''
+    }
   },
   watch: {
     isLogined(newState) {
-      if (newState) this.refreshUser()
+      if (newState) {
+        this.refreshUser()
+        this.tokenDetail()
+      }
     },
   },
   created() {
-    const { isLogined, refreshUser } = this
-    if (isLogined) refreshUser()
+    const { isLogined, refreshUser, tokenDetail } = this
+    if (isLogined) {
+      refreshUser()
+      tokenDetail()
+    }
     if (process.browser) {
       this.$nextTick(() => {
         this.setHeader()
@@ -211,25 +284,37 @@ export default {
     window.removeEventListener('scroll', this.scrollEvent)
   },
   methods: {
-    ...mapActions(['getCurrentUser', 'resetAllStore']),
+    ...mapActions(['getCurrentUser', 'resetAllStore', ]),
+    ...mapActions('notification', ['getNotificationCounters']),
     setHeader() {
       try {
         let domHeader = document.querySelector('.header')
         let scrollTop = document.body.scrollTop || document.documentElement.scrollTop
 
-        console.log('scrollTop', scrollTop)
         if (scrollTop > 20) {
           domHeader.style.backgroundColor = 'rgba(98,54,255,0.1)'
         } else {
           domHeader.style.backgroundColor = '#372BA1'
         }
       } catch (error) {
-        console.log(error) 
+        console.log(error)
       }
     },
     async refreshUser() {
       const { avatar } = await this.getCurrentUser()
       if (avatar) this.avatarSrc = this.$ossProcess(avatar, { h: 60 })
+      this.getNotificationCounters()
+      this.checkIsVerified()
+    },
+    // 获取用户创建的项目
+    tokenDetail() {
+      this.$API.tokenDetail().then(res => {
+        if (res.code === 0) {
+          if(res.data.token) this.token = res.data.token
+        } else {
+          // this.$message.error(res.message)
+        }
+      })
     },
     // 显示侧边栏
     showSidebar () {
@@ -262,17 +347,18 @@ export default {
         // 重置all store
         this.resetAllStore()
           .then(() => {
+            window.walletConnection.signOut()
             removeCookie('ACCESS_TOKEN')
             removeCookie('idProvider')
             removeCookie('referral')
             store.clear()
             sessionStorage.clear()
 
-            if (this.$route.name === 'article') {
+            if (this.$route.name === 'index') {
               this.$router.go(0)
             } else {
               this.$router.replace({
-                name: 'article'
+                name: 'index'
               })
             }
 
@@ -292,6 +378,28 @@ export default {
         this.$router.push('/notification')
       } else {
         this.$store.commit('setLoginModal', true)
+      }
+    },
+    async checkIsVerified() {
+      const { data } = await this.$API.getKycStatus()
+      console.info('kyc ', data)
+      if (!data.verified) {
+        // 提示用户去绑定 Email 和 GitHub 实现用户认证
+        this.$notify.closeAll() // 先清理掉其他 Notification
+        const h = this.$createElement
+        this.$notify({
+          title: this.$t('kyc.notificationPop.title'),
+          type: 'info',
+          dangerouslyUseHTMLString: true,
+          message: h('p', null, [
+            h('p',  null, this.$t('kyc.notificationPop.message')),
+            h('el-button', {
+              props: {size: 'small', type: 'primary'},
+              on: { click: () => { this.$router.push('/setting') }}
+            }, this.$t('kyc.notificationPop.buttonText')),
+          ]),
+          duration: 0
+        })
       }
     }
   }
@@ -314,7 +422,6 @@ export default {
   background: rgba(98,54,255,0.1);
   transition: all .3s;
   -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
 
   overflow: hidden;
 
@@ -348,6 +455,7 @@ export default {
     justify-content: space-between;
     box-sizing: border-box;
     margin: 0 auto;
+    backdrop-filter: blur(10px);
   }
 
   &-right {
@@ -393,6 +501,7 @@ export default {
         right: 0%;
         margin-right: -3px;
         margin-top: -3px;
+        top: 0;
       }
     }
 
@@ -411,6 +520,7 @@ export default {
   }
 
   .sign-btn {
+    margin: 0 0 0 40px;
     padding: 0 20px;
     height:36px;
     background:rgba(98,54,255,1);
@@ -526,9 +636,41 @@ export default {
     cursor: pointer;
   }
 }
-@media screen and (max-width: 520px) {
+.daos-margin {
+  margin: 0 40px;
+}
+.project-logo {
+  width: 23px;
+  height: 23px;
+  border-radius: 8px;
+  margin-right: 5px;
+  margin-left: -7px;
+}
+
+.divider {
+  margin: 5px auto 10px;
+  width: 80%;
+  background-color: #979797;
+}
+
+@media screen and (max-width: 830px) {
+  .header-bg {
+    height: 50px;
+  }
+
+  .header {
+    height: 50px;
+    padding: 0;
+  }
+
   .user-menu,
   .logo-link {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .header-tag {
     display: none;
     opacity: 0;
     visibility: hidden;
@@ -542,7 +684,7 @@ export default {
   .header-right ul li:nth-last-child(1) {
     margin-right: 0;
   }
-  .header-right .notification {
+  .header-right {
     margin-right: 0;
   }
   .menu-icon {
@@ -550,9 +692,12 @@ export default {
     visibility: initial;
     opacity: 1;
   }
+  .daos-margin{
+    margin: 0;
+  }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 990px) {
   .header .logo {
     height: 24px;
   }
@@ -585,6 +730,25 @@ export default {
     &:active {
       background-color: #3f3f3f !important;
       color: #fff !important;
+    }
+
+    .icon-container {
+      &.badge{
+        position: relative;
+        &::after{
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          background: rgba(251,104,119,1);
+          position: absolute;
+          z-index: 1000;
+          right: 0%;
+          margin-right: 2px;
+          margin-top: 2px;
+          top: 0;
+        }
+      }
     }
   }
 }

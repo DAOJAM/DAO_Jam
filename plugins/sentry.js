@@ -4,7 +4,7 @@ import * as Integrations from '@sentry/integrations'
 
 if (process.env.NODE === 'production') {
   Sentry.init({
-    dsn: 'https://c1b6310e663048cc884651886a24a0d8@sentry.io/1885390',
+    dsn: 'https://7029dd70a8c4479894f4eab180ddf976@o327345.ingest.sentry.io/5202355',
     integrations: [new Integrations.Vue({ Vue, attachProps: true })]
   })
 }

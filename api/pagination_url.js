@@ -78,5 +78,28 @@ export const paginationUrl = {
   // 分享列表
   share: 'share',
   // dao jam 某个用户的token list
-  'daothonTokenlist': '/_daothon_/tokenlist'
+  'daothonTokenlist': '/_daothon_/tokenlist',
+  // token lives
+  'minetokenLives': '/minetoken/:id/lives',
+  // token news
+  'minetokenNews': '/minetoken/:id/news',
+  // 项目列表
+  projectAll: '/daojam/project',
+  // 星标项目列表
+  projectStars: '/daojam/project/stars',
+  // 支持项目列表
+  projectSupport: '/daojam/project/support',
+  // 支持者
+  supporters: '/minetoken/:id/supporters',
+  // 投票记录
+  votes: '/minetoken/:id/votes',
+  // 用户投票记录
+  userVotes: '/user/:id/votes',
+  // 获取用户加入的项目列表
+  joinedTeamList: '/user/:id/teams',
+  votingRecord: '/daojam/voting/record',
+  mintLog: '/daojam/voting/mint/log',
+  // 排行榜
+  leaderboard: '/leaderboard',
+  leaderboardUserVotes: '/leaderboard/userVotes',
 }

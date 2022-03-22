@@ -3,6 +3,7 @@ import moment from 'moment'
 /* eslint-disable no-undef */
 // 是 N 天前
 export const isNDaysAgo = (n, time) => {
+  moment.locale('en')
   const nowTime = moment()
     .subtract(n, 'days')
     .format('YYYY-MM-DD')

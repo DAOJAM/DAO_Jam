@@ -1,6 +1,9 @@
 <template>
   <div>
-    <router-link :to="{name: 'token-id', params: {id: card.id}}">
+    <n-link
+      :to="{name: 'daos-id', params: {id: card.id}}"
+      target="_blank"
+    >
       <div class="dao-block">
         <div class="dao-block__cover">
           <img
@@ -14,18 +17,27 @@
             <div class="dao-block__head__info">
               <div class="fl ac jsb">
                 <h3>{{ card.symbol || '&nbsp;' }}({{ card.name || '&nbsp;' }})</h3>
-                <template>
-                  <svg-icon
-                    v-if="card.pentagram"
-                    class="icon-pentagram"
-                    icon-class="pentagram_active"
-                  />
-                  <svg-icon
-                    v-else
-                    class="icon-pentagram"
-                    icon-class="pentagram"
-                  />
-                </template>
+                <el-tooltip
+                  class="pentagram"
+                  effect="dark"
+                  :content="card.pentagram ? 'Unstar' : 'Star'"
+                  placement="top"
+                >
+                  <a href="javascript:;">
+                    <span @click="setBookmark">
+                      <svg-icon
+                        v-if="card.pentagram"
+                        class="icon-pentagram"
+                        icon-class="pentagram_active"
+                      />
+                      <svg-icon
+                        v-else
+                        class="icon-pentagram"
+                        icon-class="pentagram"
+                      />
+                    </span>
+                  </a>
+                </el-tooltip>
               </div>
               <div class="dao-block__info__number dao-number__one">
                 <div class="dao__info__number__block">
@@ -33,7 +45,7 @@
                     icon-class="members"
                     class="icon"
                   />
-                  {{ card.member || 0 }}
+                  {{ card.members || 0 }}
                 </div>
                 <div class="dao__info__number__block">
                   <svg-icon
@@ -76,16 +88,17 @@
             </div>
           </div>
           <div class="dao-block__brief">
-            {{ card.brief || '暂无' }}
+            {{ card.brief || 'Nothing' }}
           </div>
         </div>
       </div>
-    </router-link>
+    </n-link>
   </div>
 </template>
 
 <script>
 import avatar from '@/common/components/avatar/index.vue'
+import { mapGetters } from 'vuex'
 import { precision } from '@/utils/precisionConversion'
 
 export default {
@@ -97,6 +110,9 @@ export default {
       type: Object,
       required: true
     }
+  },
+  computed: {
+    ...mapGetters(['isLogined'])
   },
   methods: {
     // 转换k
@@ -114,6 +130,34 @@ export default {
       if (!src) return ''
       return src ? this.$ossProcess(src) : ''
     },
+    async setBookmark() {
+      if(!this.isLogined) return this.$store.commit('setLoginModal', true)
+      try {
+        if (!this.card.pentagram) {
+          const res = await this.$API.addTokenBookmark(this.card.id)
+          if (res.code === 0) {
+            this.$message.success('添加星标')
+            this.$set(this.card, 'pentagram', true)
+            this.$emit('switchStar', true)
+          }
+          else this.$message.error(res.message)
+        } else {
+          const res2 = await this.$API.unTokenbookmark(this.card.id)
+          if (res2.code === 0) {
+            this.$set(this.card, 'pentagram', false)
+            this.$message.success('取消星标')
+            this.$emit('switchStar', false)
+          }
+          else this.$message.error(res2.message)
+        }
+      } catch (err) {
+        console.error('ToggleBookmark err', err)
+        this.$message.error('无法修改星标状态')
+        if (err.response.status === 401) {
+          this.$store.commit('setLoginModal', true)
+        }
+      }
+    }
   }
 }
 </script>

@@ -6,7 +6,7 @@
         <div class="user-avatar">
           <avatar :src="userAvatar" />
           <h1>{{ userInfo.nickname || userInfo.username || '&nbsp;' }}</h1>
-          <el-tooltip
+          <!-- <el-tooltip
             effect="dark"
             content="专业评委"
             placement="bottom"
@@ -17,37 +17,28 @@
                 class="icon-judge"
               />
             </div>
-          </el-tooltip>
+          </el-tooltip> -->
         </div>
         <div class="user-edit">
-          <a
-            v-if="userAddress"
-            :href="'http://rinkeby.etherscan.io/address/' + userAddress"
-            target="_blank"
+          <el-button
+            icon="el-icon-share"
+            round
+            @click="shareModalShow = true"
           >
-            <el-button size="small">
-              <svg-icon icon-class="eth_mini" />
-              链上查看
-            </el-button>
-          </a>
+            {{ $t('share') }}
+          </el-button>
           <followBtn
             v-if="!isMe(Number($route.params.id))"
             :id="Number($route.params.id)"
           />
-          <router-link
-            v-else
-            :to="{name: 'setting'}"
-          >
-            <el-button size="small">
-              {{ $t('user.editProfile') }}
-            </el-button>
-          </router-link>
           <el-button
-            size="small"
-            @click="shareModalShow = true"
+            v-else
+            type="primary"
+            icon="el-icon-s-tools"
+            round
+            @click="$router.push({name: 'setting'})"
           >
-            <svg-icon icon-class="share_new" />
-            {{ $t('share') }}
+            {{ $t('user.editProfile') }}
           </el-button>
         </div>
       </div>
@@ -57,36 +48,41 @@
         <n-link
           :to="{name: 'user-id', params: { id: $route.params.id }}"
           :class="$route.name === 'user-id' && 'active'"
+          replace
         >
           Information
         </n-link>
         <n-link
           :to="{name: 'user-id-relationship', params: { id: $route.params.id }}"
           :class="$route.name === 'user-id-relationship' && 'active'"
+          replace
         >
           Relationship
         </n-link>
         <n-link
           :to="{name: 'user-id-dao', params: { id: $route.params.id }}"
           :class="$route.name === 'user-id-dao' && 'active'"
+          replace
         >
-          DAO
+          Projects
         </n-link>
         <n-link
-          :to="{name: 'user-id-capital', params: { id: $route.params.id }}"
-          :class="$route.name === 'user-id-capital' && 'active'"
+          :to="{name: 'user-id-vote', params: { id: $route.params.id }}"
+          :class="$route.name === 'user-id-vote' && 'active'"
         >
-          CAPITAL
+          Voted
         </n-link>
       </nav>
       <router-view />
 
-      <Share
-        :share-modal-show="shareModalShow"
-        :minetoken-user="{nickname: userInfo.name}"
-        :page-type="1"
-        :img="userInfo.avatar"
-        @input="val => shareModalShow = val"
+      <share
+        v-model="shareModalShow"
+        :social-img="userInfo.avata"
+        :social-title="socialTitle"
+        :social-link="socialLink"
+        social-summary="Support quality projects"
+        :copy-link="socialTitle"
+        :social-wechat="socialLink"
       />
     </main>
   </div>
@@ -97,23 +93,34 @@
 import { mapGetters } from 'vuex'
 import avatar from '@/common/components/avatar/index.vue'
 import followBtn from '@/components/follow_btn'
-import Share from '@/components/token/token_share.vue'
+import share from '@/components/share'
 
 export default {
   components: {
     avatar,
     followBtn,
-    Share
+    share
   },
   data() {
     return {
       shareModalShow: false, // share dialog
-      userAddress: '', // user address
       userInfo: Object.create(null) // 用户信息
     }
   },
   computed: {
     ...mapGetters(['isMe', 'currentUserInfo']),
+    socialTitle() {
+      if (process.browser) {
+        return `${this.userInfo && (this.userInfo.nickname || this.userInfo.username) }'s personal homepage \n${window.location.href}`
+      }
+      return `${this.userInfo && (this.userInfo.nickname || this.userInfo.username) }'s personal homepage`
+    },
+    socialLink() {
+      if (process.browser) {
+        return window.location.href
+      }
+      return process.env.VUE_APP_URL
+    },
     userAvatar() {
       if (this.userInfo.avatar) {
         return this.$ossProcess(this.userInfo.avatar, { h: 200 })
@@ -149,11 +156,6 @@ export default {
       // get user info
       const userInfo = await factory(this.$API.getUser(this.$route.params.id))
       this.userInfo = userInfo || Object.create(null)
-
-      // 获取自己的address
-      this.userAddress = await factory(this.$API.userAddress({
-        uid: this.currentUserInfo.id
-      }))
     },
   }
 }
@@ -161,8 +163,7 @@ export default {
 
 <style lang="less" scoped>
 .user {
-  padding: 60px 0 0 0;
-  min-height: calc(100% - (60px + 200px));
+  min-height: calc(100% - 120px);
   background-color: #0e2144;
 }
 
@@ -176,7 +177,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 60px;
+  padding-top: 90px;
 }
 .user-avatar {
   display: flex;
@@ -238,6 +239,21 @@ export default {
     &:nth-child(1) {
       margin-left: 0;
     }
+  }
+}
+@media screen and (max-width: 830px) {
+  .user-nav {
+    justify-content: space-around;
+    a {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+  .user-head {
+    display: block;
+  }
+  .user-edit {
+    margin-top: 20px;
   }
 }
 </style>

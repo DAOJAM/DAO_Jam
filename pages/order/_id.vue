@@ -120,7 +120,6 @@
 <script>
 /* eslint-disable */
 import { mapGetters } from 'vuex'
-import moment from 'moment'
 import QRCode from '@/components/exchange/Qrcode'
 import utils from '@/utils/utils'
 import store from '@/utils/store.js'
@@ -164,7 +163,7 @@ export default {
         return `购买文章${this.articleId}`
       } else {
         const type = this.order.items ? this.order.items.orderTokenItem.type : null
-        return typeOptions[type] || '暂无'
+        return typeOptions[type] || 'Nothing'
       }
     },
     cnyAmount() {
@@ -173,7 +172,7 @@ export default {
       } else return 0
     },
     friendlyTime() {
-      return moment(this.order.create_time).format('YYYY-MM-DD HH:mm:ss')
+      return this.$moment(this.order.create_time).format('YYYY-MM-DD HH:mm:ss')
     },
     // 是否是微信账户
     isWeixinAccount() {

@@ -34,7 +34,7 @@ export default {
   name: 'NewFanNotification',
   components: { NotificationSource, NotificationTime },
   props: {
-    avatar: { type: String },
+    avatar: { type: String, default: '' },
     source: { type: Number, required: true },
     timestamp: { type: Number, required: true },
     message: { type: String, required: true },

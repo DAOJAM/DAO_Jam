@@ -78,7 +78,7 @@
             <template slot-scope="scope">
               <n-link
                 v-if="scope.row.id !== 0"
-                :to="{name: 'token-id', params: {id: scope.row.id}}"
+                :to="{name: 'daos-id', params: {id: scope.row.id}}"
                 target="_blank"
                 class="gray-btn"
               >

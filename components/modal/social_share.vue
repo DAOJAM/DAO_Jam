@@ -2,6 +2,7 @@
   <div class="outer">
     <div class="share-btn-container">
       <div
+        v-if="weibo"
         class="share-btn"
         @click="windowSmallOpen(socialLink.weibo)"
       >
@@ -14,6 +15,7 @@
         <p>{{ $t('p.shareWeibo') }}</p>
       </div>
       <div
+        v-if="facebook"
         class="share-btn"
         @click="windowSmallOpen(socialLink.facebook)"
       >
@@ -26,7 +28,9 @@
         <p>Facebook</p>
       </div>
       <div
+        v-if="twitter"
         class="share-btn"
+
         @click="windowSmallOpen(socialLink.twitter)"
       >
         <div class="share-bg">
@@ -40,7 +44,8 @@
     </div>
     <div class="share-btn-container itop30">
       <div
-        class="share-btn"
+        v-if="qq"
+        class="share-btn "
         @click="windowSmallOpen(socialLink.qq)"
       >
         <div class="share-bg">
@@ -52,6 +57,7 @@
         <p>QQ</p>
       </div>
       <div
+        v-if="qzone"
         class="share-btn"
         @click="windowSmallOpen(socialLink.qzone)"
       >
@@ -95,12 +101,33 @@ export default {
     link: {
       type: String,
       default: ''
-    }
+    },
+    // 模块显示开关
+    weibo: {
+      type: Boolean,
+      default: true
+    },
+    facebook: {
+      type: Boolean,
+      default: true
+    },
+    twitter: {
+      type: Boolean,
+      default: true
+    },
+    qq: {
+      type: Boolean,
+      default: true
+    },
+    qzone: {
+      type: Boolean,
+      default: true
+    },
   },
   computed: {
     ...mapGetters(['currentUserInfo', 'isLogined']),
     cover() {
-      return this.img || 'https://ssimg.frontenduse.top/avatar/2019/08/30/c1d6ae7ed4e6102cb45d0a8f656d5569.png'
+      return this.img || 'https://ssimg.frontenduse.top/article/2020/04/07/90dc8d81582e395c7e25108c931d6aa7.png'
     },
     socialLink() {
       const title = this.title.length <= 120 ? this.title : this.title.slice(0, 120) + '...'
@@ -128,6 +155,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.outer {
+  width: 100%;
+}
 .share-btn-container {
   &.itop30 {
     margin-top: 30px;

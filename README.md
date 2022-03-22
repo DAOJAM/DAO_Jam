@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#">
-    <img width="200" src="https://github.com/noctoid/daothon/blob/master/daothon_server/daothon_server/static/icons/platform_icon/DAOdelion.png">
+    <img width="200" src="https://ssimg.frontenduse.top/article/2020/04/07/90dc8d81582e395c7e25108c931d6aa7.png">
   </a>
 </p>
 
@@ -17,26 +17,17 @@
 
 如果对 Repo 感兴趣，欢迎`star`和`clone`
 
-## Build Setup
 
-``` bash
-# install dependencies
-$ yarn install
+## Development
 
-# serve with hot reload at localhost:3000
-$ yarn dev
-
-# build for production and launch server
-$ yarn build
-$ yarn start
-
-# generate static project
-$ yarn generate
+```bash
+yarn
+yarn dev
 ```
 
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+## Deploy
 
-## Config
-IDE Eslint Config
- - vsCode [举例](https://juejin.im/post/59097cd7a22b9d0065fb61d2)
- - webStorm [举例](https://www.jianshu.com/p/926a0e17a42d)
+```bash
+yarn build-dev
+yarn start
+```

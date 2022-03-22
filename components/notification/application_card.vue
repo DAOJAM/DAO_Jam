@@ -1,62 +1,76 @@
 <template>
   <div class="card">
     <div class="fl ac jsb">
-      <div class="fl ac">
-        <c-avatar />
+      <div class="fl ac clickable" @click="jumpToUserPage">
+        <c-avatar :src="teamMemberAvatar(card.avatar)" />
         <div class="card-user">
-          <p>xiaotian</p>
-          <time>1232-21-32</time>
+          <p>{{ card.nickname || card.username }}</p>
+          <time>{{ time }}</time>
         </div>
       </div>
 
       <div>
-        <template v-if="status === 0">
-          <el-button 
-            size="small"
-            type="primary"
-            @click="status = 1"
-          >
-            <svg-icon icon-class="accept" />
-            Accept
-          </el-button>
-          <el-button 
-            size="small"
-            type="primary"
-            @click="status = 2"
-          >
-            <svg-icon icon-class="accept" />
-            Deny
-          </el-button>
-        </template>
-        <span
-          v-else
-          class="card-status"
+        <el-button 
+          size="small"
+          type="primary"
+          @click="accept"
         >
-          {{ status === 1 ? '同意' : '拒绝' }}
-        </span>
+          <svg-icon icon-class="accept" />
+          Accept
+        </el-button>
+        <el-button 
+          size="small"
+          type="primary"
+          icon="el-icon-circle-close"
+          @click="deny"
+        >
+          Deny
+        </el-button>
       </div>
     </div>
 
-    <p class="card-email">
-      Email: istianlei@qq.com
+    <p v-if="card.contact" class="card-email">
+      Email: {{ card.contact }}
     </p>
     <p
+      v-if="card.content"
       class="card-content"
     >
-      Content: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis, exercitationem quas? Sint, porro in. Est, nisi, magnam tempora consequatur eveniet sunt dolorem mollitia sequi nihil atque, sit distinctio praesentium quos?
+      留言：{{ card.content }}
     </p>
   </div>
 </template>
 
 <script>
-import cAvatar from '@/common/components/avatar'
 export default {
-  components: {
-    cAvatar
+  props: {
+    card: {
+      type: Object,
+      required: true
+    },
+    index: {
+      type: Number,
+      required: true
+    }
   },
-  data() {
-    return {
-      status: 0 // 1 同意 2 拒绝
+  computed: {
+    time() {
+      return this.$moment(this.card.create_time).format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
+  methods: {
+    // 团队头像
+    teamMemberAvatar(src) {
+      return src ? this.$ossProcess(src, { h: 90 }) : ''
+    },
+    accept() {
+      this.$emit('accept', this.index)
+    },
+    deny() {
+      this.$emit('deny', this.index)
+    },
+    jumpToUserPage() {
+      this.$router.push(`/user/${this.card.uid}`)
     }
   }
 }
@@ -79,7 +93,11 @@ export default {
     margin: 0;
     color: #fff;
     font-size: 16px;
-    line-height:22px;
+    line-height: 22px;
+    width: 140px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   time {
     font-size: 14px;
@@ -106,5 +124,8 @@ export default {
   font-size: 16px;
   color: #fff;
   line-height: 22px;
+}
+.clickable {
+  cursor: pointer;
 }
 </style>

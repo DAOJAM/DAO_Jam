@@ -2,6 +2,7 @@
   <div class="app">
     <nuxt />
     <g-footer v-if="hideFooter" />
+    <dock />
     <back-to-top
       v-if="!hideBackTop"
       :visibility-height="300"
@@ -29,10 +30,12 @@ import BackToTop from '@/components/BackToTop'
 import articleImport from '@/components/article_import/index.vue'
 // import feedback from '@/components/feedback'
 import footer from '~/components/footer/index.vue'
+import dock from '~/components/dock/index.vue'
 export default {
   name: 'Default',
   components: {
     gFooter: footer,
+    dock,
     AuthModal,
     BackToTop,
     articleImport,
@@ -64,7 +67,7 @@ export default {
       return this.$route.name === 'publish-type-id'
     },
     hideFooter() {
-      const hide = ['publish-type-id', 'login-github', 'index']
+      const hide = ['publish-type-id', 'login-github']
       return !hide.includes(this.$route.name)
     },
     hideFeedback() {

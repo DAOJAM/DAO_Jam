@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{name: 'token-id', params: { id: card.id }}"
+    :to="{name: 'daos-id', params: { id: card.id }}"
     class="fl card"
   >
     <div>
@@ -13,14 +13,14 @@
       <div class="card-info">
         <div>
           <h2 class="card-info-symbol">
-            {{ card.symbol || '暂无' }}
+            {{ card.symbol || 'Nothing' }}
           </h2>
         </div>
         <p class="card-info-name">
-          {{ card.name || '暂无' }}
+          {{ card.name || 'Nothing' }}
         </p>
         <p class="card-info-name brief">
-          {{ card.brief || '暂无' }}
+          {{ card.brief || 'Nothing' }}
         </p>
       </div>
       <div class="card-data">
@@ -56,7 +56,6 @@
   </router-link>
 </template>
 <script>
-import moment from 'moment'
 import avatar from '@/components/avatar/index.vue'
 import { precision } from '@/utils/precisionConversion'
 
@@ -94,7 +93,7 @@ export default {
       return this.$publishMethods.formatDecimal(tokenamount, 4)
     },
     friendlyDate() {
-      const time = moment(this.card.create_time)
+      const time = this.$moment(this.card.create_time)
       return this.$utils.isNDaysAgo(2, time) ? time.format('MMMDo HH:mm') : time.fromNow()
     }
   }
