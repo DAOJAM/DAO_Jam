@@ -28,6 +28,15 @@ yarn dev
 ## Deploy
 
 ```bash
+# testing
 yarn build-dev
+
+# production
+yarn build
+
+# testing
 yarn start
+
+# production
+yarn start-prod
 ```
