@@ -37,7 +37,7 @@
     "js-cookie": "^2.2.1",
     "js-sha256": "^0.9.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "near-web3-provider": "git+https://github.com/nearprotocol/near-web3-provider.git",
     "nearlib": "^0.22.0",
     "normalize.css": "^8.0.1",
