@@ -2031,7 +2031,12 @@ buffer-fill@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/buffer-fill/download/buffer-fill-1.0.0.tgz#f8f78b76789888ef39f205cd637f68e702122b2c"
 
-buffer-from@^1.0.0, buffer-from@^1.1.1:
+buffer-from@^1.0.0:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
+  integrity sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==
+
+buffer-from@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/buffer-from/download/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
 
@@ -3351,7 +3356,7 @@ enhanced-resolve@^4.1.0, enhanced-resolve@^4.1.1:
     memory-fs "^0.5.0"
     tapable "^1.0.0"
 
-entities@^1.1.1, entities@~1.1.1:
+entities@^1.1.1:
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/entities/download/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
 
@@ -4658,10 +4663,6 @@ growl@1.10.5:
   version "1.10.5"
   resolved "https://registry.npm.taobao.org/growl/download/growl-1.10.5.tgz?cache=0&sync_timestamp=1579108723775&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fgrowl%2Fdownload%2Fgrowl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
 
-gsap@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.npm.taobao.org/gsap/download/gsap-3.0.1.tgz#946b49e860487bd23e6c884b95152d556a5f86f1"
-
 gzip-size@^5.0.0:
   version "5.1.1"
   resolved "https://registry.npm.taobao.org/gzip-size/download/gzip-size-5.1.1.tgz#cb9bee692f87c0612b232840a873904e4c135274"
@@ -4814,14 +4815,6 @@ he@1.2.x, he@^1.1.0, he@^1.1.1, he@^1.2.0:
 hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npm.taobao.org/hex-color-regex/download/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
-
-highlight.js-async-webpack@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npm.taobao.org/highlight.js-async-webpack/download/highlight.js-async-webpack-1.0.4.tgz#c06b67bf99f049045d62b756e5855b0912ec616c"
-
-highlight.js@^9.11.0:
-  version "9.18.1"
-  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -5601,12 +5594,6 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-katex@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.npm.taobao.org/katex/download/katex-0.6.0.tgz#12418e09121c05c92041b6b3b9fb6bab213cb6f3"
-  dependencies:
-    match-at "^0.1.0"
-
 keccak@^1.0.2:
   version "1.4.0"
   resolved "https://registry.npmjs.org/keccak/-/keccak-1.4.0.tgz#572f8a6dbee8e7b3aa421550f9e6408ca2186f80"
@@ -5768,12 +5755,6 @@ levn@^0.3.0, levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
-
-linkify-it@^2.0.0:
-  version "2.2.0"
-  resolved "https://registry.npm.taobao.org/linkify-it/download/linkify-it-2.2.0.tgz#e3b54697e78bf915c70a38acd78fd09e0058b1cf"
-  dependencies:
-    uc.micro "^1.0.1"
 
 load-json-file@^2.0.0:
   version "2.0.0"
@@ -5947,37 +5928,6 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-it-footnote@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/markdown-it-footnote/download/markdown-it-footnote-3.0.2.tgz#1575ee7a093648d4e096aa33386b058d92ac8bc1"
-
-markdown-it-katex@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.npm.taobao.org/markdown-it-katex/download/markdown-it-katex-2.0.3.tgz#d7b86a1aea0b9d6496fab4e7919a18fdef589c39"
-  dependencies:
-    katex "^0.6.0"
-
-markdown-it@^9.0.1:
-  version "9.1.0"
-  resolved "https://registry.npm.taobao.org/markdown-it/download/markdown-it-9.1.0.tgz#df9601c168568704d554b1fff9af0c5b561168d9"
-  dependencies:
-    argparse "^1.0.7"
-    entities "~1.1.1"
-    linkify-it "^2.0.0"
-    mdurl "^1.0.1"
-    uc.micro "^1.0.5"
-
-match-at@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.npm.taobao.org/match-at/download/match-at-0.1.1.tgz#25d040d291777704d5e6556bbb79230ec2de0540"
-
-mavon-editor-matataki@2.20.0:
-  version "2.20.0"
-  resolved "https://registry.npm.taobao.org/mavon-editor-matataki/download/mavon-editor-matataki-2.20.0.tgz?cache=0&sync_timestamp=1581935371790&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmavon-editor-matataki%2Fdownload%2Fmavon-editor-matataki-2.20.0.tgz#02431b10a503ebf0db442906d7ddb4f2f370d564"
-  dependencies:
-    highlight.js "^9.11.0"
-    highlight.js-async-webpack "^1.0.4"
-
 md5.js@^1.3.4:
   version "1.3.5"
   resolved "https://registry.npm.taobao.org/md5.js/download/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"
@@ -5989,10 +5939,6 @@ md5.js@^1.3.4:
 mdn-data@2.0.4:
   version "2.0.4"
   resolved "https://registry.npm.taobao.org/mdn-data/download/mdn-data-2.0.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmdn-data%2Fdownload%2Fmdn-data-2.0.4.tgz#699b3c38ac6f1d728091a64650b65d388502fd5b"
-
-mdurl@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/mdurl/download/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -8601,8 +8547,9 @@ source-map-resolve@^0.5.0:
     urix "^0.1.0"
 
 source-map-support@~0.5.12:
-  version "0.5.16"
-  resolved "https://registry.npm.taobao.org/source-map-support/download/source-map-support-0.5.16.tgz?cache=0&sync_timestamp=1572389965235&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsource-map-support%2Fdownload%2Fsource-map-support-0.5.16.tgz#0ae069e7fe3ba7538c64c98515e35339eac5a042"
+  version "0.5.21"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.21.tgz#04fe7c7f9e1ed2d662233c28cb2b35b9f63f6e4f"
+  integrity sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==
   dependencies:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
@@ -9076,8 +9023,9 @@ terser-webpack-plugin@^2.3.0:
     webpack-sources "^1.4.3"
 
 terser@^4.1.2, terser@^4.4.3:
-  version "4.6.3"
-  resolved "https://registry.npm.taobao.org/terser/download/terser-4.6.3.tgz#e33aa42461ced5238d352d2df2a67f21921f8d87"
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-4.8.1.tgz#a00e5634562de2239fd404c649051bf6fc21144f"
+  integrity sha512-4GnLC0x667eJG0ewJTa6z/yXrbLGv80D9Ru6HIpCQmO+Q4PfEtBFi0ObSckqwL6VyQv/7ENJieXHo2ANmdQwgw==
   dependencies:
     commander "^2.20.0"
     source-map "~0.6.1"
@@ -9293,10 +9241,6 @@ u3@^0.1.0:
 ua-parser-js@^0.7.20:
   version "0.7.21"
   resolved "https://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.21.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fua-parser-js%2Fdownload%2Fua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
-
-uc.micro@^1.0.1, uc.micro@^1.0.5:
-  version "1.0.6"
-  resolved "https://registry.npm.taobao.org/uc.micro/download/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
 
 uglify-js@3.4.x:
   version "3.4.10"
